@@ -6,7 +6,7 @@
 #include "ptype.h"
 
 /**
- * 控制参数
+ * g_Command_Assert 控制参数
  * 0:会通过弹出对话框让用户选择(缺省值)
  * 1:忽略
  * 2:继续抛出异常用于获取运行堆栈
@@ -44,8 +44,7 @@ void __show__(const char* temp) {
 #endif
 }
 
-void __messagebox__(const char* msg)
-{
+void __messagebox__(const char* msg) {
   if (g_Command_IgnoreMessageBox)
     return;
 #if defined(__WINDOWS__)
@@ -54,8 +53,7 @@ void __messagebox__(const char* msg)
 #endif
 }
 
-void __assert__ (const char* file, unsigned int line, const char* func , const char* expr)
-{
+void __assert__ (const char* file, unsigned int line, const char* func , const char* expr) {
   char temp[1024] = {0};
 	
 #ifdef __LINUX__ //换个格式
@@ -66,10 +64,8 @@ void __assert__ (const char* file, unsigned int line, const char* func , const c
   __show__(temp);
 }
 
-void __assertex__ (const char* file, unsigned int line, const char* func, const char* expr,const char* msg)
-{
+void __assertex__ (const char* file, unsigned int line, const char* func, const char* expr,const char* msg) {
   char temp[1024] = {0};
-	
 #ifdef __LINUX__
   sprintf(temp, "[%s][%d][%s][%s]\n[%s]\n", file, line, func, expr, msg);
 #else
@@ -78,8 +74,7 @@ void __assertex__ (const char* file, unsigned int line, const char* func, const 
   __show__(temp);
 }
 
-void __assertspecial__ (const char* file, unsigned int line, const char* func, const char* expr,const char* msg)
-{
+void __assertspecial__ (const char* file, unsigned int line, const char* func, const char* expr,const char* msg) {
   char temp[1024] = {0};
 	
 #ifdef __LINUX__
@@ -90,13 +85,11 @@ void __assertspecial__ (const char* file, unsigned int line, const char* func, c
   __show__(temp) ;
 }
 
-void __protocol_assert__ ( const char* file, unsigned int line, const char* func, const char* expr)
-{
+void __protocol_assert__ ( const char* file, unsigned int line, const char* func, const char* expr) {
   printf("[%s][%d][%s][%s]", file, line, func, expr);
 }
 
-bool RangeCheckForIndex_Assert(int index, int from, int to, char const* code_location)
-{
+bool RangeCheckForIndex_Assert(int index, int from, int to, char const* code_location) {
   int up_border = 0;
   int low_border = 0;
   char buff[1024];
