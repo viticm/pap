@@ -5,10 +5,13 @@
 #include "time.h"
 #include "ptype.h"
 
-int g_Command_Assert = 0; // 控制参数  
-                          // 0:会通过弹出对话框让用户选择(缺省值)
-						  // 1:忽略
-						  // 2:继续抛出异常用于获取运行堆栈
+/**
+ * 控制参数
+ * 0:会通过弹出对话框让用户选择(缺省值)
+ * 1:忽略
+ * 2:继续抛出异常用于获取运行堆栈
+ **/
+int g_Command_Assert = 0;
 bool g_Command_IgnoreMessageBox = false; //控制参数，跳过MyMessageBox的中断
 int g_NeedManagerDoPosInit = 1; //控制参数，是否需要初始化管理器数据
 
