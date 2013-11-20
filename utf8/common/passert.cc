@@ -5,9 +5,10 @@
 #include "time.h"
 #include "ptype.h"
 
-int	g_Command_Assert = 0; //控制参数，  0:会通过弹出对话框让用户选择(缺省值)
-						  //			1:忽略
-						  //			2:继续抛出异常用于获取运行堆栈
+int g_Command_Assert = 0; // 控制参数  
+                          // 0:会通过弹出对话框让用户选择(缺省值)
+						  // 1:忽略
+						  // 2:继续抛出异常用于获取运行堆栈
 bool g_Command_IgnoreMessageBox = false; //控制参数，跳过MyMessageBox的中断
 int g_NeedManagerDoPosInit = 1; //控制参数，是否需要初始化管理器数据
 
@@ -112,11 +113,11 @@ bool RangeCheckForIndex_Assert(int index, int from, int to, char const* code_loc
   }
   snprintf(buff,
           sizeof(buff),
-		  "[%s] index out of range!! index=%d, but legal range is [%d, %d]. check it now, please!!",
-		  code_location,
-		  index,
-		  low_border,
-		  up_border);
+          "[%s] index out of range!! index=%d, but legal range is [%d, %d]. check it now, please!!",
+          code_location,
+          index,
+          low_border,
+          up_border);
   buff[sizeof(buff)-1] = '\0';
   AssertEx(false, buff);
   return false;
