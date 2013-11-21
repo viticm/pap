@@ -86,22 +86,12 @@ using namespace std;
 #endif
 
 #if defined(NDEBUG)
-	#define __ENTER_FUNCTION_FOXNET if(1){
-	#define __LEAVE_FUNCTION_FOXNET }
+    #define __ENTER_FUNCTION_FOXNET if(1){
+    #define __LEAVE_FUNCTION_FOXNET }
 #else
-	#define __ENTER_FUNCTION_FOXNET if(1){
-	#define __LEAVE_FUNCTION_FOXNET }
+    #define __ENTER_FUNCTION_FOXNET if(1){
+    #define __LEAVE_FUNCTION_FOXNET }
 #endif
-
-
-#if defined(NDEBUG)
-	#define _MY_TRY try
-	#define _MY_CATCH catch(...)
-#else
-	#define _MY_TRY try
-	#define _MY_CATCH catch(...)
-#endif
-
 
 //根据指针值删除内存
 #ifndef SAFE_DELETE
