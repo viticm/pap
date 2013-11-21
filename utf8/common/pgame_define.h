@@ -16,7 +16,7 @@
 #define BASE_BAG_POS 185
 
 //数据库名称长度
-#define  DATABASE_STR_LENGTH 128
+#define  DB_DBNAME_STR_LENGTH 128
 //数据库用户名长度
 #define  DB_USER_STR_LENGTH 32
 //数据库密码长度

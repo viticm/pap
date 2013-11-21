@@ -28,10 +28,15 @@
 #include <iostream>
 #include <fstream>
 #include "passert.h"
-//warning the namespace can't use at this, but it must
+//warning the namespace can't use like this, but it must
 using namespace std;
 
 //基本数据类型定义
+typedef unsigned char ubyte; //0~255
+typedef char byte; //-128~127
+typedef unsigned int uint;
+typedef unsigned short ushort;
+
 #define IP_SIZE 24 //max ip size
 #define INVALID_HANDLE -1 
 #define INVALID_ID -1
@@ -141,6 +146,7 @@ using namespace std;
     // add by viticm, fast output some debug info 
     #define LERR(...) {\
         char buffer[2048]; sprintf(buffer, __VA_ARGS__); \
+        buffer[2047] = '\0'; \ //防止越界
         const char* start  = "[ERROR...]"; \
         const char* end    = "[...ERROR]\r\n"; \
         size_t format_length = sizeof(start) + sizeof(buffer) + sizeof(end); \
@@ -162,6 +168,7 @@ using namespace std;
     // add by viticm, fast output some debug info 
     #define LERR(...) {\
         char buffer[2048]; sprintf(buffer, __VA_ARGS__); \
+        buffer[2047] = '\0'; \
         const char* start = "\e[0;31;1m"; \
         const char* end  = "\e[0m\n"; \
         size_t format_length = sizeof(start) + sizeof(buffer) + sizeof(end); \

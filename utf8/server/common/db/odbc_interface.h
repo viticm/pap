@@ -1,14 +1,10 @@
 #ifndef PAP_SERVER_COMMON_DB_ODBC_INTERFACE_H_
 #define PAP_SERVER_COMMON_DB_ODBC_INTERFACE_H_
-#include "ptype.h"
+#include "common/ptype.h"
 #include "db_define.h"
 #define USE_MYSQL
 #define HOST_STR_LENGTH 30
 #define CONNECTION_NAME_LENGTH 32
-enum DB_NAMES
-{
-  CHARACTER_DATABASE = 1,
-}
 //include from odbc
 #include "sql.h"
 #include "sqlext.h"
@@ -16,7 +12,7 @@ enum DB_NAMES
 #define MAX_COLUMN_NAME 30 //column name max length
 #define MAX_COLUMN_BUFFER 2049 //normal one column value length
 #define MAX_LONG_COLUMN_BUFFER 204800 //long column value length
-#define MAX_ERROR_MSG_LENGHT 255
+#define MAX_ERROR_MESSAGE_LENGTH 255
 
 class ODBCInterface {
  public:
@@ -35,8 +31,8 @@ class ODBCInterface {
    SQLHDBC sql_hdbc_;
    SQLRETURN result_;
    char column_[MAX_COLUMN][MAX_COLUMN_BUFFER];
-   char connect_str_[DATABASE_STR_LENGTH];
-   char user_name[DB_USER_STR_LENGTH];
+   char database_[DB_DBNAME_STR_LENGTH];
+   char user_[DB_USER_STR_LENGTH];
    char password_[DB_PASSWORD_STR_LENGTH];
 
    SQLLEN affect_count_;
@@ -48,53 +44,35 @@ class ODBCInterface {
    DB_QUERY query_;
    LONG_DB_QUERY long_query_;
    SQLINTEGER error_code_;
-   SQLCHAR error_msg_[MAX_ERROR_MSG_LENGHT];
+   SQLCHAR error_message_[MAX_ERROR_MESSAGE_LENGTH];
 
  public:
    ODBCInterface();
    ~ODBCInterface();
-   bool connect(char* host, char* user = NULL, char* password = NULL);
+   bool connect(char* database, char* user = NULL, char* password = NULL);
    bool connect();
    bool close();
-   int get_error_code() {
-     return error_code_;
-   };
-   char* get_error_msg() {
-     return error_msg_;
-   };
-   bool is_connected() {
-     return connectd_;
-   };
-   int get_affect_row_count() {
-     return affect_count_;
-   };
-   bool is_prepare() {
-     return connectd_;
-   };
+   int get_error_code();
+   char* get_error_message();
+   bool is_connected();
+   int get_affect_row_count();
+   bool is_prepare();
    void clear();
-   void clear_not_commit();
+   void clear_no_commit();
    bool fetch();
    bool long_fetch();
-   DB_QUERY& get_query() {
-     return query_;
-   };
-   LONG_DB_QUERY& get_long_query() {
-     return long_query_;
-   };
+   DB_QUERY& get_query();
+   LONG_DB_QUERY& get_long_query();
    bool execute();
+   bool execute(const char* sql_str);
    bool long_execute();
+   bool long_excute(const char* sql_str);
    int get_int(int column_index, int &error_code);
-   unsigned int get_uint(int column_index, int &error_code);
+   uint get_uint(int column_index, int &error_code);
    float get_float(int column_index, int &error_code);
-   unsigned short get_ushort(int column_index, int &error_code) {
-     return static_cast<unsigned short>(get_int(column_index, error_code));
-   };
-   unsigned char get_byte(int column_index, int &error_code) {
-     return static_cast<unsigned char>(get_int(column_index, error_code));
-   };
-   short get_short(int column_index, int &error_code) {
-     return static_cast<short>(get_int(column_index, error_code));
-   };
+   ushort get_ushort(int column_index, int &error_code);
+   ubyte get_byte(int column_index, int &error_code);
+   short get_short(int column_index, int &error_code);
    void get_string(int column, char* buffer, int buffer_length, int &error_code);
    void get_field(int column, char* buffer, int buffer_length, int &error_code);
    void get_long_field(int column, char* buffer, int buffer_length, int &error_code);
