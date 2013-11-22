@@ -9,7 +9,11 @@ ODBCInterface::ODBCInterface() {
     sql_hdbc_ = NULL;
     sql_hstmt_ = NULL;
     memset(error_message_, 0, MAX_ERROR_MESSAGE_LENGTH);
+    memset(connection_name_, 0, DB_CONNECTION_NAME_LENGTH);
+    memset(user_, 0, DB_USER_NAME_LENGTH);
+    memset(password_, 0, DB_PASSWORD_LENGTH);
     query_.clear();
+    long_quer_.clear();
   __LEAVE_FUNCTION
 }
 
@@ -22,19 +26,19 @@ ODBCInterface::~ODBCInterface() {
   __LEAVE_FUNCTION
 }
 
-bool ODBCInterface::connect(const char* database,
+bool ODBCInterface::connect(const char* connection_name,
                        const char* user,
                        const char* password) {
   __ENTER_FUNCTION
     close(); //first disconnect
-    strncpy(database_, database, DB_DBNAME_STR_LENGTH);
-    strncpy(user_, user, DB_USER_STR_LENGTH);
-    strncpy(password_, password, DB_PASSWORD_STR_LENGTH);
+    strncpy(connection_name_, connection_name, DB_CONNECTION_NAME_LENGTH);
+    strncpy(user_, user, DB_USER_NAME_LENGTH);
+    strncpy(password_, password, DB_PASSWORD_LENGTH);
     SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &sql_henv_);
     SQLSetEnvAttr(sql_henv_, SQL_ATTR_ODBC_VERSION, static_cast<SQLPOINTER>(SQL_OV_ODBC3), SQL_IS_INTEGER);
     SQLAllocHandle(SQL_HANDLE_DBC, sql_henv_, &sql_hdbc_);
     result_ = SQLConnect(hDbc,
-                         static_cast<SQLCHAR*>(database_),
+                         static_cast<SQLCHAR*>(connection_name_),
                          SQL_NTS,
                          static_cast<SQLCHAR*>(user_),
                          SQL_NTS,
@@ -42,7 +46,7 @@ bool ODBCInterface::connect(const char* database,
                          SQL_NTS);
     if (SQL_SUCCESS != result_ && SQL_SUCCESS_WITH_INFO != result_) {
       char log_buffer[512] = {0};
-      sprintf(log_buffer, "connect database: %s", database_);
+      sprintf(log_buffer, "connection name: %s", connection_name_);
       sprintf(log_buffer, "connect user: %s", user_);
       diag_state();
       return false;

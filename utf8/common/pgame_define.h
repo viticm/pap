@@ -15,12 +15,12 @@
 #define INVALID_SOUL_TYPE 0
 #define BASE_BAG_POS 185
 
-//数据库名称长度
-#define  DB_DBNAME_STR_LENGTH 128
+//odbc 连接名长度
+#define  DB_CONNECTION_NAME_LENGTH 128
 //数据库用户名长度
-#define  DB_USER_STR_LENGTH 32
+#define  DB_USER_NAME_LENGTH 32
 //数据库密码长度
-#define  DB_PASSWORD_STR_LENGTH 32
+#define  DB_PASSWORD_LENGTH 32
 //DB 操作时间间隔
 #define  DB_OPERATION_TIME 500
 //账号保存角色个数

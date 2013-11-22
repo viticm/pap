@@ -1,13 +1,13 @@
-////////////////////////////////////////////////////////////////////////////////
-//  Copyright(c) viticm@126.com
-//
-//  FileName    : passert.h
-//  Version     : 1.0
-//  Creator     : viticm
-//  Create Date : 2013-11-20 12:12:49
-//  Comment     : 断言控制器
-//
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * PAP Engine ( https://github.com/viticm/pap )
+ * $Id passert.h
+ * @link https://github.com/viticm/pap for the canonical source repository
+ * @copyright Copyright (c) 2013-2013 viticm( viticm@126.com )
+ * @license
+ * @user viticm<viticm@126.com>
+ * @date 2013-11-22 18:00:40
+ * @uses 断言控制器
+ */
 #ifndef PAP_COMMON_PASSERT_H_
 #define PAP_COMMON_PASSERT_H_
 extern int g_Command_Assert;//控制参数，不提示Assert的对话框，直接忽略

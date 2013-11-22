@@ -203,3 +203,127 @@ void PGameUtil::sleep(uint million_seconds) {
 #endif
   __LEAVE_FUNCTION
 }
+
+uint PGameUtil::str_length(const char* str) {
+  __ENTER_FUNCTION
+    uint i = 0;
+    while (str[i]) ++i;
+    return i;
+  __LEAVE_FUNCTION
+}
+
+void PGameUtil::char_swap(char* str, uint source, uint destination) {
+  __ENTER_FUNCTION
+    uint str_length = str_length(str);
+    if ((0 > source || str_length < source) ||
+        (0 > destination || str_length < destination)) {
+      return;
+    }
+    char temp = str[source];
+    str[source] = str[destination];
+    str[destination] = temp;
+  __LEAVE_FUNCTION
+}
+
+void PGameUtil::password_swap_chars(char* str) {
+  __ENTER_FUNCTION
+    char_swap(str, 0, 13);
+    char_swap(str, 31, 25);
+    char_swap(str, 12, 30);
+    char_swap(str, 7, 19);
+    char_swap(str, 3, 21);
+    char_swap(str, 9, 20);
+    char_swap(str, 15, 18);
+  __LEAVE_FUNCTION
+}
+
+void PGameUtil::simple_encrypt_decrypt(char* str, uint str_length, uint key_begin) {
+  __ENTER_FUNCTION
+    uint str_length = str_length(str);
+    if (0 <= str_length) return;
+    MD5 str_md5(str);
+    char* key = str_md5.md5();
+    //swap one time
+    password_swap_chars(key);
+    uint key_length = str_length(key);
+    uint i;
+    for (i = 0; i < str_length; ++i) {
+      *str ^= key[(i + key_begin) % key_length];
+      str++;
+    }
+  __LEAVE_FUNCTION
+}
+
+/**
+ * @desc this function can convert charset with diffrent
+ * @param from source charset(example: utf8)
+ * @param to destination charset
+ * @param save want save string
+ * @param savelen want save string length
+ * @param src want convert string
+ * @param srclen want convert string length
+ */
+int PGameUtil::charset_convert(const char* from, 
+                               const char* to, 
+                               char* save, 
+                               int savelen, 
+                               char* src, 
+                               int srclen) {
+  __ENTER_FUNCTION
+    iconv_t cd;
+    char *inbuf        = src;
+    char *outbuf       = save;
+    size_t outbufsize  = savelen;
+    int status         = 0;
+    size_t savesize    = 0;
+    size_t inbufsize   = srclen;
+    const char* inptr  = inbuf;
+    size_t insize      = inbufsize;
+    char* outptr       = outbuf;
+    size_t outsize     = outbufsize;
+
+    cd = iconv_open(to, from);
+    iconv(cd, NULL, NULL, NULL, NULL);
+    if (0 == inbufsize) {
+        status = -1;
+        goto done;
+    }
+    while (0 < insize) {
+        size_t res = iconv(cd, (char**)&inptr, &insize, &outptr, &outsize);
+        if (outptr != outbuf) {
+            int saved_errno = errno;
+            int outsize = outptr - outbuf;
+            strncpy(save + savesize, outbuf, outsize);
+            errno = saved_errno;
+        }
+        if ((size_t)(-1) == res) {
+            if (EILSEQ == errno) {
+                int one = 1 ;
+                iconvctl(cd, ICONV_SET_DISCARD_ILSEQ, &one);
+                status = -3;
+            } 
+            else if (EINVAL == errno) {
+                if (0 == inbufsize) {
+                    status = -4;
+                    goto done;
+                } 
+                else {
+                    break;
+                }
+            } 
+            else if (E2BIG == errno) {
+                status = -5;
+                goto done;
+            } 
+            else {
+                status = -6;
+                goto done;
+            }
+        }
+    }
+    status = strlen(save);
+    done:
+    iconv_close(cd);
+    return status;
+  __LEAVE_FUNCTION
+}

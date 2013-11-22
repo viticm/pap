@@ -1,13 +1,13 @@
-////////////////////////////////////////////////////////////////////////////////
-//  Copyright(c) viticm@126.com
-//
-//  FileName    : ptype.h
-//  Version     : 1.0
-//  Creator     : viticm
-//  Create Date : 2013-11-20 12:12:49
-//  Comment     : 数据类型定义 基本宏定义
-//
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * PAP Engine ( https://github.com/viticm/pap )
+ * $Id ptype.h
+ * @link https://github.com/viticm/pap for the canonical source repository
+ * @copyright Copyright (c) 2013-2013 viticm( viticm@126.com )
+ * @license
+ * @user viticm<viticm@126.com>
+ * @date 2013-8-23 20:01:52
+ * @uses 基本数据定义
+ */
 #ifndef PAP_COMMON_PTYPE_H_
 #define PAP_COMMON_PTYPE_H_
 
@@ -28,8 +28,8 @@
 #include <iostream>
 #include <fstream>
 #include "passert.h"
-//warning the namespace can't use like this, but it must
-using namespace std;
+//warning the namespace can't use like this, remember it
+//using namespace std;
 
 //基本数据类型定义
 typedef unsigned char ubyte; //0~255

@@ -1,3 +1,13 @@
+/**
+ * PAP Engine ( https://github.com/viticm/pap )
+ * $Id ptype.h
+ * @link https://github.com/viticm/pap for the canonical source repository
+ * @copyright Copyright (c) 2013-2013 viticm( viticm@126.com )
+ * @license
+ * @user viticm<viticm@126.com>
+ * @date 2013-11-22 19:29:37
+ * @uses the database define for server.
+ */
 #ifndef PAP_SERVER_COMMON_DB_DEFINE_H_
 #define PAP_SERVER_COMMON_DB_DEFINE_H_
 #include "common/ptype.h"
@@ -38,7 +48,9 @@ struct LONG_DB_QUERY {
 }
 
 enum DB_TYPES {
+  ALL_DATABASE = -1,
   CHARACTER_DATABASE = 1,
+  USER_DATABASE = 2,
 }
 
 #endif //PAP_SERVER_COMMON_DB_DEFINE_H_

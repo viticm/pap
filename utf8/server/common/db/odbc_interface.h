@@ -1,9 +1,19 @@
+/**
+ * PAP Engine ( https://github.com/viticm/pap )
+ * $Id ptype.h
+ * @link https://github.com/viticm/pap for the canonical source repository
+ * @copyright Copyright (c) 2013-2013 viticm( viticm@126.com )
+ * @license
+ * @user viticm<viticm@126.com>
+ * @date 2013-11-22 19:29:37
+ * @uses the odbc interface class(some op functions)
+ */
 #ifndef PAP_SERVER_COMMON_DB_ODBC_INTERFACE_H_
 #define PAP_SERVER_COMMON_DB_ODBC_INTERFACE_H_
 #include "common/ptype.h"
 #include "db_define.h"
-#define USE_MYSQL
-#define HOST_STR_LENGTH 30
+//#define USE_MYSQL
+#define HOST_LENGTH 30
 #define CONNECTION_NAME_LENGTH 32
 //include from odbc
 #include "sql.h"
@@ -31,9 +41,9 @@ class ODBCInterface {
    SQLHDBC sql_hdbc_;
    SQLRETURN result_;
    char column_[MAX_COLUMN][MAX_COLUMN_BUFFER];
-   char database_[DB_DBNAME_STR_LENGTH];
-   char user_[DB_USER_STR_LENGTH];
-   char password_[DB_PASSWORD_STR_LENGTH];
+   char connection_name_[DB_CONNECTION_NAME_LENGTH];
+   char user_[DB_USER_NAME_LENGTH];
+   char password_[DB_PASSWORD_LENGTH];
 
    SQLLEN affect_count_;
    SQLHSTMT sql_hstmt_;
@@ -49,7 +59,7 @@ class ODBCInterface {
  public:
    ODBCInterface();
    ~ODBCInterface();
-   bool connect(char* database, char* user = NULL, char* password = NULL);
+   bool connect(const char* connection_name, const char* user = NULL, const char* password = NULL);
    bool connect();
    bool close();
    int get_error_code();
