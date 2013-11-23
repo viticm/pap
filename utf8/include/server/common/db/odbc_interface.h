@@ -78,7 +78,7 @@ class ODBCInterface {
    bool long_execute();
    bool long_excute(const char* sql_str);
    int get_int(int column_index, int &error_code);
-   uint get_uint(int column_index, int &error_code);
+   uint32_t get_uint(int column_index, int &error_code);
    float get_float(int column_index, int &error_code);
    ushort get_ushort(int column_index, int &error_code);
    ubyte get_byte(int column_index, int &error_code);

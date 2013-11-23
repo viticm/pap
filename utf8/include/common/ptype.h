@@ -46,7 +46,6 @@
 //基本数据类型定义
 typedef unsigned char ubyte; //0~255
 typedef char byte; //-128~127
-typedef unsigned int uint;
 typedef unsigned short ushort;
 
 #define IP_SIZE 24 //max ip size

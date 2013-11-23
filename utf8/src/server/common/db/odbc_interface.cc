@@ -326,7 +326,7 @@ int ODBCInterface::get_int(int column_index, int &error_code) {
     return QUERY_NULL;
 }
 
-uint ODBCInterface::get_uint(int column_index, int &error_code) {
+uint32_t ODBCInterface::get_uint(int column_index, int &error_code) {
   __ENTER_FUNCTION
     if (column_index > column_count_) {
       error_code = QUERY_NO_COLUMN;
@@ -340,7 +340,7 @@ uint ODBCInterface::get_uint(int column_index, int &error_code) {
     }
     else {
       error_code = QUERY_OK;
-      return static_cast<uint>(atoi(column_[column_index - 1]));
+      return static_cast<uint32_t>(atoi(column_[column_index - 1]));
     }
   __LEAVE_FUNCTION
     return QUERY_NULL;
@@ -412,7 +412,7 @@ void ODBCInterface::get_field(int column_index,
     }
     else {
       if (MAX_COLUMN_BUFFER > buffer_length) {
-        uint out_length = 0;
+        uint32_t out_length = 0;
         PGameUtil::string_to_binary(column_[column_index - 1], 
                                     MAX_COLUMN_BUFFER, 
                                     buffer, 
@@ -447,7 +447,7 @@ void ODBCInterface::get_long_field(int column_index,
     }
     else {
       if (MAX_COLUMN_BUFFER > buffer_length) {
-        uint out_length = 0;
+        uint32_t out_length = 0;
         PGameUtil::string_to_binary(column_[column_index - 1], 
                                     MAX_LONG_COLUMN_BUFFER, 
                                     buffer, 

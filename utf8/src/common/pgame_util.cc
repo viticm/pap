@@ -156,11 +156,11 @@ char PGameUtil::ascii_to_value(char in) {
     return '?';
 }
 
-bool binary_to_string(const char* in, uint in_length, char* out) {
+bool binary_to_string(const char* in, uint32_t in_length, char* out) {
   __ENTER_FUNCTION
     if (0 == in_length) return false;
-    uint out_index = 0;
-    uint i;
+    uint32_t out_index = 0;
+    uint32_t i;
     for (i = 0; i < in_length; ++i) {
       out[out_index] = value_to_ascii((static_cast<ubyte>(in[i] & 0xF0)) >> 4);
       ++out_index;
@@ -173,14 +173,14 @@ bool binary_to_string(const char* in, uint in_length, char* out) {
 }
 
 bool string_to_binary(const char* in, 
-                      uint in_length, 
+                      uint32_t in_length, 
                       char* out, 
-                      uint out_limit, 
-                      uint &out_length) {
+                      uint32_t out_limit, 
+                      uint32_t &out_length) {
   __ENTER_FUNCTION
     if (0 == in_length) return false;
-    uint out_index = 0;
-    uint i;
+    uint32_t out_index = 0;
+    uint32_t i;
     for (i = 0; i < in_length; ++i) {
       if ('\0' == in[i] || '\0' == in[i]) break;
       out[out_index] = (ascii_to_value(in[i]) << 4) + ascii_to_value(in[i + 1]);
@@ -194,7 +194,7 @@ bool string_to_binary(const char* in,
     return false;
 }
 
-void PGameUtil::sleep(uint million_seconds) {
+void PGameUtil::sleep(uint32_t million_seconds) {
   __ENTER_FUNCTION
 #if defined(__WINDOWS__)
     Sleep(million_seconds);
@@ -204,17 +204,17 @@ void PGameUtil::sleep(uint million_seconds) {
   __LEAVE_FUNCTION
 }
 
-uint PGameUtil::str_length(const char* str) {
+uint32_t PGameUtil::str_length(const char* str) {
   __ENTER_FUNCTION
-    uint i = 0;
+    uint32_t i = 0;
     while (str[i]) ++i;
     return i;
   __LEAVE_FUNCTION
 }
 
-void PGameUtil::char_swap(char* str, uint source, uint destination) {
+void PGameUtil::char_swap(char* str, uint32_t source, uint32_t destination) {
   __ENTER_FUNCTION
-    uint str_length = str_length(str);
+    uint32_t str_length = str_length(str);
     if ((0 > source || str_length < source) ||
         (0 > destination || str_length < destination)) {
       return;
@@ -237,16 +237,16 @@ void PGameUtil::password_swap_chars(char* str) {
   __LEAVE_FUNCTION
 }
 
-void PGameUtil::simple_encrypt_decrypt(char* str, uint str_length, uint key_begin) {
+void PGameUtil::simple_encrypt_decrypt(char* str, uint32_t str_length, uint32_t key_begin) {
   __ENTER_FUNCTION
-    uint str_length = str_length(str);
+    uint32_t str_length = str_length(str);
     if (0 <= str_length) return;
     MD5 str_md5(str);
     char* key = str_md5.md5();
     //swap one time
     password_swap_chars(key);
-    uint key_length = str_length(key);
-    uint i;
+    uint32_t key_length = str_length(key);
+    uint32_t i;
     for (i = 0; i < str_length; ++i) {
       *str ^= key[(i + key_begin) % key_length];
       str++;
