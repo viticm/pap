@@ -21,6 +21,7 @@
 #endif
 //system include
 #include <stdio.h>
+#include <stdint.h>
 #include <time.h>
 #include <math.h>
 #include <stdarg.h>
@@ -28,6 +29,17 @@
 #include <iostream>
 #include <fstream>
 #include "passert.h"
+#if defined(__WINDOWS__) //diffrent system include
+#pragma warning (disable: 4786)
+#include <Windows.h>
+#include "crtdbg.h"
+#elif defined(__LINUX__)
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <pthread.h>
+#include <cmath>
+#endif
 //warning the namespace can't use like this, remember it
 //using namespace std;
 
@@ -90,14 +102,6 @@ typedef unsigned short ushort;
 #define BYTE_MAX UCHAR_MAX
 #endif
 
-#if defined(NDEBUG)
-    #define __ENTER_FUNCTION_FOXNET if(1){
-    #define __LEAVE_FUNCTION_FOXNET }
-#else
-    #define __ENTER_FUNCTION_FOXNET if(1){
-    #define __LEAVE_FUNCTION_FOXNET }
-#endif
-
 //根据指针值删除内存
 #ifndef SAFE_DELETE
 #if defined(__WINDOWS__)
@@ -132,10 +136,7 @@ typedef unsigned short ushort;
 #define SAFE_RELEASE(x)	if((x)!=NULL) { (x)->Release(); (x)=NULL; }
 #endif
 
-#if defined(__WINDOWS__)
-    #pragma warning (disable: 4786)
-    #include <Windows.h>
-    #include "crtdbg.h"
+#if defined(__WINDOWS__) //normal functions
     #if defined(NDEBUG)
         #define __ENTER_FUNCTION {try{
         #define __LEAVE_FUNCTION }catch(...){AssertSpecial(FALSE,__FUNCTION__);}}
@@ -158,11 +159,6 @@ typedef unsigned short ushort;
     // common define
     #define LF "\r\n"
 #elif defined (__LINUX__)    //linux
-    #include <stdlib.h>
-    #include <string.h>
-    #include <sys/types.h>
-    #include <pthread.h>
-    #include <cmath>
     #define __ENTER_FUNCTION {try{
     #define __LEAVE_FUNCTION }catch(...){AssertSpecial(FALSE,__PRETTY_FUNCTION__);}}
     // add by viticm, fast output some debug info 
