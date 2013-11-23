@@ -1,4 +1,4 @@
-#include "odbc_interface.h"
+#include "server/common/db/odbc_interface.h"
 #include "common/pgame_util.h"
 ODBCInterface::ODBCInterface() {
   __ENTER_FUNCTION

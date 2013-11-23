@@ -1,0 +1,6 @@
+#!/bin/sh
+
+find . -name "*.php" -o -name "*.lua" -o -name "*.h" -o -name "*.cpp" -o -name "*.c" -o -name "*.cc" -o -name "*.hpp" > cscope.files
+find ../common -name "*.php" -o -name "*.lua" -o -name "*.h" -o -name "*.cpp" -o -name "*.c" -o -name "*.cc" -o -name "*.hpp" >> cscope.files
+cscope -bkq -i cscope.files
+ctags -R

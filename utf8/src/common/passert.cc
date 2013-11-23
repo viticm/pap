@@ -1,9 +1,9 @@
-#include "passert.h"
+#include "common/passert.h"
 #ifdef __LINUX__
 #include <execinfo.h>
 #endif
 #include "time.h"
-#include "ptype.h"
+#include "common/ptype.h"
 
 /**
  * g_Command_Assert 控制参数
