@@ -46,54 +46,15 @@
 //基本数据类型定义
 typedef unsigned char ubyte; //0~255
 typedef char byte; //-128~127
-typedef unsigned short ushort;
 
 #define IP_SIZE 24 //max ip size
 #define INVALID_HANDLE -1 
 #define INVALID_ID -1
 #define INVALID_TAB_PARAM_ID (-9999) //invalid id in excel param
-#ifndef _MAX_PATH //max file path
-#define _MAX_PATH 260
-#endif
-
-#ifndef UINT_MAX
-#define UINT_MIN (0)
-#define UINT_MAX (0xFFFFFFFF)
-#endif
-
-#ifndef INT_MAX
-#define INT_MIN (-2147483648)
-#define INT_MAX	(2147483647)
-#endif
-
-#ifndef DWORD_MAX
-#define DWORD_MIN UINT_MIN
-#define DWORD_MAX UINT_MAX
-#endif
-
-#ifndef USHORT_MAX
-#define USHORT_MIN (0)
-#define USHORT_MAX (0xFFFF)
-#endif
-
-#ifndef SHORT_MAX
-#define SHORT_MIN (-32768)
-#define SHORT_MAX (32767)
-#endif
-
-#ifndef WORD_MAX
-#define WORD_MIN USHORT_MIN
-#define WORD_MAX USHORT_MAX
-#endif
 
 #ifndef UCHAR_MAX
 #define UCHAR_MIN (0)
 #define UCHAR_MAX (0xFF)
-#endif
-
-#ifndef CHAR_MAX
-#define CHAR_MIN (-128)
-#define CHAR_MAX (127)
 #endif
 
 #ifndef BYTE_MAX

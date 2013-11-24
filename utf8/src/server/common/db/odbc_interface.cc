@@ -617,7 +617,7 @@ void ODBCInterface::dump(int column_index) {
   __LEAVE_FUNCTION
 }
 
-ushort ODBCInterface::get_ushort(int column_index, int &error_code) {
+uint16_t ODBCInterface::get_ushort(int column_index, int &error_code) {
   __ENTER_FUNCTION
     return static_cast<unsigned short>(get_int(column_index, error_code));
   __LEAVE_FUNCTION

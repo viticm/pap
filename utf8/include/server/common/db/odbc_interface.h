@@ -1,6 +1,6 @@
 /**
  * PAP Engine ( https://github.com/viticm/pap )
- * $Id ptype.h
+ * $Id odbc_interface.h
  * @link https://github.com/viticm/pap for the canonical source repository
  * @copyright Copyright (c) 2013-2013 viticm( viticm@126.com )
  * @license
@@ -11,7 +11,7 @@
 #ifndef PAP_SERVER_COMMON_DB_ODBC_INTERFACE_H_
 #define PAP_SERVER_COMMON_DB_ODBC_INTERFACE_H_
 #include "common/base/type.h"
-#include "server/common/db/define.h"
+#include "server/common/db/config.h"
 //include from odbc
 #include "sql.h"
 #include "sqlext.h"
@@ -82,7 +82,7 @@ class ODBCInterface {
    int get_int(int column_index, int &error_code);
    uint32_t get_uint(int column_index, int &error_code);
    float get_float(int column_index, int &error_code);
-   ushort get_ushort(int column_index, int &error_code);
+   uint16_t get_ushort(int column_index, int &error_code);
    ubyte get_byte(int column_index, int &error_code);
    short get_short(int column_index, int &error_code);
    void get_string(int column, char* buffer, int buffer_length, int &error_code);

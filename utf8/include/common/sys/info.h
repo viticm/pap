@@ -31,7 +31,7 @@ typedef struct {
   uint64_t ram_buffer; //Memory used by buffers
   uint64_t swap_total; //Total swap space size
   uint64_t swap_free; //swap space still available
-  ushort process_number; //Number of current processes
+  uint16_t process_number; //Number of current processes
 } sys_info_t;
 
 //current process time
@@ -103,14 +103,14 @@ typedef struct {
   uint64_t transmit_compressed;
 } net_info_t;
 
-bool get_sys_info(sys_info_t& sys_info);
-bool get_mem_info(mem_info_t& mem_info);
-bool get_cpu_info(cpu_info_t& cpu_info);
-int get_cpu_info_array(std::vector<cpu_info_t>& cpu_info_array);
-bool get_kernel_version(kernel_version_t& kernel_version);
-bool get_process_info(process_info_t& process_info);
-bool get_process_page_info(process_page_info_t& process_page_info);
-bool get_process_times(process_time_t& process_time);
+bool get_sys_info(const sys_info_t& sys_info);
+bool get_mem_info(const mem_info_t& mem_info);
+bool get_cpu_info(const cpu_info_t& cpu_info);
+int get_cpu_info_array(const std::vector<cpu_info_t>& cpu_info_array);
+bool get_kernel_version(const kernel_version_t& kernel_version);
+bool get_process_info(const process_info_t& process_info);
+bool get_process_page_info(const process_page_info_t& process_page_info);
+bool get_process_times(const process_time_t& process_time);
 bool get_net_info(const char* interface_name, net_info_t& net_info);
 bool get_net_info_array(std::vector<net_info_t>& net_info_array);
 bool do_get_net_info_array(const char* interface_name, std::vector<net_info_t>& net_info_array);
