@@ -1,5 +1,8 @@
 #include "server/common/db/odbc_interface.h"
-#include "common/pgame_util.h"
+#include "common/base/util.h"
+
+namespace pap_server_common_db {
+
 ODBCInterface::ODBCInterface() {
   __ENTER_FUNCTION
     connectd_ = false;
@@ -413,11 +416,11 @@ void ODBCInterface::get_field(int column_index,
     else {
       if (MAX_COLUMN_BUFFER > buffer_length) {
         uint32_t out_length = 0;
-        PGameUtil::string_to_binary(column_[column_index - 1], 
-                                    MAX_COLUMN_BUFFER, 
-                                    buffer, 
-                                    buffer_length, 
-                                    out_length);
+        pap_common_base::util::string_to_binary(column_[column_index - 1], 
+                                                MAX_COLUMN_BUFFER, 
+                                                buffer, 
+                                                buffer_length, 
+                                                out_length);
         Assert(static_cast<int>(out_length) <= buffer_length);
       }
       else {
@@ -448,11 +451,11 @@ void ODBCInterface::get_long_field(int column_index,
     else {
       if (MAX_COLUMN_BUFFER > buffer_length) {
         uint32_t out_length = 0;
-        PGameUtil::string_to_binary(column_[column_index - 1], 
-                                    MAX_LONG_COLUMN_BUFFER, 
-                                    buffer, 
-                                    buffer_length, 
-                                    out_length);
+        pap_common_base::util::string_to_binary(column_[column_index - 1], 
+                                                MAX_LONG_COLUMN_BUFFER, 
+                                                buffer, 
+                                                buffer_length, 
+                                                out_length);
         Assert(static_cast<int>(out_length) <= buffer_length);
       }
       else {
@@ -478,7 +481,7 @@ void ODBCInterface::diag_state() {
                                     &native_error,
                                     error_message_, 
                                     sizeof(error_message_), 
-                                    &msg_length)) !=SQL_NO_DATA) {
+                                    &msg_length)) != SQL_NO_DATA) {
       ++j;
     }
     error_message_[MAX_ERROR_MSG_LENGHT - 1] = '\0';
@@ -525,7 +528,7 @@ void ODBCInterface::diag_state_ex() {
                                     &native_error,
                                     error_message_, 
                                     sizeof(error_message_), 
-                                    &msg_length)) !=SQL_NO_DATA) {
+                                    &msg_length)) != SQL_NO_DATA) {
       ++j;
     }
     error_message_[MAX_ERROR_MSG_LENGHT - 1] = '\0';
@@ -673,3 +676,5 @@ LONG_DB_QUERY& ODBCInterface::get_long_query() {
     return long_query_;
   __LEAVE_FUNCTION
 }
+
+} //namespace pap_server_common_db

@@ -1,4 +1,4 @@
-#include "server/common/db/db_system.h"
+#include "server/common/db/system.h"
 #include "common/base/util.h"
 
 namespace pap_server_common_db {
@@ -48,7 +48,7 @@ bool System::check_db_connect() {
     if (!odbc_interface_->is_connected()) {
       int i;
       for (i = 0; i <5; ++i) {
-        PGameUtil::sleep(5000);
+        pap_common_base::util::sleep(5000);
         if (odbc_interface_->connect())
         {
           return true;
