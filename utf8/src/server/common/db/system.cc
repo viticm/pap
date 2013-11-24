@@ -1,6 +1,9 @@
 #include "server/common/db/db_system.h"
-#include "common/pgame_util.h"
-DBSystem::DBSystem()
+#include "common/base/util.h"
+
+namespace pap_server_common_db {
+
+System::System()
 {
   __ENTER_FUNCTION
     result_ = 0;
@@ -9,37 +12,37 @@ DBSystem::DBSystem()
   __LEAVE_FUNCTION
 }
 
-uint DBSystem::get_result_count() {
+uint System::get_result_count() {
   __ENTER_FUNCTION
     return result_count_;
   __LEAVE_FUNCTION
 }
 
-DB_QUERY* DBSystem::get_internal_query() {
+DB_QUERY* System::get_internal_query() {
   __ENTER_FUNCTION
     return &odbc_interface_->get_query();
   __LEAVE_FUNCTION
 }
 
-LONG_DB_QUERY* DBSystem::get_long_internal_query() {
+LONG_DB_QUERY* System::get_long_internal_query() {
   __ENTER_FUNCTION
     return &odbc_interface_->get_long_query();
   __LEAVE_FUNCTION
 }
 
-int DBSystem::get_internal_affect_count() {
+int System::get_internal_affect_count() {
   __ENTER_FUNCTION
     return odbc_interface_->get_affect_row_count();
   __LEAVE_FUNCTION
 }
 
-bool DBSystem::is_prepare() {
+bool System::is_prepare() {
   __ENTER_FUNCTION
     return odbc_interface_->is_prepare();
   __LEAVE_FUNCTION
 }
 
-bool DBSystem::check_db_connect() {
+bool System::check_db_connect() {
   __ENTER_FUNCTION
     Assert(odbc_interface_);
     if (!odbc_interface_->is_connected()) {
@@ -57,7 +60,7 @@ bool DBSystem::check_db_connect() {
     return false;
 }
 
-bool DBSystem::load() {
+bool System::load() {
   __ENTER_FUNCTION
     if (!is_prepare()) return false;
     if (!odbc_interface_) return false;
@@ -69,7 +72,7 @@ bool DBSystem::load() {
     return false;
 }
 
-bool DBSystem::long_load() {
+bool System::long_load() {
   __ENTER_FUNCTION
     if (!is_prepare()) return false;
     if (!odbc_interface_) return false;
@@ -81,7 +84,7 @@ bool DBSystem::long_load() {
     return false;
 }
 
-bool DBSystem::add_new() {
+bool System::add_new() {
   __ENTER_FUNCTION
     if (!is_prepare()) return false;
     if (!odbc_interface_) return false;
@@ -93,7 +96,7 @@ bool DBSystem::add_new() {
     return false;
 }
 
-bool DBSystem::delete_() {
+bool System::delete_() {
   __ENTER_FUNCTION
     if (!is_prepare()) return false;
     if (!odbc_interface_) return false;
@@ -105,7 +108,7 @@ bool DBSystem::delete_() {
     return false;
 }
 
-bool DBSystem::save() {
+bool System::save() {
   __ENTER_FUNCTION
     if (!is_prepare()) return false;
     if (!odbc_interface_) return false;
@@ -117,7 +120,7 @@ bool DBSystem::save() {
     return false;
 }
 
-bool DBSystem::long_save() {
+bool System::long_save() {
   __ENTER_FUNCTION
     if (!is_prepare()) return false;
     if (!odbc_interface_) return false;
@@ -129,21 +132,23 @@ bool DBSystem::long_save() {
     return false;
 }
 
-void DBSystem::set_db_type(DB_TYPES db_type)
+void System::set_db_type(DB_TYPES db_type)
 {
   __ENTER_FUNCTION
     db_type_ = db_type
   __LEAVE_FUNCTION
 }
 
-int DBSystem::get_error_code() {
+int System::get_error_code() {
   __ENTER_FUNCTION
     return odbc_interface_->get_error_code();
   __LEAVE_FUNCTION
 }
 
-char* DBSystem::get_error_message() {
+char* System::get_error_message() {
   __ENTER_FUNCTION
     return odbc_interface_->get_error_message();
   __LEAVE_FUNCTION
 }
+
+} //namespace pap_server_common_db

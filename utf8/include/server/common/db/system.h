@@ -8,12 +8,14 @@
  * @date 2013-11-22 19:29:37
  * @uses the db system class, to provide some convenient operation functions.
  */
-#ifndef PAP_SERVER_COMMON_DB_DB_SYSTEM_H_
-#define PAP_SERVER_COMMON_DB_DB_SYSTEM_H_
-#include "common/ptype.h"
-#include "db_define.h"
+#ifndef PAP_SERVER_COMMON_DB_SYSTEM_H_
+#define PAP_SERVER_COMMON_DB_SYSTEM_H_
+#include "common/base/type.h"
+#include "server/common/db/define.h"
 
-class DBSystem {
+namespace pap_server_common_db {
+
+class System {
  public:
    enum DBOP_TYPE {
      DB_LOAD,
@@ -55,6 +57,8 @@ class DBSystem {
    bool check_db_connect(); //check the connect if work, and repeat 5 times when fails
    bool long_load();
    bool long_save(void* source);
-}
+};
 
-#endif //PAP_SERVER_COMMON_DB_DB_SYSTEM_H_
+}; //namespace pap_server_common_db
+
+#endif //PAP_SERVER_COMMON_DB_SYSTEM_H_

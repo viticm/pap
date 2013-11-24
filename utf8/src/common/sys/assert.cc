@@ -1,9 +1,11 @@
-#include "common/passert.h"
 #ifdef __LINUX__
 #include <execinfo.h>
 #endif
 #include "time.h"
-#include "common/ptype.h"
+#include "common/sys/assert.h"
+#include "common/base/type.h"
+
+namespace pap_common_sys {
 
 /**
  * g_Command_Assert 控制参数
@@ -11,9 +13,9 @@
  * 1:忽略
  * 2:继续抛出异常用于获取运行堆栈
  **/
-int g_Command_Assert = 0;
-bool g_Command_IgnoreMessageBox = false; //控制参数，跳过MyMessageBox的中断
-int g_NeedManagerDoPosInit = 1; //控制参数，是否需要初始化管理器数据
+int g_command_assert = 0;
+bool g_command_ignore_message_box = false; //控制参数，跳过MyMessageBox的中断
+int g_need_manager_do_pos_init = 1; //控制参数，是否需要初始化管理器数据
 
 void __show__(const char* temp) {
 #ifdef __LINUX__
@@ -29,7 +31,7 @@ void __show__(const char* temp) {
 
 #if defined(__WINDOWS__)
   static MyLock lock ;
-  if (1 != g_Command_Assert) {
+  if (1 != g_command_assert) {
     lock.Lock() ;
     int ret = ::MessageBoxA( NULL, temp, "异常", MB_OK ) ;
     lock.Unlock() ;
@@ -45,7 +47,7 @@ void __show__(const char* temp) {
 }
 
 void __messagebox__(const char* msg) {
-  if (g_Command_IgnoreMessageBox)
+  if (g_command_ignore_message_box)
     return;
 #if defined(__WINDOWS__)
   ::MessageBoxA(NULL, msg, "信息", MB_OK);
@@ -118,3 +120,5 @@ bool RangeCheckForIndex_Assert(int index, int from, int to, char const* code_loc
   AssertEx(false, buff);
   return false;
 }
+
+} //namespace pap_common_sys_assert

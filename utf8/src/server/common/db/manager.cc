@@ -1,6 +1,8 @@
-#include "db_manager.h"
+#include "server/common/db/manager.h"
 
-DBManager::DBManager() {
+namespace pap_server_common_db {
+
+Manager::Manager() {
   __ENTER_FUNCTION
     db_type_ = ALL_DATABASE; //init as all database
     character_interface_ = NULL;
@@ -8,14 +10,14 @@ DBManager::DBManager() {
   __LEAVE_FUNCTION
 }
 
-DBManager::~DBManager() {
+Manager::~DBManager() {
   __ENTER_FUNCTION
     SAFE_DELETE(user_interface_);
     SAFE_DELETE(character_interface_);
   __LEAVE_FUNCTION
 }
 
-bool DBManager::init(DB_TYPES db_type) {
+bool Manager::init(DB_TYPES db_type) {
   __ENTER_FUNCTION
     db_type_ = db_type;
     char host[HOST_LENGTH];
@@ -123,7 +125,7 @@ bool DBManager::init(DB_TYPES db_type) {
   __LEAVE_FUNCTION
 }
 
-ODBCInterface* DBManager::get_interface(DB_TYPES db_type) {
+ODBCInterface* Manager::get_interface(DB_TYPES db_type) {
   __ENTER_FUNCTION
     ODBCInterface* odbc_interface;
     switch(db_type) {
@@ -142,3 +144,5 @@ ODBCInterface* DBManager::get_interface(DB_TYPES db_type) {
     return odbc_interface;
   __LEAVE_FUNCTION
 }
+
+} //namespace pap_server_common_db

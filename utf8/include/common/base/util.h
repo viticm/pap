@@ -6,14 +6,16 @@
  * @license
  * @user viticm<viticm@126.com>
  * @date 2013-11-22 19:36:44
- * @uses some useful functions namespace
+ * @uses some useful base util functions 
  */
-#include "ptype.h"
-#include "md5.h"
-#ifndef PAP_COMMON_PGAME_UTIL_H_
-#define PAP_COMMON_PGAME_UTIL_H_
+#include "common/base/type.h"
+#include "common/base/md5.h"
+#ifndef PAP_COMMON_BASE_UTIL_H_
+#define PAP_COMMON_BASE_UTIL_H_
 
-namespace PGameUtil {
+namespace pap_common_base {
+
+namespace util {
 
 char value_to_ascii(char in);
 char ascii_to_value(char in);
@@ -36,6 +38,8 @@ int charset_convert(const char* from,
 
 void password_swap_chars(char* str);
 
-}
+} //namespace util
 
-#endif //PAP_COMMON_PGAME_UTIL_H_
+} //namespace pap_common_base
+
+#endif //PAP_COMMON_BASE_UTIL_H_

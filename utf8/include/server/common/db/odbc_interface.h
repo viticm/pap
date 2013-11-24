@@ -10,15 +10,17 @@
  */
 #ifndef PAP_SERVER_COMMON_DB_ODBC_INTERFACE_H_
 #define PAP_SERVER_COMMON_DB_ODBC_INTERFACE_H_
-#include "common/ptype.h"
-#include "db_define.h"
-//#define USE_MYSQL
-#define HOST_LENGTH 30
-#define CONNECTION_NAME_LENGTH 32
+#include "common/base/type.h"
+#include "server/common/db/define.h"
 //include from odbc
 #include "sql.h"
 #include "sqlext.h"
 
+namespace pap_server_common_db {
+
+//#define USE_MYSQL
+#define HOST_LENGTH 30
+#define CONNECTION_NAME_LENGTH 32
 #define MAX_COLUMN_NAME 30 //column name max length
 #define MAX_COLUMN_BUFFER 2049 //normal one column value length
 #define MAX_LONG_COLUMN_BUFFER 204800 //long column value length
@@ -95,5 +97,7 @@ class ODBCInterface {
    void clear_env();
    void dump(int column);
 };
+
+}; //namespace pap_server_common_db
 
 #endif //PAP_SERVER_COMMON_DB_ODBC_INTERFACE_H_

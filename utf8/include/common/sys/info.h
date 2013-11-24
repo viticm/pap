@@ -1,6 +1,6 @@
 /**
  * PAP Engine ( https://github.com/viticm/pap )
- * $Id psysteminfo.h
+ * $Id info.h
  * @link https://github.com/viticm/pap for the canonical source repository
  * @copyright Copyright (c) 2013-2013 viticm( viticm@126.com )
  * @license
@@ -10,15 +10,16 @@
  *       use the code url: http://code.google.com/p/mooon/source/browse/trunk/common_library/include/sys
  *       (thanks eyjian@gmail.com)
  */
-#ifndef PAP_COMMON_PSYSTEMINFO_H_
-#define PAP_COMMON_PSYSTEMINFO_H_
+#ifndef PAP_COMMON_SYS_INFO_H_
+#define PAP_COMMON_SYS_INFO_H_
 
 #include <sys/config.h>
 #include <stdint.h>
 #include <vector>
-#include "ptype.h"
+#include "common/base/type.h"
+namespace pap_common_sys {
 
-namespace PSystemInfo {
+namespace info {
 
 //current system info
 typedef struct {
@@ -57,6 +58,8 @@ typedef struct {
 
 bool get_sys_info();
 
-}
+} //namespace info
 
-#endif //PAP_COMMON_PSYSTEMINFO_H_
+} //namespace pap_common_sys
+
+#endif //PAP_COMMON_SYS_INFO_H_

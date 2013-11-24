@@ -8,12 +8,14 @@
  * @date 2013-11-22 19:29:37
  * @uses the db manager class, just for server use dbs.
  */
-#ifndef PAP_SERVER_COMMON_DB_DB_MANAGER_H_
-#define PAP_SERVER_COMMON_DB_DB_MANAGER_H_
-#include "db_define.h"
-#include "odbc_interface.h"
+#ifndef PAP_SERVER_COMMON_DB_MANAGER_H_
+#define PAP_SERVER_COMMON_DB_MANAGER_H_
+#include "server/common/db/define.h"
+#include "server/common/db/odbc_interface.h"
 
-class DBManager {
+namespace pap_server_common_db {
+
+class Manager {
  public:
    DBManager();
    ~DBManager();
@@ -24,6 +26,8 @@ class DBManager {
    DB_TYPES db_type_;
    ODBCInterface* character_interface_;
    ODBCInterface* user_interface_;
-}
+};
+
+}; //namespace pap_server_common_db
 
 #endif //PAP_SERVER_COMMON_DB_DB_MANAGER_H_

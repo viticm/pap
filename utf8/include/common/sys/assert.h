@@ -8,13 +8,15 @@
  * @date 2013-11-22 18:00:40
  * @uses 断言控制器
  */
-#ifndef PAP_COMMON_PASSERT_H_
-#define PAP_COMMON_PASSERT_H_
-extern int g_Command_Assert;//控制参数，不提示Assert的对话框，直接忽略
-extern bool g_Command_IgnoreMessageBox;//控制参数，跳过MyMessageBox的中断
-extern int g_FileNameFix;//文件名称后缀
-extern int g_NeedManagerDoPosInit;//控制参数，是否需要初始化管理器数据
+#ifndef PAP_COMMON_SYS_ASSERT_H_
+#define PAP_COMMON_SYS_ASSERT_H_
 
+namespace pap_common_sys {
+
+extern int g_command_assert; //控制参数，不提示Assert的对话框，直接忽略
+extern bool g_command_ignore_message_box;//控制参数，跳过MyMessageBox的中断
+extern int g_file_name_fix;//文件名称后缀
+extern int g_need_manager_do_pos_init;//控制参数，是否需要初始化管理器数据
 
 void __assert__(const char* file, unsigned int line, const char* func, const char* expr);
 void __assertex__(const char* file, unsigned int line, const char* func, const char* expr, const char* msg);
@@ -55,4 +57,7 @@ void __protocol_assert__(const char* file, unsigned int line, const char* func, 
 // Illegal: i<0 or i>10;
 //--------------------------------------------------------------------------------
 bool RangeCheckForIndex_Assert(int index, int from, int to, char const* code_location);
-#endif
+
+} //namespace pap_common_sys_assert
+
+#endif //PAP_COMMON_SYS_ASSERT_H_

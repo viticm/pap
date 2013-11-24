@@ -1,6 +1,8 @@
-#include "common/passert.h"
+#include "common/base/assert.h" //无论如何都是用全路径
 
-char PGameUtil::value_to_ascii(char in) {
+namespace pap_common_base {
+
+char value_to_ascii(char in) {
   __ENTER_FUNCTION
     char out;
     switch(in) {
@@ -78,7 +80,7 @@ char PGameUtil::value_to_ascii(char in) {
     return '?';
 }
 
-char PGameUtil::ascii_to_value(char in) {
+char ascii_to_value(char in) {
   __ENTER_FUNCTION
     char out;
     switch(in) {
@@ -194,7 +196,7 @@ bool string_to_binary(const char* in,
     return false;
 }
 
-void PGameUtil::sleep(uint32_t million_seconds) {
+void sleep(uint32_t million_seconds) {
   __ENTER_FUNCTION
 #if defined(__WINDOWS__)
     Sleep(million_seconds);
@@ -204,7 +206,7 @@ void PGameUtil::sleep(uint32_t million_seconds) {
   __LEAVE_FUNCTION
 }
 
-uint32_t PGameUtil::str_length(const char* str) {
+uint32_t str_length(const char* str) {
   __ENTER_FUNCTION
     uint32_t i = 0;
     while (str[i]) ++i;
@@ -212,7 +214,7 @@ uint32_t PGameUtil::str_length(const char* str) {
   __LEAVE_FUNCTION
 }
 
-void PGameUtil::char_swap(char* str, uint32_t source, uint32_t destination) {
+void char_swap(char* str, uint32_t source, uint32_t destination) {
   __ENTER_FUNCTION
     uint32_t str_length = str_length(str);
     if ((0 > source || str_length < source) ||
@@ -225,7 +227,7 @@ void PGameUtil::char_swap(char* str, uint32_t source, uint32_t destination) {
   __LEAVE_FUNCTION
 }
 
-void PGameUtil::password_swap_chars(char* str) {
+void password_swap_chars(char* str) {
   __ENTER_FUNCTION
     char_swap(str, 0, 13);
     char_swap(str, 31, 25);
@@ -237,7 +239,7 @@ void PGameUtil::password_swap_chars(char* str) {
   __LEAVE_FUNCTION
 }
 
-void PGameUtil::simple_encrypt_decrypt(char* str, uint32_t str_length, uint32_t key_begin) {
+void simple_encrypt_decrypt(char* str, uint32_t str_length, uint32_t key_begin) {
   __ENTER_FUNCTION
     uint32_t str_length = str_length(str);
     if (0 <= str_length) return;
@@ -263,12 +265,12 @@ void PGameUtil::simple_encrypt_decrypt(char* str, uint32_t str_length, uint32_t 
  * @param src want convert string
  * @param srclen want convert string length
  */
-int PGameUtil::charset_convert(const char* from, 
-                               const char* to, 
-                               char* save, 
-                               int savelen, 
-                               char* src, 
-                               int srclen) {
+int charset_convert(const char* from, 
+                    const char* to, 
+                    char* save, 
+                    int savelen, 
+                    char* src, 
+                    int srclen) {
   __ENTER_FUNCTION
     iconv_t cd;
     char *inbuf        = src;
@@ -327,3 +329,5 @@ int PGameUtil::charset_convert(const char* from,
     return status;
   __LEAVE_FUNCTION
 }
+
+} //namespace pap_common_base_util
