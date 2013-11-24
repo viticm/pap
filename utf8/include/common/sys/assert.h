@@ -11,6 +11,8 @@
 #ifndef PAP_COMMON_SYS_ASSERT_H_
 #define PAP_COMMON_SYS_ASSERT_H_
 
+#include "common/sys/config.h"
+
 namespace pap_common_sys {
 
 extern int g_command_assert; //控制参数，不提示Assert的对话框，直接忽略
