@@ -2,6 +2,8 @@
 
 namespace pap_common_base {
 
+namespace util {
+
 char value_to_ascii(char in) {
   __ENTER_FUNCTION
     char out;
@@ -330,4 +332,6 @@ int charset_convert(const char* from,
   __LEAVE_FUNCTION
 }
 
-} //namespace pap_common_base_util
+} //namespace util
+
+} //namespace pap_common_base
