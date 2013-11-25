@@ -17,14 +17,14 @@ namespace pap_common_base {
 
 namespace util {
 
-char value_to_ascii(char in);
-char ascii_to_value(char in);
-bool binary_to_string(const char* in, uint in_length, char* out);
-bool string_to_binary(const char* in, 
-                      uint32_t in_length, 
-                      char* out, 
-                      uint32_t out_limit, 
-                      uint32_t &out_length);
+char value_toascii(char in);
+char ascii_tovalue(char in);
+bool binary_tostring(const char* in, uint in_length, char* out);
+bool string_tobinary(const char* in, 
+                     uint32_t in_length, 
+                     char* out, 
+                     uint32_t out_limit, 
+                     uint32_t &out_length);
 void sleep(uint32_t million_seconds);
 uint32_t str_length(const char* str);
 void char_swap(char* str, uint source, uint32_t destination);
@@ -35,7 +35,6 @@ int charset_convert(const char* from,
                     int savelen, 
                     char* src, 
                     int srclen) ;
-
 void password_swap_chars(char* str);
 
 } //namespace util

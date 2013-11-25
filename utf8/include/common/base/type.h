@@ -8,8 +8,8 @@
  * @date 2013-8-23 20:01:52
  * @uses 基本数据定义
  */
-#ifndef PAP_COMMON_PTYPE_H_
-#define PAP_COMMON_PTYPE_H_
+#ifndef PAP_COMMON_BASE_TYPE_H_
+#define PAP_COMMON_BASE_TYPE_H_
 
 #if defined(GAME_CLIENT)
 #define __ENTER_FUNCTION 
@@ -31,7 +31,7 @@
 #include "passert.h"
 #if defined(__WINDOWS__) //diffrent system include
 #pragma warning (disable: 4786)
-#include <Windows.h>
+#include <windows.h>
 #include "crtdbg.h"
 #elif defined(__LINUX__)
 #include <stdlib.h>
@@ -137,4 +137,4 @@ typedef char byte; //-128~127
     #define LF "\n"
 #endif 
 
-#endif //PAP_COMMON_PTYPE_H_
+#endif //PAP_COMMON_BASE_TYPE_H_

@@ -12,6 +12,11 @@
 #define PAP_COMMON_SYS_CONFIG_H_
 
 #define INTERFACE_NAME_MAX 20
+#ifndef LINE_MAX
+#define LINE_MAX 1024
+#endif
+#define SYSTEM_NAME_MAX 126
+#define CPU_NAME_MAX 256
 
 #endif //PAP_COMMON_SYS_CONFIG_H_
 

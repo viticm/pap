@@ -30,8 +30,8 @@ ODBCInterface::~ODBCInterface() {
 }
 
 bool ODBCInterface::connect(const char* connection_name,
-                       const char* user,
-                       const char* password) {
+                            const char* user,
+                            const char* password) {
   __ENTER_FUNCTION
     close(); //first disconnect
     strncpy(connection_name_, connection_name, DB_CONNECTION_NAME_LENGTH);
@@ -416,11 +416,11 @@ void ODBCInterface::get_field(int column_index,
     else {
       if (MAX_COLUMN_BUFFER > buffer_length) {
         uint32_t out_length = 0;
-        pap_common_base::util::string_to_binary(column_[column_index - 1], 
-                                                MAX_COLUMN_BUFFER, 
-                                                buffer, 
-                                                buffer_length, 
-                                                out_length);
+        pap_common_base::util::string_tobinary(column_[column_index - 1], 
+                                               MAX_COLUMN_BUFFER, 
+                                               buffer, 
+                                               buffer_length, 
+                                               out_length);
         Assert(static_cast<int>(out_length) <= buffer_length);
       }
       else {
@@ -451,11 +451,11 @@ void ODBCInterface::get_long_field(int column_index,
     else {
       if (MAX_COLUMN_BUFFER > buffer_length) {
         uint32_t out_length = 0;
-        pap_common_base::util::string_to_binary(column_[column_index - 1], 
-                                                MAX_LONG_COLUMN_BUFFER, 
-                                                buffer, 
-                                                buffer_length, 
-                                                out_length);
+        pap_common_base::util::string_tobinary(column_[column_index - 1], 
+                                               MAX_LONG_COLUMN_BUFFER, 
+                                               buffer, 
+                                               buffer_length, 
+                                               out_length);
         Assert(static_cast<int>(out_length) <= buffer_length);
       }
       else {

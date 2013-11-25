@@ -4,7 +4,7 @@ namespace pap_common_base {
 
 namespace util {
 
-char value_to_ascii(char in) {
+char value_toascii(char in) {
   __ENTER_FUNCTION
     char out;
     switch(in) {
@@ -82,7 +82,7 @@ char value_to_ascii(char in) {
     return '?';
 }
 
-char ascii_to_value(char in) {
+char ascii_tovalue(char in) {
   __ENTER_FUNCTION
     char out;
     switch(in) {
@@ -160,7 +160,7 @@ char ascii_to_value(char in) {
     return '?';
 }
 
-bool binary_to_string(const char* in, uint32_t in_length, char* out) {
+bool binary_tostring(const char* in, uint32_t in_length, char* out) {
   __ENTER_FUNCTION
     if (0 == in_length) return false;
     uint32_t out_index = 0;
@@ -176,11 +176,11 @@ bool binary_to_string(const char* in, uint32_t in_length, char* out) {
     return false;
 }
 
-bool string_to_binary(const char* in, 
-                      uint32_t in_length, 
-                      char* out, 
-                      uint32_t out_limit, 
-                      uint32_t &out_length) {
+bool string_tobinary(const char* in, 
+                     uint32_t in_length, 
+                     char* out, 
+                     uint32_t out_limit, 
+                     uint32_t &out_length) {
   __ENTER_FUNCTION
     if (0 == in_length) return false;
     uint32_t out_index = 0;

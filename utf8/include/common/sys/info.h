@@ -21,6 +21,20 @@ namespace pap_common_sys {
 
 namespace info {
 
+//这是一个快速释放文件指针的类，暂时放置此处，以后有需要移到base的util下
+template <>
+class CloseHelper<FILE*> {
+ public:
+   CloseHelper<FILE*>(FILE*& fp) : fp_(fp); //Initialization can be placed here, 
+                                            //but the method to achieve must be placed inside, 
+                                            //otherwise use inline functions
+   //析构函数
+   ~CloseHelper<FILE*>();
+
+ private:
+   FILE*& fp_;
+}
+
 //current system info
 typedef struct {
   int64_t uptime_second; //Seconds since boot
@@ -53,7 +67,7 @@ typedef struct {
   uint32_t iowait; //IO等待时间(2.5.41)
   uint32_t irq; //硬中断时间(2.6.0)
   uint32_t softirq;//软中断时间(2.6.0)
-  uint ;
+  char cpu_name[CPU_NAME_MAX];
 } cpu_info_t;
 
 //current memory info
@@ -69,6 +83,7 @@ typedef struct {
 
 //current system version
 typedef struct {
+  char system_name[SYSTEM_NAME_MAX];
   int16_t major; //主版本号
   int16_t minor; //次版本号
   int16_t revision; //修订版本号
@@ -103,17 +118,18 @@ typedef struct {
   uint64_t transmit_compressed;
 } net_info_t;
 
-bool get_sys_info(const sys_info_t& sys_info);
-bool get_mem_info(const mem_info_t& mem_info);
-bool get_cpu_info(const cpu_info_t& cpu_info);
-int get_cpu_info_array(const std::vector<cpu_info_t>& cpu_info_array);
-bool get_kernel_version(const kernel_version_t& kernel_version);
-bool get_process_info(const process_info_t& process_info);
-bool get_process_page_info(const process_page_info_t& process_page_info);
-bool get_process_times(const process_time_t& process_time);
+bool get_sys_info(sys_info_t& sys_info);
+bool get_mem_info(mem_info_t& mem_info);
+bool get_cpu_info(cpu_info_t& cpu_info);
+int get_cpu_info_array(std::vector<cpu_info_t>& cpu_info_array);
+bool get_kernel_version(kernel_version_t& kernel_version);
+bool get_process_info(process_info_t& process_info);
+bool get_process_page_info(process_page_info_t& process_page_info);
+bool get_process_times(process_time_t& process_time);
 bool get_net_info(const char* interface_name, net_info_t& net_info);
 bool get_net_info_array(std::vector<net_info_t>& net_info_array);
 bool do_get_net_info_array(const char* interface_name, std::vector<net_info_t>& net_info_array);
+bool get_ip(char* &ip, const char* interface_name = NULL);
 
 } //namespace info
 
