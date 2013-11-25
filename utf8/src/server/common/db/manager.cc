@@ -2,6 +2,8 @@
 
 namespace pap_server_common_db {
 
+g_db_manager = NULL;
+
 Manager::Manager() {
   __ENTER_FUNCTION
     db_type_ = ALL_DATABASE; //init as all database

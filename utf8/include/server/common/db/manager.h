@@ -28,6 +28,8 @@ class Manager {
    ODBCInterface* user_interface_;
 };
 
+extern Manager g_db_manager;
+
 }; //namespace pap_server_common_db
 
 #endif //PAP_SERVER_COMMON_DB_DB_MANAGER_H_
