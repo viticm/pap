@@ -313,12 +313,12 @@ int ODBCInterface::get_int(int column_index, int &error_code) {
   __ENTER_FUNCTION
     if (column_index > column_count_) {
       error_code = QUERY_NO_COLUMN;
-      Assert(false);
+      pap_common_sys::Assert(false);
       return QUERY_NO_COLUMN;
     }
     if (SQL_NULL_DATA == column_locate_[column_index - 1]) {
       error_code = QUERY_NULL;
-      Assert(false);
+      pap_common_sys::Assert(false);
       return QUERY_NULL;
     }
     else {
@@ -333,12 +333,12 @@ uint32_t ODBCInterface::get_uint(int column_index, int &error_code) {
   __ENTER_FUNCTION
     if (column_index > column_count_) {
       error_code = QUERY_NO_COLUMN;
-      Assert(false);
+      pap_common_sys::Assert(false);
       return QUERY_NO_COLUMN;
     }
     if (SQL_NULL_DATA == column_locate_[column_index - 1]) {
       error_code = QUERY_NULL;
-      Assert(false);
+      pap_common_sys::Assert(false);
       return QUERY_NULL;
     }
     else {
@@ -353,12 +353,12 @@ float ODBCInterface::get_float(int column_index, int &error_code) {
   __ENTER_FUNCTION
     if (column_index > column_count_) {
       error_code = QUERY_NO_COLUMN;
-      Assert(false);
+      pap_common_sys::Assert(false);
       return QUERY_NO_COLUMN;
     }
     if (SQL_NULL_DATA == column_locate_[column_index - 1]) {
       error_code = QUERY_NULL;
-      Assert(false);
+      pap_common_sys::Assert(false);
       return QUERY_NULL;
     }
     else {
@@ -377,13 +377,13 @@ void ODBCInterface::get_string(int column_index,
     if (column_index > column_count_) {
       error_code = QUERY_NO_COLUMN;
       buffer[0] = '\0';
-      Assert(false);
+      pap_common_sys::Assert(false);
       return;
     }
     if (SQL_NULL_DATA == column_locate_[column_index - 1]) {
       error_code = QUERY_NULL;
       buffer[0] = '\0';
-      Assert(false);
+      pap_common_sys::Assert(false);
     }
     else {
       if (MAX_COLUMN_BUFFER > buffer_length) {
@@ -405,13 +405,13 @@ void ODBCInterface::get_field(int column_index,
     if (column_index > column_count_) {
       error_code = QUERY_NO_COLUMN;
       buffer[0] = '\0';
-      Assert(false);
+      pap_common_sys::Assert(false);
       return;
     }
     if (SQL_NULL_DATA == column_locate_[column_index - 1]) {
       error_code = QUERY_NULL;
       buffer[0] = '\0';
-      Assert(false);
+      pap_common_sys::Assert(false);
     }
     else {
       if (MAX_COLUMN_BUFFER > buffer_length) {
@@ -421,11 +421,11 @@ void ODBCInterface::get_field(int column_index,
                                                buffer, 
                                                buffer_length, 
                                                out_length);
-        Assert(static_cast<int>(out_length) <= buffer_length);
+        pap_common_sys::Assert(static_cast<int>(out_length) <= buffer_length);
       }
       else {
         memcpy(buffer, column_[column_index - 1], MAX_COLUMN_BUFFER);
-        Assert(false);
+        pap_common_sys::Assert(false);
       }
       error_code = QUERY_OK;
     }
@@ -440,13 +440,13 @@ void ODBCInterface::get_long_field(int column_index,
     if (column_index > column_count_) {
       error_code = QUERY_NO_COLUMN;
       buffer[0] = '\0';
-      Assert(false);
+      pap_common_sys::Assert(false);
       return;
     }
     if (SQL_NULL_DATA == column_locate_[column_index - 1]) {
       error_code = QUERY_NULL;
       buffer[0] = '\0';
-      Assert(false);
+      pap_common_sys::Assert(false);
     }
     else {
       if (MAX_COLUMN_BUFFER > buffer_length) {
@@ -456,11 +456,11 @@ void ODBCInterface::get_long_field(int column_index,
                                                buffer, 
                                                buffer_length, 
                                                out_length);
-        Assert(static_cast<int>(out_length) <= buffer_length);
+        pap_common_sys::Assert(static_cast<int>(out_length) <= buffer_length);
       }
       else {
         memcpy(buffer, column_[column_index - 1], MAX_LONG_COLUMN_BUFFER);
-        Assert(false);
+        pap_common_sys::Assert(false);
       }
       error_code = QUERY_OK;
     }
