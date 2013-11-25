@@ -8,7 +8,7 @@
 namespace pap_common_sys {
 
 /**
- * g_Command_Assert 控制参数
+ * g_command_assert 控制参数
  * 0:会通过弹出对话框让用户选择(缺省值)
  * 1:忽略
  * 2:继续抛出异常用于获取运行堆栈
