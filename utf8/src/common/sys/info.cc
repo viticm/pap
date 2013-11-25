@@ -690,13 +690,9 @@ bool get_ip(char* &ip, const char* interface_name) {
     WSADATA wsa_data;
     char name[FILENAME_MAX];
     PHOSTENT hostinfo = 0; 
-
-    if (0 == WSAStartup(MAKEWORD(2,2), &wsa_data)) 
-    { 
-      if (0 == gethostname(name, sizeof(name))) 
-      { 
-        if((hostinfo = gethostbyname(name)) != NULL)
-        { 
+    if (0 == WSAStartup(MAKEWORD(2,2), &wsa_data)) { 
+      if (0 == gethostname(name, sizeof(name))) { 
+        if((hostinfo = gethostbyname(name)) != NULL) { 
            ip = inet_ntoa(*(struct in_addr *)*hostinfo->h_addr_list); 
         }
       }
