@@ -1,8 +1,8 @@
 #include "server/common/db/manager.h"
 
-namespace pap_server_common_db {
-
 g_db_manager = NULL;
+
+namespace pap_server_common_db {
 
 Manager::Manager() {
   __ENTER_FUNCTION
