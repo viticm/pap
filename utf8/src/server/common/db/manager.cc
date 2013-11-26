@@ -1,6 +1,6 @@
 #include "server/common/db/manager.h"
 
-g_db_manager = NULL;
+pap_server_common_db::Manager* g_db_manager = NULL;
 
 namespace pap_server_common_db {
 

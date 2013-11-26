@@ -1,4 +1,4 @@
-#include "common/base/assert.h" //无论如何都是用全路径
+#include "common/base/util.h" //无论如何都是用全路径
 
 namespace pap_common_base {
 
@@ -166,7 +166,7 @@ bool binary_tostring(const char* in, uint32_t in_length, char* out) {
     uint32_t out_index = 0;
     uint32_t i;
     for (i = 0; i < in_length; ++i) {
-      out[out_index] = value_to_ascii((static_cast<ubyte>(in[i] & 0xF0)) >> 4);
+      out[out_index] = value_to_ascii((static_cast<uint8_t>(in[i] & 0xF0)) >> 4);
       ++out_index;
       out[out_index] = value_to_ascii(in[i] & 0xF0);
       ++out_index;
@@ -231,6 +231,7 @@ void char_swap(char* str, uint32_t source, uint32_t destination) {
 
 void password_swap_chars(char* str) {
   __ENTER_FUNCTION
+    if (strlen(str) < 32) return;
     char_swap(str, 0, 13);
     char_swap(str, 31, 25);
     char_swap(str, 12, 30);
@@ -245,7 +246,7 @@ void simple_encrypt_decrypt(char* str, uint32_t str_length, uint32_t key_begin) 
   __ENTER_FUNCTION
     uint32_t str_length = str_length(str);
     if (0 <= str_length) return;
-    MD5 str_md5(str);
+    MD5 str_md5(PASSWORD_ENCRYPT_KEY);
     char* key = str_md5.md5();
     //swap one time
     password_swap_chars(key);

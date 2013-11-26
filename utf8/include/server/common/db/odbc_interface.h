@@ -83,7 +83,7 @@ class ODBCInterface {
    uint32_t get_uint(int column_index, int &error_code);
    float get_float(int column_index, int &error_code);
    uint16_t get_ushort(int column_index, int &error_code);
-   ubyte get_byte(int column_index, int &error_code);
+   uint8_t get_byte(int column_index, int &error_code);
    short get_short(int column_index, int &error_code);
    void get_string(int column, char* buffer, int buffer_length, int &error_code);
    void get_field(int column, char* buffer, int buffer_length, int &error_code);

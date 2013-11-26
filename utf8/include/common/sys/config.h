@@ -6,7 +6,8 @@
  * @license
  * @user viticm<viticm@126.com>
  * @date 2013-11-22 18:00:40
- * @uses 模块配置文件，放置本模块内的宏定义以及需要用到的宏方法，每个模块都需要新建出这个文件来
+ * @uses 模块配置文件，放置本模块内的宏定义以及需要用到的宏方法，每个模块都需要新建出这个文件来(如果有冲突，可以更名为define.h)
+ *       即每个模块下需要有define.h或config.h里面放置公用定义以及方法
  */
 #ifndef PAP_COMMON_SYS_CONFIG_H_
 #define PAP_COMMON_SYS_CONFIG_H_

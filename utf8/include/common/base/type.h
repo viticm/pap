@@ -44,8 +44,8 @@
 //using namespace std;
 
 //基本数据类型定义
-typedef unsigned char ubyte; //0~255
-typedef char byte; //-128~127
+//typedef unsigned char ubyte; //0~255 --use uint8_t
+//typedef char byte; //-128~127 --use int8_t
 
 #define IP_SIZE 24 //max ip size
 #define INVALID_HANDLE -1 

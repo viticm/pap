@@ -8,10 +8,12 @@
  * @date 2013-11-22 19:36:44
  * @uses some useful base util functions 
  */
-#include "common/base/type.h"
-#include "common/base/md5.h"
 #ifndef PAP_COMMON_BASE_UTIL_H_
 #define PAP_COMMON_BASE_UTIL_H_
+
+#include "common/base/type.h"
+#include "common/base/md5.h"
+#include "common/base/config.h"
 
 namespace pap_common_base {
 
@@ -35,7 +37,7 @@ int charset_convert(const char* from,
                     int savelen, 
                     char* src, 
                     int srclen) ;
-void password_swap_chars(char* str);
+void password_swap_chars(char* str); //string will more than 32
 
 } //namespace util
 

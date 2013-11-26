@@ -623,9 +623,9 @@ uint16_t ODBCInterface::get_ushort(int column_index, int &error_code) {
   __LEAVE_FUNCTION
 }
 
-ubyte ODBCInterface::get_byte(int column_index, int &error_code) {
+uint8_t ODBCInterface::get_byte(int column_index, int &error_code) {
   __ENTER_FUNCTION
-    return static_cast<unsigned char>(get_int(column_index, error_code));
+    return static_cast<uint8_t>(get_int(column_index, error_code));
   __LEAVE_FUNCTION
 }
 
