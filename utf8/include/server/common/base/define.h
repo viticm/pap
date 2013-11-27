@@ -26,6 +26,7 @@
 #define DB_TO_SM_TIME 60000 //60秒
 //数据库连接池默认连接个数
 #define DB_CONNECTION_COUNT 40
-#define MAX_SCENE 1024 //场景的最大数量
+#define SCENE_MAX 1024 //场景的最大数量
+#define RICHES_CARD_MAX 10 //财富卡的最大数量
 
 #endif //PAP_SERVER_COMMON_BASE_DEFINE_H_

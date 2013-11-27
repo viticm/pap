@@ -270,7 +270,7 @@ typedef struct {
 } ability_setting_t;
 
 typedef struct {
-  uint8_t enable_state; //是否打开疲劳状态
+  uint8_t enable; //是否打开疲劳状态
   uint32_t little_fatigue_time; //轻微疲劳的总在线时间定义(s)
   uint32_t exceeding_fatigue_time; //极度疲劳的总在线时间定义(s)
   uint32_t reset_fatigue_state_offline_time; //消除疲劳的总离线时间定义(s)
@@ -294,8 +294,8 @@ typedef struct {
   uint8_t gold_coin_fee; //寄售金币的费用百分比
   uint32_t yuanbao_value[3]; //元宝数量的三个选项
   uint32_t gold_coin_value[3]; //金币数量的三个选项
-  bool is_close_yuanbao_sell; //是否关闭元宝寄售
-  bool is_close_gold_coin_sell; //是否关闭金币寄售
+  bool close_yuanbao_sell; //是否关闭元宝寄售
+  bool close_gold_coin_sell; //是否关闭金币寄售
 } commision_shop_setting_t;
 
 typedef struct {
@@ -513,7 +513,7 @@ struct scene_data_t {
 struct scene_info_t {
   scene_data_t* data;
   uint16_t count;
-  int16_t scene_hash[MAX_SCENE];
+  int16_t scene_hash[SCENE_MAX];
   scene_info_t();
   ~scene_info_t();
 };

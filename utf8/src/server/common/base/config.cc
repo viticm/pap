@@ -1,6 +1,6 @@
 #include "server/common/base/config.h"
 #include "common/base/type.h"
-namespace pap_common_server_base {
+namespace pap_server_common_base {
 
 //--struct start
 config_info_t::config_info_t() {
@@ -115,8 +115,69 @@ config_info_t::config_info_t() {
     minor_password.energy_unlock_cost 100;
     minor_password.input_error_times_per_day = 5;
     minor_password.password_unlock_time = 24;
+    world.hash_online_user_count = 2000;
+    world.hash_mail_user_count = 30000;
+    world.max_offline_user_count = 50000;
+    world.speaker_pool_max = 128;
+    memset(temp.user_path,'\0', sizeof(temp.user_path));
+    combat.default_damage_fluctuation = 8;
+    combat.h0_of_hit_calculation = 10;
+    combat.c0_of_critical_calculation = 100;
+    combat.c1_of_critical_calculation = 10;
+    combat.c2_of_critical_calculation = 25;
+    good_and_evil.min_value = 0;
+    good_and_evil.max_value = 1000000;
+    good_and_evil.get_value_need_level = 20;
+    good_and_evil.give_value_min_level = 10;
+    good_and_evil.give_value_max_level = 40;
+    good_and_evil.give_value_difference_level = 8;
+    good_and_evil.give_value_radius = 15;
+    good_and_evil.per_member_give_value = 5;
+    good_and_evil.per_disciple_give_value = 3;
+    good_and_evil.once_max_give_value = 2;
+    good_and_evil.member_die_cost_value = 100;
+    plot_point.min = 0;
+    plot_point.max = 9999;
+    economic.rate_a = 0.25;
+    economic.rate_b = 0.1;
+    economic.yuanbao_transaction_scene_id = 0;
+    economic.yuanbao_ticket_max = 10000;
+    economic.new_server_sale_rate = 1.0;
+    economic.min_exchange_code_level = 15;
+    economic.max_exchange_code_level = 25;
+    exp.revise_param = 1.0;
+    exp.team_spouse_add_rate = 0.04;
+    exp.team_brother_add_rate = 0.02;
+    exp.team_master_in_add_rate = 0.2;
+    exp.team_master_notin_add_rate = 0.1;
+    exp.team_disciple_add_rate = 0.05;
+    exp.hidden_or_magic_weapon_absorb_rate = 0.01;
+    duel.continue_time = 600;
+    duel.need_min_level = 10;
+    duel.need_energy = 100;
+    warfare.continue_time = 600;
+    pk.flag_switch_delay = 600;
+    pk.hostile_player_warning = 30;
+    memset(ability.assistant_demand_formula_param, 0, sizeof(ability.assistant_demand_formula_param));
+    fatigue.enable = false;
+    fatigue.little_fatigue_time = 10800;
+    fatigue.exceeding_fatigue_time = 18000;
+    fatigue.reset_fatigue_state_offline_time = 18000;
+    yuanbao.max_day_can_cost = 167772150;
+    yuanbao.enable_exchage_yuanbao_ticket = true;
+    monster_income.little_count = 7000;
+    monster_income.nil_count = 10000;
+    monster_income.little_percent = 0.5;
+    commision_shop.max_count = 10; //max write in code, can't read in config file
+    commision_shop.send_back_time = 360;
+    commision_shop.yuanbao_fee = 2;
+    commision_shop.gold_coin_fee = 2;
+    memset(commision_shop.yuanbao_value, 0, sizeof(commision_shop.yuanbao_value));
+    memset(commision_shop.gold_coin_value, 0, sizeof(commision_shop.gold_coin_fee));
+
+
   __LEAVE_FUNCTION
 }
 //struct end--
 
-}
+} //namespace pap_server_common_base
