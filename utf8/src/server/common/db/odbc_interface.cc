@@ -292,8 +292,8 @@ bool ODBCInterface::long_fetch() {
       diag_state();
       return false;
     }
-    for (int column_index = 0; column_index < column_count_; ++column_index) {
-      int get_total = 0;
+    for (int32_t column_index = 0; column_index < column_count_; ++column_index) {
+      int32_t get_total = 0;
       SQLLEN data_length = 0;
       while((result_ = SQLGetData(sql_hstmt_, 
                                    column_index + 1, 
@@ -309,7 +309,7 @@ bool ODBCInterface::long_fetch() {
     return false;
 }
 
-int ODBCInterface::get_int(int column_index, int &error_code) {
+int32_t ODBCInterface::get_int(int32_t column_index, int32_t &error_code) {
   __ENTER_FUNCTION
     if (column_index > column_count_) {
       error_code = QUERY_NO_COLUMN;
@@ -329,7 +329,7 @@ int ODBCInterface::get_int(int column_index, int &error_code) {
     return QUERY_NULL;
 }
 
-uint32_t ODBCInterface::get_uint(int column_index, int &error_code) {
+uint32_t ODBCInterface::get_uint(int32_t column_index, int32_t &error_code) {
   __ENTER_FUNCTION
     if (column_index > column_count_) {
       error_code = QUERY_NO_COLUMN;
@@ -349,7 +349,7 @@ uint32_t ODBCInterface::get_uint(int column_index, int &error_code) {
     return QUERY_NULL;
 }
 
-float ODBCInterface::get_float(int column_index, int &error_code) {
+float ODBCInterface::get_float(int32_t column_index, int32_t &error_code) {
   __ENTER_FUNCTION
     if (column_index > column_count_) {
       error_code = QUERY_NO_COLUMN;
@@ -369,10 +369,10 @@ float ODBCInterface::get_float(int column_index, int &error_code) {
     return QUERY_NULL;
 }
 
-void ODBCInterface::get_string(int column_index, 
+void ODBCInterface::get_string(int32_t column_index, 
                                char* buffer, 
-                               int buffer_length, 
-                               int &error_code) {
+                               int32_t buffer_length, 
+                               int32_t &error_code) {
   __ENTER_FUNCTION
     if (column_index > column_count_) {
       error_code = QUERY_NO_COLUMN;
@@ -397,10 +397,10 @@ void ODBCInterface::get_string(int column_index,
   __LEAVE_FUNCTION
 }
 
-void ODBCInterface::get_field(int column_index, 
+void ODBCInterface::get_field(int32_t column_index, 
                               char* buffer, 
-                              int buffer_length, 
-                              int & error_code) {
+                              int32_t buffer_length, 
+                              int32_t & error_code) {
   __ENTER_FUNCTION
     if (column_index > column_count_) {
       error_code = QUERY_NO_COLUMN;
@@ -421,7 +421,7 @@ void ODBCInterface::get_field(int column_index,
                                                buffer, 
                                                buffer_length, 
                                                out_length);
-        pap_common_sys::Assert(static_cast<int>(out_length) <= buffer_length);
+        pap_common_sys::Assert(static_cast<int32_t>(out_length) <= buffer_length);
       }
       else {
         memcpy(buffer, column_[column_index - 1], MAX_COLUMN_BUFFER);
@@ -432,10 +432,10 @@ void ODBCInterface::get_field(int column_index,
   __LEAVE_FUNCTION
 }
 
-void ODBCInterface::get_long_field(int column_index, 
+void ODBCInterface::get_long_field(int32_t column_index, 
                                    char* buffer, 
-                                   int buffer_length, 
-                                   int & error_code) {
+                                   int32_t buffer_length, 
+                                   int32_t & error_code) {
   __ENTER_FUNCTION
     if (column_index > column_count_) {
       error_code = QUERY_NO_COLUMN;
@@ -456,7 +456,7 @@ void ODBCInterface::get_long_field(int column_index,
                                                buffer, 
                                                buffer_length, 
                                                out_length);
-        pap_common_sys::Assert(static_cast<int>(out_length) <= buffer_length);
+        pap_common_sys::Assert(static_cast<int32_t>(out_length) <= buffer_length);
       }
       else {
         memcpy(buffer, column_[column_index - 1], MAX_LONG_COLUMN_BUFFER);
@@ -469,7 +469,7 @@ void ODBCInterface::get_long_field(int column_index,
 
 void ODBCInterface::diag_state() {
   __ENTER_FUNCTION
-    int j = 1;
+    int32_t j = 1;
     SQLINTEGER native_error;
     SQLCHAR sql_state[6];
     SQLSMALLINT msg_length;
@@ -516,7 +516,7 @@ void ODBCInterface::diag_state() {
 
 void ODBCInterface::diag_state_ex() {
   __ENTER_FUNCTION
-    int j = 1;
+    int32_t j = 1;
     SQLINTEGER native_error;
     SQLCHAR sql_state[6];
     SQLSMALLINT msg_length;
@@ -606,7 +606,7 @@ void ODBCInterface::clear_env() {
   __LEAVE_FUNCTION
 }
 //dump field
-void ODBCInterface::dump(int column_index) {
+void ODBCInterface::dump(int32_t column_index) {
   __ENTER_FUNCTION
     FILE* f = fopen("./Log/field", "a");
     if (f) {
@@ -617,25 +617,25 @@ void ODBCInterface::dump(int column_index) {
   __LEAVE_FUNCTION
 }
 
-uint16_t ODBCInterface::get_ushort(int column_index, int &error_code) {
+uint16_t ODBCInterface::get_ushort(int32_t column_index, int32_t &error_code) {
   __ENTER_FUNCTION
-    return static_cast<unsigned short>(get_int(column_index, error_code));
+    return static_cast<uint16_t>(get_int(column_index, error_code));
   __LEAVE_FUNCTION
 }
 
-uint8_t ODBCInterface::get_byte(int column_index, int &error_code) {
+uint8_t ODBCInterface::get_byte(int32_t column_index, int32_t &error_code) {
   __ENTER_FUNCTION
     return static_cast<uint8_t>(get_int(column_index, error_code));
   __LEAVE_FUNCTION
 }
 
-short ODBCInterface::get_short(int column_index, int &error_code) {
+int16_t ODBCInterface::get_short(int32_t column_index, int32_t &error_code) {
   __ENTER_FUNCTION
-    return static_cast<short>(get_int(column_index, error_code));
+    return static_cast<int16_t>(get_int(column_index, error_code));
   __LEAVE_FUNCTION
 }
 
-int ODBCInterface::get_error_code() {
+int32_t ODBCInterface::get_error_code() {
   __ENTER_FUNCTION
     return error_code_;
   __LEAVE_FUNCTION

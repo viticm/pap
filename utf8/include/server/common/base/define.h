@@ -10,4 +10,22 @@
  */
 #ifndef PAP_SERVER_COMMON_BASE_DEFINE_H_
 #define PAP_SERVER_COMMON_BASE_DEFINE_H_
+
+#define OVER_MAX_SERVER 256
+//odbc 连接名长度
+#define DB_CONNECTION_NAME_LENGTH 128
+//数据库用户名长度
+#define DB_USER_NAME_LENGTH 32
+//数据库密码长度
+#define DB_PASSWORD_LENGTH 32
+//DB 操作时间间隔
+#define DB_OPERATION_TIME 500
+//账号保存角色个数
+#define DB_CHAR_NUMBER 5
+//角色中非即时刷新属性同步到ShareMemory的时间间隔
+#define DB_TO_SM_TIME 60000 //60秒
+//数据库连接池默认连接个数
+#define DB_CONNECTION_COUNT 40
+#define MAX_SCENE 1024 //场景的最大数量
+
 #endif //PAP_SERVER_COMMON_BASE_DEFINE_H_

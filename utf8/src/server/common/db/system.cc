@@ -30,7 +30,7 @@ LONG_DB_QUERY* System::get_long_internal_query() {
   __LEAVE_FUNCTION
 }
 
-int System::get_internal_affect_count() {
+int32_t System::get_internal_affect_count() {
   __ENTER_FUNCTION
     return odbc_interface_->get_affect_row_count();
   __LEAVE_FUNCTION
@@ -139,7 +139,7 @@ void System::set_db_type(DB_TYPES db_type)
   __LEAVE_FUNCTION
 }
 
-int System::get_error_code() {
+int32_t System::get_error_code() {
   __ENTER_FUNCTION
     return odbc_interface_->get_error_code();
   __LEAVE_FUNCTION

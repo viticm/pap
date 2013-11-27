@@ -45,14 +45,14 @@ class System {
    virtual bool parse_result(void* result) = 0;
 
  protected:
-   int result_count_;
+   int32_t result_count_;
    bool result_;
    DB_TYPES db_type_;
    DBOP_TYPE op_type_;
    ODBCInterface* odbc_interface_;
    DB_QUERY* get_internal_query();
    LONG_DB_QUERY* get_long_internal_query();
-   int get_internal_affect_count();
+   int32_t get_internal_affect_count();
    bool is_prepare();
    bool check_db_connect(); //check the connect if work, and repeat 5 times when fails
    bool long_load();

@@ -10,6 +10,7 @@
  */
 #ifndef PAP_SERVER_COMMON_DB_ODBC_INTERFACE_H_
 #define PAP_SERVER_COMMON_DB_ODBC_INTERFACE_H_
+
 #include "common/base/type.h"
 #include "server/common/db/config.h"
 //include from odbc
@@ -64,10 +65,10 @@ class ODBCInterface {
    bool connect(const char* connection_name, const char* user = NULL, const char* password = NULL);
    bool connect();
    bool close();
-   int get_error_code();
+   int32_t get_error_code();
    char* get_error_message();
    bool is_connected();
-   int get_affect_row_count();
+   int32_t get_affect_row_count();
    bool is_prepare();
    void clear();
    void clear_no_commit();
@@ -79,15 +80,15 @@ class ODBCInterface {
    bool execute(const char* sql_str);
    bool long_execute();
    bool long_excute(const char* sql_str);
-   int get_int(int column_index, int &error_code);
-   uint32_t get_uint(int column_index, int &error_code);
-   float get_float(int column_index, int &error_code);
-   uint16_t get_ushort(int column_index, int &error_code);
-   uint8_t get_byte(int column_index, int &error_code);
-   short get_short(int column_index, int &error_code);
-   void get_string(int column, char* buffer, int buffer_length, int &error_code);
-   void get_field(int column, char* buffer, int buffer_length, int &error_code);
-   void get_long_field(int column, char* buffer, int buffer_length, int &error_code);
+   int32_t get_int(int32_t column_index, int32_t &error_code);
+   uint32_t get_uint(int32_t column_index, int32_t &error_code);
+   float get_float(int32_t column_index, int32_t &error_code);
+   uint16_t get_ushort(int32_t column_index, int32_t &error_code);
+   uint8_t get_byte(int32_t column_index, int32_t &error_code);
+   int16_t get_short(int32_t column_index, int32_t &error_code);
+   void get_string(int32_t column, char* buffer, int32_t buffer_length, int32_t &error_code);
+   void get_field(int32_t column, char* buffer, int32_t buffer_length, int32_t &error_code);
+   void get_long_field(int32_t column, char* buffer, int32_t buffer_length, int32_t &error_code);
 
    //分析
    void diag_state();
@@ -95,7 +96,7 @@ class ODBCInterface {
    void save_error_log(const char* log);
    void save_warning(const char* log);
    void clear_env();
-   void dump(int column);
+   void dump(int32_t column);
 };
 
 }; //namespace pap_server_common_db

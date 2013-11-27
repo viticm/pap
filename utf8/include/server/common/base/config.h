@@ -16,16 +16,17 @@
 
 namespace pap_server_common_base {
   
+//--struct start
 //武侠世界设计的并不好，我相信天龙已经改正了这些问题(我这里将各个设置分开，并非直接塞在一个结构体内)
 typedef struct {
   float drop_param; //全局掉落修正参数
   uint32_t equipment_damage_point; //全局耐久修正
   uint8_t respawn_param; //全局怪物刷新时间修正，0表示马上刷新，1.0表示按照配置刷新
   uint16_t pk_refix_of_damage; //PK时伤害减半
-  uint8_t prentice_proffer_exp; //徒弟贡献给师傅的经验比率
+  uint8_t disciple_proffer_exp; //徒弟贡献给师傅的经验比率
   uint8_t god_relive_top_level; //能原地复活的最大级别
-  uint8_t audit_switch; //统计和审计用日志的开关
-  uint8_t auto_remove_bad_pet; //是否自动移除错误宠物的开关
+  bool audit_switch; //统计和审计用日志的开关
+  bool auto_remove_bad_pet; //是否自动移除错误宠物的开关
 } global_setting_t;
 
 typedef struct {
@@ -53,6 +54,7 @@ typedef struct {
   uint32_t default_position_range; //缺省的怪物重生范围
   uint8_t default_ai_type; //缺省的怪物AI类型
   uint32_t default_body_time; //普通怪尸体保留时间（毫秒）
+  uint32_t default_boss_body_time; //头目尸体保留时间（毫秒）
   uint16_t odds_of_change_target; //切换攻击目标的几率
   uint16_t odds_of_attack_assistant; //攻击协助者的几率
   uint16_t change_target_cooldown; //切换目标的冷却时间, 单位秒
@@ -138,12 +140,12 @@ typedef struct {
   uint16_t found_duration; //帮会创建过程所允许的最大时间（小时为单位），超过时间没有满足条件则帮会创建失败
   uint16_t default_max_member_count; //帮会新建时默认最大帮众上限
   uint8_t response_user_count; //帮会从建立到成立需要响应的玩家数量（含帮会建立者）
-  uint16_t xianya_max_user[5]; //一到五级县衙人口上限
-  uint32_t xianya_standard_money[5]; //一到五级县衙标准资金
-  uint32_t xianya_max_money[5]; //一到五级县衙资金上限
-  uint8_t xianya_max_trader[5]; //一到五级县衙商人数量上限
-  uint32_t bank_standard_money[5]; //一到五级钱庄标准资金
-  uint16_t wing_max_user[5]; //一到五级厢房人口上限
+  uint16_t xianya_max_user[MAX_GUILD_LEVEL]; //一到五级县衙人口上限
+  uint32_t xianya_standard_money[MAX_GUILD_LEVEL]; //一到五级县衙标准资金
+  uint32_t xianya_max_money[MAX_GUILD_LEVEL]; //一到五级县衙资金上限
+  uint8_t xianya_max_trader[MAX_GUILD_LEVEL]; //一到五级县衙商人数量上限
+  uint32_t bank_standard_money[MAX_GUILD_LEVEL]; //一到五级钱庄标准资金
+  uint16_t wing_max_user[MAX_GUILD_LEVEL]; //一到五级厢房人口上限
   uint32_t create_city_money; //创建城市需要的金钱
   uint32_t leave_word_cost; //帮会留言消耗的金钱
   uint32_t battle_time; //宣战时间
@@ -178,7 +180,7 @@ typedef struct {
 } relation_setting_t;
 
 typedef struct {
-  uint16_t delete_delay_time; //多少小时以后再次点击强制解除按钮则删除密码
+  uint16_t unlock_delay_time; //多少小时以后再次点击强制解除按钮则删除密码
   uint16_t energy_set_cost; //设置密码消耗的精力
   uint16_t energy_modify_cost; //修改密码消耗的精力
   uint16_t energy_unlock_cost; //强行解除密码消耗的精力
@@ -387,34 +389,10 @@ struct billing_info_t {
   ~billing_info_t();
 };
 
-//billing info class
-class BillingInfo {
-
- public:
-   char ip_[IP_SIZE];
-   uint16_t port_;
-   BillingInfo();
-   ~BillingInfo();
- 
- public:
-   void clean_up();
-   bool init(uint16_t number);
-   uint16_t get_number();
-   billing_info* next();
-   void begin_use();
-
- private:
-   billing_info** info_pool_;
-   uint16_t number_;
-   uint32_t current_billing_no_;
-   bool can_use_;
-  
-};
-
 //world info
 struct world_info_t {
-  uint16_t id;
-  uint16_t zone_id; //定义一个World的标示,防止不同World之间的数据库链接
+  int16_t id;
+  int16_t zone_id; //定义一个World的标示,防止不同World之间的数据库链接
   uint32_t guild_key;
   uint32_t mail_key;
   uint32_t pet_key;
@@ -450,7 +428,7 @@ struct share_memory_info_t {
 };
 
 struct machine_data_t {
-  uint32_t id;
+  int16_t id;
   machine_data_t();
   ~machine_data_t();
 };
@@ -469,12 +447,12 @@ typedef enum {
   kIspChinaTeleCom,
   kIspChinaEdu,
   kNumberOfIsp
-} isp;
+} enum_isp;
 
 extern char isp_id[kNumberOfIsp][16];
 
 struct proxy_data_t {
-  uint16_t isp;
+  int16_t isp;
   char ip[IP_SIZE];
   uint16_t port;
   proxy_data_t();
@@ -483,8 +461,8 @@ struct proxy_data_t {
 
 //server
 struct server_data_t {
-  uint16_t id;
-  uint32_t machine_id;
+  int16_t id;
+  int16_t machine_id;
   char ip0[IP_SIZE];
   uint16_t port0;
   char ip1[IP_SIZE];
@@ -500,8 +478,137 @@ struct server_data_t {
   ~server_data_t();
 };
 
+typedef struct {
+  char ip[IP_SIZE];
+  uint16_t port;
+} server_world_data_t;
+
 struct server_info_t {
+  server_data_t data;
+  uint16_t count;
+  server_world_data_t world_data;
+  server_info_t();
+  ~server_info_t();
 };
+
+//scene
+struct scene_data_t {
+  int16_t thread_index; //驱动线程的索引
+  int16_t client_resource_index; //客户端使用的场景资源，定义于客户端/Config/SceneDefine.txt文件的最开始列数值
+  int16_t id; //场景ID
+  bool active; //是否激活
+  char name[FILENAME_MAX]; //场景名
+  char file_name[FILENAME_MAX]; //场景资源文件名
+  uint16_t server_id; //运行此场景的服务器ID
+  uint8_t type; //场景类型,如果是0，表示普通游戏场景，如果是1表示副本 4表示帮会城市
+  uint16_t pvp_ruler; //详细含义参见config/pvp_ruler.txt
+  uint32_t begin_plus; //附加项有效时间起始（年月日时，YYMMDDHH）
+  int16_t plus_client_resource_index; //有效时间内使用此项替换clientres
+  uint32_t end_plus; //附加项有效时间终止（年月日时，YYMMDDHH）
+  bool relive; //是否允许新手在本场景原地复活,缺省为0时新手不能在原地复活
+  scene_data_t();
+  ~scene_data_t();
+};
+
+struct scene_info_t {
+  scene_data_t* data;
+  uint16_t count;
+  int16_t scene_hash[MAX_SCENE];
+  scene_info_t();
+  ~scene_info_t();
+};
+
+struct internal_ip_of_proxy_t {
+  enum {
+    kMaxOfProxyForOneNetwork = 2;
+  };
+  //proxy net
+  char proxy_for_cnc_user[kMaxOfProxyForOneNetwork][IP_SIZE]; //
+  char proxy_for_ctc_user[kMaxOfProxyForOneNetwork][IP_SIZE];
+  char proxy_for_edu_user[kMaxOfProxyForOneNetwork][IP_SIZE];
+  internal_ip_of_proxy_t();
+  ~internal_ip_of_proxy_t();
+  enum_isp ip_from(const char* ip);
+};
+
+//structs end --
+
+//--class start
+//billing info class
+class BillingInfo {
+
+ public:
+   char ip_[IP_SIZE];
+   uint16_t port_;
+   BillingInfo();
+   ~BillingInfo();
+ 
+ public:
+   void clean_up();
+   bool init(uint16_t number);
+   uint16_t get_number();
+   billing_info* next();
+   void begin_use();
+
+ private:
+   billing_info** info_pool_;
+   uint16_t number_;
+   uint32_t current_billing_no_;
+   bool can_use_;
+  
+};
+
+//config class
+class Config {
+ 
+ public:
+   Config();
+   ~Config();
+   config_info_t config_info;
+   BillingInfo billing_info;
+   login_info_t login_info;
+   world_info_t world_info;
+   machine_info_t machine_info;
+   server_info_t server_info;
+   share_memory_info_t share_memory_info;
+ 
+ public:
+   bool init();
+   void reload();
+   void load_config_info();
+   void load_login_info();
+   void load_world_info();
+   void load_billing_info();
+   void load_share_memory_info();
+   void load_machine_info();
+   void load_server_info();
+   void load_scene_info();
+   void load_copy_scene_info();
+   int16_t get_server_id_by_scene_id(int16_t id) const;
+   int16_t get_server_id_by_share_memory_key(uint32_t key) const;
+
+ private:
+   void load_config_info_only();
+   void load_config_info_reload();
+   void load_login_info_only();
+   void load_login_info_reload();
+   void load_world_info_only();
+   void load_world_info_reload();
+   void load_billing_info_only();
+   void load_billing_info_reload();
+   void load_share_memory_info_only();
+   void load_share_memory_info_reload();
+   void load_machine_info_only();
+   void load_machine_info_reload();
+   void load_server_info_only();
+   void load_server_info_reload();
+   void load_scene_info_only();
+   void load_scene_info_reload();
+   void load_copy_scene_info_only();
+   void load_copy_scene_info_reload();
+
+};
+//class end--
 
 }; //namespace pap_server_common_base
 

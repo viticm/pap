@@ -10,8 +10,10 @@
  */
 #ifndef PAP_SERVER_COMMON_DB_MANAGER_H_
 #define PAP_SERVER_COMMON_DB_MANAGER_H_
+
 #include "server/common/db/config.h"
 #include "server/common/db/odbc_interface.h"
+#include "server/common/base/define.h"
 
 namespace pap_server_common_db {
 
