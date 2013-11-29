@@ -14,6 +14,8 @@
 #define OVER_MAX_SERVER 256
 //odbc 连接名长度
 #define DB_CONNECTION_NAME_LENGTH 128
+//数据库名称长度
+#define DB_DBNAME_LENGTH 128
 //数据库用户名长度
 #define DB_USER_NAME_LENGTH 32
 //数据库密码长度

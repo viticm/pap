@@ -1,8 +1,13 @@
 #include "server/common/base/config.h"
+#include "server/common/base/file_define.h"
 #include "common/base/type.h"
+
+pap_server_common_base::Config g_config;
+
 namespace pap_server_common_base {
 
 //--struct start
+
 config_info_t::config_info_t() {
   __ENTER_FUNCTION
     global.drop_param = 2.0;
@@ -174,10 +179,381 @@ config_info_t::config_info_t() {
     commision_shop.gold_coin_fee = 2;
     memset(commision_shop.yuanbao_value, 0, sizeof(commision_shop.yuanbao_value));
     memset(commision_shop.gold_coin_value, 0, sizeof(commision_shop.gold_coin_fee));
+  __LEAVE_FUNCTION
+}
 
+config_info_t::~config_info_t() {
+  //do nothing
+}
+
+login_info_t::login_info_t() {
+  __ENTER_FUNCTION
+    login_id = ID_INVALID; 
+    memset(db_ip, '\0', sizeof(db_ip));
+    db_port = 3306; //default mysql port
+    memset(db_name, '\0', sizeof(db_name));
+    memset(db_connection_name, '\0', sizeof(db_connection_name));
+    memset(db_user, '\0', sizeof(db_user));
+    memset(db_password, '\0', sizeof(db_password));
+    odbc_switch = true;
+    db_type = -1;
+    encrypt_password = false;
+    client_version = 0;
+    db_connect_count = 1;
+    turn_player_count = 100;
+    proxy_connect = 0;
+    enable_license = false
+    relogin_limit = false;
+    relogin_stop = false;
+    relogin_stop_time = 60000;
+    notify_safe_sign = false;
+  __LEAVE_FUNCTION
+}
+
+login_info_t::~login_info_t() {
+  //do nothing
+}
+
+billing_data_t::billing_data_t() {
+  __ENTER_FUNCTION
+    memset(ip, '\0', sizeof(ip));
+    port = 3306;
+    container_postion = -1;
+  __LEAVE_FUNCTION
+}
+
+billing_data_t::~billing_data_t() {
+  //do nothing
+}
+
+world_info_t::world_info_t() {
+  __ENTER_FUNCTION
+    id = ID_INVALID;
+    zone_id = ID_INVALID;
+    share_memory_key.guild = 0;
+    share_memory_key.mail = 0;
+    share_memory_key.pet = 0;
+    share_memory_key.city = 0;
+    share_memory_key.global_data = 0;
+    share_memory_key.league = 0;
+    share_memory_key.find_friend = 0;
+    enable_share_memory = true;
+  __LEAVE_FUNCTION
+}
+
+world_info_t::~world_info_t() {
+  //do nothing
+}
+
+share_memory_key_data_t::share_memory_key_data_t() {
+  __ENTER_FUNCTION
+    key = 0;
+    type = 0;
+  __LEAVE_FUNCTION
+}
+
+share_memory_key_data_t::~share_memory_key_data_t() {
+  //do nothing
+}
+
+share_memory_info_t::share_memory_info_t() {
+  __ENTER_FUNCTION
+    key_data = NULL;
+    obj_count = 0;
+    memset(db_ip, '\0', sizeof(db_ip));
+    db_port = 3306; //default mysql port
+    memset(db_name, '\0', sizeof(db_name));
+    memset(db_connection_name, '\0', sizeof(db_connection_name));
+    memset(db_user, '\0', sizeof(db_user));
+    memset(db_password, '\0', sizeof(db_password));
+    odbc_switch = true;
+    db_type = -1;
+    encrypt_password = false;
+    world_data_save_interval = 1200000;
+    human_data_save_interval = 900000;;
+  __ENTER_FUNCTION
+}
+
+share_memory_info_t::~share_memory_info_t() {
+  __ENTER_FUNCTION
+    SAFE_DELETE_ARRAY(key_data);
+  __LEAVE_FUNCTION
+}
+
+machine_data_t::machine_data_t() {
+  __ENTER_FUNCTION
+    id = ID_INVALID;
+  __LEAVE_FUNCTION
+}
+
+machine_data_t::~machine_data_t() {
+  //do nothing
+}
+
+machine_info_t::machine_info_t() {
+  __ENTER_FUNCTION
+    data = NULL;
+    count = 0;
+  __LEAVE_FUNCTION
+}
+
+machine_info_t::~machine_info_t() {
+  __ENTER_FUNCTION
+    SAFE_DELETE_ARRAY(data);
+    count = 0;
+  __LEAVE_FUNCTION
+}
+
+proxy_data_t::proxy_data_t() {
+  __ENTER_FUNCTION
+    isp = kIspInvalid;
+    memset(ip, '\0', sizeof(ip));
+    port = 0;
+    enable = false;
+  __LEAVE_FUNCTION
+}
+
+proxy_data_t::~proxy_data_t() {
+  //do nothing
+}
+
+server_data_t::server_data_t() {
+  __ENTER_FUNCTION
+    id = ID_INVALID;
+    machine_id = ID_INVALID;
+    memset(ip0, '\0', sizeof(ip0));
+    port0 = 0;
+    memset(ip1, '\0', sizeof(ip1));
+    port1 = 0;
+    type = -1;
+    share_memory_key.human = 0;
+    share_memory_key.player_shop = 0;
+    share_memory_key.item_serial = 0;
+    share_memory_key.commision_shop = 0;
+    enable_share_memory = false;
+  __LEAVE_FUNCTION
+}
+
+server_data_t::~server_data_t() {
+  //do nothing
+}
+
+server_info_t::server_info_t() {
+  __ENTER_FUNCTION
+    data = NULL;
+    count = 0;
+    current_server_id = -1;
+    memset(world_data.ip, '\0', sizeof(world_data.ip));
+  __LEAVE_FUNCTION
+}
+
+server_data_t::~server_info_t() {
+  //do nothing
+}
+
+scene_data_t::scene_data_t() {
+  __ENTER_FUNCTION
+    thread_index = INDEX_INVALID;
+    client_resource_index = INDEX_INVALID;
+    id = ID_INVALID;
+    active = false;
+    memset(name, '\0', sizeof(name));
+    memset(file_name, '\0', sizeof(file_name));
+    server_id = ID_INVALID;
+    type = -1;
+    pvp_ruler = 0;
+    begin_plus = 0;
+    plus_client_resource_index = -1;
+    end_plus = 0;
+    relive = false;
+  __LEAVE_FUNCTION
+}
+
+scene_data_t::~scene_data_t() {
+  //do nothing
+}
+
+scene_info_t::scene_info_t() {
+  __ENTER_FUNCTION
+    data = NULL;
+    count = 0;
+    memset(scene_hash, -1, sizeof(scene_hash));
+  __LEAVE_FUNCTION
+}
+
+scene_info_t::~scene_info_t() {
+  //do nothing
+}
+
+internal_ip_of_proxy_t::internal_ip_of_proxy_t{
+  __ENTER_FUNCTION
+    memset(proxy_for_cnc_user, '\0', sizeof(proxy_for_cnc_user));
+    memset(proxy_for_ctc_user, '\0', sizeof(proxy_for_ctc_user));
+    memset(proxy_for_edu_user, '\0', sizeof(proxy_for_edu_user));
+  __LEAVE_FUNCTION
+}
+
+internal_ip_of_proxy_t::~internal_ip_of_proxy_t() {
+  //do nothing
+}
+
+enum_isp internal_ip_of_proxy_t::ip_from(const char* ip) {
+  __ENTER_FUNCTION
+    uint32_t i;
+    for (i = 0; kProxyForOneNetworkMax > i; ++i) {
+      if (0 == strncmp(ip, proxy_for_cnc_user[i], IP_SIZE)) {
+        return kIspChinaNetCom;
+      }
+      else if (0 == strncmp(ip, proxy_for_ctc_user[i], IP_SIZE)) {
+        return kIspChinaTeleCom;
+      }
+      else if (0 == strncmp(ip, proxy_for_edu_user[i], IP_SIZE)) {
+        return kIspChinaEdu;
+      }
+    }
+  __LEAVE_FUNCTION
+}
+
+//struct end--
+
+//-- class start
+
+BillingInfo::BillingInfo() {
+  __ENTER_FUNCTION
+    info_pool_ = NULL;
+    number_ = 0;
+    current_billing_no_ = 0;
+    can_use_ = false;
+    memset(ip_, '\0', sizeof(ip));
+    port_ = 0;
+  __LEAVE_FUNCTION
+}
+
+BillingInfo::~BillingInfo() {
+  __ENTER_FUNCTION
+    clean_up();
+  __LEAVE_FUNCTION
+}
+
+void BillingInfo::clean_up() {
+  __ENTER_FUNCTION
+    if (info_pool_ && number_ > 0) {
+      uint32_t i;
+      for (i = 0; i < number_; ++i) {
+        SAFE_DELETE(info_pool_[i]);
+      }
+    }
+    SAFE_DELETE_ARRAY(info_pool_);
+    memset(ip_, '\0', sizeof(ip_));
+    number_ = 0;
+    current_billing_no_ = 0;
+    can_use_ = false;
+  __LEAVE_FUNCTION
+}
+
+bool BillingInfo::init(uint16_t number) {
+  __ENTER_FUNCTION
+    pap_common_base::Assert(number > 0);
+    number_ = number;
+    info_pool_ = new billing_data_t*[number_];
+    pap_common_base::Assert(info_pool_);
+    uint32_t i;
+    for (i = 0; i < number_; ++i) {
+      info_pool_[i] = new billing_data_t();
+      info_pool_[i].container_postion = i;
+    }
+  __LEAVE_FUNCTION
+    return false;
+}
+
+uint16_t BillingInfo::get_number() {
+  __ENTER_FUNCTION
+    return number_
+  __LEAVE_FUNCTION
+    return 0;
+}
+
+billing_data_t* BillingInfo::next() {
+  __ENTER_FUNCTION
+    billing_data_t* current = info_pool_[current_billing_no_];
+    current_billing_no_ = (current_billing_no_ + 1) >= number_ ? 0 : current_billing_no_ + 1;
+    return current;
+  __LEAVE_FUNCTION
+}
+
+void BillingInfo::begin_use() {
+  __ENTER_FUNCTION
+    current_billing_no_ = 0;
+    used_ = true;
+    if (info_pool_) {
+      billing_data_t current = info_pool_[current_billing_no_];
+      port_ = current->port;
+      snprintf(ip_, strlen(current->ip),"%s", current->ip);
+    }
+  __LEAVE_FUNCTION
+}
+
+bool BillingInfo::is_use() {
+  __ENTER_FUNCTION
+    return used_;
+  __LEAVE_FUNCTION
+    return false;
+}
+
+Config::Config() {
+  //do nothing
+}
+
+Config::~Config() {
+  //do noting
+}
+
+bool Config::init() {
+  __ENTER_FUNCTION
+    load_config_info();
+    load_login_info();
+    load_world_info();
+    load_billing_info();
+    load_share_memory_info();
+    load_machine_info();
+    load_server_info();
+    load_scene_info();
+    load_copy_scene_info();
+    return true;
+  __LEAVE_FUNCTION
+    return false;
+}
+
+void Config::reload() {
+  __ENTER_FUNCTION
+    load_config_info_reload();
+    load_login_info_reload();
+    load_world_info_reload();
+    load_billing_info_reload();
+    load_share_memory_info_reload();
+    load_machine_info_reload();
+    load_server_info_reload();
+    load_scene_info_reload();
+    load_copy_scene_info_reload();
+  __LEAVE_FUNCTION
+}
+
+void Config::load_config_info() {
+  __ENTER_FUNCTION
+    load_config_info_only();
+    load_config_info_reload();
+  __LEAVE_FUNCTION
+}
+
+void Config::load_config_info_only() {
+  __ENTER_FUNCTION
+    Ini config_info_ini(CONFIG_INFO_FILE);
+    int32_t value;
+    config_info.zone.size = config_info_ini.read_int("Zone", "Size");
 
   __LEAVE_FUNCTION
 }
-//struct end--
+
+//class end --
 
 } //namespace pap_server_common_base

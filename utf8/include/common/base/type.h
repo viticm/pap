@@ -21,6 +21,7 @@
 #endif
 //system include
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdint.h>
 #include <time.h>
 #include <math.h>
@@ -34,7 +35,6 @@
 #include <windows.h>
 #include "crtdbg.h"
 #elif defined(__LINUX__)
-#include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 #include <pthread.h>
@@ -48,9 +48,10 @@
 //typedef char byte; //-128~127 --use int8_t
 
 #define IP_SIZE 24 //max ip size
-#define INVALID_HANDLE -1 
-#define INVALID_ID -1
-#define INVALID_TAB_PARAM_ID (-9999) //invalid id in excel param
+#define HANDLE_INVALID (-1) 
+#define ID_INVALID (-1)
+#define INDEX_INVALID (-1)
+#define TAB_PARAM_ID_INVALID (-9999) //invalid id in excel param
 
 #ifndef UCHAR_MAX
 #define UCHAR_MIN (0)

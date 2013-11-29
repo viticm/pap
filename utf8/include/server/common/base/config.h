@@ -361,17 +361,21 @@ struct config_info_t {
 
 //login info
 struct login_info_t {
-  uint16_t login_id;
+  int16_t login_id;
   char db_ip[IP_SIZE]; //database ip address 
   uint16_t db_port; //database port
   char db_connection_name[DB_CONNECTION_NAME_LENGTH]; //odbc connection name
+  char db_name[DB_DBNAME_LENGTH]; //database name
   char db_user[DB_USER_NAME_LENGTH]; //database use user name
   char db_password[DB_PASSWORD_LENGTH]; //database password
+  bool odbc_switch; //是否开启ODBC连接
+  int8_t db_type; //数据库类型 0 mysql, 1 sqlserver, 2 mongodb
   bool encrypt_password; //if encrypt password
   uint16_t client_version; 
   uint8_t db_connect_count;
   uint16_t turn_player_count;
   uint8_t proxy_connect; //客户端来自代理服务器,0允许代理连接，1不允许代理连接，2仅允许教育网代理
+  bool enable_license; //暂不清楚的标识
   bool relogin_limit; //是否开启ReLogin限制功能
   bool relogin_stop; //重登是否停止
   uint32_t relogin_stop_time; //重新登陆停止的时间
@@ -380,26 +384,30 @@ struct login_info_t {
   ~login_info_t();
 };
 
-//billing info
-struct billing_info_t {
+//billing data
+struct billing_data_t {
   char ip[IP_SIZE];
   uint16_t port;
-  uint16_t container_postion;
-  billing_info_t();
-  ~billing_info_t();
+  int16_t container_postion;
+  billing_data_t();
+  ~billing_data_t();
 };
+
+typedef struct {
+  uint32_t guild;
+  uint32_t mail;
+  uint32_t pet;
+  uint32_t city;
+  uint32_t global_data;
+  uint32_t league;
+  uint32_t find_friend;
+} world_share_memory_key_t;
 
 //world info
 struct world_info_t {
   int16_t id;
   int16_t zone_id; //定义一个World的标示,防止不同World之间的数据库链接
-  uint32_t guild_key;
-  uint32_t mail_key;
-  uint32_t pet_key;
-  uint32_t city_key;
-  uint32_t global_data_key;
-  uint32_t league_key;
-  uint32_t find_friend_key;
+  world_share_memory_key_t share_memory_key;
   bool enable_share_memory;
   world_info_t();
   ~world_info_t();
@@ -414,13 +422,15 @@ struct share_memory_key_data_t {
 
 struct share_memory_info_t {
   uint16_t obj_count;
-  share_memory_key_data_t* share_memory_key_data;
+  share_memory_key_data_t* key_data;
   char db_ip[IP_SIZE];
   uint16_t db_port;
   char db_connection_name[DB_CONNECTION_NAME_LENGTH]; //odbc connection name
   char db_user[DB_USER_NAME_LENGTH]; //database use user name
   char db_password[DB_PASSWORD_LENGTH]; //database password
   bool encrypt_password; //if encrypt password
+  bool odbc_switch; //是否开启ODBC连接
+  int8_t db_type; //数据库类型 0 mysql, 1 sqlserver, 2 mongodb
   uint32_t world_data_save_interval;
   uint32_t human_data_save_interval;
   share_memory_info_t();
@@ -434,7 +444,7 @@ struct machine_data_t {
 };
 
 struct machine_info_t {
-  machine_data_t* machine_data;
+  machine_data_t* data;
   uint16_t count;
   machine_info_t();
   ~machine_info_t();
@@ -442,14 +452,14 @@ struct machine_info_t {
 
 //proxy 
 typedef enum {
-  kInvaidIsp = -1,
+  kIspInvalid = -1,
   kIspChinaNetCom = 0,
   kIspChinaTeleCom,
   kIspChinaEdu,
-  kNumberOfIsp
+  kIspNumber,
 } enum_isp;
 
-extern char isp_id[kNumberOfIsp][16];
+extern char isp_id[kIspNumber][16];
 
 struct proxy_data_t {
   int16_t isp;
@@ -459,6 +469,13 @@ struct proxy_data_t {
   ~proxy_data_t();
 };
 
+typedef struct {
+  uint32_t human;
+  uint32_t player_shop;
+  uint32_t item_serial;
+  uint32_t commision_shop;
+} server_share_memroy_key_t;
+
 //server
 struct server_data_t {
   int16_t id;
@@ -467,12 +484,9 @@ struct server_data_t {
   uint16_t port0;
   char ip1[IP_SIZE];
   uint16_t port1;
-  uint8_t type;
-  proxy_data_t proxy_data[kNumberOfIsp];
-  uint32_t human_share_memory_key;
-  uint32_t player_shop_share_memory_key;
-  uint32_t item_serial_share_memory_key;
-  uint32_t commision_shop_share_memory_key;
+  int8_t type;
+  proxy_data_t proxy_data[kIspNumber];
+  server_share_memroy_key_t share_memory_key;
   bool enable_share_memory;
   server_data_t();
   ~server_data_t();
@@ -484,8 +498,9 @@ typedef struct {
 } server_world_data_t;
 
 struct server_info_t {
-  server_data_t data;
+  server_data_t* data;
   uint16_t count;
+  int16_t current_server_id;
   server_world_data_t world_data;
   server_info_t();
   ~server_info_t();
@@ -499,8 +514,8 @@ struct scene_data_t {
   bool active; //是否激活
   char name[FILENAME_MAX]; //场景名
   char file_name[FILENAME_MAX]; //场景资源文件名
-  uint16_t server_id; //运行此场景的服务器ID
-  uint8_t type; //场景类型,如果是0，表示普通游戏场景，如果是1表示副本 4表示帮会城市
+  int16_t server_id; //运行此场景的服务器ID
+  int8_t type; //场景类型,如果是0，表示普通游戏场景，如果是1表示副本 4表示帮会城市
   uint16_t pvp_ruler; //详细含义参见config/pvp_ruler.txt
   uint32_t begin_plus; //附加项有效时间起始（年月日时，YYMMDDHH）
   int16_t plus_client_resource_index; //有效时间内使用此项替换clientres
@@ -520,12 +535,12 @@ struct scene_info_t {
 
 struct internal_ip_of_proxy_t {
   enum {
-    kMaxOfProxyForOneNetwork = 2;
+    kProxyForOneNetworkMax = 2;
   };
   //proxy net
-  char proxy_for_cnc_user[kMaxOfProxyForOneNetwork][IP_SIZE]; //
-  char proxy_for_ctc_user[kMaxOfProxyForOneNetwork][IP_SIZE];
-  char proxy_for_edu_user[kMaxOfProxyForOneNetwork][IP_SIZE];
+  char proxy_for_cnc_user[kProxyForOneNetworkMax][IP_SIZE]; //
+  char proxy_for_ctc_user[kProxyForOneNetworkMax][IP_SIZE];
+  char proxy_for_edu_user[kProxyForOneNetworkMax][IP_SIZE];
   internal_ip_of_proxy_t();
   ~internal_ip_of_proxy_t();
   enum_isp ip_from(const char* ip);
@@ -540,6 +555,15 @@ class BillingInfo {
  public:
    char ip_[IP_SIZE];
    uint16_t port_;
+   char db_ip_[IP_SIZE];
+   uint16_t db_port; //database port
+   char db_connection_name[DB_CONNECTION_NAME_LENGTH]; //odbc connection name
+   char db_name[DB_DBNAME_LENGTH]; //database name
+   char db_user[DB_USER_NAME_LENGTH]; //database use user name
+   char db_password[DB_PASSWORD_LENGTH]; //database password
+   bool odbc_switch; //是否开启ODBC连接
+   int8_t db_type; //数据库类型 0 mysql, 1 sqlserver, 2 mongodb
+   bool encrypt_password; //if encrypt password
    BillingInfo();
    ~BillingInfo();
  
@@ -554,7 +578,7 @@ class BillingInfo {
    billing_info** info_pool_;
    uint16_t number_;
    uint32_t current_billing_no_;
-   bool can_use_;
+   bool used_;
   
 };
 
@@ -611,5 +635,7 @@ class Config {
 //class end--
 
 }; //namespace pap_server_common_base
+
+extern pap_server_common_base::Config g_config; //global variable
 
 #endif //PAP_SERVER_COMMON_BASE_CONFIG_H_
