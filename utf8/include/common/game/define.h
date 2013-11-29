@@ -16,4 +16,19 @@
 #define BASE_BAG_POS 185
 #define MAX_GUILD_LEVEL 5 //公会最大等级
 
+typedef enum {
+  kTimeZhi, //子
+  kTimeChou, //丑
+  kTimeYin, //寅
+  kTimeMao, //卯
+  kTimeChen, //辰
+  kTimeSi, //巳
+  kTimeWu, //午
+  kTimeWei, //未
+  kTimeShen, //申
+  kTimeYou, //酉
+  kTimeXu, //戌
+  kTimeHai, //亥
+} enum_world_time; //old china time
+
 #endif //PAP_COMMON_GAME_DEFINE_H_

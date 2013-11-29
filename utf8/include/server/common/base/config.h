@@ -62,7 +62,7 @@ typedef struct {
 } monster_setting_t;
 
 typedef struct {
-  uint32_t max_count; //游戏世界传送点数量上限
+  uint16_t max_count; //游戏世界传送点数量上限
 } portal_setting_t;
 
 typedef struct {
@@ -588,13 +588,13 @@ class Config {
  public:
    Config();
    ~Config();
-   config_info_t config_info;
-   BillingInfo billing_info;
-   login_info_t login_info;
-   world_info_t world_info;
-   machine_info_t machine_info;
-   server_info_t server_info;
-   share_memory_info_t share_memory_info;
+   config_info_t config_info_;
+   BillingInfo billing_info_;
+   login_info_t login_info_;
+   world_info_t world_info_;
+   machine_info_t machine_info_;
+   server_info_t server_info_;
+   share_memory_info_t share_memory_info_;
  
  public:
    bool init();

@@ -545,12 +545,19 @@ void Config::load_config_info() {
   __LEAVE_FUNCTION
 }
 
-void Config::load_config_info_only() {
+void Config::load_config_info_only() { //this params just read once
   __ENTER_FUNCTION
     Ini config_info_ini(CONFIG_INFO_FILE);
     int32_t value;
-    config_info.zone.size = config_info_ini.read_int("Zone", "Size");
-
+    config_info_.zone.size = config_info_ini.read_uint8("Zone", "Size");
+    config_info_.portal.max_count = config_info_ini.read_uint16("Portal", "MaxCount");
+    config_info_.platform.max_count = config_info_ini.read_uint16("Platform", "MaxCount");
+    config_info_.skill_obj.max_count = config_info_ini.read_uint16("SkillObj", "MaxCount");
+    config_info_.special_obj.max_count = config_info_ini.read_uint16("SpecialObj", "MaxCount");
+    config_info_.bus_obj.max_count = config_info_ini.read_uint16("BusObj", "MaxCount");
+    config_info_.player_shop.max_count = config_info_ini.read_uint16("PlayerShop", "MaxCount");
+    config_info_.scene_timer.max_count = config_info_ini.read_uint16("SceneTimer","MaxCount");
+    config_info_.human_timer.max_count = config_info_ini.read_uint16("HumanTimer","MaxCount");
   __LEAVE_FUNCTION
 }
 
