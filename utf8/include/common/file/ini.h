@@ -11,6 +11,8 @@
 #ifndef PAP_COMMON_BASE_INI_H_
 #define PAP_COMMON_BASE_INI_H_
 
+#include "common/file/config.h"
+
 #define ERROR_DATA -99999999
 #define INI_VALUE_MAX 1024
 

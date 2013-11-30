@@ -1,24 +1,22 @@
 #ifndef PAP_SERVER_COMMON_BASE_LOG_H_
 #define PAP_SERVER_COMMON_BASE_LOG_H_
 
-#include "common/base_type.h"
+#include "common/base/type.h"
 #include "common/game/define.h"
 #include "common/sys/thread.h"
+#include "server/common/base/define.h"
 
-#define LOGIN_LOGFILE_PREFIX "./log/login"
-#define SERVER_LOGFILE_PREFIX "./log/server"
-#define SERVER_LOGERRORFILE_PREFIX "./log/error"
-#define SERVER_FUNCTIONFILE_PREFIX "./log/function"
-#define WORLD_LOGFILE_PREFIX "./log/world"
-#define CONFIG_LOGFILE_PREFIX "./log/config"
-#define ASSERT_LOGFILE_PREFIX "./log/assert"
-#define RECYCLE_LOGFILE_PREFIX "./log/recycle"
-#define CRC32_LOGFILE_PREFIX "./log/crc32"
-#define SHAREMEMROY_LOGFILE_PREFIX "./log/share_memory"
-#define BILLING_LOGFILE_PREFIX "./log/billing"
-#define DEFAULT_LOG_CACHE_SIZE (1024*1024*4)
-#define LOG_BUFF_TEMP 4096
-#define LOG_NAME_TEMP 128
+#define LOGIN_LOG "./log/login"
+#define SERVER_LOG "./log/server"
+#define SERVER_ERROR_LOG "./log/error"
+#define SERVER_FUNCTION_LOG "./log/function"
+#define WORLD_LOG "./log/world"
+#define CONFIG_LOG "./log/config"
+#define ASSERT_LOG "./log/assert"
+#define RECYCLE_LOG "./log/recycle"
+#define CRC32_LOG "./log/crc32"
+#define SHARE_MEMROY_LOG "./log/share_memory"
+#define BILLING_LOG "./log/billing"
 
 typedef enum {
   kLogFile0 = 0,
@@ -28,6 +26,10 @@ typedef enum {
 } enum_log_id;
 
 namespace pap_server_common_base {
+
+#define LOG_BUFF_TEMP 4096
+#define LOG_NAME_TEMP 128
+#define DEFAULT_LOG_CACHE_SIZE (1024*1024*4)
 
 class Log {
 
@@ -59,13 +61,13 @@ class Log {
 };
 
 #if defined(__LINUX__)
-#define SaveErrorLog();(Log::SaveLog(SERVER_ERRORFILE_PREFIX, "%s %d %s", __FILE__, __LINE__, __PRETTY_FUNCTION__))
+#define SaveErrorLog();(pap_server_common_base::Log::SaveLog(SERVER_ERRORFILE_PREFIX, "%s %d %s", __FILE__, __LINE__, __PRETTY_FUNCTION__))
 #elif defined(__WINDOWS__)
-#define SaveErrorLog();(Log::SaveLog(SERVER_ERRORFILE_PREFIX, "%s %d %s", __FILE__, __LINE__, __FUNCTION__))
+#define SaveErrorLog();(pap_server_common_base::Log::SaveLog(SERVER_ERRORFILE_PREFIX, "%s %d %s", __FILE__, __LINE__, __FUNCTION__))
 #endif
 
 }; //namespace pap_server_common_base
 
-extern Log* g_log;
+extern pap_server_common_base::Log* g_log;
 
 #endif //PAP_SERVER_COMMON_BASE_LOG_H_

@@ -11,6 +11,8 @@
 #ifndef PAP_SERVER_COMMON_BASE_DEFINE_H_
 #define PAP_SERVER_COMMON_BASE_DEFINE_H_
 
+#include "common/base/type.h"
+
 #define OVER_MAX_SERVER 256
 //odbc 连接名长度
 #define DB_CONNECTION_NAME_LENGTH 128

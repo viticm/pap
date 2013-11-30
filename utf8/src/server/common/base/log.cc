@@ -2,7 +2,7 @@
 #include "server/common/base/log.h"
 #include "server/common/base/time_manager.h"
 
-Log* g_log = NULL;
+pap_server_common_base::Log* g_log = NULL;
 
 namespace pap_server_common_base {
 

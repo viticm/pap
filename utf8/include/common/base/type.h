@@ -1,12 +1,12 @@
 /**
  * PAP Engine ( https://github.com/viticm/pap )
- * $Id ptype.h
+ * $Id type.h
  * @link https://github.com/viticm/pap for the canonical source repository
  * @copyright Copyright (c) 2013-2013 viticm( viticm@126.com )
  * @license
  * @user viticm<viticm@126.com>
  * @date 2013-8-23 20:01:52
- * @uses 基本数据定义
+ * @uses 基本数据定义,该文件定义不存在命名空间
  */
 #ifndef PAP_COMMON_BASE_TYPE_H_
 #define PAP_COMMON_BASE_TYPE_H_
@@ -29,17 +29,17 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include "common/sys/assert.h"
 #if defined(__WINDOWS__) //diffrent system include
 #pragma warning (disable: 4786)
 #include <windows.h>
-#include "crtdbg.h"
+#include <crtdbg.h>
 #elif defined(__LINUX__)
 #include <string.h>
 #include <sys/types.h>
 #include <pthread.h>
 #include <cmath>
 #endif
+#include "common/sys/assert.h"
 //warning the namespace can't use like this, remember it
 //using namespace std;
 

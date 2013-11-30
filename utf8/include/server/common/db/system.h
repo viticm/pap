@@ -10,7 +10,6 @@
  */
 #ifndef PAP_SERVER_COMMON_DB_SYSTEM_H_
 #define PAP_SERVER_COMMON_DB_SYSTEM_H_
-#include "common/base/type.h"
 #include "server/common/db/config.h"
 
 namespace pap_server_common_db {

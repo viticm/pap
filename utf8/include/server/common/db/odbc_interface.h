@@ -11,7 +11,6 @@
 #ifndef PAP_SERVER_COMMON_DB_ODBC_INTERFACE_H_
 #define PAP_SERVER_COMMON_DB_ODBC_INTERFACE_H_
 
-#include "common/base/type.h"
 #include "server/common/db/config.h"
 //include from odbc
 #include "sql.h"
