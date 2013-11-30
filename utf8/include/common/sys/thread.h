@@ -4,30 +4,30 @@
 #include "common/base/type.h"
 
 namespace pap_common_sys {
-  
+
 class Thread {
  public:
-   enum THREAD_STATUS { //线程的四种状态 (准备、运行中、退出中、已退出)
-     READY,
-     RUNNING,
-     EXITING,
-     EXIT,
-   };
+   typedef enum { //线程的四种状态 (准备、运行中、退出中、已退出)
+     kReady,
+     kRunning,
+     kExiting,
+     kExit,
+   }enum_thread_status;
 
  public:
    Thread();
    virtual ~Thread();
-   start();
+   void start();
    virtual void stop();
    void exit(void* retval = NULL);
    virtual void run();
-   int64_t get_thread_id();
-   THREAD_STATUS get_status();
-   void set_status(THREAD_STATUS status);
+   int64_t get_id();
+   enum_thread_status get_status();
+   void set_status(enum_thread_status status);
 
  private:
-   int64_t thread_id_;
-   THREAD_STATUS thread_status_;
+   int64_t id_;
+   enum_thread_status status_;
 #if defined(__WINDOWS__)
    HANDLE thread_handle_;
 #endif
@@ -56,6 +56,11 @@ class ThreadLock {
 
 uint64_t get_current_thread_id();
 
+//thread lock
+extern ThreadLock g_thread_lock;
+
 }; //namespace pap_common_sys
+
+extern uint16_t g_thread_quit_count;
 
 #endif //PAP_COMMON_THREAD_H_
