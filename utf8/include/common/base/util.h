@@ -11,7 +11,6 @@
 #ifndef PAP_COMMON_BASE_UTIL_H_
 #define PAP_COMMON_BASE_UTIL_H_
 
-#include "common/base/type.h"
 #include "common/base/md5.h"
 #include "common/base/config.h"
 

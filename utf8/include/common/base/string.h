@@ -1,7 +1,8 @@
 #ifndef PAP_COMMON_BASE_STRING_H_
 #define PAP_COMMON_BASE_STRING_H_
+
 #include "common/base/config.h"
-#include "common/base/type.h"
+
 namespace pap_common_base {
 
 namespace string {

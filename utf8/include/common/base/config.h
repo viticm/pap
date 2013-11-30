@@ -11,6 +11,7 @@
 #ifndef PAP_COMMON_BASE_CONFIG_H_
 #define PAP_COMMON_BASE_CONFIG_H_
 
+#include "common/base/type.h"
 #define PASSWORD_ENCRYPT_KEY "123456" //密码加密串，真实加密串是取其MD5值
 
 #endif //PAP_COMMON_BASE_CONFIG_H_
