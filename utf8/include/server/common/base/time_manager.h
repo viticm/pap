@@ -63,7 +63,7 @@ class TimeManager {
 
 }; //namespace pap_server_common_base
 
-extern TimeManager* g_time_manager;
+extern pap_server_common_base::TimeManager* g_time_manager;
 extern uint32_t g_file_name_fix_last;
 
 #endif //PAP_SERVER_COMMON_BASE_TIME_MANAGER_H_

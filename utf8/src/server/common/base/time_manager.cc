@@ -1,6 +1,6 @@
 #include "server/common/base/time_manager.h"
 
-TimeManager* g_time_manager = NULL;
+pap_server_common_base::TimeManager* g_time_manager = NULL;
 
 namespace pap_server_common_base {
 
