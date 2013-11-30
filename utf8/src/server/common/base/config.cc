@@ -33,7 +33,8 @@ config_info_t::config_info_t() {
     monster.default_position_range = 10;
     monster.default_ai_type = 1;
     monster.default_body_time = 5000;
-    monster.default_boss_body_time = 3000;
+    monster.default_boss_body_time = 5000;
+    monster.default_refuse_scan_time = 3000;
     monster.odds_of_change_target = 20;
     monster.odds_of_attack_assistant = 16;
     monster.change_target_cooldown = 3;
@@ -558,6 +559,72 @@ void Config::load_config_info_only() { //this params just read once
     config_info_.player_shop.max_count = config_info_ini.read_uint16("PlayerShop", "MaxCount");
     config_info_.scene_timer.max_count = config_info_ini.read_uint16("SceneTimer","MaxCount");
     config_info_.human_timer.max_count = config_info_ini.read_uint16("HumanTimer","MaxCount");
+    config_info_.localization.language = config_info_ini.read_uint8("Localization", "Language");
+    Log::save_log(CONFIG_LOG, "load %s only ... ok", CONFIG_INFO_FILE);
+  __LEAVE_FUNCTION
+}
+
+void Config::load_config_info_reload() { //this params can reload again
+  __ENTER_FUNCTION
+    config_info_.global.drop_param = config_info_ini.read_float("Global", "DropParam");
+    config_info_.global.equipment_damage_point = config_info_ini.read_uint32("Global", "EquipmentDamagePoint");
+    config_info_.global.respawn_param = config_info_ini.read_uint8("Global", "RespawnParam");
+    config_info_.global.pk_refix_of_damage = config_info_ini.read_uint16("Global", "PkRefixOfDamage");
+    config_info_.global.disciple_proffer_exp = config_info_ini.read_uint8("Global", "DiscipleProfferExp");
+    config_info_.global.god_relive_top_level = config_info_ini.read_uint8("Global", "GodReliveTopLevel");
+    config_info_.global.audit_switch = config_info_ini.read_bool("Global", "AuditSwitch");
+    config_info_.global.auto_remove_bad_pet = config_info_ini.read_bool("Global", "AutoRemoveBadPet");
+    config_info_.time.recover_time = config_info_ini.read_uint32("Time", "RecoverTime");
+    config_info_.time.disconnect_time1 = config_info_ini.read_uint32("Time", "DisconnectTime1");
+    config_info_.time.disconnect_time2 = config_info_ini.read_uint32("Time", "DisconnectTime2");
+    config_info_.time.kick_user_time = config_info_ini.read_uint32("Time", "KickUserTime");
+    config_info_.time.smu_kick_user_time = config_info_ini.read_uint32("Time", "SMUKickUserTime");
+    config_info_.time.drop_box_recycle = config_info_ini.read_uint32("Time", "DropBoxRecycle");
+    config_info_.time.time_change_interval = config_info_ini.read_uint32("Time", "TimeChangeInterval");
+    config_info_.time.packet_audit_time = config_info_ini.read_uint32("Time", "PacketAuditTime");
+    config_info_.monster.max_count = config_info_ini.read_uint32("Monster", "MaxCount");
+    config_info_.monster.default_respawn_time = config_info_ini.read_uint32("Monster", "DefaultRespawnTime");
+    config_info_.monster.default_position_range = config_info_ini.read_uint16("Monster", "DefaultPositionRange");
+    config_info_.monster.default_ai_type = config_info_ini.read_uint8("Monster", "DefaultAIType");
+    config_info_.monster.default_body_time = config_info_ini.read_uint32("Monster", "DefaultBodyTime");
+    config_info_.monster.default_boss_body_time = config_info_ini.read_uint32("Monster", "DefaultBossBodyTime");
+    config_info_.monster.default_refuse_scan_time = config_info_ini.read_uint32("Monster", "DefaultRefuseScanTime");
+    config_info_.monster.odds_of_change_target = config_info_ini.read_uint16("Monster", "OddsOfChangeTarget");
+    config_info_.monster.odds_of_attack_assistant = config_info_ini.read_uint16("Monster", "OddsOfAttackAssistant");
+    config_info_.monster.change_target_cooldown = config_info_ini.read_uint16("Monster", "ChangeTargetCooldown");
+    config_info_.monster.default_max_level = config_info_ini.read_uint8("Monster", "DefaultMaxLevel");
+    config_info_.player_shop.payment_per_hour = config_info_ini.read_uint32("PlayerShop", "PaymentPerHour");
+    config_info_.pet.max_count = config_info_ini.read_uint32("Pet", "MaxCount");
+    config_info_.pet.body_time = config_info_ini.read_uint32("Pet", "BodyTime");
+    config_info_.pet.happiness_interval = config_info_ini.read_uint32("Pet", "HappinessInterval");
+    config_info_.pet.life_interval = config_info_ini.read_uint32("Pet", "LifeInterval");
+    config_info_.pet.dec_life_step = config_info_ini.read_uint8("Pet", "PetDecLifeStep");
+    config_info_.pet.call_up_happiness = config_info_ini.read_uint8("Pet", "CallUpHappiness");
+    config_info_.pet.placard_time = config_info_ini.read_uint32("Pet", "PlacardTime");
+    config_info_.pet.placard_need_level = config_info_ini.read_uint8("Pet", "PlacardNeedLevel");
+    config_info_.pet.placard_need_happiness = config_info_ini.read_uint16("Pet", "PlacardNeedHappiness");
+    config_info_.pet.placard_need_life = config_info_ini.read_uint32("Pet", "PlacardNeedLife");
+    config_info_.pet.compound_gen_gu_float = config_info_ini.read_uint8("Pet", "CompoundGenGuFloat");
+    config_info_.pet.compound_grow_float = config_info_ini.read_uint8("Pet", "CompoundGrowFloat");
+    config_info_.pet.compound_baby_per_wild_with_wild = config_info_ini.read_uint8("Pet", "CompoundBabyPerWildWithWild");
+    config_info_.pet.compound_baby_per_baby_with_baby = config_info_ini.read_uint8("Pet", "CompoundBabyPerBabyWithBaby");
+    config_info_.pet.compound_baby_per_wild_with_baby = config_info_ini.read_uint8("Pet", "CompoundBabyPerWildWithBaby");
+    config_info_.pet.compound_perception_per = config_info_ini.read_uint8("Pet", "CompoundPerceptionPer");
+    config_info_.pet.default_max_level = config_info_ini.read_uint8("Pet", "DefaultMaxLevel");
+    config_info_.pet.die_lreduce_life = config_info_ini.read_float("Pet", "DieLReduceLife");
+    config_info_.human.can_get_exp_range = config_info_ini.read_uint16("Human", "CanGetExpRange"); 
+    config_info_.human.out_ghost_time = config_info_ini.read_uint32("Human", "OutGhostTime");
+    config_info_.human.default_move_speed = config_info_ini.read_uint32("Human", "DefaultMoveSpeed");
+    config_info_.human.default_attack_speed = config_info_ini.read_uint32("Human", "DefaultAttackSpeed");
+    config_info_.human.default_refresh_rate = config_info_ini.read_uint32("Human", "DefaultRefreshRate");
+    config_info_.human.energy_vigor_recover_interval = config_info_ini.read_uint32("Human", "EnergyVigorRecoverInterval");
+    config_info_.human.default_max_level = config_info_ini.read_uint8("Human", "DefaultMaxLevel");
+    config_info_.human.pk_value_refresh_rate = config_info_ini.read_uint32("Human", "PKValueRefreshRate");
+    config_info_.human.default_pilfer_lock_time = config_info_ini.read_uint32("Human", "DefPilferLockTime");
+    config_info_.human.default_xinfa_max_level = config_info_ini.read_uint8("Human", "DefaultXinfaMaxLevel");
+    config_info_.human.level_up_validate_min_level = config_info_ini.read_uint8("Human", "LevelUpValidateMinLevel");
+    config_info_.human.level_up_validate_max_level = config_info_ini.read_uint8("Human", "LevelUpValidateMaxLevel");
+    config_info_.human.can_get_yuanbao_ticket_min_level = config_info_ini.read_uint8("Human", "CanGetYuanbaoTicketMinLevel");
   __LEAVE_FUNCTION
 }
 

@@ -35,6 +35,8 @@ class Ini {
    int64_t read_int64(const char* section, const char* key);
    int64_t read_int64(const char* section, int32_t line);
    bool read_exist_int64(const char* section, const char* key, int64_t &result);
+   float read_float(const char* section, const char* key);
+   bool read_bool(const char* section, const char* key); //all large than 0 is true
    int32_t read_int32(const char* section, const char* key);
    uint32_t read_uint32(const char* section, const char* key);
    int16_t read_int16(const char* section, const char* key);

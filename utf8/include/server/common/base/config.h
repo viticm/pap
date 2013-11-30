@@ -52,10 +52,11 @@ typedef struct {
 typedef struct {
   uint32_t max_count; //游戏世界的怪物数量上限
   uint32_t default_respawn_time; //缺省的怪物重生时间
-  uint32_t default_position_range; //缺省的怪物重生范围
+  uint16_t default_position_range; //缺省的怪物重生范围
   uint8_t default_ai_type; //缺省的怪物AI类型
   uint32_t default_body_time; //普通怪尸体保留时间（毫秒）
   uint32_t default_boss_body_time; //头目尸体保留时间（毫秒）
+  uint32_t default_refuse_scan_time; //缺省怪物重生后不会扫描敌人的时间
   uint16_t odds_of_change_target; //切换攻击目标的几率
   uint16_t odds_of_attack_assistant; //攻击协助者的几率
   uint16_t change_target_cooldown; //切换目标的冷却时间, 单位秒
@@ -103,8 +104,8 @@ typedef struct {
   uint8_t dec_life_step; //珍兽寿命下降1次的值
   uint8_t call_up_happiness; //物快乐度大于才可以召出,现在快乐度上限为100
   uint32_t placard_time; //发布宠物公告的持续时间（毫秒）
-  uint32_t placard_need_level; //发布宠物公告所需宠物等级
-  uint32_t placard_need_happiness; //发布宠物公告所需宠物快乐度
+  uint8_t placard_need_level; //发布宠物公告所需宠物等级
+  uint16_t placard_need_happiness; //发布宠物公告所需宠物快乐度
   uint32_t placard_need_life; //发布宠物公告所需宠物寿命
   uint8_t compound_gen_gu_float; //宠物合成时根骨变动%比
   uint8_t compound_grow_float; //宠物合成时成长率变动%比
@@ -117,7 +118,7 @@ typedef struct {
 } pet_setting_t;
 
 typedef struct {
-  uint8_t can_get_exp_range; //杀死角色后可以得到EXP的范围
+  uint16_t can_get_exp_range; //杀死角色后可以得到EXP的范围
   uint32_t out_ghost_time; //玩家释放灵魂的时间
   uint32_t default_move_speed; //缺省角色移动速度
   uint32_t default_attack_speed; //缺省角色攻击速度，没有武器时候的攻击速度

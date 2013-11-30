@@ -460,7 +460,34 @@ int64_t Ini::read_int64(const char* section, int32_t line) { //read in line
   __LEAVE_FUNCTION
    return ERROR_DATA;
 }
+//float
+float Ini::read_float(const char* section, const char* key) {
+  __ENTER_FUNCTION
+    char temp[512];
+    memset(temp, '\0', sizeof(temp));
+    snprintf(temp, sizeof(temp), "[file:%s][section:%s][key:%s]", file_name_, section, key);
+    int32_t section_index = find_section_index(section);
+    pap_common_sys::AssertEx(section_index != -1, temp);
+    int32_t data_index = find_data_index(section_index, key);
+    pap_common_sys::AssertEx(data_index, temp);
+    char* str = read_text(data_index);
+    float result = static_cast<float>(atof(str));
+    return result;
+  __LEAVE_FUNCTION
+    return ERROR_DATA;
+}
 
+bool Ini::read_bool(const char* section, const char* key) { 
+  __ENTER_FUNCTION
+    bool result = false;
+    int64_t number = read_int64(section, key);
+    result = number > 0 ? true : false;
+    return result;
+  __LEAVE_FUNCTION
+    return false;
+}
+
+//int extend
 int32_t Ini::read_int32(const char* section, const char* key) {
   __ENTER_FUNCTION
     return static_cast<int32_t>(read_int64(section, key));
