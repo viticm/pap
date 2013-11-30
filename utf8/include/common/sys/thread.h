@@ -1,6 +1,8 @@
 #ifndef PAP_COMMON_THREAD_H_
 #define PAP_COMMON_THREAD_H_
 
+#include "common/base/type.h"
+
 namespace pap_common_sys {
   
 class Thread {
@@ -51,6 +53,8 @@ class ThreadLock {
    lock();
    unlock();
 };
+
+uint64_t get_current_thread_id();
 
 }; //namespace pap_common_sys
 

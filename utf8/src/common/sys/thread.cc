@@ -48,6 +48,16 @@ void ThreadLock::unlock() {
   __LEAVE_FUNCTION
 }
 
+uint64_t get_current_thread_id() {
+  __ENTER_FUNCTION
+#if defined(__LINUX__)
+    return static_cast<uint64_t>(pthread_self());
+#elif defined(__WINDOWS__)
+    return static_cast<uint64_t>(GetCurrentThreadId());
+#endif
+  __LEAVE_FUNCTION
+}
+
 //thread lock class --
 
 } //namespace pap_common_sys

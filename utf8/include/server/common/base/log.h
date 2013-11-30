@@ -1,6 +1,7 @@
 #ifndef PAP_SERVER_COMMON_BASE_LOG_H_
 #define PAP_SERVER_COMMON_BASE_LOG_H_
 
+#include "common/base_type.h"
 #include "common/game/define.h"
 #include "common/sys/thread.h"
 
@@ -35,17 +36,22 @@ class Log {
    ~Log();
 
  public:
-   static void disk_log(const char* file_name, const char* format, ...);
-   bool init(cache_size = DEFAULT_LOG_CACHE_SIZE);
+   static void disk_log(const char* file_name_prefix, const char* format, ...);
+   bool init(int32_t cache_size = DEFAULT_LOG_CACHE_SIZE);
    void fast_save_log(enum_log_id log_id, const char* format, ...); //save in memory
    void fast_log(enum_log_id log_id);
    int32_t get_log_size(enum_log_id log_id);
-   void get_log_name(enum_log_id log_id, char* name);
+   void get_log_file_name(enum_log_id log_id, char* file_name);
+   void get_log_file_name(const char* file_name_prefix, char* file_name);
    void flush_all_log();
+   static void get_serial(char* serial, int16_t world_id, int16_t server_id);
+   static void save_log(const char* file_name_prefix, const char* format, ...);
+   static void remove_log(const char* file_name);
+   static void get_log_time_str(char* time_str, int32_t length);
 
  private:
    char* log_cache_[kLogFileCount];
-   int32_t log_position[kLogFileCount];
+   int32_t log_position_[kLogFileCount];
    pap_common_sys::ThreadLock log_lock_[kLogFileCount];
    int32_t cache_size_;
    uint32_t day_time_;
@@ -59,5 +65,7 @@ class Log {
 #endif
 
 }; //namespace pap_server_common_base
+
+extern Log* g_log;
 
 #endif //PAP_SERVER_COMMON_BASE_LOG_H_

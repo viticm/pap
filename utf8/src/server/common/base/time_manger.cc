@@ -1,5 +1,4 @@
 #include "server/common/base/time_manager.h"
-#include "common/base/type.h"
 
 TimeManager* g_time_manager = NULL;
 

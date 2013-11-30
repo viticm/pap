@@ -1,6 +1,5 @@
 #include "server/common/base/config.h"
 #include "server/common/base/file_define.h"
-#include "common/base/type.h"
 
 pap_server_common_base::Config g_config;
 

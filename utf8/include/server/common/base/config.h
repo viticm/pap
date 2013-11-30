@@ -13,6 +13,7 @@
 
 #include "server/common/base/define.h"
 #include "common/game/define.h"
+#include "common/base/type.h"
 
 namespace pap_server_common_base {
   
