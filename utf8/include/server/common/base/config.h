@@ -363,7 +363,7 @@ struct config_info_t {
 
 //login info
 struct login_info_t {
-  int16_t login_id;
+  int16_t id;
   char db_ip[IP_SIZE]; //database ip address 
   uint16_t db_port; //database port
   char db_connection_name[DB_CONNECTION_NAME_LENGTH]; //odbc connection name
@@ -558,14 +558,14 @@ class BillingInfo {
    char ip_[IP_SIZE];
    uint16_t port_;
    char db_ip_[IP_SIZE];
-   uint16_t db_port; //database port
-   char db_connection_name[DB_CONNECTION_NAME_LENGTH]; //odbc connection name
-   char db_name[DB_DBNAME_LENGTH]; //database name
-   char db_user[DB_USER_NAME_LENGTH]; //database use user name
-   char db_password[DB_PASSWORD_LENGTH]; //database password
-   bool odbc_switch; //是否开启ODBC连接
-   int8_t db_type; //数据库类型 0 mysql, 1 sqlserver, 2 mongodb
-   bool encrypt_password; //if encrypt password
+   uint16_t db_port_; //database port
+   char db_connection_name_[DB_CONNECTION_NAME_LENGTH]; //odbc connection name
+   char db_name_[DB_DBNAME_LENGTH]; //database name
+   char db_user_[DB_USER_NAME_LENGTH]; //database use user name
+   char db_password_[DB_PASSWORD_LENGTH]; //database password
+   bool odbc_switch_; //是否开启ODBC连接
+   int8_t db_type_; //数据库类型 0 mysql, 1 sqlserver, 2 mongodb
+   bool encrypt_password_; //if encrypt password
    BillingInfo();
    ~BillingInfo();
  

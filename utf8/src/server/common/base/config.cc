@@ -425,7 +425,7 @@ BillingInfo::BillingInfo() {
     number_ = 0;
     current_billing_no_ = 0;
     can_use_ = false;
-    memset(ip_, '\0', sizeof(ip));
+    memset(ip_, '\0', sizeof(ip_));
     port_ = 0;
   __LEAVE_FUNCTION
 }
@@ -552,7 +552,7 @@ void Config::load_config_info() {
 
 void Config::load_config_info_only() { //this params just read once
   __ENTER_FUNCTION
-    Ini config_info_ini(CONFIG_INFO_FILE);
+    pap_common_file::Ini config_info_ini(CONFIG_INFO_FILE);
     config_info_.zone.size = config_info_ini.read_uint8("Zone", "Size");
     config_info_.portal.max_count = config_info_ini.read_uint16("Portal", "MaxCount");
     config_info_.platform.max_count = config_info_ini.read_uint16("Platform", "MaxCount");
@@ -563,13 +563,13 @@ void Config::load_config_info_only() { //this params just read once
     config_info_.scene_timer.max_count = config_info_ini.read_uint16("SceneTimer","MaxCount");
     config_info_.human_timer.max_count = config_info_ini.read_uint16("HumanTimer","MaxCount");
     config_info_.localization.language = config_info_ini.read_uint8("Localization", "Language");
-    Log::save_log(CONFIG_LOG, "load %s only ... ok", CONFIG_INFO_FILE);
+    Log::save_log(CONFIG_LOG, "load %s only ... ok!", CONFIG_INFO_FILE);
   __LEAVE_FUNCTION
 }
 
 void Config::load_config_info_reload() { //this params can reload again
   __ENTER_FUNCTION
-    Ini config_info_ini(CONFIG_INFO_FILE);
+    pap_common_file::Ini config_info_ini(CONFIG_INFO_FILE);
     int32_t i;
     config_info_.global.drop_param = config_info_ini.read_float("Global", "DropParam");
     config_info_.global.equipment_damage_point = config_info_ini.read_uint32("Global", "EquipmentDamagePoint");
@@ -805,6 +805,308 @@ void Config::load_config_info_reload() { //this params can reload again
       config_info_.active_riches_card.state[i] = config_info_ini.read_bool("ActiveRichesCard", static_cast<const char*>(key_temp));
     }
     //loop read --
+    Log::save_log(CONFIG_LOG, "load %s reload ... ok!", CONFIG_INFO_FILE);
+  __LEAVE_FUNCTION
+}
+
+void Config::load_login_info_only() {
+  __ENTER_FUNCTION
+    pap_common_file::Ini login_info_ini(LOGIN_INFO_FILE);
+    login_info_.id = login_info_ini.read_int16("System", "ID");
+    login_info_ini.read_text("System", "DBIP", login_info_.db_ip, sizeof(login_info_.db_ip) - 1);
+    login_info_.db_port = login_info_ini.read_uint16("System", "DBPort");
+    login_info_ini.read_text("System", "DBName", login_info_.db_name, sizeof(login_info_.db_name) - 1);
+    login_info_ini.read_text("System", "DBConnectionName", login_info_.db_connection_name, sizeof(login_info_.db_connection_name) - 1);
+    login_info_ini.read_text("System", "DBUser", login_info_.db_user, sizeof(login_info_.db_user) - 1);
+    login_info_ini.read_text("System", "DBPassword", login_info_.db_password, sizeof(login_info_.db_password) - 1);
+    login_info_.odbc_switch = login_info_ini.read_bool("System", "ODBCSwitch");
+    login_info_.db_type = login_info_ini.read_int8("System", "DBType");
+    login_info_.encrypt_password = login_info_ini.read_bool("System", "EncryptPassword");
+    login_info_.client_version = login_info_ini.read_uint16("System", "ClientVersion");
+    login_info_.db_connect_count = login_info_ini.read_uint8("System", "DBConnectCount");
+    login_info_.turn_player_count = login_info_ini.read_uint16("System", "TurnPlayerCount");
+    login_info_.proxy_connect = login_info_ini.read_uint8("System", "ProxyConnect");
+    login_info_.enable_license = login_info_ini.read_bool("System", "EnableLicense");
+    login_info_.relogin_limit = login_info_ini.read_bool("System", "ReLoginLimit");
+    login_info_.relogin_stop = login_info_ini.read_bool("System", "ReLoginStop");
+    login_info_.relogin_stop_time = login_info_ini.read_uint32("System", "ReLoginStopTime");
+    login_info_.notify_safe_sign = login_info_ini.read_bool("System", "NotifySafeSign");
+    Log::save_log(CONFIG_LOG, "load %s only ... ok!", LOGIN_INFO_FILE);
+  __LEAVE_FUNCTION
+}
+
+void Config::load_login_info() {
+  __ENTER_FUNCTION
+    load_login_info_only();
+    load_login_info_reload();
+  __LEAVE_FUNCTION
+}
+
+void Config::load_login_info_reload() {
+  __ENTER_FUNCTION
+    Log::save_log(CONFIG_LOG, "load %s reload ... ok!", LOGIN_INFO_FILE);
+  __LEAVE_FUNCTION
+}
+
+void Config::load_world_info() {
+  __ENTER_FUNCTION
+    load_world_info_only();
+    load_world_info_reload();
+  __LEAVE_FUNCTION
+}
+
+void Config::load_world_info_only() {
+  __ENTER_FUNCTION
+    pap_common_file::Ini world_info_ini(WORLD_INFO_FILE);
+    world_info_.id = world_info_ini.read_int16("System", "ID");
+    world_info_.zone_id = world_info_ini.read_int16("System", "ZoneId");
+    world_info_.share_memory_key.guild = world_info_ini.read_uint32("System", "GuildShareMemoryKey");
+    world_info_.share_memory_key.mail = world_info_ini.read_uint32("System", "MailShareMemoryKey");
+    world_info_.share_memory_key.pet = world_info_ini.read_uint32("System", "PetShareMemoryKey");
+    world_info_.share_memory_key.city = world_info_ini.read_uint32("System", "CityShareMemoryKey");
+    world_info_.share_memory_key.global_data = world_info_ini.read_uint32("System", "GlobalDataShareMemoryKey");
+    world_info_.share_memory_key.league = world_info_ini.read_uint32("System", "LeagueShareMemoryKey");
+    world_info_.share_memory_key.find_friend = world_info_ini.read_uint32("System", "FindFriendShareMemoryKey");
+    world_info_.enable_share_memory = world_info_ini.read_bool("System", "EnableShareMemory");
+    Log::save_log(CONFIG_LOG, "load %s only ... ok!", WORLD_INFO_FILE);
+  __LEAVE_FUNCTION
+}
+
+void Config::load_world_info_reload() {
+  __ENTER_FUNCTION
+    Log::save_log(CONFIG_LOG, "load %s reload ... ok!", WORLD_INFO_FILE);
+  __LEAVE_FUNCTION
+}
+
+void Config::load_billing_info() {
+  __ENTER_FUNCTION
+    load_billing_info_only();
+    load_billing_info_reload();
+  __LEAVE_FUNCTION
+}
+
+void Config::load_billing_info_only() {
+  __ENTER_FUNCTION
+    pap_common_file::Ini billing_info_ini(BILLING_INFO_FILE);
+    pap_common_file::Ini server_info_ini(SERVER_INFO_FILE);
+    uint16_t number;
+    if (false == server_info_ini.read_exist_uint16("Billing", "Number", number)) {
+      pap_common_sys::AssertEx(false, "Config::load_billing_info_only is failed, can't find Billing Number");
+    }
+    billing_info_.clean_up();
+    billing_info_.init(number);
+    //db info by viticm
+    billing_info_ini.read_text("System", "DBIP", billing_info_.db_ip_, sizeof(billing_info_.db_ip_) - 1);
+    billing_info_.db_port_ = billing_info_ini.read_uint16("System", "DBPort");
+    billing_info_ini.read_text("System", "DBName", billing_info_.db_name_, sizeof(billing_info_.db_name_) - 1);
+    billing_info_ini.read_text("System", "DBConnectionName", billing_info_.db_connection_name_, sizeof(billing_info_.db_connection_name_) - 1);
+    billing_info_ini.read_text("System", "DBUser", billing_info_.db_user_, sizeof(billing_info_.db_user_) - 1);
+    billing_info_ini.read_text("System", "db_password_", billing_info_.db_password_, sizeof(billing_info_.db_password_) - 1);
+    billing_info_.odbc_switch_ = billing_info_ini.read_bool("System", "ODBCSwitch");
+    billing_info_.db_type_ = billing_info_ini.read_int8("System", "DBType");
+    billing_info_.encrypt_password_ = billing_info_ini.read_bool("System", "EncryptPassword");
+    int32_t i;
+    for (i = 0; i < billing_info_.get_number(); ++i) {
+      char key[65];
+      char message[256];
+      memset(key, '\0', sizeof(key));
+      memset(message, '\0', sizeof(message));
+      billing_data_t* billing_data = billing_info_.next();
+      snprintf(key, sizeof(key) - 1, "IP%d", i);
+      if (true == server_info_ini.read_exist_text("Billing", 
+                                                  static_cast<const char*>(key)), 
+                                                  billing_data.ip, 
+                                                  sizeof(billing_data.ip) - 1) {
+        snprintf(message, sizeof(message) - 1, "Config::load_billing_info_only is failed, can't find key: %s", key);
+        pap_common_sys::AssertEx(false, message);
+      }
+      memset(key, '\0', sizeof(key));
+      memset(message, '\0', sizeof(message));
+      snprintf(key, sizeof(key) - 1, "Port%d", i);
+      if (false == server_info_ini.read_exist_uint16("Billing",
+                                                     static_cast<const char*>(key),
+                                                     billing_data.port)) {
+        snprintf(message, sizeof(message) - 1, "Config::load_billing_info_only is failed, can't find key: %s", key);
+        pap_common_sys::AssertEx(false, message);
+      }
+      if (0 == i) {
+        billing_info_.port_ = billing_data.port;
+        memcpy(billing_info_.ip_, billing_data.ip, sizeof(billing_info_.ip_) - 1);
+      }
+    }
+    billing_info_.begin_use();
+    Log::save_log(CONFIG_LOG, "load %s only ... ok!", BILLING_INFO_FILE);
+  __LEAVE_FUNCTION
+}
+
+void Config::load_billing_info_reload() {
+  __ENTER_FUNCTION
+    Log::save_log(CONFIG_LOG, "load %s reload ... ok!", BILLING_INFO_FILE);
+  __LEAVE_FUNCTION
+}
+
+void Config::load_share_memory_info() {
+  __ENTER_FUNCTION
+    load_share_memory_info_only();
+    load_share_memory_info_reload();
+  __LEAVE_FUNCTION
+}
+
+void Config::load_share_memory_info_only() {
+  __ENTER_FUNCTION
+    pap_common_file::Ini share_memory_info_ini(SHARE_MEMORY_INFO_FILE);
+    share_memory_info_.obj_count = share_memory_info_ini.read_uint16("System", "KeyCount");
+    share_memory_info_.key_data = new share_memory_key_data_t[share_memory_info_.obj_count];
+    uint32_t i;
+    for (i = 0; i < share_memory_info_.obj_count; ++i) {
+      char key[256];
+      char type[256];
+      memset(key, '\0', sizeof(key));
+      memset(type, '\0', sizeof(type));
+      snprintf(key, sizeof(key) - 1, "Key%d", i);
+      snprintf(type, sizeof(type) - 1, "Type%d", i);
+      share_memory_info_.key_data.key = share_memory_info_ini.read_uint32("Key", key);
+      share_memory_info_ini.key_data.type = share_memory_info_ini.read_uint8("Key", type);
+    }
+    share_memory_info_ini.read_text("System", "DBIP", share_memory_info_.db_ip, sizeof(share_memory_info_.db_ip) - 1);
+    share_memory_info_.db_port = share_memory_info_ini.read_uint16("System", "DBPort");
+    share_memory_info_ini.read_text("System", 
+                                    "DBName", 
+                                    share_memory_info_.db_name, 
+                                    sizeof(share_memory_info_.db_name) - 1);
+    share_memory_info_ini.read_text("System", 
+                                    "DBConnectionName", 
+                                    share_memory_info_.db_connection_name, 
+                                    sizeof(share_memory_info_.db_connection_name) - 1);
+    share_memory_info_ini.read_text("System",
+                                    "DBUser", 
+                                    share_memory_info_.db_user, 
+                                    sizeof(share_memory_info_.db_user) - 1);
+    share_memory_info_ini.read_text("System",
+                                    "DBPassword",
+                                    share_memory_info_.db_password,
+                                    sizeof(share_memory_info_.db_password) - 1);
+    share_memory_info_.odbc_switch = share_memory_info_ini.read_bool("System", "ODBCSwitch");
+    share_memory_info_.db_type = share_memory_info_ini.read_int8("System", "DBType");
+    share_memory_info_.world_data_save_interval = share_memory_info_ini.read_uint32("System", "WorldDataSaveInterval");
+    share_memory_info_.human_data_save_interval = share_memory_info_ini.read_uint32("System", "HumanDataSaveInterval");
+    share_memory_info_.encrypt_password = share_memory_info_ini.read_bool("System", "EncryptPassword");
+    Log::save_log(CONFIG_LOG, "load %s only ... ok!", SHARE_MEMORY_INFO_FILE);
+  __LEAVE_FUNCTION
+}
+
+void Config::load_share_memory_info_reload() {
+  __ENTER_FUNCTION
+    Log::save_log(CONFIG_LOG, "load %s reload ... ok!", SHARE_MEMORY_INFO_FILE);
+  __LEAVE_FUNCTION
+}
+
+void Config::load_machine_info() {
+  __ENTER_FUNCTION
+    load_machine_info_only();
+    load_machine_info_reload();
+  __LEAVE_FUNCTION
+}
+
+void Config::load_machine_info_only() {
+  __ENTER_FUNCTION
+    pap_common_file::Ini machine_info_ini(MACHINE_INFO_FILE);
+    machine_info_.count = machine_info_ini.read_uint16("System", "MachineNumber");
+    machine_info_.data = new machine_data_t[machine_info_.count];
+    memset(machine_info_.data, 0, sizeof(machine_info_.data));
+    uint32_t i;
+    for (i = 0; i < machine_info_.count; ++i) {
+      char section[256];
+      memset(section, '\0', sizeof(section));
+      snprintf(section, sizeof(section) - 1, "Machine%d", i);
+      machine_info_.data[i].id = machine_info_ini.read_int16(static_cast<const char*>(section), "MachineID");
+    }
+    Log::save_log(CONFIG_LOG, "load %s only ... ok!", MACHINE_INFO_FILE);
+  __LEAVE_FUNCTION
+}
+
+void Config::load_machine_info_reload() {
+  __ENTER_FUNCTION
+    Log::save_log(CONFIG_LOG, "load %s reload ... ok!", MACHINE_INFO_FILE);
+  __LEAVE_FUNCTION
+}
+
+void Config::load_server_info() {
+  __ENTER_FUNCTION
+    load_server_info_only();
+    load_server_info_reload();
+  __LEAVE_FUNCTION
+}
+
+void Config::load_server_info_only() {
+  __ENTER_FUNCTION
+    pap_common_file::Ini server_info_ini(SERVER_INFO_FILE);
+    server_info_.count = server_info_ini.read_uint16("System", "ServerNumber");
+    server_info_.data = new server_data_t[server_info_.count];
+    memset(server_info.data, 0, sizeof(server_info_.data));
+    uint32_t i;
+    for (i = 0; i < server_info_.count; ++i) {
+      char section[256];
+      memset(section, '\0', sizeof(section));
+      snprintf(section, sizeof(section) - 1, "Server%d", i);
+      const char* kSection = static_cast<const char*>(section);
+      server_info_.data[i].id = server_info_ini.read_int16(kSection, "ServerID");
+      server_info_.data[i].machine_id = server_info_ini.read_int16(kSection, "MachineID");
+      server_info_ini.read_text(kSection, "IP0", server_info_.data[i].ip0, sizeof(server_info_.data[i].ip0) - 1);
+      server_info_.data[i].port0 = server_info_ini.read_uint16(kSection, "Port0");
+      server_info_.read_text(kSection, "IP1", server_info_.data[i].ip1, sizeof(server_info_.data[i].ip1) - 1);
+      server_info_.data[i].port1 = server_info_ini.read_uint16(kSection, "Port1");
+      server_info_.data[i].type = server_info_ini.read_int8(kSection, "Type");
+      //not active proxy
+      server_info_.data[i].share_memory_key.human =  server_info_ini.read_uint32(kSection, "HumanShareMemoryKey");
+      server_info_.data[i].share_memory_key.player_shop = server_info_ini.read_uint32(kSection, "PlayShopShareMemoryKey");
+      server_info_.data[i].share_memory_key.item_serial = server_info_ini.read_uint32(kSection, "ItemSerialShareMemoryKey");
+      server_info_.data[i].share_memory_key.commision_shop = server_info_ini.read_uint32(kSection, "CommisionShopShareMemoryKey");
+      server_info_.data[i].enable_share_memory = server_info_ini.read_bool(kSection, "EnableShareMemory");
+    }
+    server_info_ini.read_text("World", "IP", server_info_.world_data.ip, sizeof(server_info_.world_data.ip) - 1);
+    server_info_.world_data.port = server_info_ini.read_uint16("World", "Port");
+    for (i = 0; i < server_info_.count; ++i) {
+      int16_t server_id = server_info_.data[i].id;
+      pap_common_sys::Assert(server_id != ID_INVALID && server_id <= OVER_SERVER_MAX);
+      pap_common_sys::Assert(-1 == server_info_.hash_server[server_id]);
+      server_info_.hash_server[server_id] = i;
+    }
+    Log::save_log(CONFIG_LOG, "load %s only ... ok!", SERVER_INFO_FILE);
+  __LEAVE_FUNCTION
+}
+
+void Config::load_server_info_reload() {
+  __ENTER_FUNCTION
+    Log::save_log(CONFIG_LOG, "load %s reload ... ok!", SERVER_INFO_FILE);
+  __LEAVE_FUNCTION
+}
+
+void Config::load_scene_info() {
+  __ENTER_FUNCTION
+    load_scene_info_only();
+    load_scene_info_reload();
+  __LEAVE_FUNCTION
+}
+
+void Config::load_scene_info_only() {
+  __ENTER_FUNCTION
+    typedef enum {
+      kSceneId, //场景号
+      kThreadId, //驱动线程的索引
+      kSceneName, //场景名
+      kSceneActive, //场景是否激活
+      kSceneFileName, //场景文件名
+      kServerId, //所在服务器号
+      kSceneType, //场景类型
+      kClientResourceIndex, //客户端对应资源
+    } enum_scene_define;
+    //file db    
+  __LEAVE_FUNCTION
+}
+
+void Config::load_scene_info_reload() {
+  __ENTER_FUNCTION
   __LEAVE_FUNCTION
 }
 

@@ -13,7 +13,7 @@
 
 #include "common/base/type.h"
 
-#define OVER_MAX_SERVER 256
+#define OVER_SERVER_MAX 256
 //odbc 连接名长度
 #define DB_CONNECTION_NAME_LENGTH 128
 //数据库名称长度
