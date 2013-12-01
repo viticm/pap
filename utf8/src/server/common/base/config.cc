@@ -511,7 +511,9 @@ Config::~Config() {
 
 bool Config::init() {
   __ENTER_FUNCTION
+#if defined(_PAP_SERVER)
     load_config_info();
+#endif
     load_login_info();
     load_world_info();
     load_billing_info();
@@ -527,7 +529,9 @@ bool Config::init() {
 
 void Config::reload() {
   __ENTER_FUNCTION
+#if defined(_PAP_SERVER)
     load_config_info_reload();
+#endif
     load_login_info_reload();
     load_world_info_reload();
     load_billing_info_reload();
@@ -549,7 +553,6 @@ void Config::load_config_info() {
 void Config::load_config_info_only() { //this params just read once
   __ENTER_FUNCTION
     Ini config_info_ini(CONFIG_INFO_FILE);
-    int32_t value;
     config_info_.zone.size = config_info_ini.read_uint8("Zone", "Size");
     config_info_.portal.max_count = config_info_ini.read_uint16("Portal", "MaxCount");
     config_info_.platform.max_count = config_info_ini.read_uint16("Platform", "MaxCount");
@@ -566,6 +569,8 @@ void Config::load_config_info_only() { //this params just read once
 
 void Config::load_config_info_reload() { //this params can reload again
   __ENTER_FUNCTION
+    Ini config_info_ini(CONFIG_INFO_FILE);
+    int32_t i;
     config_info_.global.drop_param = config_info_ini.read_float("Global", "DropParam");
     config_info_.global.equipment_damage_point = config_info_ini.read_uint32("Global", "EquipmentDamagePoint");
     config_info_.global.respawn_param = config_info_ini.read_uint8("Global", "RespawnParam");
@@ -625,6 +630,181 @@ void Config::load_config_info_reload() { //this params can reload again
     config_info_.human.level_up_validate_min_level = config_info_ini.read_uint8("Human", "LevelUpValidateMinLevel");
     config_info_.human.level_up_validate_max_level = config_info_ini.read_uint8("Human", "LevelUpValidateMaxLevel");
     config_info_.human.can_get_yuanbao_ticket_min_level = config_info_ini.read_uint8("Human", "CanGetYuanbaoTicketMinLevel");
+    config_info_.team.available_follow_dist = config_info_ini.read_uint16("Team", "VailableFollowDist");
+    config_info_.team.time_for_lose_follow = config_info_ini.read_uint32("Team", "TimeForLoseFollow");
+    config_info_.guild.found_duration = config_info_ini.read_uint16("Guild", "FoundDuration");
+    config_info_.guild.default_max_member_count = config_info_ini.read_uint16("Guild", "DefaultMaxMemberCount");
+    config_info_.guild.response_user_count = config_info_ini.read_uint8("Guild", "ResponseUserCount");
+    //-- loop read
+    char key_temp[33];
+    for (i = 0; i < GUILD_LEVEL_MAX; ++i) {
+      memset(key_temp, '\0', sizeof(key_temp));
+      snprintf(key_temp, sizeof(key_temp) - 1, "XianYaMaxUser%d", i);
+      config_info_.guild.xianya_max_user[i] = config_info_ini.read_uint16("Guild", static_cast<const char*>(key_temp));
+    }
+    
+    for (i = 0; i < GUILD_LEVEL_MAX; ++i) {
+      memset(key_temp, '\0', sizeof(key_temp));
+      snprintf(key_temp, sizeof(key_temp) - 1, "XianYaStandardMoney%d", i);
+      config_info_.guild.xianya_standard_money[i] = config_info_ini.read_uint32("Guild", static_cast<const char*>(key_temp));
+    }
+
+    for (i = 0; i < GUILD_LEVEL_MAX; ++i) {
+      memset(key_temp, '\0', sizeof(key_temp));
+      snprintf(key_temp, sizeof(key_temp) - 1, "XianYaMaxMoney%d", i);
+      config_info_.guild.xianya_max_money[i] = config_info_ini.read_uint32("Guild", static_cast<const char*>(key_temp));
+    }
+    
+    for (i = 0; i < GUILD_LEVEL_MAX; ++i) {
+      memset(key_temp, '\0', sizeof(key_temp));
+      snprintf(key_temp, sizeof(key_temp) - 1, "XianYaMaxTrader%d", i);
+      config_info_.guild.xianya_max_trader[i] = config_info_ini.read_uint16("Guild", static_cast<const char*>(key_temp));
+    }
+
+    for (i = 0; i < GUILD_LEVEL_MAX; ++i) {
+      memset(key_temp, '\0', sizeof(key_temp));
+      snprintf(key_temp, sizeof(key_temp) - 1, "BankStandardMoney%d", i);
+      config_info_.guild.bank_standard_money[i] = config_info_ini.read_uint8("Guild", static_cast<const char*>(key_temp));
+    }
+
+    for (i = 0; i < GUILD_LEVEL_MAX; ++i) {
+      memset(key_temp, '\0', sizeof(key_temp));
+      snprintf(key_temp, sizeof(key_temp) - 1, "WingMaxUser%d", i);
+      config_info_.guild.wing_max_user[i] = config_info_ini.read_uint16("Guild", static_cast<const char*>(key_temp));
+    }
+    //loop read --
+
+    config_info_.guild.create_city_money = config_info_ini.read_uint32("Guild", "CreateCityMoney");
+    config_info_.guild.leave_word_cost = config_info_ini.read_uint32("Guild", "LeaveWordCost");
+    config_info_.guild.battle_time = config_info_ini.read_uint32("Guild", "BattleTime");
+    config_info_.guild.left_guild_buff_enable = config_info_ini.read_bool("Guild", "LeftGuildBuffEnable");
+    config_info_.guild.boom_max_value = config_info_ini.read_uint16("Guild", "BoomMaxValue");
+    config_info_.guild.boom_scale_all = config_info_ini.read_float("Guild", "BoomScaleAll");
+    config_info_.guild.boom_scale_online_count = config_info_ini.read_float("Guild", "BoomScaleOnlineCount");
+    config_info_.guild.boom_scale_attribute_increase = config_info_ini.read_float("Guild", "BoomScaleAttributeIncrease");
+    config_info_.guild.boom_scale_trader_transactions_count = config_info_ini.read_float("Guild", "BoomScaleTraderTransactionsCount");
+    config_info_.guild.boom_scale_avg_boom = config_info_ini.read_float("Guild", "BoomScaleAvgBoom");
+    config_info_.guild.boom_scale_dilation = config_info_ini.read_float("Guild", "BoomScaleDilation");
+    config_info_.guild.boom_scale_farming = config_info_ini.read_float("Guild", "BoomScaleFarming");
+    config_info_.guild.boom_scale_trading_mission = config_info_ini.read_float("Guild", "BoomScaleTradingMission");
+    config_info_.guild.boom_scale_defence = config_info_ini.read_float("Guild", "BoomScaleDefence");
+    config_info_.guild.boom_scale_industry = config_info_ini.read_float("Guild", "BoomScaleIndustry");
+    config_info_.guild.boom_scale_technology = config_info_ini.read_float("Guild", "BoomScaleTechnology");
+    config_info_.guild.trade_ticket_decrease_value = config_info_ini.read_uint16("Guild", "TradeTicketDecreaseValue");
+    config_info_.guild.trading_mission_plug = config_info_ini.read_bool("Guild", "TradingMissionPlug");
+    config_info_.guild.validate_xianya_level = config_info_ini.read_bool("Guild", "ValidateXianYaLevel");
+    config_info_.guild_league.max_count = config_info_ini.read_uint16("GuildLeague", "MaxCount");
+    config_info_.guild_league.quit_league_wait_time = config_info_ini.read_uint16("GuildLeague", "QuitLeagueWaitTime");
+    config_info_.guild_league.create_money = config_info_ini.read_uint32("GuildLeague", "CreateMoney");
+    config_info_.relation.password_point = config_info_ini.read_uint16("Relation", "PasswordPoint");
+    config_info_.relation.prompt_point = config_info_ini.read_uint16("Relation", "PromptPoint");
+    config_info_.relation.get_point_need_exp = config_info_ini.read_uint32("Relation", "GetPointNeedExp");
+    config_info_.minor_password.unlock_delay_time = config_info_ini.read_uint16("MinorPassword", "UnlockDelayTime");
+    config_info_.minor_password.energy_set_cost = config_info_ini.read_uint16("MinorPassword", "EnergySetCost");
+    config_info_.minor_password.energy_modify_cost = config_info_ini.read_uint16("MinorPassword", "EnergyModifyCost");
+    config_info_.minor_password.energy_unlock_cost = config_info_ini.read_uint16("MinorPassword", "EnergyUnlockCost");
+    config_info_.minor_password.input_error_times_per_day = config_info_ini.read_uint16("MinorPassword", "InputErrorTimesPerDay");
+    config_info_.minor_password.password_unlock_time = config_info_ini.read_uint16("MinorPassword", "PasswordUnlockTime");
+    config_info_.world.hash_online_user_count = config_info_ini.read_uint32("World", "HashOnlineUserCount");
+    config_info_.world.hash_mail_user_count = config_info_ini.read_uint32("World", "HashMailUserCount");
+    config_info_.world.max_offline_user_count = config_info_ini.read_uint32("World", "MaxOfflineUserCount");
+    config_info_.world.speaker_pool_max = config_info_ini.read_uint8("World", "SpeakerPoolMax");
+    config_info_ini.read_text("Temp", "UserPath", config_info_.temp.user_path, sizeof(config_info_.temp.user_path) - 1);
+    config_info_.combat.default_damage_fluctuation = config_info_ini.read_uint32("Combat", "DefaultDamageFluctuation");
+    config_info_.combat.h0_of_hit_calculation = config_info_ini.read_uint16("Combat", "H0ofHitCalculation");
+    config_info_.combat.c0_of_critical_calculation = config_info_ini.read_uint16("Combat", "C0ofCriticalCalculation");
+    config_info_.combat.c1_of_critical_calculation = config_info_ini.read_uint16("Combat", "C1ofCriticalCalculation");
+    config_info_.combat.c2_of_critical_calculation = config_info_ini.read_uint16("Combat", "C2ofCriticalCalculation");
+    config_info_.good_and_evil.min_value = config_info_ini.read_uint32("GoodAndEvil", "MaxValue");
+    config_info_.good_and_evil.max_value = config_info_ini.read_uint32("GoodAndEvil", "MinValue");
+    config_info_.good_and_evil.get_value_need_level = config_info_ini.read_uint8("GoodAndEvil", "GetValueNeedLevel");
+    config_info_.good_and_evil.give_value_min_level = config_info_ini.read_uint8("GoodAndEvil", "GiveValueMinLevel");
+    config_info_.good_and_evil.give_value_max_level = config_info_ini.read_uint8("GoodAndEvil", "GiveValueMaxLevel");
+    config_info_.good_and_evil.give_value_difference_level = config_info_ini.read_uint8("GoodAndEvil", "GiveValueDifferenceLevel");
+    config_info_.good_and_evil.give_value_radius = config_info_ini.read_uint16("GoodAndEvil", "GiveValueRadius");
+    config_info_.good_and_evil.per_member_give_value = config_info_ini.read_uint32("GoodAndEvil", "PerMemberGiveValue");
+    config_info_.good_and_evil.per_disciple_give_value = config_info_ini.read_uint32("GoodAndEvil", "PerDiscipleGiveValue");
+    config_info_.good_and_evil.once_max_give_value = config_info_ini.read_uint32("GoodAndEvil", "OnceMaxGiveValue");
+    config_info_.good_and_evil.member_die_cost_value = config_info_ini.read_uint32("GoodAndEvil", "MemberDieCostValue");
+    config_info_.plot_point.min = config_info_ini.read_uint16("PlotPoint", "Min");
+    config_info_.plot_point.max = config_info_ini.read_uint16("PlotPoint", "Max");
+    config_info_.economic.rate_a = config_info_ini.read_float("Economic", "RateA");
+    config_info_.economic.rate_b = config_info_ini.read_float("Economic", "RateB");
+    config_info_.economic.yuanbao_transaction_scene_id = config_info_ini.read_uint16("Economic", "YuanBaoTransactionSceneId");
+    config_info_.economic.yuanbao_ticket_max = config_info_ini.read_uint32("Economic", "YuanBaoTicketMax");
+    config_info_.economic.new_server_sale_rate = config_info_ini.read_float("Economic", "NewServerSaleRate");
+    config_info_.economic.min_exchange_code_level = config_info_ini.read_uint8("Economic", "MinExchangeCodeLevel");
+    config_info_.economic.max_exchange_code_level = config_info_ini.read_uint8("Economic", "MaxExchangeCodeLevel");
+    config_info_.exp.revise_param = config_info_ini.read_float("Exp", "ReviseParam");
+    config_info_.exp.team_spouse_add_rate = config_info_ini.read_float("Exp", "TeamSpouseAddRate");
+    config_info_.exp.team_brother_add_rate = config_info_ini.read_float("Exp", "TeamBrotherAddRate");
+    config_info_.exp.team_master_in_add_rate = config_info_ini.read_float("Exp", "TeamMasterInTeamAddRate");
+    config_info_.exp.team_master_notin_add_rate = config_info_ini.read_float("Exp", "TeamMasterNotInTeamAddRate");
+    config_info_.exp.team_disciple_add_rate = config_info_ini.read_float("Exp", "TeamDiscipleAddRate");
+    config_info_.exp.hidden_or_magic_weapon_absorb_rate = config_info_ini.read_float("Exp", "HiddenOrMagicWeaponAbsorbRate");
+    config_info_.duel.continue_time = config_info_ini.read_uint32("Duel", "ContinueTime");
+    config_info_.duel.need_min_level = config_info_ini.read_uint8("Duel", "NeedMinLevel");
+    config_info_.duel.need_energy = config_info_ini.read_uint16("Duel", "NeedEnergy");
+    config_info_.warfare.continue_time = config_info_ini.read_uint32("Warfare", "ContinueTime");
+    config_info_.pk.flag_switch_delay = config_info_ini.read_uint32("PK", "FlagSwitchDelay");
+    config_info_.pk.hostile_player_warning = config_info_ini.read_uint32("PK", "HostilePlayerWarning");
+    config_info_.fight_back.legal_fight_back_time = config_info_ini.read_uint32("FightBack", "LegalFightBackTime");
+
+    //-- loop read
+    for (i = 0; i < sizeof(config_info_.ability.assistant_demand_formula_param); ++i) {
+      memset(key_temp, '\0', sizeof(key_temp));
+      snprintf(key_temp, sizeof(key_temp) - 1, "AssistantDemandFormulaParam%d", i);
+      config_info_.ability.assistant_demand_formula_param[i] = config_info_ini.read_float("Ability", static_cast<const char*>(key_temp));
+    }
+    //loop read --
+
+    config_info_.fatigue.enable = config_info_ini.read_bool("Fatigue", "Enable");
+    config_info_.fatigue.little_fatigue_time = config_info_ini.read_uint32("Fatigue", "LittleFatigueTime");
+    config_info_.fatigue.exceeding_fatigue_time = config_info_ini.read_uint32("Fatigue", "ExceedingFatigueTime");
+    config_info_.fatigue.reset_fatigue_state_offline_time = config_info_ini.read_uint32("Fatigue", "ResetFatigueStateOfflineTime");
+    config_info_.yuanbao.max_day_can_cost = config_info_ini.read_uint32("YuanBao", "MaxDayCanCost");
+    config_info_.yuanbao.enable_exchage_yuanbao_ticket = config_info_ini.read_bool("YuanBao", "EnableExchageYuanBaoTicket");
+    config_info_.monster_income.little_count = config_info_ini.read_uint32("MonsterIncome", "LittleCount");
+    config_info_.monster_income.nil_count = config_info_ini.read_uint32("MonsterIncome", "NilCount");
+    config_info_.monster_income.little_percent = config_info_ini.read_float("MonsterIncome", "LittlePercent");
+    config_info_.commision_shop.send_back_time = config_info_ini.read_uint32("CommisionShop", "SendBackTime");
+    config_info_.commision_shop.yuanbao_fee = config_info_ini.read_uint8("CommisionShop", "YuanBaoFee");
+    config_info_.commision_shop.gold_coin_fee = config_info_ini.read_uint8("CommisionShop", "GoldCoinFee");
+
+    //-- loop read
+    for (i = 0; i < sizeof(config_info_.commision_shop.yuanbao_value); ++i) {
+      memset(key_temp, '\0', sizeof(key_temp));
+      snprintf(key_temp, sizeof(key_temp) - 1, "YuanBaoValue%d", i);
+      config_info_.commision_shop.yuanbao_value[i] = config_info_ini.read_float("CommisionShop", static_cast<const char*>(key_temp));
+    }
+
+    for (i = 0; i < sizeof(config_info_.commision_shop.gold_coin_value); ++i) {
+      memset(key_temp, '\0', sizeof(key_temp));
+      snprintf(key_temp, sizeof(key_temp) - 1, "GoldCoinValueValue%d", i);
+      config_info_.commision_shop.gold_coin_value[i] = config_info_ini.read_float("CommisionShop", static_cast<const char*>(key_temp));
+    }
+    //loop read --
+
+    config_info_.commision_shop.close_yuanbao_sell = config_info_ini.read_bool("CommisionShop", "CloseYuanBaoSell");
+    config_info_.commision_shop.close_gold_coin_sell = config_info_ini.read_bool("CommisionShop", "CloseGoldCoinSell");
+    config_info_.cache_log_time.login_cache_time = config_info_ini.read_uint16("CacheLogTime", "LogInCacheTime");
+    config_info_.system_notice.join_guild = config_info_ini.read_bool("SystemNotice", "JoinGuild");
+    
+    //-- loop read
+    for (i = 0; i < sizeof(config_info_.player_count_of_scene.hour_point); ++i) {
+      memset(key_temp, '\0', sizeof(key_temp));
+      snprintf(key_temp, sizeof(key_temp) - 1, "HourPoint%d", i);
+      config_info_.player_count_of_scene.hour_point[i] = config_info_ini.read_float("PlayerCountOfScene", static_cast<const char*>(key_temp));
+    }
+    //loop read --
+
+    //-- loop read
+    for (i = 0; i < 2; ++i) {
+      memset(key_temp, '\0', sizeof(key_temp));
+      snprintf(key_temp, sizeof(key_temp) - 1, "Card%d", i);
+      config_info_.active_riches_card.state[i] = config_info_ini.read_bool("ActiveRichesCard", static_cast<const char*>(key_temp));
+    }
+    //loop read --
   __LEAVE_FUNCTION
 }
 

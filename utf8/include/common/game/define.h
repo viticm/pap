@@ -14,7 +14,7 @@
 #define INVALID_PAI_TYPE 0
 #define INVALID_SOUL_TYPE 0
 #define BASE_BAG_POS 185
-#define MAX_GUILD_LEVEL 5 //公会最大等级
+#define GUILD_LEVEL_MAX 5 //公会最大等级
 
 typedef enum {
   kTimeZhi, //子

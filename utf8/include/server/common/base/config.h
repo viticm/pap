@@ -142,16 +142,16 @@ typedef struct {
   uint16_t found_duration; //帮会创建过程所允许的最大时间（小时为单位），超过时间没有满足条件则帮会创建失败
   uint16_t default_max_member_count; //帮会新建时默认最大帮众上限
   uint8_t response_user_count; //帮会从建立到成立需要响应的玩家数量（含帮会建立者）
-  uint16_t xianya_max_user[MAX_GUILD_LEVEL]; //一到五级县衙人口上限
-  uint32_t xianya_standard_money[MAX_GUILD_LEVEL]; //一到五级县衙标准资金
-  uint32_t xianya_max_money[MAX_GUILD_LEVEL]; //一到五级县衙资金上限
-  uint8_t xianya_max_trader[MAX_GUILD_LEVEL]; //一到五级县衙商人数量上限
-  uint32_t bank_standard_money[MAX_GUILD_LEVEL]; //一到五级钱庄标准资金
-  uint16_t wing_max_user[MAX_GUILD_LEVEL]; //一到五级厢房人口上限
+  uint16_t xianya_max_user[GUILD_LEVEL_MAX]; //一到五级县衙人口上限
+  uint32_t xianya_standard_money[GUILD_LEVEL_MAX]; //一到五级县衙标准资金
+  uint32_t xianya_max_money[GUILD_LEVEL_MAX]; //一到五级县衙资金上限
+  uint8_t xianya_max_trader[GUILD_LEVEL_MAX]; //一到五级县衙商人数量上限
+  uint32_t bank_standard_money[GUILD_LEVEL_MAX]; //一到五级钱庄标准资金
+  uint16_t wing_max_user[GUILD_LEVEL_MAX]; //一到五级厢房人口上限
   uint32_t create_city_money; //创建城市需要的金钱
   uint32_t leave_word_cost; //帮会留言消耗的金钱
   uint32_t battle_time; //宣战时间
-  uint8_t left_guild_buff_enable; //是否增加离帮BUFF
+  bool left_guild_buff_enable; //是否增加离帮BUFF
   uint16_t boom_max_value; //帮派繁荣度最大值
   float boom_scale_all; //繁荣度计算参数
   float boom_scale_online_count; //繁荣度计算参数 上线成员总数权重
@@ -272,7 +272,7 @@ typedef struct {
 } ability_setting_t;
 
 typedef struct {
-  uint8_t enable; //是否打开疲劳状态
+  bool enable; //是否打开疲劳状态
   uint32_t little_fatigue_time; //轻微疲劳的总在线时间定义(s)
   uint32_t exceeding_fatigue_time; //极度疲劳的总在线时间定义(s)
   uint32_t reset_fatigue_state_offline_time; //消除疲劳的总离线时间定义(s)
