@@ -29,6 +29,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <vector>
 #if defined(__WINDOWS__) //diffrent system include
 #pragma warning (disable: 4786)
 #include <windows.h>

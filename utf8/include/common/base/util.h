@@ -34,7 +34,7 @@ int charset_convert(const char* from,
                     const char* to, 
                     char* save, 
                     int savelen, 
-                    char* src, 
+                    const char* src, 
                     int srclen) ;
 void password_swap_chars(char* str); //string will more than 32
 

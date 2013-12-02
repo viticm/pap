@@ -272,7 +272,7 @@ int charset_convert(const char* from,
                     const char* to, 
                     char* save, 
                     int savelen, 
-                    char* src, 
+                    const char* src, 
                     int srclen) {
   __ENTER_FUNCTION
     iconv_t cd;
