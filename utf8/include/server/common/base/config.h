@@ -515,7 +515,7 @@ struct scene_data_t {
   int16_t id; //场景ID
   bool active; //是否激活
   char name[FILENAME_MAX]; //场景名
-  char file_name[FILENAME_MAX]; //场景资源文件名
+  char file[FILENAME_MAX]; //场景资源文件名
   int16_t server_id; //运行此场景的服务器ID
   int8_t type; //场景类型,如果是0，表示普通游戏场景，如果是1表示副本 4表示帮会城市
   uint16_t pvp_ruler; //详细含义参见config/pvp_ruler.txt

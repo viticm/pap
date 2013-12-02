@@ -1,6 +1,7 @@
 #include "server/common/base/config.h"
 #include "server/common/base/file_define.h"
 #include "server/common/base/log.h"
+#include "server/common/base/time_manager.h"
 
 pap_server_common_base::Config g_config;
 
@@ -359,7 +360,7 @@ scene_data_t::scene_data_t() {
     id = ID_INVALID;
     active = false;
     memset(name, '\0', sizeof(name));
-    memset(file_name, '\0', sizeof(file_name));
+    memset(file, '\0', sizeof(file));
     server_id = ID_INVALID;
     type = -1;
     pvp_ruler = 0;
@@ -1091,17 +1092,35 @@ void Config::load_scene_info() {
 
 void Config::load_scene_info_only() {
   __ENTER_FUNCTION
-    typedef enum {
-      kSceneId, //场景号
-      kThreadId, //驱动线程的索引
-      kSceneName, //场景名
-      kSceneActive, //场景是否激活
-      kSceneFileName, //场景文件名
-      kServerId, //所在服务器号
-      kSceneType, //场景类型
-      kClientResourceIndex, //客户端对应资源
-    } enum_scene_define;
-    //file db    
+    pap_common_file::Ini scene_info_ini(SCENE_INFO_FILE);
+    scene_info_.count = scene_info_ini.read_uint16("System", "SceneNumber");
+    scene_info_.data = new scene_data_t[scene_info_.count];
+    memset(scene_info_.data, 0, sizeof(scene_info_.data));
+    uint32_t i;
+    for (i = 0; i < scene_info_.count; ++i) {
+      char section[256];
+      memset(section, '\0', sizeof(section));
+      snprintf(section, sizeof(section) - 1, "Scene%d", i);
+      const char kSection = static_cast<const char*>(section);
+      scene_info_.data[i].id = static_cast<int16_t>(i);
+      scene_info_.data[i].thread_index = scene_info_ini.read_int16(kSection, "ThreadIndex");
+      scene_info_.data[i].client_resource_index = scene_info_ini.read_int16(kSection, "ClientResourceIndex");
+      scene_info_ini.read_text(kSection, "Name", scene_info_.data[i].name, sizeof(scene_info_.data[i].name) - 1);
+      scene_info_ini.read_text(kSection, "File", scene_info_.data[i].file, sizeof(scene_info_.data[i].file) - 1);
+      scene_info_.data[i].server_id = scene_info_ini.read_int16(kSection, "ServerID");
+      scene_info_.data[i].type = scene_info_ini.read_int8(kSection, "Type");
+      scene_info_.data[i].pvp_ruler = scene_info_ini.read_uint16(kSection, "PvpRuler");
+      scene_info_.data[i].begin_plus = scene_info_ini.read_uint32(kSection, "BeginPlus");
+      scene_info_.data[i].plus_client_resource_index = scene_info_ini.read_int16(kSection, "PlusClientResourceIndex");
+      scene_info_.data[i].end_plus = scene_info_ini.read_uint32(kSection, "EndPlus");
+      scene_info_.data[i].relive = scene_info_ini.read_bool(kSection, "Relive");
+    }
+    for (i = 0; i < scene_info_.count; ++i) {
+      int16_t scene_id = scene_info_.data[i].id;
+      pap_common_sys::Assert(scene_id != ID_INVALID && scene_id < SCENE_MAX);
+      pap_common_sys::Assert(-1 == hash_scene[i]);
+      scene_info_.hash_scene[scene_id] = static_cast<int16_t>(i);
+    }
   __LEAVE_FUNCTION
 }
 
