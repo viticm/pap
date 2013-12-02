@@ -1,7 +1,6 @@
 #include "server/common/base/config.h"
 #include "server/common/base/file_define.h"
 #include "server/common/base/log.h"
-#include "server/common/base/time_manager.h"
 
 pap_server_common_base::Config g_config;
 
@@ -1121,12 +1120,59 @@ void Config::load_scene_info_only() {
       pap_common_sys::Assert(-1 == hash_scene[i]);
       scene_info_.hash_scene[scene_id] = static_cast<int16_t>(i);
     }
+    Log::save_log(CONFIG_LOG, "load %s only ... ok!", SCENE_INFO_FILE);
   __LEAVE_FUNCTION
 }
 
 void Config::load_scene_info_reload() {
   __ENTER_FUNCTION
+    Log::save_log(CONFIG_LOG, "load %s reload ... ok!", SCENE_INFO_FILE);
   __LEAVE_FUNCTION
+}
+
+void Config::load_copy_scene_info {
+  __ENTER_FUNCTION
+    load_copy_scene_info_only();
+    load_copy_scene_info_reload();
+  __LEAVE_FUNCTION
+}
+
+void Config::load_copy_scene_info_only() {
+  //do nothing
+}
+
+void Config::load_copy_scene_info_reload() {
+  //do nothing
+}
+
+int16_t Config::get_server_id_by_scene_id(int16_t id) const {
+  __ENTER_FUNCTION
+    pap_common_sys::Assert(id >= 0);
+    pap_common_sys::Assert(id < scene_info_.count);
+    return scene_info_.data[scene_info_.hash_scene[id]].server_id;
+  __LEAVE_FUNCTION
+    return -1;
+}
+
+int16_t get_server_id_by_share_memory_key(uint32_t key) const {
+  __ENTER_FUNCTION
+    int16_t result = -1;
+    pap_common_sys::Assert(key > 0);
+    uint32_t i;
+    for (i = 0; i < server_info_.count; ++i) {
+      if (server_info_.data[i].enable_share_memory) {
+        if (server_info_.data[i].share_memory_key.human == key ||
+            server_info_.data[i].share_memory_key.player_shop == key ||
+            server_info_.data[i].share_memory_key.item_serial == key ||
+            server_info_.data[i].share_memory_key.commision_shop == key) {
+          result = server_info_.data[i].id;
+          break;
+        }
+      }
+    }
+    return result;
+  __LEAVE_FUNCTION
+    return -1;
 }
 
 //class end --
