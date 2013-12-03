@@ -6,7 +6,7 @@ namespace pap_server_common_db {
 
 Manager::Manager() {
   __ENTER_FUNCTION
-    db_type_ = ALL_DATABASE; //init as all database
+    db_type_ = kAllDatabase; //init as all database
     character_interface_ = NULL;
     user_interface_ = NULL;
   __LEAVE_FUNCTION
@@ -19,7 +19,7 @@ Manager::~DBManager() {
   __LEAVE_FUNCTION
 }
 
-bool Manager::init(DB_TYPES db_type) {
+bool Manager::init(db_type_enum db_type) {
   __ENTER_FUNCTION
     db_type_ = db_type;
     char host[HOST_LENGTH];
@@ -27,7 +27,7 @@ bool Manager::init(DB_TYPES db_type) {
     char connection_name[DB_CONNECTION_NAME_LENGTH];
     char user[DB_USER_NAME_LENGTH];
     char password[DB_PASSWORD_LENGTH]; //this password is use in mysql, not encrypt password
-    if (ALL_DATABASE == db_type || CHARACTER_DATABASE == db_type) {
+    if (kAllDatabase == db_type || kCharacterDatabase == db_type) { //share memory
       //init all variable in first(character db)
       character_interface_ = new ODBCInterface();
       memset(host, 0, HOST_LENGTH);
@@ -57,11 +57,11 @@ bool Manager::init(DB_TYPES db_type) {
       bool connected = character_interface_->connect(connection_name, user, password);
       if (!connected) {
         Log::save_log(DB_LOG_FILE, 
-                      "character_interface_->connect()...get error: %s, DB_TYPE: %d", 
+                      "character_interface_->connect()...get error: %s, db_type: %d", 
                       character_interface_->get_error_message(), 
                       db_type);
       }
-      if (ALL_DATABASE == db_type || CHARACTER_DATABASE == db_type) {
+      if (kAllDatabase == db_type || kCharacterDatabase == db_type) { //login
       //init all variable in first(user db)
       character_interface_ = new ODBCInterface();
       memset(host, 0, HOST_LENGTH);
@@ -97,7 +97,7 @@ bool Manager::init(DB_TYPES db_type) {
       }
     }
 
-    if (ALL_DATABASE == db_type || CHARACTER_DATABASE == db_type) {
+    if (kAllDatabase == db_type || kUserDatabase == db_type) { //billing
       //init all variable in first(character db)
       user_interface_ = new ODBCInterface();
       memset(host, 0, HOST_LENGTH);
@@ -119,7 +119,7 @@ bool Manager::init(DB_TYPES db_type) {
       bool connected = user_interface_->connect(connection_name, user, password);
       if (!connected) {
         Log::save_log(DB_LOG_FILE, 
-                      "user_interface_->connect()...get error: %s, DB_TYPE: %d", 
+                      "user_interface_->connect()...get error: %s, db_type: %d", 
                       user_interface_->get_error_message(), 
                       db_type);
       }
@@ -127,15 +127,15 @@ bool Manager::init(DB_TYPES db_type) {
   __LEAVE_FUNCTION
 }
 
-ODBCInterface* Manager::get_interface(DB_TYPES db_type) {
+ODBCInterface* Manager::get_interface(db_type_enum db_type) {
   __ENTER_FUNCTION
     ODBCInterface* odbc_interface;
     switch(db_type) {
-      case CHARACTER_DATABASE: {
+      case kCharacterDatabase: {
         odbc_interface = character_interface_;
         break;
       }
-      case USER_DATABASE: {
+      case kUserDatabase: {
         odbc_interface = user_interface_;
         break;
       }

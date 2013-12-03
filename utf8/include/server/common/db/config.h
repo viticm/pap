@@ -28,7 +28,7 @@ struct DB_QUERY {
       Assert(false);
     }
   }
-}
+};
 
 struct LONG_DB_QUERY {
   char sql_str_[MAX_LONG_SQL_LENGTH];
@@ -44,13 +44,12 @@ struct LONG_DB_QUERY {
       Assert(false);
     }
   }
+};
 
-}
-
-enum DB_TYPES {
-  ALL_DATABASE = -1,
-  CHARACTER_DATABASE = 1,
-  USER_DATABASE = 2,
-}
+typedef enum {
+  kAllDatabase = -1,
+  kCharacterDatabase = 1,
+  kUserDatabase = 2,
+} db_type_enum;
 
 #endif //PAP_SERVER_COMMON_DB_DEFINE_H_

@@ -88,7 +88,7 @@ const Database::field_data* Database::search_position(int32_t line, int32_t colu
 const Database::field_data* Database::search_first_column_equal(int32_t column, const field_data &value) const {
   __ENTER_FUNCTION
     if (column < 0 || column > field_number_) return NULL;
-    enum_field_type type = type_[column];
+    field_type_enum type = type_[column];
     register uint32_t i;
     for (i = 0; i < record_number_; ++i) {
       const field_data &_field_data = data_buffer_[(field_number_ * i) + column ];
@@ -212,7 +212,7 @@ const char* Database::get_line_from_memory(char* str, int32_t size, const char* 
     return NULL;
 }
 
-<template Database::enum_field_type TYPE>
+<template Database::field_type_enum TYPE>
 bool Database::field_equal(const field_data &a, const field_data &b) {
   __ENTER_FUNCTION
     bool result = false;
@@ -401,7 +401,7 @@ bool open_from_memory_binary(const char* memory, const char* end, const char* fi
           //do nothing
         }
         case kTypeString: {
-          type_[i] = static_cast<enum_field_type>(file_type[i]);
+          type_[i] = static_cast<field_type_enum>(file_type[i]);
           break;
         }
         default: {

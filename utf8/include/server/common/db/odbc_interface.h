@@ -16,15 +16,16 @@
 #include "sql.h"
 #include "sqlext.h"
 
-namespace pap_server_common_db {
-
-//#define USE_MYSQL
 #define HOST_LENGTH 30
 #define CONNECTION_NAME_LENGTH 32
 #define MAX_COLUMN_NAME 30 //column name max length
 #define MAX_COLUMN_BUFFER 2049 //normal one column value length
 #define MAX_LONG_COLUMN_BUFFER 204800 //long column value length
 #define MAX_ERROR_MESSAGE_LENGTH 255
+
+namespace pap_server_common_db {
+
+//#define USE_MYSQL
 
 class ODBCInterface {
  public:

@@ -21,11 +21,11 @@ class Manager {
  public:
    DBManager();
    ~DBManager();
-   bool init(DB_TYPES db_type = ALL_DATABASE);
-   ODBCInterface* get_interface(DB_TYPES db_type);
+   bool init(db_type_enum db_type = kAllDatabase);
+   ODBCInterface* get_interface(enum_db_type db_type);
 
  private:
-   DB_TYPES db_type_;
+   db_type_enum db_type_;
    ODBCInterface* character_interface_;
    ODBCInterface* user_interface_;
 };

@@ -200,12 +200,14 @@ void Log::get_log_file_name(enum_log_id log_id, char* file_name) {
   __LEAVE_FUNCTION
 }
 
-void Log::void get_log_file_name(const char* file_name_prefix, char* file_name) {
+void Log::void get_log_file_name(const char* file_name_prefix, char* file_name) { 
+//remember the file_name_prefix is model name
   __ENTER_FUNCTION
      if (g_time_manager) {
       snprintf(file_name,
                FILENAME_MAX - 1,
-               "%s_%d_%d_%d.log",
+               "%s/%s_%d_%d_%d.log", //structure BASE_SAVE_LOG_DIR/logfilename.log
+               BASE_SAVE_LOG_DIR,
                file_name_prefix,
                g_time_manager->get_year(),
                g_time_manager->get_month(),

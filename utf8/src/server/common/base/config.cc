@@ -398,7 +398,7 @@ internal_ip_of_proxy_t::~internal_ip_of_proxy_t() {
   //do nothing
 }
 
-enum_isp internal_ip_of_proxy_t::ip_from(const char* ip) {
+isp_enum internal_ip_of_proxy_t::ip_from(const char* ip) {
   __ENTER_FUNCTION
     uint32_t i;
     for (i = 0; kProxyForOneNetworkMax > i; ++i) {
@@ -563,7 +563,7 @@ void Config::load_config_info_only() { //this params just read once
     config_info_.scene_timer.max_count = config_info_ini.read_uint16("SceneTimer","MaxCount");
     config_info_.human_timer.max_count = config_info_ini.read_uint16("HumanTimer","MaxCount");
     config_info_.localization.language = config_info_ini.read_uint8("Localization", "Language");
-    Log::save_log(CONFIG_LOG, "load %s only ... ok!", CONFIG_INFO_FILE);
+    Log::save_log("config", "load %s only ... ok!", CONFIG_INFO_FILE);
   __LEAVE_FUNCTION
 }
 
@@ -805,7 +805,14 @@ void Config::load_config_info_reload() { //this params can reload again
       config_info_.active_riches_card.state[i] = config_info_ini.read_bool("ActiveRichesCard", static_cast<const char*>(key_temp));
     }
     //loop read --
-    Log::save_log(CONFIG_LOG, "load %s reload ... ok!", CONFIG_INFO_FILE);
+    Log::save_log("config", "load %s reload ... ok!", CONFIG_INFO_FILE);
+  __LEAVE_FUNCTION
+}
+
+void Config::load_login_info() {
+  __ENTER_FUNCTION
+    load_login_info_only();
+    load_login_info_reload();
   __LEAVE_FUNCTION
 }
 
@@ -831,20 +838,13 @@ void Config::load_login_info_only() {
     login_info_.relogin_stop = login_info_ini.read_bool("System", "ReLoginStop");
     login_info_.relogin_stop_time = login_info_ini.read_uint32("System", "ReLoginStopTime");
     login_info_.notify_safe_sign = login_info_ini.read_bool("System", "NotifySafeSign");
-    Log::save_log(CONFIG_LOG, "load %s only ... ok!", LOGIN_INFO_FILE);
-  __LEAVE_FUNCTION
-}
-
-void Config::load_login_info() {
-  __ENTER_FUNCTION
-    load_login_info_only();
-    load_login_info_reload();
+    Log::save_log("config", "load %s only ... ok!", LOGIN_INFO_FILE);
   __LEAVE_FUNCTION
 }
 
 void Config::load_login_info_reload() {
   __ENTER_FUNCTION
-    Log::save_log(CONFIG_LOG, "load %s reload ... ok!", LOGIN_INFO_FILE);
+    Log::save_log("config", "load %s reload ... ok!", LOGIN_INFO_FILE);
   __LEAVE_FUNCTION
 }
 
@@ -868,13 +868,13 @@ void Config::load_world_info_only() {
     world_info_.share_memory_key.league = world_info_ini.read_uint32("System", "LeagueShareMemoryKey");
     world_info_.share_memory_key.find_friend = world_info_ini.read_uint32("System", "FindFriendShareMemoryKey");
     world_info_.enable_share_memory = world_info_ini.read_bool("System", "EnableShareMemory");
-    Log::save_log(CONFIG_LOG, "load %s only ... ok!", WORLD_INFO_FILE);
+    Log::save_log("config", "load %s only ... ok!", WORLD_INFO_FILE);
   __LEAVE_FUNCTION
 }
 
 void Config::load_world_info_reload() {
   __ENTER_FUNCTION
-    Log::save_log(CONFIG_LOG, "load %s reload ... ok!", WORLD_INFO_FILE);
+    Log::save_log("config", "load %s reload ... ok!", WORLD_INFO_FILE);
   __LEAVE_FUNCTION
 }
 
@@ -935,13 +935,13 @@ void Config::load_billing_info_only() {
       }
     }
     billing_info_.begin_use();
-    Log::save_log(CONFIG_LOG, "load %s only ... ok!", BILLING_INFO_FILE);
+    Log::save_log("config", "load %s only ... ok!", BILLING_INFO_FILE);
   __LEAVE_FUNCTION
 }
 
 void Config::load_billing_info_reload() {
   __ENTER_FUNCTION
-    Log::save_log(CONFIG_LOG, "load %s reload ... ok!", BILLING_INFO_FILE);
+    Log::save_log("config", "load %s reload ... ok!", BILLING_INFO_FILE);
   __LEAVE_FUNCTION
 }
 
@@ -991,13 +991,13 @@ void Config::load_share_memory_info_only() {
     share_memory_info_.world_data_save_interval = share_memory_info_ini.read_uint32("System", "WorldDataSaveInterval");
     share_memory_info_.human_data_save_interval = share_memory_info_ini.read_uint32("System", "HumanDataSaveInterval");
     share_memory_info_.encrypt_password = share_memory_info_ini.read_bool("System", "EncryptPassword");
-    Log::save_log(CONFIG_LOG, "load %s only ... ok!", SHARE_MEMORY_INFO_FILE);
+    Log::save_log("config", "load %s only ... ok!", SHARE_MEMORY_INFO_FILE);
   __LEAVE_FUNCTION
 }
 
 void Config::load_share_memory_info_reload() {
   __ENTER_FUNCTION
-    Log::save_log(CONFIG_LOG, "load %s reload ... ok!", SHARE_MEMORY_INFO_FILE);
+    Log::save_log("config", "load %s reload ... ok!", SHARE_MEMORY_INFO_FILE);
   __LEAVE_FUNCTION
 }
 
@@ -1021,13 +1021,13 @@ void Config::load_machine_info_only() {
       snprintf(section, sizeof(section) - 1, "Machine%d", i);
       machine_info_.data[i].id = machine_info_ini.read_int16(static_cast<const char*>(section), "MachineID");
     }
-    Log::save_log(CONFIG_LOG, "load %s only ... ok!", MACHINE_INFO_FILE);
+    Log::save_log("config", "load %s only ... ok!", MACHINE_INFO_FILE);
   __LEAVE_FUNCTION
 }
 
 void Config::load_machine_info_reload() {
   __ENTER_FUNCTION
-    Log::save_log(CONFIG_LOG, "load %s reload ... ok!", MACHINE_INFO_FILE);
+    Log::save_log("config", "load %s reload ... ok!", MACHINE_INFO_FILE);
   __LEAVE_FUNCTION
 }
 
@@ -1072,13 +1072,13 @@ void Config::load_server_info_only() {
       pap_common_sys::Assert(-1 == server_info_.hash_server[server_id]);
       server_info_.hash_server[server_id] = i;
     }
-    Log::save_log(CONFIG_LOG, "load %s only ... ok!", SERVER_INFO_FILE);
+    Log::save_log("config", "load %s only ... ok!", SERVER_INFO_FILE);
   __LEAVE_FUNCTION
 }
 
 void Config::load_server_info_reload() {
   __ENTER_FUNCTION
-    Log::save_log(CONFIG_LOG, "load %s reload ... ok!", SERVER_INFO_FILE);
+    Log::save_log("config", "load %s reload ... ok!", SERVER_INFO_FILE);
   __LEAVE_FUNCTION
 }
 
@@ -1120,13 +1120,13 @@ void Config::load_scene_info_only() {
       pap_common_sys::Assert(-1 == hash_scene[i]);
       scene_info_.hash_scene[scene_id] = static_cast<int16_t>(i);
     }
-    Log::save_log(CONFIG_LOG, "load %s only ... ok!", SCENE_INFO_FILE);
+    Log::save_log("config", "load %s only ... ok!", SCENE_INFO_FILE);
   __LEAVE_FUNCTION
 }
 
 void Config::load_scene_info_reload() {
   __ENTER_FUNCTION
-    Log::save_log(CONFIG_LOG, "load %s reload ... ok!", SCENE_INFO_FILE);
+    Log::save_log("config", "load %s reload ... ok!", SCENE_INFO_FILE);
   __LEAVE_FUNCTION
 }
 
@@ -1154,7 +1154,7 @@ int16_t Config::get_server_id_by_scene_id(int16_t id) const {
     return -1;
 }
 
-int16_t get_server_id_by_share_memory_key(uint32_t key) const {
+int16_t Config::get_server_id_by_share_memory_key(uint32_t key) const {
   __ENTER_FUNCTION
     int16_t result = -1;
     pap_common_sys::Assert(key > 0);
@@ -1174,7 +1174,6 @@ int16_t get_server_id_by_share_memory_key(uint32_t key) const {
   __LEAVE_FUNCTION
     return -1;
 }
-
 //class end --
 
 } //namespace pap_server_common_base

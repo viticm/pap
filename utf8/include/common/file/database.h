@@ -34,9 +34,9 @@ class Database {
      kTypeInt = 0,
      kTypeFloat = 1,
      kTypeString = 2,
-   } enum_field_type;
+   } field_type_enum;
 
-   typedef vector<enum_field_type> field_type;
+   typedef vector<field_type_enum> field_type;
    
    union field_data {
      float float_value;
@@ -72,7 +72,7 @@ class Database {
                                           bool one_key,
                                           bool ignore_empty);
    static const char* get_line_from_memory(char* str, int32_t size, const char* memory, const char* end);
-   template<enum_field_type TYPE>
+   template<field_type_enum TYPE>
    static bool field_equal(const field_data &a, const field_data &b); 
 
  protected:
@@ -84,7 +84,7 @@ class Database {
    typedef __gnu_cxx::<int32_t, field_data*> field_hashmap;
 #endif
    uint32_t id_;
-   enum_field_type type_;
+   field_type_enum type_;
    int32_t record_number_;
    int32_t field_number_;
    data_buffer data_buffer_;

@@ -6,7 +6,9 @@
 #include "common/sys/thread.h"
 #include "server/common/base/define.h"
 
-#define LOGIN_LOG "./log/login"
+#define BASE_SAVE_LOG_DIR "./log"
+/**
+#define LOGIN_LOG "./log/login" //I would not want to use macros, modules do wrong name.
 #define SERVER_LOG "./log/server"
 #define SERVER_ERROR_LOG "./log/error"
 #define SERVER_FUNCTION_LOG "./log/function"
@@ -17,6 +19,10 @@
 #define CRC32_LOG "./log/crc32"
 #define SHARE_MEMROY_LOG "./log/share_memory"
 #define BILLING_LOG "./log/billing"
+**/
+#define LOG_BUFF_TEMP 4096 //the define not unfettered by namespace
+#define LOG_NAME_TEMP 128
+#define DEFAULT_LOG_CACHE_SIZE (1024*1024*4)
 
 typedef enum {
   kLogFile0 = 0,
@@ -26,10 +32,6 @@ typedef enum {
 } enum_log_id;
 
 namespace pap_server_common_base {
-
-#define LOG_BUFF_TEMP 4096
-#define LOG_NAME_TEMP 128
-#define DEFAULT_LOG_CACHE_SIZE (1024*1024*4)
 
 class Log {
 
