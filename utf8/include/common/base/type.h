@@ -19,10 +19,16 @@
 #ifndef FD_SETSIZE 
 #define FD_SETSIZE 4906
 #endif
+
+#ifndef __STDC_FORMAT_MACROS
+#define __STDC_FORMAT_MACROS
+#endif //use c99
+
 //system include
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <inttypes.h>
 #include <time.h>
 #include <math.h>
 #include <stdarg.h>
