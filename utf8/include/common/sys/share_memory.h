@@ -90,10 +90,37 @@ class UnitManager {
        count_ = 0;
      __LEAVE_FUNCTION
    };
-   bool heartbeat(uint32_t time);
-   bool add_data(T* data);
-   bool delete_data(T* data);
-   T* get_data(uint16_t id);
+   bool heartbeat(uint32_t time = 0);
+   bool add_data(T* data) {
+     __ENTER_FUNCTION
+       Assert(count_ < kManagerUnitDataMax);
+       if (count_ >= kManagerUnitDataMax) return false;
+       data_[count_] = data;
+       ++count_;
+       data_->set_id(count_);
+       return true;
+     __LEAVE_FUNCTION
+       return false;
+   };
+   bool delete_data(T* data) {
+     __ENTER_FUNCTION
+       uint32_t id = data->get_id();
+       Assert(id < static_cast<uint32_t>(count_));
+       if (id >= static_cast<uint32_t>(count_)) return false;
+       data_[id] = data_[count_ - 1];
+       data->set_id(ID_INVALID);
+       --count_;
+     __LEAVE_FUNCTION
+       return false;
+   };
+   T* get_data(uint16_t id) {
+     __ENTER_FUNCTION
+       Assert(id < static_cast<uint32_t>(count_));
+       if (id >= static_cast<uint32_t>(count_)) return false;
+       return data_[id];
+     __LEAVE_FUNCTION
+       return false;
+   };
 
 };
 
