@@ -91,7 +91,7 @@ const Database::field_data* Database::search_first_column_equal(int32_t column, 
     field_type_enum type = type_[column];
     register uint32_t i;
     for (i = 0; i < record_number_; ++i) {
-      const field_data &_field_data = data_buffer_[(field_number_ * i) + column ];
+      const field_data &_field_data = data_buffer_[(field_number_ * i) + column];
       bool result;
       if (kTypeInt == type) {
         result = field_equal<kTypeInt>(_field_data, value);
