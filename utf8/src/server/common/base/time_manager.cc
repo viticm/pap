@@ -299,11 +299,11 @@ uint32_t TimeManager::get_weeks() {
     return 0;
 }
 
-enum_world_time TimeManager::get_world_time() {
+world_time_enum TimeManager::get_world_time() {
   return world_time_;
 }
 
-void TimeManager::set_world_time(enum_world_time world_time) {
+void TimeManager::set_world_time(world_time_enum world_time) {
   __ENTER_FUNCTION
     world_time_ = world_time;
   __LEAVE_FUNCTION

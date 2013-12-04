@@ -19,7 +19,7 @@ class TimeManager {
    uint32_t current_time_;
    time_t set_time_;
    tm tm_;
-   enum_world_time world_time_;
+   world_time_enum world_time_;
 #if defined(__LINUX__)
    struct timeval start_, end_;
    struct timezone time_zone_;
@@ -56,8 +56,8 @@ class TimeManager {
    uint32_t get_days(); //取得以天为单位的时间值, 千位数代表年份，其他三位代表时间（天数）
    uint32_t get_hours(); //12723表示本年度第127天的5(23/4)点的第3(23%4)刻钟时间
    uint32_t get_weeks(); //取得以周为单位的时间值, 千位数代表年份，其他三位代表时间（周数）
-   enum_world_time get_world_time();
-   void set_world_time(enum_world_time world_time);
+   world_time_enum get_world_time();
+   void set_world_time(world_time_enum world_time);
 
 };
 

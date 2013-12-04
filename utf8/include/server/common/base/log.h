@@ -1,3 +1,13 @@
+/**
+ * PAP Engine ( https://github.com/viticm/pap )
+ * $Id log.h
+ * @link https://github.com/viticm/pap for the canonical source repository
+ * @copyright Copyright (c) 2013-2013 viticm( viticm@126.com )
+ * @license
+ * @user viticm<viticm@126.com>
+ * @date 2013-12-4 16:18:56
+ * @uses server log class
+ */
 #ifndef PAP_SERVER_COMMON_BASE_LOG_H_
 #define PAP_SERVER_COMMON_BASE_LOG_H_
 
@@ -6,7 +16,6 @@
 #include "common/sys/thread.h"
 #include "server/common/base/define.h"
 
-#define BASE_SAVE_LOG_DIR "./log"
 /**
 #define LOGIN_LOG "./log/login" //I would not want to use macros, modules do wrong name.
 #define SERVER_LOG "./log/server"
@@ -20,18 +29,21 @@
 #define SHARE_MEMROY_LOG "./log/share_memory"
 #define BILLING_LOG "./log/billing"
 **/
-#define LOG_BUFF_TEMP 4096 //the define not unfettered by namespace
-#define LOG_NAME_TEMP 128
-#define DEFAULT_LOG_CACHE_SIZE (1024*1024*4)
 
 typedef enum {
-  kLogFile0 = 0,
-  kLogFile1 = 1,
-  kLogFile2 = 2,
+  kLoginLogFile = 0,
+  kDebugLogFile = 1,
+  kErrorLogFile = 2,
+  kShareMemoryLogFile = 3,
   kLogFileCount,
 } enum_log_id;
 
 namespace pap_server_common_base {
+
+const char* kBaseLogSaveDir = "./log"; //如果不要外部使用，就别使用宏
+const uint32_t kLogBufferTemp = 4096;
+const uint32_t kLogNameTemp = 128;
+const uint32_t kDefaultLogCacheSize = 1024 * 1024 * 4;
 
 class Log {
 
@@ -41,7 +53,7 @@ class Log {
 
  public:
    static void disk_log(const char* file_name_prefix, const char* format, ...);
-   bool init(int32_t cache_size = DEFAULT_LOG_CACHE_SIZE);
+   bool init(int32_t cache_size = kDefaultLogCacheSize);
    void fast_save_log(enum_log_id log_id, const char* format, ...); //save in memory
    void fast_log(enum_log_id log_id);
    int32_t get_log_size(enum_log_id log_id);

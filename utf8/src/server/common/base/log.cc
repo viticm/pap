@@ -10,9 +10,10 @@ bool g_command_log_print = true;
 bool g_command_log_active = true;
 
 const char* g_log_file_name[] = {
-  "./log/login", //kLogFile0
-  "./log/debug", //kLogFile1
-  "./log/error", //kLogFile2
+  "./log/login", //kLoginLogFile
+  "./log/debug", //kDebugLogFile
+  "./log/error", //kErrorLogFile
+  "./log/share_memory"
   '\0',
 };
 
@@ -65,15 +66,15 @@ void Log::disk_log(const char* file_name_prefix, const char* format, ...) {
   __ENTER_FUNCTION
     if (g_command_log_active != true) return;
     if (NULL == filename || 0 == filename[0]) return;
-    char buffer[LOG_BUFF_TEMP];
+    char buffer[kLogBufferTemp];
     memset(buffer, '\0', sizeof(buffer));
     va_list argptr;
     try {
       va_start(argptr, msg);
-			vsnprintf(buffer, sizeof(LOG_BUFF_TEMP) - LOG_NAME_TEMP - 1, format, argptr);
+			vsnprintf(buffer, sizeof(kLogBufferTemp) - kLogNameTemp - 1, format, argptr);
       va_end(argptr);
       if (g_time_manager) {
-        char time_str[LOG_NAME_TEMP] ;
+        char time_str[kLogNameTemp] ;
 				memset(time_str, '\0', sizeof(time_str));
         get_log_time_str(time_str, sizeof(time_str) - 1);        
         strncat(buffer, time_str, strlen(time_str));
@@ -173,7 +174,7 @@ void Log::fast_save_log(enum_log_id log_id, const char* format, ...) {
     }
     log_position_[log_id] += length;
     log_lock_[log_id].unlock;
-    if (log_position_[log_id] > (DEFAULT_LOG_CACHE_SIZE * 2) / 3) {
+    if (log_position_[log_id] > (kDefaultLogCacheSize * 2) / 3) {
       flush_log(log_id);
     }
   __LEAVE_FUNCTION
@@ -207,7 +208,7 @@ void Log::void get_log_file_name(const char* file_name_prefix, char* file_name) 
       snprintf(file_name,
                FILENAME_MAX - 1,
                "%s/%s_%d_%d_%d.log", //structure BASE_SAVE_LOG_DIR/logfilename.log
-               BASE_SAVE_LOG_DIR,
+               kBaseLogSaveDir,
                file_name_prefix,
                g_time_manager->get_year(),
                g_time_manager->get_month(),
