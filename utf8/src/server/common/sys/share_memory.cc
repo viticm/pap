@@ -1,4 +1,5 @@
-#include "common/sys/share_memory.h"
+#include "server/common/sys/share_memory.h"
+#include "server/common/base/log.h"
 #if defined(__LINUX__)
 #include <sys/types.h>
 #include <sys/ipc.h>
@@ -33,7 +34,12 @@ int32_t create(uint64_t key, uint32_t size) {
     int32_t handle;
 #if defined(__LINUX__)
     int32_t handle = shmget(key, size, IPC_CREAT | IPC_EXCL | 0666);
-    printf("[share memory][api](create) handle = %d ,key = %"PRIu64" ,error: %d%s", handle, key, errno, LF);
+    pap_server_common_base::Log::save_log("share_memory",
+                                          "[share memory][api](create) handle = %d, key = %"PRIu64" ,error: %d%s",
+                                          handle, 
+                                          key, 
+                                          errno, 
+                                          LF);
 #elif defined(__WINDOWS__)
     char buffer[65];
     memset(buffer, '\0', sizeof(buffer));
@@ -55,7 +61,12 @@ int32_t open(uint64_t key, uint32_t size) {
     int32_t handle;
 #if defined(__LINUX__)
     handle = shmget(key, size, 0);
-    printf("[share memory][api](open) handle = %d ,key = %"PRIu64" ,error: %d%s", handle, key, errno, LF);
+    pap_server_common_base::Log::save_log("share_memory", 
+                                          "[share memory][api](open) handle = %d ,key = %"PRIu64" ,error: %d%s", 
+                                          handle, 
+                                          key, 
+                                          errno, 
+                                          LF);
     return handle;
 #elif defined(__WINDOWS__)
     char buffer[65];
@@ -123,7 +134,11 @@ bool Base::create(uint64_t key, int32_t size) {
     if (kCmdModelClearAll == cmd_model_) return false;
     handle_ = api::create(key, size);
     if (HANDLE_INVALID == handle_) {
-      printf("[share memory][base](create) create failed! handle = %d ,key = %"PRIu64" %s", handle_, key, LF);
+      pap_server_common_base::Log::save_log("share_memory", 
+                                            "[share memory][base](create) create failed! handle = %d,key = %"PRIu64" %s", 
+                                            handle_, 
+                                            key, 
+                                            LF);
       return false;
     }
     header_ = api::map(handle_);
@@ -132,11 +147,19 @@ bool Base::create(uint64_t key, int32_t size) {
       (static_cast<data_header_t*>(header_))->key = key;
       (static_cast<data_header_t*>(header_))->size = size;
       size_ = size;
-      printf("[share memory][base](create) success! handle = %d ,key = %"PRIu64" %s", handle_, key, LF);
+      pap_server_common_base::Log::save_log("share_memory", 
+                                            "[share memory][base](create) success! handle = %d ,key = %"PRIu64" %s", 
+                                            handle_, 
+                                            key, 
+                                            LF);
       return true;
     }
     else {
-      printf("[share memory][base](create) map failed! handle = %d ,key = %"PRIu64" %s", handle_, key, LF);
+      pap_server_common_base::Log::save_log("share_memory", 
+                                            "[share memory][base](create) map failed! handle = %d ,key = %"PRIu64" %s", 
+                                            handle_, 
+                                            key,
+                                            LF);
       return false;
     }
   __LEAVE_FUNCTION
@@ -162,11 +185,17 @@ bool Base::attach(uint64_t key, uint32_t size) {
     handle_ = api::open(key, size);
     if (kCmdModelClearAll == cmd_model_) {
       destory();
-      printf("[share memory][base](attach) close memory, key = %"PRIu64" %s", key, LF);
+      pap_server_common_base::Log::save_log("share_memory",
+                                            "[share memory][base](attach) close memory, key = %"PRIu64" %s", 
+                                            key, 
+                                            LF);
       return false;
     }
     if (HANDLE_INVALID == handle_) {
-      printf("[share memory][base](attach) create failed, key = %"PRIu64" %s", key, LF);
+      pap_server_common_base::Log::save_log("share_memory", 
+                                            "[share memory][base](attach) create failed, key = %"PRIu64" %s", 
+                                            key, 
+                                            LF);
       return false;
     }
     header_ = api::map(handle_);
@@ -174,15 +203,46 @@ bool Base::attach(uint64_t key, uint32_t size) {
       data_pointer_ = header_ + sizeof(data_header_t);
       Assert((static_cast<data_header_t*>(header_))->key == key);
       Assert((static_cast<data_header_t*>(header_))->size == size)
-      printf("[share memory][base](attach) success, key = %"PRIu64" %s", key, LF);
+      pap_server_common_base::Log::save_log("share_memory", 
+                                            "[share memory][base](attach) success, key = %"PRIu64" %s", 
+                                            key, 
+                                            LF);
       return true;
     }
     else {
-      printf("[share memory][base](attach) map failed, key = %"PRIu64" %s", key, LF);
+      pap_server_common_base::Log::save_log("share_memory", 
+                                            "[share memory][base](attach) map failed, key = %"PRIu64" %s", 
+                                            key, 
+                                            LF);
       return false;
     }
   __LEAVE_FUNCTION
     return false;
+}
+
+char* Base::get_data_pointer() {
+  __ENTER_FUNCTION
+    return data_pointer_;
+  __LEAVE_FUNCTION
+    return NULL;
+}
+
+char* Base::get_data(uint32_t size, uint32_t index) {
+  __ENTER_FUNCTION
+    pap_common_sys::Assert(size > 0);
+    pap_common_sys::Assert(size * index < size_);
+    char* result;
+    result = (size <= 0 || index > size_) ? NULL : data_pointer_ + size * index;
+    return result;
+  __LEAVE_FUNCTION
+    return NULL;
+}
+
+uint32_t Base::get_size() {
+  __ENTER_FUNCTION
+    return size_;
+  __LEAVE_FUNCTION
+    return 0;
 }
 
 bool Base::dump(const char* filename) {

@@ -21,10 +21,5 @@
 #define SYSTEM_NAME_MAX 126
 #define CPU_NAME_MAX 256
 
-typedef enum {
-  kCmdModelClearAll = 1,
-  kCmdModelLoadDump = 2,
-} cmd_model_enum; //命令行模式
-
 #endif //PAP_COMMON_SYS_CONFIG_H_
 
