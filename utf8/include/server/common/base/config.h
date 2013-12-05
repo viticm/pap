@@ -204,9 +204,9 @@ typedef struct {
 typedef struct {
   uint32_t default_damage_fluctuation; //缺省的攻击浮动值
   uint16_t h0_of_hit_calculation; //命中计算中的参数H0
-  uint16_t c0_of_critical_calculation; //会心计算中的参数C0
-  uint16_t c1_of_critical_calculation; //会心计算中的参数C1
-  uint16_t c2_of_critical_calculation; //会心计算中的参数C2
+  uint16_t c0_of_crit_calculation; //会心计算中的参数C0
+  uint16_t c1_of_crit_calculation; //会心计算中的参数C1
+  uint16_t c2_of_crit_calculation; //会心计算中的参数C2
 } combat_setting_t;
 
 typedef struct {

@@ -128,9 +128,9 @@ config_info_t::config_info_t() {
     memset(temp.user_path,'\0', sizeof(temp.user_path));
     combat.default_damage_fluctuation = 8;
     combat.h0_of_hit_calculation = 10;
-    combat.c0_of_critical_calculation = 100;
-    combat.c1_of_critical_calculation = 10;
-    combat.c2_of_critical_calculation = 25;
+    combat.c0_of_crit_calculation = 100;
+    combat.c1_of_crit_calculation = 10;
+    combat.c2_of_crit_calculation = 25;
     good_and_evil.min_value = 0;
     good_and_evil.max_value = 1000000;
     good_and_evil.get_value_need_level = 20;
@@ -712,9 +712,9 @@ void Config::load_config_info_reload() { //this params can reload again
     config_info_ini.read_text("Temp", "UserPath", config_info_.temp.user_path, sizeof(config_info_.temp.user_path) - 1);
     config_info_.combat.default_damage_fluctuation = config_info_ini.read_uint32("Combat", "DefaultDamageFluctuation");
     config_info_.combat.h0_of_hit_calculation = config_info_ini.read_uint16("Combat", "H0ofHitCalculation");
-    config_info_.combat.c0_of_critical_calculation = config_info_ini.read_uint16("Combat", "C0ofCriticalCalculation");
-    config_info_.combat.c1_of_critical_calculation = config_info_ini.read_uint16("Combat", "C1ofCriticalCalculation");
-    config_info_.combat.c2_of_critical_calculation = config_info_ini.read_uint16("Combat", "C2ofCriticalCalculation");
+    config_info_.combat.c0_of_crit_calculation = config_info_ini.read_uint16("Combat", "C0ofCritCalculation");
+    config_info_.combat.c1_of_crit_calculation = config_info_ini.read_uint16("Combat", "C1ofCritCalculation");
+    config_info_.combat.c2_of_crit_calculation = config_info_ini.read_uint16("Combat", "C2ofCritCalculation");
     config_info_.good_and_evil.min_value = config_info_ini.read_uint32("GoodAndEvil", "MaxValue");
     config_info_.good_and_evil.max_value = config_info_ini.read_uint32("GoodAndEvil", "MinValue");
     config_info_.good_and_evil.get_value_need_level = config_info_ini.read_uint8("GoodAndEvil", "GetValueNeedLevel");
