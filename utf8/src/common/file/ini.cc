@@ -59,7 +59,7 @@ bool Ini::open(const char* file_name) {
       memset(data_info_, '\0', sizeof(data_info_));
       FILE* fp;
       fp = fopen(file_name_, "rb");
-      pap_common_sys::AssertEx(fp != NULL, file_name_);
+      AssertEx(fp != NULL, file_name_);
       fread(data_info_, data_length_, 1, fp);
       fclose(fp);
       init_index();
@@ -94,7 +94,7 @@ bool Ini::save(char* file_name) { //save file_name
     FILE* fp;
     if (NULL == file_name) file_name = file_name_;
     fp = fopen(file_name, "wb");
-    pap_common_sys::AssertEx(fp != NULL, file_name); 
+    AssertEx(fp != NULL, file_name); 
     fwrite(data_info_, data_length_, 1, fp);
     fclose(fp);
   __LEAVE_FUNCTION
@@ -326,7 +326,7 @@ void Ini::read_text(const char* section, const char* key, char* str, int32_t len
     memset(temp, '\0', sizeof(temp));
     snprintf(temp, sizeof(temp), "[file:%s][section:%s][key:%s]", file_name_, section, key);
     int32_t section_index = find_section_index(section);
-    pap_common_sys::AssertEx(section_index != -1, temp);
+    AssertEx(section_index != -1, temp);
     if (-1 == section_index) return;
     int32_t data_index = find_data_index(section_index, key);
     if (-1 == data_index) return;
@@ -354,7 +354,7 @@ void Ini::read_text(const char* section, int32_t line, char* str, int32_t length
     memset(temp, '\0', sizeof(temp));
     snprintf(temp, sizeof(temp), "[file:%s][section:%s][line:%d]", file_name_, section, line);
     int32_t section_index = find_section_index(section);
-    pap_common_sys::AssertEx(section_index != -1, temp);
+    AssertEx(section_index != -1, temp);
     int32_t position = section_index; //start from section
     position = goto_next_line(position);
     int32_t i;
@@ -385,7 +385,7 @@ void Ini::read_key(const char* section, int32_t line, char* str, int32_t length)
     memset(temp, '\0', sizeof(temp));
     snprintf(temp, sizeof(temp), "[file:%s][section:%s][line:%d]", file_name_, section, line);
     int32_t section_index = find_section_index(section);
-    pap_common_sys::AssertEx(section_index != -1, temp);
+    AssertEx(section_index != -1, temp);
     int32_t position = section_index;
     position = goto_next_line(position);
     int32_t i;
@@ -405,9 +405,9 @@ int64_t Ini::read_int64(const char* section, const char* key) {
     memset(temp, '\0', sizeof(temp));
     snprintf(temp, sizeof(temp), "[file:%s][section:%s][key:%s]", file_name_, section, key);
     int32_t section_index = find_section_index(section);
-    pap_common_sys::AssertEx(section_index != -1, temp);
+    AssertEx(section_index != -1, temp);
     int32_t data_index = find_data_index(section_index, key);
-    pap_common_sys::AssertEx(data_index, temp);
+    AssertEx(data_index, temp);
     char* str = read_text(data_index);
     int64_t result = static_cast<int64_t>(atoll(str));
     return result;
@@ -433,7 +433,7 @@ int64_t Ini::read_int64(const char* section, int32_t line) { //read in line
     memset(temp, '\0', sizeof(temp));
     snprintf(temp, sizeof(temp), "[file:%s][section:%s][line:%d]", file_name_, section, line);
     int32_t section_index = find_section_index(section);
-    pap_common_sys::AssertEx(section_index != -1, temp);
+    AssertEx(section_index != -1, temp);
     int32_t position = section_index; //start from section
     position = goto_next_line(position);
     int32_t i;
@@ -467,9 +467,9 @@ float Ini::read_float(const char* section, const char* key) {
     memset(temp, '\0', sizeof(temp));
     snprintf(temp, sizeof(temp), "[file:%s][section:%s][key:%s]", file_name_, section, key);
     int32_t section_index = find_section_index(section);
-    pap_common_sys::AssertEx(section_index != -1, temp);
+    AssertEx(section_index != -1, temp);
     int32_t data_index = find_data_index(section_index, key);
-    pap_common_sys::AssertEx(data_index, temp);
+    AssertEx(data_index, temp);
     char* str = read_text(data_index);
     float result = static_cast<float>(atof(str));
     return result;

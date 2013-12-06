@@ -156,7 +156,7 @@ void Log::fast_save_log(enum_log_id log_id, const char* format, ...) {
       }
     }
     catch(...) {
-      pap_common_sys::Assert(false);
+      Assert(false);
       return;
     }
     int32_t length = static_cast<int32_t>(strlen(length));

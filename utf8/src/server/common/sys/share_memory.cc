@@ -1,5 +1,6 @@
 #include "server/common/sys/share_memory.h"
 #include "server/common/base/log.h"
+#include "common/base/util.h"
 #if defined(__LINUX__)
 #include <sys/types.h>
 #include <sys/ipc.h>
@@ -9,7 +10,7 @@
 #include <winbase.h>
 #endif
 
-namespace pap_common_sys {
+namespace pap_server_common_sys {
 
 namespace share_memory { 
 
@@ -229,8 +230,8 @@ char* Base::get_data_pointer() {
 
 char* Base::get_data(uint32_t size, uint32_t index) {
   __ENTER_FUNCTION
-    pap_common_sys::Assert(size > 0);
-    pap_common_sys::Assert(size * index < size_);
+    Assert(size > 0);
+    Assert(size * index < size_);
     char* result;
     result = (size <= 0 || index > size_) ? NULL : data_pointer_ + size * index;
     return result;
@@ -247,7 +248,7 @@ uint32_t Base::get_size() {
 
 bool Base::dump(const char* filename) {
   __ENTER_FUNCTION
-    pap_common_sys::Assert(filename);
+    Assert(filename);
     FILE* fp = fopen(filename, "wb");
     if (!fp) return false;
     fwrite(header_, 1, size_, fp);
@@ -288,6 +289,75 @@ uint32_t Base::get_head_version() {
 
 //class end --
 
+//-- functions start
+
+void lock(char &flag, char type) {
+  __ENTER_FUNCTION
+    _loop:
+    if (kUseFree == flag) {
+      flag = type;
+      pap_common_base::util::sleep(1);
+#if defined(__LINUX__)
+      ++lock_times;
+      printf("[share memory](lock) fail %s, %d, %s", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+      if (lock_times < 100 && lock_time_enable) {
+        lock_times = 0;
+        return;
+      }
+#endif
+      goto _loop;
+    }
+  __LEAVE_FUNCTION
+}
+
+bool trylock(char &flag, char type) {
+  __ENTER_FUNCTION
+    uint32_t _lock_times = 0;
+    _loop:
+    if (kUseFree == flag) {
+      flag = type;
+      if (flag != type) {
+        ++_lock_times;
+        pap_common_base::util::sleep(1);
+        if (_lock_times > 10) {
+          return false;
+        }
+        goto _loop;
+      }
+    }
+    else {
+      ++_lock_times;
+      pap_common_base::util::sleep(1);
+      if (_lock_times > 10) {
+        return false;
+      }
+      goto _loop;
+    }
+  __LEAVE_FUNCTION
+    return false;
+}
+
+void unlock(char &flag, char type) {
+  __ENTER_FUNCTION
+    _loop:
+      if (kUseFree == flag) return;
+      flag = kUseFree;
+      if (kUseFree != flag) {
+        pap_common_base::util::sleep(1);
+#if defined(__LINUX__)
+        printf("[share memory](unlock)fail %s, %s, %s", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+        if (lock_times > 100 && lock_time_enable) {
+          lock_times = 0;
+          return;
+        }
+#endif
+        goto _loop;
+      }
+  __LEAVE_FUNCTION
+}
+
+//functions end --
+
 } //namespace share_memory
 
-} //namespace pap_common_sys
+} //namespace pap_server_common_sys

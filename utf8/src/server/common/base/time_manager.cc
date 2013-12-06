@@ -157,7 +157,7 @@ uint32_t TimeManager::tm_todword() {
 
 void TimeManager::dword_totm(uint32_t time, tm* _tm) {
   __ENTER_FUNCTION
-    pap_common_sys::Assert(_tm);
+    Assert(_tm);
     memset(_tm, 0 , sizeof(_tm));
     _tm->tm_year = (time / 100000000) + 2000 - 1900;
     _tm->tm_mon = (time % 100000000) / 1000000 - 1;
@@ -212,7 +212,7 @@ uint32_t TimeManager::get_run_time() {
 
 void TimeManager::time_totm(uint32_t time, tm* _tm) {
   __ENTER_FUNCTION
-    pap_common_sys::Assert(_tm);
+    Assert(_tm);
     memset(_tm, 0, sizeof(_tm));
     _tm->tm_year = ((time >> 26) & 0xf) + 100;
     _tm->tm_mon  = (time >> 22) & 0xf;
@@ -225,7 +225,7 @@ void TimeManager::time_totm(uint32_t time, tm* _tm) {
 
 void TimeManager::void tm_totime(tm* _tm, uint32_t &time) {
   __ENTER_FUNCTION
-    pap_common_sys::Assert(_tm);
+    Assert(_tm);
     time = 0;
     time += (_tm->tm_year % 10) & 0xf;
     time = time << 4;

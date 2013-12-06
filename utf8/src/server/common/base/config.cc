@@ -891,7 +891,7 @@ void Config::load_billing_info_only() {
     pap_common_file::Ini server_info_ini(SERVER_INFO_FILE);
     uint16_t number;
     if (false == server_info_ini.read_exist_uint16("Billing", "Number", number)) {
-      pap_common_sys::AssertEx(false, "Config::load_billing_info_only is failed, can't find Billing Number");
+      AssertEx(false, "Config::load_billing_info_only is failed, can't find Billing Number");
     }
     billing_info_.clean_up();
     billing_info_.init(number);
@@ -918,7 +918,7 @@ void Config::load_billing_info_only() {
                                                   billing_data.ip, 
                                                   sizeof(billing_data.ip) - 1) {
         snprintf(message, sizeof(message) - 1, "Config::load_billing_info_only is failed, can't find key: %s", key);
-        pap_common_sys::AssertEx(false, message);
+        AssertEx(false, message);
       }
       memset(key, '\0', sizeof(key));
       memset(message, '\0', sizeof(message));
@@ -927,7 +927,7 @@ void Config::load_billing_info_only() {
                                                      static_cast<const char*>(key),
                                                      billing_data.port)) {
         snprintf(message, sizeof(message) - 1, "Config::load_billing_info_only is failed, can't find key: %s", key);
-        pap_common_sys::AssertEx(false, message);
+        AssertEx(false, message);
       }
       if (0 == i) {
         billing_info_.port_ = billing_data.port;
@@ -1068,8 +1068,8 @@ void Config::load_server_info_only() {
     server_info_.world_data.port = server_info_ini.read_uint16("World", "Port");
     for (i = 0; i < server_info_.count; ++i) {
       int16_t server_id = server_info_.data[i].id;
-      pap_common_sys::Assert(server_id != ID_INVALID && server_id <= OVER_SERVER_MAX);
-      pap_common_sys::Assert(-1 == server_info_.hash_server[server_id]);
+      Assert(server_id != ID_INVALID && server_id <= OVER_SERVER_MAX);
+      Assert(-1 == server_info_.hash_server[server_id]);
       server_info_.hash_server[server_id] = i;
     }
     Log::save_log("config", "load %s only ... ok!", SERVER_INFO_FILE);
@@ -1116,8 +1116,8 @@ void Config::load_scene_info_only() {
     }
     for (i = 0; i < scene_info_.count; ++i) {
       int16_t scene_id = scene_info_.data[i].id;
-      pap_common_sys::Assert(scene_id != ID_INVALID && scene_id < SCENE_MAX);
-      pap_common_sys::Assert(-1 == hash_scene[i]);
+      Assert(scene_id != ID_INVALID && scene_id < SCENE_MAX);
+      Assert(-1 == hash_scene[i]);
       scene_info_.hash_scene[scene_id] = static_cast<int16_t>(i);
     }
     Log::save_log("config", "load %s only ... ok!", SCENE_INFO_FILE);
@@ -1147,8 +1147,8 @@ void Config::load_copy_scene_info_reload() {
 
 int16_t Config::get_server_id_by_scene_id(int16_t id) const {
   __ENTER_FUNCTION
-    pap_common_sys::Assert(id >= 0);
-    pap_common_sys::Assert(id < scene_info_.count);
+    Assert(id >= 0);
+    Assert(id < scene_info_.count);
     return scene_info_.data[scene_info_.hash_scene[id]].server_id;
   __LEAVE_FUNCTION
     return -1;
@@ -1157,7 +1157,7 @@ int16_t Config::get_server_id_by_scene_id(int16_t id) const {
 int16_t Config::get_server_id_by_share_memory_key(uint32_t key) const {
   __ENTER_FUNCTION
     int16_t result = -1;
-    pap_common_sys::Assert(key > 0);
+    Assert(key > 0);
     uint32_t i;
     for (i = 0; i < server_info_.count; ++i) {
       if (server_info_.data[i].enable_share_memory) {

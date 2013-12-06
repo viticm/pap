@@ -75,7 +75,7 @@ const Database::field_data* Database::search_position(int32_t line, int32_t colu
 #if defined(_PAP_CLIENT)
       throw std::string(temp);
 #else
-      pap_common_sys::AssertEx(false, temp);
+      AssertEx(false, temp);
 #endif
       return result;
     }
@@ -148,7 +148,7 @@ void Database::create_index(int32_t column = 0, const char* filename = 0) {
 #if defined(_PAP_CLINET)
         throw std::string(temp);
 #else
-        pap_common_sys::AssertEx(false, temp);
+        AssertEx(false, temp);
 #endif
       }
       hash_index.insert(std::mk_pair(_field_data->value, _field_data));

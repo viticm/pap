@@ -13,14 +13,17 @@
 
 #include "server/common/sys/config.h"
 
-namespace pap_common_sys {
+namespace pap_server_common_sys {
 
 namespace share_memory {
 
 //-- static define
 const uint32_t kManagerUnitDataMax = 5000; //如果不需要引入外部，就不要使用宏
 const uint8_t kObjMax = 20;
-
+#if defined(__LINUX__)
+uint32_t lock_times = 0; //内存锁定的时间
+bool lock_time_enable = false; //共享内存是否有时间锁的限制
+#endif
 struct data_header_t {
   uint64_t key;
   int32_t size;
@@ -34,6 +37,24 @@ typedef enum {
   kSmptWorld,
   kSmptServer,
 } pool_type_enum;
+
+typedef enum {
+  kUseFree = 0,
+  kUseReadyFree = 1,
+  kUseFreed = 2,
+  kUseHoldData = 3,
+} use_enum; //共享内存的使用状态
+
+
+typedef enum {
+  kFlagFree = 0x00, //共享内存空闲
+  kFlagSelfRead = 0x01, //共享内存自己读取
+  kFlagSelfWrite = 0x02, //共享内存自己写
+  kFlagServerRead = 0x03, //游戏服务器读
+  kFlagServerWrite = 0x04, //游戏服务器写
+  kFlagWorldRead = 0x05, //世界服务器读
+  kFlagWorldWrite = 0x06, //世界服务器写
+} flag_enum;
 
 //static define --
 
@@ -164,7 +185,7 @@ class UnitPool {
        }
        else {
          pap_server_common_base::Log::save_log("share_memory", "[share memory][datapool](init) failed");
-         pap_common_sys::Assert(result);
+         Assert(result);
          return result;
        }
        max_size_ = max_count;
@@ -174,7 +195,7 @@ class UnitPool {
        for (i = 0; i < max_size_; ++i) {
          obj_[i] = reinterpret_cast<T*>(ref_obj_pointer_->get_data(sizeof(T), i));
          if (NULL == obj_[i]) {
-           pap_common_sys::Assert(false);
+           Assert(false);
            return false;
          }
        }
@@ -185,7 +206,7 @@ class UnitPool {
    };
    bool release() {
      __ENTER_FUNCTION
-       pap_common_sys::Assert(ref_obj_pointer_);
+       Assert(ref_obj_pointer_);
        ref_obj_pointer_->destory();
        return true;
      __LEAVE_FUNCTION
@@ -193,7 +214,7 @@ class UnitPool {
    };
    T* new_obj() {
      __ENTER_FUNCTION
-       pap_common_sys::Assert(position_ < max_size_);
+       Assert(position_ < max_size_);
        if (position_ >= max_size_) return NULL;
        T* obj = obj_[position_];
        obj->set_pool_id(static_cast<uint32_t>(position_)); //this function must define in T*
@@ -204,11 +225,11 @@ class UnitPool {
    };
    void delete_obj(T* obj) {
      __ENTER_FUNCTION
-       pap_common_sys::Assert(obj != NULL);
-       pap_common_sys::Assert(position_ > 0);
+       Assert(obj != NULL);
+       Assert(position_ > 0);
        if (NULL == obj || position_ <= 0) return;
        uint32_t delete_index = obj->get_pool_id(); //this function must define in T*
-       pap_common_sys::Assert(delete_index < position_);
+       Assert(delete_index < position_);
        if (delete_index >= position_) return;
        --position_;
        T* _delete_obj = obj_[delete_index];
@@ -220,7 +241,7 @@ class UnitPool {
    };
    T* get_obj(int32_t index) {
      __ENTER_FUNCTION
-       pap_common_sys::Assert(index < max_size_);
+       Assert(index < max_size_);
        return obj_[index];
      __LEAVE_FUNCTION
        return NULL;
@@ -245,7 +266,7 @@ class UnitPool {
    };
    bool dump(const char* filename) {
      __ENTER_FUNCTION
-       pap_common_sys::Assert(ref_obj_pointer_);
+       Assert(ref_obj_pointer_);
        if (!ref_obj_pointer_) return false;
        return ref_obj_pointer_->dump(filename);
      __LEAVE_FUNCTION
@@ -253,7 +274,7 @@ class UnitPool {
    };
    bool merge_from_file(const char* filename) {
      __ENTER_FUNCTION
-       pap_common_sys::Assert(ref_obj_pointer_);
+       Assert(ref_obj_pointer_);
        if (!ref_obj_pointer_) return false;
        ref_obj_pointer_->merge_from_file(filename);
      __LEAVE_FUNCTION
@@ -261,7 +282,7 @@ class UnitPool {
    };
    uint32_t get_head_version() {
      __ENTER_FUNCTION
-       pap_common_sys::Assert(ref_obj_pointer_);
+       Assert(ref_obj_pointer_);
        if (!ref_obj_pointer_) return false;
        ref_obj_pointer_->get_head_version();
      __LEAVE_FUNCTION
@@ -269,7 +290,7 @@ class UnitPool {
    };
    void set_head_version(uint32_t version) {
      __ENTER_FUNCTION
-       pap_common_sys::Assert(ref_obj_pointer_);
+       Assert(ref_obj_pointer_);
        if (!ref_obj_pointer_) return false;
        ref_obj_pointer_->set_head_version(version);
      __LEAVE_FUNCTION
@@ -284,8 +305,12 @@ class UnitPool {
 
 };
 
+void lock(char &flag, char type);
+void unlock(char &flag, char type);
+bool trylock(char &flag, char type);
+
 }; //namespace share_memory
 
-}; //namespace pap_common_sys
+}; //namespace pap_server_common_sys
 
 #endif //PAP_COMMON_SYS_SHARE_MEMORY_H_
