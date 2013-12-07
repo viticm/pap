@@ -1,6 +1,6 @@
 <?php
 $mysql_config = array(
-	'host' => 'localhost',
+  'host' => 'localhost',
   'user' => 'root',
   'password' => '1234',
   'db_name' => 'wxsj2',

@@ -244,7 +244,7 @@ class Mysql {
         $length = $start != 1 && $end != -1 ? substr($_type, $start, $end) : 0;
         $type = str_replace('('.$length.')', '', $_type);
         $info = array(
-        	'name' => $field, 'type' => $type, 'length' => $length
+          'name' => $field, 'type' => $type, 'length' => $length
         );
         array_push($result, $info);
       }
