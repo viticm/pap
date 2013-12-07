@@ -1,8 +1,8 @@
 <?php
 /*
  *  auto_code just use for pap.
- *  @link        http://www.gzpindian.com/
- *  @package     mergeserver
+ *  @link https://github.com/viticm/pap
+ *  @package auto code
  */
 
 /**
@@ -12,15 +12,15 @@
  * @version 1.1
  */
 class Mysql {
-  private static $conn = null;
-  private $query_result;
-  private $rows;
-  private $host;
-  private $user;
-  private $password;
-  private $db_name;
-  private $charset = 'utf8';
-  public  $connect;
+  private $conn_ = null;
+  private $query_result_;
+  private $rows_;
+  private $host_;
+  private $user_;
+  private $password_;
+  private $db_name_;
+  private $charset_ = 'utf8';
+  public  $connect_;
   const LOG_FILE = './mysql.log' ;
 
   /**
@@ -32,30 +32,32 @@ class Mysql {
    * @return void
    */
   public function connect($config, $debug = false) {
-    $this->host = $config['host'];
-    $this->user = $config['user'];
-    $this->password = $config['password'];
-    $this->db_name = $config['dbname'];
-    if (!empty($config['charset'])) $this->charset = $config['charset'];
-    if (!is_resource($this->conn)) {
-      $link = mysql_connect($this->host, $this->user, $this->password);
+    $this->host_ = $config['host'];
+    $this->user_ = $config['user'];
+    $this->password_ = $config['password'];
+    $this->db_name_ = $config['db_name'];
+    if (!empty($config['charset'])) $this->charset_ = $config['charset'];
+    if (!is_resource($this->conn_)) {
+      $link = mysql_connect($this->host_, $this->user_, $this->password_);
       if (!$link){
-        $this->connect = false;
+        $this->connect_ = false;
         if( true === $debug ) {
           throw new Exception("create connect error :" . mysql_error());
         }
       }
-      $this->conn = $link;
-      if ($this->dbb_name) {
-        if (!mysql_select_db($this->db_name, $link)) {
-          $this->connect = false;
-            if (true === $debug) {
-              throw new Exception("select db error: " . mysql_error());
-            }
+    }
+    if (is_resource($link)) {
+      $this->conn_ = $link;
+      if ($this->db_name_) {
+        if (!mysql_select_db($this->db_name_, $link)) {
+          $this->connect_ = false;
+          if (true === $debug) {
+            throw new Exception("select db error: " . mysql_error());
           }
+        }
       }
-      mysql_query('set names '.$this->charset, $link);
-      $this->bConnect = true;
+      mysql_query('set names '.$this->charset_, $link);
+      $this->connect_ = true;
     }
   }
 
@@ -67,8 +69,9 @@ class Mysql {
    * @return resource
    */
   public function query($sql, $debug = false) {
-    $this->query_result = mysql_query($sql, $this->conn);
-    if (false === $this->query_result) {
+    if(!$this->connect_) return false;
+    $this->query_result_ = mysql_query($sql, $this->conn_);
+    if (false === $this->query_result_) {
       file_put_contents(self::LOG_FILE, 
                         '[' .date('Y-m-d H:i:s'). '] query error in ('.$sql.')'
                         ."\n".'get error[' .mysql_error(). "]\n", 
@@ -76,7 +79,7 @@ class Mysql {
       if (true === $debug)
         throw new Exception("exceute error, sql= {$sql} ;" .mysql_error());
     }
-    return $this->query_result;
+    return $this->query_result_;
   }
 
   /**
@@ -86,7 +89,7 @@ class Mysql {
    */
   public function fetch_all($sql) {
     $this->query($sql);
-    return $this->get_all($this->query_result);
+    return $this->get_all($this->query_result_);
   }
     /**
      *
@@ -96,7 +99,7 @@ class Mysql {
      */
   public function fetch_one($sql) {
     $this->query($sql);
-    return $this->get_one($this->query_result);
+    return $this->get_one($this->query_result_);
   }
 
   /**
@@ -108,8 +111,8 @@ class Mysql {
    * @return bool or array
    */
   public function get_one($result, $debug = false) {
-    if ($this->query_result) {
-      $result =  mysql_fetch_assoc($this->query_result);
+    if ($this->query_result_) {
+      $result =  mysql_fetch_assoc($this->query_result_);
       if (!$result) {
         return array();
       }
@@ -131,12 +134,12 @@ class Mysql {
    * @return bool or array
    */
   public function get_all($result, $debug = false) {
-    if ($this->query_result) {
-      $this->rows = array();
-      while (($row = mysql_fetch_assoc($this->query_result)) !== false) {
-        array_push($this->rows, $row);
+    if ($this->query_result_) {
+      $this->rows_ = array();
+      while (($row = mysql_fetch_assoc($this->query_result_)) !== false) {
+        array_push($this->rows_, $row);
       }
-      return $this->rows;
+      return $this->rows_;
     }
     if (true === $debug) {
         throw new Exception('get query_result error ');
@@ -166,11 +169,11 @@ class Mysql {
    * @access public
    */
   public function source_sqlfile($sqlfile) {
-    if( !$this->connect ) return false;
+    if(!$this->connect_) return false;
     $cmd  = '';
-    $cmd .= 'mysql -u' .$this->user. ' -h' 
-                .$this->host. ' -p'.$this->password;
-    $cmd .= ' ' .$this->db_name. ' < ' .$sqlfile;
+    $cmd .= 'mysql -u' .$this->user_. ' -h' 
+            .$this->host_. ' -p'.$this->password_;
+    $cmd .= ' ' .$this->db_name_. ' < ' .$sqlfile;
     return '' == exec($sqlfile) ? true : false; // null then is success
   }
 
@@ -183,13 +186,13 @@ class Mysql {
    * @access public
    */
   public function dump_db($path, $filename = '') {
-    if(false === $this->connect) return false;
-    $filename = '' == $filename ? $this->db_name.'.sql' : $filename;
-    $cmd .= 'mysqldump -u' .$this->user. ' -h' .$this->host
-            . ' -p' .$this->password;
-    $cmd .= ' --default-character-set=' .$this->charset
+    if(false === $this->connect_) return false;
+    $filename = '' == $filename ? $this->db_name_.'.sql' : $filename;
+    $cmd .= 'mysqldump -u' .$this->user_. ' -h' .$this->host_
+            . ' -p' .$this->password_;
+    $cmd .= ' --default-character-set=' .$this->charset_
             . ' --opt --extended-insert=false --single-transaction';
-    $cmd .= ' ' .$this->db_name. ' > ' .$path.DIRECTORY_SEPARATOR.$filename;
+    $cmd .= ' ' .$this->db_name_. ' > ' .$path.DIRECTORY_SEPARATOR.$filename;
     return '' == exec($cmd) ? true : false; // null then is success
   }
 
@@ -199,16 +202,63 @@ class Mysql {
    * @return number
    */
   public function get_last_insert_id() {
-    return mysql_insert_id($this->conn);
+    return mysql_insert_id($this->conn_);
+  }
+  
+  /**
+   * get tables name as array of database
+   * @param void
+   * @return mixed
+   */
+  public function get_tables() {
+    $result = array();
+    $sql = 'SHOW TABLES';
+    $row = $this->fetch_all($sql);
+    if(is_array($row)) {
+      $_key = 'Tables_in_'.$this->db_name_;
+      foreach ($row as $key => $val) {
+        array_push($result, $val[$_key]);
+      }
+    }
+    else {
+      $result = $row;
+    }
+    return $result;
+  }
+  
+  /**
+   * get table fields
+   * @param string $tablename
+   * @return array
+   */
+  public function get_fields($tablename) {
+    $result = array();
+    $sql = 'SHOW COLUMNS FROM '.$tablename;
+    $row = $this->fetch_all($sql);
+    if(is_array($row)){
+      foreach ($row as $key => $val) {
+        $field = $val['Field'];
+        $_type = $val['Type'];
+        $start = strpos($_type, '(') + 1;
+        $end = strpos($_type, ')') - strpos($_type, '(') - 1;
+        $length = $start != 1 && $end != -1 ? substr($_type, $start, $end) : 0;
+        $type = str_replace('('.$length.')', '', $_type);
+        $info = array(
+        	'name' => $field, 'type' => $type, 'length' => $length
+        );
+        array_push($result, $info);
+      }
+    }
+    return $result;
   }
 
   /**
    * 析构函数
    */
   public function __destruct() {
-    if (is_resource($this->query_result)) {
-      mysql_free_result($this->query_result);
+    if (is_resource($this->query_result_)) {
+      mysql_free_result($this->query_result_);
     }
-    mysql_close($this->conn);
+    if(is_resource($this->conn_)) mysql_close($this->conn_);
   }
 }
