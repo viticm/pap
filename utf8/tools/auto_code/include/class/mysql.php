@@ -42,15 +42,15 @@ class Mysql {
       if (!$link){
         $this->connect = false;
         if( true === $debug ) {
-            throw new Exception("create connect error :" . mysql_error());
+          throw new Exception("create connect error :" . mysql_error());
         }
       }
       $this->conn = $link;
       if ($this->dbb_name) {
-          if (!mysql_select_db($this->db_name, $link)) {
-            $this->connect = false;
+        if (!mysql_select_db($this->db_name, $link)) {
+          $this->connect = false;
             if (true === $debug) {
-                throw new Exception("select db error: " . mysql_error());
+              throw new Exception("select db error: " . mysql_error());
             }
           }
       }
@@ -71,10 +71,10 @@ class Mysql {
     if (false === $this->query_result) {
       file_put_contents(self::LOG_FILE, 
                         '[' .date('Y-m-d H:i:s'). '] query error in ('.$sql.')'
-                         ."\n".'get error[' .mysql_error(). "]\n", 
-                         FILE_APPEND);
+                        ."\n".'get error[' .mysql_error(). "]\n", 
+                        FILE_APPEND);
       if (true === $debug)
-          throw new Exception("exceute error, sql= {$sql} ;" .mysql_error());
+        throw new Exception("exceute error, sql= {$sql} ;" .mysql_error());
     }
     return $this->query_result;
   }
@@ -199,17 +199,16 @@ class Mysql {
    * @return number
    */
   public function get_last_insert_id() {
-      return mysql_insert_id($this->conn);
+    return mysql_insert_id($this->conn);
   }
 
   /**
    * 析构函数
    */
-  public function __destruct()
-  {
+  public function __destruct() {
     if (is_resource($this->query_result)) {
       mysql_free_result($this->query_result);
     }
-    mysql_close( $this->conn );
+    mysql_close($this->conn);
   }
 }
