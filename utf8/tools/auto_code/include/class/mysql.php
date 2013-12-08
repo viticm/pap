@@ -239,12 +239,14 @@ class Mysql {
       foreach ($row as $key => $val) {
         $field = $val['Field'];
         $_type = $val['Type'];
+        $default = $val['Default'];
         $start = strpos($_type, '(') + 1;
         $end = strpos($_type, ')') - strpos($_type, '(') - 1;
         $length = $start != 1 && $end != -1 ? substr($_type, $start, $end) : 0;
         $type = str_replace('('.$length.')', '', $_type);
         $info = array(
-          'name' => $field, 'type' => $type, 'length' => $length
+          'name' => $field, 'type' => $type, 'length' => $length,
+          'default' => $default
         );
         array_push($result, $info);
       }
