@@ -2,7 +2,7 @@
 $mysql_config = array(
   'host' => 'localhost',
   'user' => 'root',
-  'password' => '1234',
-  'db_name' => 'wxsj2',
+  'password' => '123456',
+  'db_name' => 'pap_character',
   'charset' => 'utf8'
 );

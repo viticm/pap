@@ -21,7 +21,7 @@ class Mysql {
   private $db_name_;
   private $charset_ = 'utf8';
   public  $connect_;
-  const LOG_FILE = './mysql.log' ;
+  const kLogFile = './mysql.log' ;
 
   /**
    *
@@ -72,7 +72,7 @@ class Mysql {
     if(!$this->connect_) return false;
     $this->query_result_ = mysql_query($sql, $this->conn_);
     if (false === $this->query_result_) {
-      file_put_contents(self::LOG_FILE, 
+      file_put_contents(self::kLogFile, 
                         '[' .date('Y-m-d H:i:s'). '] query error in ('.$sql.')'
                         ."\n".'get error[' .mysql_error(). "]\n", 
                         FILE_APPEND);

@@ -1,7 +1,8 @@
 <?php
 define('SYS_DIR', realpath(dirname(__FILE__)).'/../');
 define('SYS_CLASS_DIR', SYS_DIR.'include/class/');
-
+define('LF', "\n"); //wrap
+date_default_timezone_set('Asia/Shanghai'); 
 /**
  * @desc 重写自动载入类的方法，只要类的规则正确，放置的路径也正确，
  * @desc   则在新建对象时自动载入类
