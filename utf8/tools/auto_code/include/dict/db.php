@@ -19,6 +19,6 @@ function is_charactertable($tablename) {
     't_league_apply' => true, 't_league_usr' => true, 't_mail' => true,
     't_petcreate' => true, 
   );
-  $result = $not_charactertable[$tablename]? false : true;
+  $result = array_key_exists($tablename, $not_charactertable) ? false : true;
   return $result;
 }

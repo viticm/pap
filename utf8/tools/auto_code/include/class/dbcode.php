@@ -150,6 +150,9 @@ class DBCode extends Mysql {
    * @return bool
    */
   public function create_db_datafile($tablename = null) {
+    //now this version(1.0) this template code look is not intuition, 
+    //next version i need fix it(use eof template).
+    $result = true;
     $headinfo = '';
     $sourceinfo = '';
     $headfile = '';
@@ -157,13 +160,25 @@ class DBCode extends Mysql {
     $classname = '';
     $tablename = $tablename ? $tablename : $this->tablename_;
     if (empty($tablename)) return false;
+    $fields = $this->get_fields($tablename); //this records will be use in next
+    $_fields = array();
+    foreach ($fields as $k => $field) {
+      array_push($_fields, $field['name']);
+    }
+    if (!is_array($_fields)) return false;
+    if (!is_array($_fields) || count($_fields) < 0) return false;
     $classname = ucwords($tablename);
     if (!empty($this->tableprefix_))
-      $classname = ucwords(str_replace($this->tableprefix_, 
-                                       '', 
-                                       $tablename));
+      $real_tablename = ucwords(str_replace($this->tableprefix_, 
+                                            '', 
+                                            $tablename));
+    $headfile = $real_tablename.'.h'; //filename is the tablename, not upper words
+    $sourcefile = $real_tablename.'.cc';
+    @unlink($this->outputpath_.$headfile);
+    @unlink($this->outputpath_.$sourcefile);
+    $classname = str_replace('_', ' ', $real_tablename); //class real name
+    $classname = str_replace(' ', '', ucwords($classname));
     $modlename = strtolower($classname);
-    
     $datestr = strftime('%Y-%m-%d %H:%M:%S');
     $headnote =
 <<<EOF
@@ -181,9 +196,12 @@ EOF;
 //eof string need like this, no indent
     $headinfo .= $headnote.LF;
     $headinfo .= '#ifndef PAP_SERVER_COMMON_DB_'
-                 .strtoupper($classname).'_H_'.LF;
+                 .strtoupper($real_tablename).'_H_'.LF;
     $headinfo .= '#define PAP_SERVER_COMMON_DB_'
-                 .strtoupper($classname).'_H_'.LF;
+                 .strtoupper($real_tablename).'_H_'.LF.LF;
+    
+    $headinfo .= '#inlcude "server/common/db/data/config.h"'.LF;
+    $headinfo .= '#include "server/common/db/system.h"'.LF.LF;
     
     //some define for code
     $public = LF.' public:'.LF;
@@ -215,7 +233,7 @@ EOF;
     $headinfo .= $threespace.'virtual bool _delete();'.LF;
     $headinfo .= $threespace.'virtual bool parse_result(void* result);'.LF;
     
-    if ($charactertable) {
+    if ($charactertable) { //character table use functions
       $headinfo .= $public;
       $headinfo .= $threespace.'void set_characterguid(uint32_t id);'.LF;
       $headinfo .= $threespace.'uint32_t get_characterguid();'.LF;
@@ -223,13 +241,16 @@ EOF;
       $headinfo .= $threespace.'uint32_t get_dbversion();'.LF;
     }
     $headinfo .= LF.'}'.LF; //class end
-    $headinfo .= LF.'}; //namespace data';
-    $headinfo .= '}; //namespace pap_server_common_db';
+    $headinfo .= LF.'}; //namespace data'.LF;
+    $headinfo .= LF.'}; //namespace pap_server_common_db';
     
-    $headinfo .= '#endif //PAP_SERVER_COMMON_DB_'
-                 .strtoupper($classname).'_H_'.LF;
+    $headinfo .= LF.'#endif //PAP_SERVER_COMMON_DB_'
+                 .strtoupper($classname).'_H_';
     
-    $sourceinfo .= $classname.'::'.$classname.
+    $sourceinfo .= '#inlcude "server/common/db/data/'.$headfile.'"'.LF;
+    $sourceinfo .= LF.'namespace pap_server_common_db {'.LF;
+    $sourceinfo .= LF.'namespace data {'.LF;
+    $sourceinfo .= LF.$classname.'::'.$classname.
                    '(ODBCInterface* odbc_interface) {'.LF; //construct
     $sourceinfo .= $twospace.$functionenter;
     $sourceinfo .= $fourspace.'db_type_ = kCharacterDatabase;'.LF;
@@ -241,12 +262,15 @@ EOF;
     $sourceinfo .= $twospace.$functionleave;
     $sourceinfo .= '}'.LF;
     
+    $sourceinfo .= LF; //destruct
     $sourceinfo .= $classname.'::~'.$classname.'() {'.LF;
     $sourceinfo .= $twospace.'//do nothing'.LF;
     $sourceinfo .= '}'.LF;
     
-    $sourceinfo .= 'bool load() {'.LF;
+    $sourceinfo .= LF; //load start
+    $sourceinfo .= 'bool '.$classname.'::load() {'.LF;
     $sourceinfo .= $twospace.$functionenter;
+    $sourceinfo .= $fourspace.'bool result = false;'.LF;
     $sourceinfo .= $fourspace.'DB_QUERY* query = get_internal_query();'.LF;
     $sourceinfo .= $fourspace.'if (!query) Assert(false);'.LF;
     $sourceinfo .= $fourspace.'query->clear();'.LF;
@@ -257,43 +281,132 @@ EOF;
     $sql_template_headinfo = '';
     $sql_template_sourceinfo = '';
     //load select, delete --, update --, save update, add instert
-    $sql_template_headinfo .= 'extren const char* kLoad'.$classname.LF;
-    $sql_template_headinfo .= 'extren const char* kDelete'.$classname.LF;
-    $sql_template_headinfo .= 'extren const char* kUpdate'.$classname.LF;
-    $sql_template_headinfo .= 'extren const char* kAdd'.$classname.LF;
-    $sql_template_headinfo .= 'extren const char* kSave'.$classname.LF;
+    $sql_template_headinfo .= '//-- table '.$tablename.LF;
+    $sql_template_headinfo .= 'extren const char* kLoad'.$classname.';'.LF;
+    $sql_template_headinfo .= 'extren const char* kDelete'.$classname.';'.LF;
+    $sql_template_headinfo .= 'extren const char* kUpdate'.$classname.';'.LF;
+    $sql_template_headinfo .= 'extren const char* kAdd'.$classname.';'.LF;
+    $sql_template_headinfo .= 'extren const char* kSave'.$classname.';'.LF;
+    $sql_template_headinfo .= '//table '.$tablename.' --'.LF;
     $sql_template_headinfo .= LF; //wrap
     
-    $fields = $this->get_fields($tablename);
-    
+    $sql_template_sourceinfo .= '//-- table '.$tablename.LF;
     //在这里生成mysql的模板
     if ($charactertable) {
       $sourceinfo .= $fourspace
                      .'if (INVALID_ID == character_guid_) return false;'.LF;
-      $_fields = array_keys($fields);
-      $sql_template_sourceinfo .= 'kLoad'.$classname.' = '.LF
+      $sql_template_sourceinfo .= 'const char* kLoad'.$classname.' = '.LF
                                   .'"SELECT '.implode($_fields, ',').'FROM `'
                                   .$tablename.'` WHERE `character_guid` = %d'
                                   .' AND `dbversion` = %d";'.LF;
     }
     else {
-      $sql_template_sourceinfo .= 'kLoad'.$classname.' = '.LF
+      $sql_template_sourceinfo .= 'const char* kLoad'.$classname.' = '.LF
                                   .'SELECT * FROM `'.$tablename.';`'.LF;
     }
-    $sql_template_sourceinfo .= 'kDelete'.$classname.' = "";'.LF;
-    $sql_template_sourceinfo .= 'kUpdate'.$classname.' = "";'.LF;
+    $sql_template_sourceinfo .= 'const char* kDelete'.$classname.' = "";'.LF;
+    $sql_template_sourceinfo .= 'const char* kUpdate'.$classname
+                                .' = "DELETE FROM `'.$tablename
+                                .'` WHERE `character_guid` = %d'
+                                .' AND `dbversion` = %d";'.LF;
     $insert_sql = $this->get_instertstr($tablename, $fields);
-    $sql_template_sourceinfo .= 'kAdd'.$classname.' = "'.$insert_sql.'";'.LF;
-    $sql_template_sourceinfo .= 'kSave'.$classname.' = "";'.LF;
+    $sql_template_sourceinfo .= 'const char* kAdd'.$classname.' = '.LF
+                                .'"'.$insert_sql.'";'.LF;
+    $sql_template_sourceinfo .= 'const char* kSave'.$classname.' = "";'.LF;
+    $sql_template_sourceinfo .= '//table '.$tablename.' --'.LF;
     file_put_contents($this->outputpath_.$sql_template_headfile, 
                       $sql_template_headinfo,
                       FILE_APPEND);
     file_put_contents($this->outputpath_.$sql_template_sourcefile,
                       $sql_template_sourceinfo,
                       FILE_APPEND);
-    
     //sql template --
+    $sourceinfo .= $fourspace.'query->parse(kLoad'.$classname.', '
+                   .$tablename.', character_guid_, dbversion_);'.LF;
+    $sourceinfo .= $fourspace.'result = System::load();'.LF;
+    $sourceinfo .= $fourspace.'return result;'.LF;
     $sourceinfo .= $twospace.$functionleave;
+    $sourceinfo .= '}'.LF; //load is end
+    
+    $sourceinfo .= LF; //save
+    $sourceinfo .= 'bool '.$classname.'::save(void* source) {'.LF;
+    $sourceinfo .= $twospace.$functionenter;
+    $sourceinfo .= $fourspace.'bool result = false;'.LF;
+    $sourceinfo .= $fourspace.'return result;'.LF;
+    $sourceinfo .= $twospace.$functionleave;
+    $sourceinfo .= $fourspace.'return false;'.LF;
+    $sourceinfo .= '}'.LF; //save
+    
+    $sourceinfo .= LF; //_delete
+    $sourceinfo .= 'bool '.$classname.'::_delete() {'.LF; 
+    $sourceinfo .= $twospace.$functionenter;
+    $sourceinfo .= $fourspace.'bool result = false;'.LF;
+    $sourceinfo .= $fourspace.'DB_QUERY* query = get_internal_query();'.LF;
+    $sourceinfo .= $fourspace.'if (!query) Assert(false);'.LF;
+    $sourceinfo .= $fourspace.'query->clear();'.LF;
+    if ($charactertable){
+      $sourceinfo .= $fourspace.'if (!character_guid_) return false;'.LF;
+      $sourceinfo .= $fourspace.'query->parse(kDelete'.$tablename.', "'
+                     .$tablename.'", character_guid_, dbversion_);'.LF;
+    }
+    $sourceinfo .= $fourspace.'result = System::_delete();'.LF;
+    $sourceinfo .= $fourspace.'return result;'.LF;
+    $sourceinfo .= $twospace.$functionleave;
+    $sourceinfo .= '}'.LF; //_delete
+    
+    $sourceinfo .= LF; //parse_result
+    $sourceinfo .= 'bool '.$classname.'::parse_result(void* source) {'.LF;
+    $sourceinfo .= $twospace.$functionenter;
+    $sourceinfo .= $fourspace.'bool result = false;'.LF;
+    $enum_fields = $_fields; //next i will chage it
+    $enum_fields[0] = $enum_fields[0].' = 1'; //enum first item
+    $sourceinfo .= $fourspace.'enum {'.LF;
+    $enum_str = implode($enum_fields, ','.LF.$fourspace.$twospace).LF;
+    $sourceinfo .= $fourspace.$twospace.$enum_str;
+    $sourceinfo .= $fourspace.'}'.LF;
+    $sourceinfo .= $fourspace.'return result;'.LF;
+    $sourceinfo .= $twospace.$functionleave;
+    $sourceinfo .= $fourspace.'return false;';
+    $sourceinfo .= '}'.LF; //parse_result
+    
+    if ($charactertable) {
+      $sourceinfo .= LF; //set_character_guid
+      $sourceinfo .= 'void '.$classname.'::set_character_guid(uint32_t id) {'
+                     .LF;
+      $sourceinfo .= $twospace.$functionenter;
+      $sourceinfo .= $fourspace.'character_guid_ = id;'.LF;
+      $sourceinfo .= $twospace.$functionleave;
+      $sourceinfo .= '}'.LF; //set_character_guid
+      
+      $sourceinfo .= LF; //get_character_guid
+      $sourceinfo .= 'uint32 '.$classname.'::get_character_guid() {'.LF;
+      $sourceinfo .= $twospace.$functionenter;
+      $sourceinfo .= $fourspace.'return character_guid_;'.LF;
+      $sourceinfo .= $twospace.$functionleave;
+      $sourceinfo .= $fourspace.'return 0;'.LF;
+      $sourceinfo .= '}'.LF; //get_character_guid
+      
+      $sourceinfo .= LF; //set_dbversion
+      $sourceinfo .= 'void '.$classname.'::set_dbversion(uint32_t id) {'.LF;
+      $sourceinfo .= $twospace.$functionenter;
+      $sourceinfo .= $fourspace.'dbversion_ = id;'.LF;
+      $sourceinfo .= $twospace.$functionleave;
+      $sourceinfo .= '}'.LF; //set_dbversion
+      
+      $sourceinfo .= LF; //get_dbversion
+      $sourceinfo .= 'uint32 '.$classname.'::get_dbversion() {'.LF;
+      $sourceinfo .= $twospace.$functionenter;
+      $sourceinfo .= $fourspace.'return dbversion_;'.LF;
+      $sourceinfo .= $twospace.$functionleave;
+      $sourceinfo .= $fourspace.'return 0;'.LF;
+      $sourceinfo .= '}'.LF; //get_dbversion
+    }
+    
+    $sourceinfo .= LF.'} //namespace data'.LF;
+    $sourceinfo .= LF.'} //namespace pap_server_common_db';
+    file_put_contents($this->outputpath_.$headfile, $headinfo, FILE_APPEND);
+    file_put_contents($this->outputpath_.$sourcefile, $sourceinfo, FILE_APPEND);
+    return $result;
   } 
   
   /**
@@ -308,12 +421,14 @@ EOF;
     }
     if ($this->tablename_) {
       $this->create_structfile(); //struct
+      $this->create_db_datafile(); //data
     }
     else { //from db
       $tables = $this->get_tables();
       if (is_array($tables)) {
         foreach ($tables as $k => $table) {
           $this->create_structfile($table); //struct
+          $this->create_db_datafile($table); //data
         }
       }
     }
@@ -330,10 +445,14 @@ EOF;
     $tablename = empty($tablename) ? $this->tablename_ : $tablename;
     if (empty($tablename)) return $result;
     $fileds = is_array($fileds) ? $fileds : $this->get_fields($tablename);
+    
     if (is_array($fileds)) {
-      $_field = array_keys($fileds);
+      $_fields = array();
+      foreach ($fileds as $k => $field) {
+        array_push($_fields, $field['name']);
+      }
       $result = 'INSERT INTO `'.$tablename.'`';
-      $result .= ' ('.implode($_field, ',').') VALUES (';
+      $result .= ' (`'.implode($_fields, '`,`').'`) VALUES (';
       $format = '';
       foreach ($fileds as $key => $val) {
         $type = dict\db\get_type($val['type']);
