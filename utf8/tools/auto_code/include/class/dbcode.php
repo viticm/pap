@@ -169,9 +169,7 @@ class DBCode extends Mysql {
     if (!is_array($_fields) || count($_fields) < 0) return false;
     $classname = ucwords($tablename);
     if (!empty($this->tableprefix_))
-      $real_tablename = ucwords(str_replace($this->tableprefix_, 
-                                            '', 
-                                            $tablename));
+      $real_tablename = str_replace($this->tableprefix_, '', $tablename);
     $headfile = $real_tablename.'.h'; //filename is the tablename, not upper words
     $sourcefile = $real_tablename.'.cc';
     @unlink($this->outputpath_.$headfile);
