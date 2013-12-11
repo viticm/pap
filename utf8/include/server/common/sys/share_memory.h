@@ -173,9 +173,13 @@ class UnitPool {
        if (!ref_obj_pointer_) return false;
        ref_obj_pointer_->cmd_model_ = g_cmd_model;
        bool result;
-       result = ref_obj_pointer_->attach(key, sizeof(T) * max_count + sizeof(data_header_t));
+       result = ref_obj_pointer_->attach(
+           key, 
+           sizeof(T) * max_count + sizeof(data_header_t));
        if (kSmptShareMemory == pool_type && !result) {
-         result = ref_obj_pointer_->create(key, sizeof(T) * max_count + sizeof(data_header_t));
+         result = ref_obj_pointer_->create(
+             key, 
+             sizeof(T) * max_count + sizeof(data_header_t));
        }
        else if(!result) {
          return false;
@@ -184,7 +188,9 @@ class UnitPool {
          return true;
        }
        else {
-         pap_server_common_base::Log::save_log("share_memory", "[share memory][datapool](init) failed");
+         pap_server_common_base::Log::save_log(
+             "share_memory", 
+             "[share memory][datapool](init) failed");
          Assert(result);
          return result;
        }
@@ -193,7 +199,8 @@ class UnitPool {
        obj_ = new T*[max_size_];
        uint32_t i;
        for (i = 0; i < max_size_; ++i) {
-         obj_[i] = reinterpret_cast<T*>(ref_obj_pointer_->get_data(sizeof(T), i));
+         obj_[i] = reinterpret_cast<T*>
+                   (ref_obj_pointer_->get_data(sizeof(T), i));
          if (NULL == obj_[i]) {
            Assert(false);
            return false;
@@ -217,7 +224,8 @@ class UnitPool {
        Assert(position_ < max_size_);
        if (position_ >= max_size_) return NULL;
        T* obj = obj_[position_];
-       obj->set_pool_id(static_cast<uint32_t>(position_)); //this function must define in T*
+       obj->set_pool_id(static_cast<uint32_t>(position_)); //this function 
+                                                           //must define in T*
        ++position_;
        return obj;
      __LEAVE_FUNCTION
@@ -228,7 +236,8 @@ class UnitPool {
        Assert(obj != NULL);
        Assert(position_ > 0);
        if (NULL == obj || position_ <= 0) return;
-       uint32_t delete_index = obj->get_pool_id(); //this function must define in T*
+       uint32_t delete_index = obj->get_pool_id(); //this function 
+                                                   //must define in T*
        Assert(delete_index < position_);
        if (delete_index >= position_) return;
        --position_;
