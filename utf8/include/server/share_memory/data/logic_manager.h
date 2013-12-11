@@ -6,7 +6,8 @@
  * @license
  * @user viticm<viticm@126.com>
  * @date 2013-12-4 15:00:18
- * @uses share memory data logic manager template class and some data class of game.
+ * @uses share memory data logic manager template 
+ *       class and some data class of game.
  *       cn: 这是一个共享内存的模板类，源文件中放置了游戏中数据的实现类
  */
 #ifndef PAP_SERVER_SHARE_MEMORY_DATA_LOGIC_MANAGER_H_
@@ -53,8 +54,10 @@ class LogicManager {
          uint32_t version = pool_pointer_->get_head_version();
          if (version == old_version_ && old_version_ > 0) {
            old_version_ = 0;
-           pap_server_common_base::Log::fast_save_log(kShareMemoryLogFile, 
-                                                      "[share memory][logic manager](heartbeat) receive server crash command.");
+           pap_server_common_base::Log::fast_save_log(
+               kShareMemoryLogFile, 
+               "[share memory][logic manager](heartbeat)\ 
+receive server crash command."); //string wrap will to line start
            result = save_all();
            pool_pointer->set_head_version(0);
            return result;
