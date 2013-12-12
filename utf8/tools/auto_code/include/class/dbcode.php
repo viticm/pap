@@ -323,12 +323,11 @@ EOF;
                       FILE_APPEND);
     //sql template --
     if ($charactertable) {
-      $sourceinfo .= $fourspace.'query->parse(kLoad'.$classname.', '
-                     .$tablename.', character_guid_, dbversion_);'.LF;
+      $sourceinfo .= $fourspace.'query->parse(kLoad'.$classname
+                     .', character_guid_, dbversion_);'.LF;
     }
     else {
-      $sourceinfo .= $fourspace.'query->parse(kLoad'.$classname.', '
-                     .$tablename.');'.LF;
+      $sourceinfo .= $fourspace.'query->parse(kLoad'.$classname.');'.LF;
     }
     $sourceinfo .= $fourspace.'result = System::load();'.LF;
     $sourceinfo .= $fourspace.'return result;'.LF;
