@@ -271,7 +271,7 @@ EOF;
     $sourceinfo .= LF; //load start
     $sourceinfo .= 'bool '.$classname.'::load() {'.LF;
     $sourceinfo .= $twospace.$functionenter;
-    $sourceinfo .= $fourspace.'bool result = false;'.LF;
+    $sourceinfo .= $fourspace.'bool result = true;'.LF;
     $sourceinfo .= $fourspace.'db_query_t* query = get_internal_query();'.LF;
     $sourceinfo .= $fourspace.'if (!query) Assert(false);'.LF;
     $sourceinfo .= $fourspace.'query->clear();'.LF;
@@ -357,7 +357,7 @@ EOF;
     $sourceinfo .= LF; //save
     $sourceinfo .= 'bool '.$classname.'::save(void* source) {'.LF;
     $sourceinfo .= $twospace.$functionenter;
-    $sourceinfo .= $fourspace.'bool result = false;'.LF;
+    $sourceinfo .= $fourspace.'bool result = true;'.LF;
     $sourceinfo .= $fourspace.'Assert(source);'.LF;
     $sourceinfo .= $fourspace.'enum {'.LF;  
     $sourceinfo .= $fourspace.$twospace.$enum_str;
@@ -370,7 +370,7 @@ EOF;
     $sourceinfo .= LF; //_delete
     $sourceinfo .= 'bool '.$classname.'::_delete() {'.LF; 
     $sourceinfo .= $twospace.$functionenter;
-    $sourceinfo .= $fourspace.'bool result = false;'.LF;
+    $sourceinfo .= $fourspace.'bool result = true;'.LF;
     $sourceinfo .= $fourspace.'db_query_t* query = get_internal_query();'.LF;
     $sourceinfo .= $fourspace.'if (!query) Assert(false);'.LF;
     $sourceinfo .= $fourspace.'query->clear();'.LF;
@@ -379,7 +379,7 @@ EOF;
       $sourceinfo .= $fourspace.'query->parse(kDelete'.$tablename.', "'
                      .$tablename.'", character_guid_, dbversion_);'.LF;
     }
-    $sourceinfo .= $fourspace.'result = System::_delete();'.LF;
+//     $sourceinfo .= $fourspace.'result = System::_delete();'.LF;
     $sourceinfo .= $fourspace.'return result;'.LF;
     $sourceinfo .= $twospace.$functionleave;
     $sourceinfo .= '}'.LF; //_delete
@@ -387,7 +387,7 @@ EOF;
     $sourceinfo .= LF; //parse_result
     $sourceinfo .= 'bool '.$classname.'::parse_result(void* source) {'.LF;
     $sourceinfo .= $twospace.$functionenter;
-    $sourceinfo .= $fourspace.'bool result = false;'.LF;
+    $sourceinfo .= $fourspace.'bool result = true;'.LF;
     $sourceinfo .= $fourspace.'Assert(source);'.LF;
     $sourceinfo .= $fourspace.'enum {'.LF;  
     $sourceinfo .= $fourspace.$twospace.$enum_str;
