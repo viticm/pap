@@ -198,7 +198,7 @@ EOF;
     $headinfo .= '#define PAP_SERVER_COMMON_DB_'
                  .strtoupper($real_tablename).'_H_'.LF.LF;
     
-    $headinfo .= '#inlcude "server/common/db/data/config.h"'.LF;
+    $headinfo .= '#include "server/common/db/data/config.h"'.LF;
     $headinfo .= '#include "server/common/db/system.h"'.LF.LF;
     
     //some define for code
@@ -245,7 +245,7 @@ EOF;
     $headinfo .= LF.'#endif //PAP_SERVER_COMMON_DB_'
                  .strtoupper($classname).'_H_';
     
-    $sourceinfo .= '#inlcude "server/common/db/data/'.$headfile.'"'.LF;
+    $sourceinfo .= '#include "server/common/db/data/'.$headfile.'"'.LF;
     $sourceinfo .= LF.'namespace pap_server_common_db {'.LF;
     $sourceinfo .= LF.'namespace data {'.LF;
     $sourceinfo .= LF.$classname.'::'.$classname.
