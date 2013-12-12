@@ -254,7 +254,10 @@ EOF;
     $sourceinfo .= $fourspace.'db_type_ = kCharacterDatabase;'.LF;
     $sourceinfo .= $fourspace.'result_ = false;'.LF;
     $sourceinfo .= $fourspace.'result_count_ = 0;'.LF;
-    $sourceinfo .= $fourspace.'character_guid = 0;'.LF;
+    if ($charactertable) {
+      $sourceinfo .= $fourspace.'character_guid = 0;'.LF;
+      $sourceinfo .= $fourspace.'db_version_ = 0;'.LF;
+    }
     $sourceinfo .= $fourspace.'Assert(odbc_interface);'.LF;
     $sourceinfo .= $fourspace.'odbc_interface_ = odbc_interface;'.LF;
     $sourceinfo .= $twospace.$functionleave;
@@ -319,8 +322,10 @@ EOF;
                       $sql_template_sourceinfo,
                       FILE_APPEND);
     //sql template --
-    $sourceinfo .= $fourspace.'query->parse(kLoad'.$classname.', '
-                   .$tablename.', character_guid_, dbversion_);'.LF;
+    if ($charactertable) {
+      $sourceinfo .= $fourspace.'query->parse(kLoad'.$classname.', '
+                     .$tablename.', character_guid_, dbversion_);'.LF;
+    }
     $sourceinfo .= $fourspace.'result = System::load();'.LF;
     $sourceinfo .= $fourspace.'return result;'.LF;
     $sourceinfo .= $twospace.$functionleave;
