@@ -272,7 +272,7 @@ EOF;
     $sourceinfo .= 'bool '.$classname.'::load() {'.LF;
     $sourceinfo .= $twospace.$functionenter;
     $sourceinfo .= $fourspace.'bool result = false;'.LF;
-    $sourceinfo .= $fourspace.'DB_QUERY* query = get_internal_query();'.LF;
+    $sourceinfo .= $fourspace.'db_query_t* query = get_internal_query();'.LF;
     $sourceinfo .= $fourspace.'if (!query) Assert(false);'.LF;
     $sourceinfo .= $fourspace.'query->clear();'.LF;
     
@@ -347,7 +347,7 @@ EOF;
     $sourceinfo .= 'bool '.$classname.'::_delete() {'.LF; 
     $sourceinfo .= $twospace.$functionenter;
     $sourceinfo .= $fourspace.'bool result = false;'.LF;
-    $sourceinfo .= $fourspace.'DB_QUERY* query = get_internal_query();'.LF;
+    $sourceinfo .= $fourspace.'db_query_t* query = get_internal_query();'.LF;
     $sourceinfo .= $fourspace.'if (!query) Assert(false);'.LF;
     $sourceinfo .= $fourspace.'query->clear();'.LF;
     if ($charactertable){
