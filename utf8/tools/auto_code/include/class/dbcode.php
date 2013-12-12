@@ -378,7 +378,7 @@ EOF;
     $sourceinfo .= $fourspace.'}'.LF;
     $sourceinfo .= $fourspace.'return result;'.LF;
     $sourceinfo .= $twospace.$functionleave;
-    $sourceinfo .= $fourspace.'return false;';
+    $sourceinfo .= $fourspace.'return false;'.LF;
     $sourceinfo .= '}'.LF; //parse_result
     
     if ($charactertable) {
