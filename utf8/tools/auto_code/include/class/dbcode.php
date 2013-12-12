@@ -351,12 +351,18 @@ EOF;
     $sourceinfo .= $fourspace.'return result;'.LF;
     $sourceinfo .= $twospace.$functionleave;
     $sourceinfo .= '}'.LF; //_delete
-    
+    function format_enum($a) {
+      $result = '';
+      $result = str_replace('_', ' ', $a);
+      $result = 'k'.str_replace(' ', '', ucwords($result));
+      return $result;
+    }; //function for get format enum name by field
     $sourceinfo .= LF; //parse_result
     $sourceinfo .= 'bool '.$classname.'::parse_result(void* source) {'.LF;
     $sourceinfo .= $twospace.$functionenter;
     $sourceinfo .= $fourspace.'bool result = false;'.LF;
     $enum_fields = $_fields; //next i will chage it
+    $enum_fields = array_map('format_enum', $enum_fields);
     $enum_fields[0] = $enum_fields[0].' = 1'; //enum first item
     $sourceinfo .= $fourspace.'enum {'.LF;
     $enum_str = implode($enum_fields, ','.LF.$fourspace.$twospace).LF;
