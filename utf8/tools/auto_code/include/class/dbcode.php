@@ -271,8 +271,8 @@ EOF;
     $sourceinfo .= LF; //load start
     $sourceinfo .= 'bool '.$classname.'::load() {'.LF;
     $sourceinfo .= $twospace.$functionenter;
-    $sourceinfo .= $fourspace.'bool result = false;'.LF;
-    $sourceinfo .= $fourspace.'DB_QUERY* query = get_internal_query();'.LF;
+    $sourceinfo .= $fourspace.'bool result = true;'.LF;
+    $sourceinfo .= $fourspace.'db_query_t* query = get_internal_query();'.LF;
     $sourceinfo .= $fourspace.'if (!query) Assert(false);'.LF;
     $sourceinfo .= $fourspace.'query->clear();'.LF;
     
@@ -283,11 +283,11 @@ EOF;
     $sql_template_sourceinfo = '';
     //load select, delete --, update --, save update, add instert
     $sql_template_headinfo .= '//-- table '.$tablename.LF;
-    $sql_template_headinfo .= 'extren const char* kLoad'.$classname.';'.LF;
-    $sql_template_headinfo .= 'extren const char* kDelete'.$classname.';'.LF;
-    $sql_template_headinfo .= 'extren const char* kUpdate'.$classname.';'.LF;
-    $sql_template_headinfo .= 'extren const char* kAdd'.$classname.';'.LF;
-    $sql_template_headinfo .= 'extren const char* kSave'.$classname.';'.LF;
+    $sql_template_headinfo .= 'extern const char* kLoad'.$classname.';'.LF;
+    $sql_template_headinfo .= 'extern const char* kDelete'.$classname.';'.LF;
+    $sql_template_headinfo .= 'extern const char* kUpdate'.$classname.';'.LF;
+    $sql_template_headinfo .= 'extern const char* kAdd'.$classname.';'.LF;
+    $sql_template_headinfo .= 'extern const char* kSave'.$classname.';'.LF;
     $sql_template_headinfo .= '//table '.$tablename.' --'.LF;
     $sql_template_headinfo .= LF; //wrap
     
@@ -297,21 +297,31 @@ EOF;
       $sourceinfo .= $fourspace
                      .'if (INVALID_ID == character_guid_) return false;'.LF;
       $sql_template_sourceinfo .= 'const char* kLoad'.$classname.' = '.LF
+                                  .$fourspace
                                   .'"SELECT '.implode($_fields, ',').'FROM `'
                                   .$tablename.'` WHERE `character_guid` = %d'
                                   .' AND `dbversion` = %d";'.LF;
+      $sql_template_sourceinfo .= 'const char* kDelete'.$classname.' = '.LF
+                                  .$fourspace
+                                  .'"DELETE FROM `'.$tablename.'`";'
+                                  .'WHERE `character_guid` = %d'
+                                  .'AND `dbversion` = %d";'.LF;
     }
     else {
       $sql_template_sourceinfo .= 'const char* kLoad'.$classname.' = '.LF
-                                  .'SELECT * FROM `'.$tablename.';`'.LF;
+                                  .$fourspace
+                                  .'"SELECT * FROM `'.$tablename.'`";'.LF;
+      $sql_template_sourceinfo .= 'const char* kDelete'.$classname.' = '.LF
+                                  .$fourspace
+                                  .'"";'.LF;
     }
-    $sql_template_sourceinfo .= 'const char* kDelete'.$classname.' = "";'.LF;
-    $sql_template_sourceinfo .= 'const char* kUpdate'.$classname
-                                .' = "DELETE FROM `'.$tablename
-                                .'` WHERE `character_guid` = %d'
-                                .' AND `dbversion` = %d";'.LF;
+
+    $sql_template_sourceinfo .= 'const char* kUpdate'.$classname.' = '.LF
+                                .$fourspace
+                                .'""'.LF;
     $insert_sql = $this->get_instertstr($tablename, $fields);
     $sql_template_sourceinfo .= 'const char* kAdd'.$classname.' = '.LF
+                                .$fourspace
                                 .'"'.$insert_sql.'";'.LF;
     $sql_template_sourceinfo .= 'const char* kSave'.$classname.' = "";'.LF;
     $sql_template_sourceinfo .= '//table '.$tablename.' --'.LF;
@@ -323,8 +333,8 @@ EOF;
                       FILE_APPEND);
     //sql template --
     if ($charactertable) {
-      $sourceinfo .= $fourspace.'query->parse(kLoad'.$classname.', '
-                     .$tablename.', character_guid_, dbversion_);'.LF;
+      $sourceinfo .= $fourspace.'query->parse(kLoad'.$classname
+                     .', character_guid_, dbversion_);'.LF;
     }
     else {
       $sourceinfo .= $fourspace.'query->parse(kLoad'.$classname.');'.LF;
@@ -333,11 +343,25 @@ EOF;
     $sourceinfo .= $fourspace.'return result;'.LF;
     $sourceinfo .= $twospace.$functionleave;
     $sourceinfo .= '}'.LF; //load is end
-    
+
+    function format_enum($a) {
+      $result = '';
+      $result = str_replace('_', ' ', $a);
+      $result = 'k'.str_replace(' ', '', ucwords($result));
+      return $result;
+    }; //function for get format enum name by field
+    $enum_fields = $_fields; //next i will chage it
+    $enum_fields = array_map('format_enum', $enum_fields);
+    $enum_fields[0] = $enum_fields[0].' = 1'; //enum first item
+    $enum_str = implode($enum_fields, ','.LF.$fourspace.$twospace).LF;
     $sourceinfo .= LF; //save
     $sourceinfo .= 'bool '.$classname.'::save(void* source) {'.LF;
     $sourceinfo .= $twospace.$functionenter;
-    $sourceinfo .= $fourspace.'bool result = false;'.LF;
+    $sourceinfo .= $fourspace.'bool result = true;'.LF;
+    $sourceinfo .= $fourspace.'Assert(source);'.LF;
+    $sourceinfo .= $fourspace.'enum {'.LF;  
+    $sourceinfo .= $fourspace.$twospace.$enum_str;
+    $sourceinfo .= $fourspace.'}'.LF;
     $sourceinfo .= $fourspace.'return result;'.LF;
     $sourceinfo .= $twospace.$functionleave;
     $sourceinfo .= $fourspace.'return false;'.LF;
@@ -346,8 +370,8 @@ EOF;
     $sourceinfo .= LF; //_delete
     $sourceinfo .= 'bool '.$classname.'::_delete() {'.LF; 
     $sourceinfo .= $twospace.$functionenter;
-    $sourceinfo .= $fourspace.'bool result = false;'.LF;
-    $sourceinfo .= $fourspace.'DB_QUERY* query = get_internal_query();'.LF;
+    $sourceinfo .= $fourspace.'bool result = true;'.LF;
+    $sourceinfo .= $fourspace.'db_query_t* query = get_internal_query();'.LF;
     $sourceinfo .= $fourspace.'if (!query) Assert(false);'.LF;
     $sourceinfo .= $fourspace.'query->clear();'.LF;
     if ($charactertable){
@@ -355,30 +379,22 @@ EOF;
       $sourceinfo .= $fourspace.'query->parse(kDelete'.$tablename.', "'
                      .$tablename.'", character_guid_, dbversion_);'.LF;
     }
-    $sourceinfo .= $fourspace.'result = System::_delete();'.LF;
+//     $sourceinfo .= $fourspace.'result = System::_delete();'.LF;
     $sourceinfo .= $fourspace.'return result;'.LF;
     $sourceinfo .= $twospace.$functionleave;
     $sourceinfo .= '}'.LF; //_delete
-    function format_enum($a) {
-      $result = '';
-      $result = str_replace('_', ' ', $a);
-      $result = 'k'.str_replace(' ', '', ucwords($result));
-      return $result;
-    }; //function for get format enum name by field
+
     $sourceinfo .= LF; //parse_result
     $sourceinfo .= 'bool '.$classname.'::parse_result(void* source) {'.LF;
     $sourceinfo .= $twospace.$functionenter;
-    $sourceinfo .= $fourspace.'bool result = false;'.LF;
-    $enum_fields = $_fields; //next i will chage it
-    $enum_fields = array_map('format_enum', $enum_fields);
-    $enum_fields[0] = $enum_fields[0].' = 1'; //enum first item
-    $sourceinfo .= $fourspace.'enum {'.LF;
-    $enum_str = implode($enum_fields, ','.LF.$fourspace.$twospace).LF;
+    $sourceinfo .= $fourspace.'bool result = true;'.LF;
+    $sourceinfo .= $fourspace.'Assert(source);'.LF;
+    $sourceinfo .= $fourspace.'enum {'.LF;  
     $sourceinfo .= $fourspace.$twospace.$enum_str;
     $sourceinfo .= $fourspace.'}'.LF;
     $sourceinfo .= $fourspace.'return result;'.LF;
     $sourceinfo .= $twospace.$functionleave;
-    $sourceinfo .= $fourspace.'return false;';
+    $sourceinfo .= $fourspace.'return false;'.LF;
     $sourceinfo .= '}'.LF; //parse_result
     
     if ($charactertable) {
