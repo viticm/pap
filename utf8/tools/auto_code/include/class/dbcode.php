@@ -326,6 +326,9 @@ EOF;
       $sourceinfo .= $fourspace.'query->parse(kLoad'.$classname.', '
                      .$tablename.', character_guid_, dbversion_);'.LF;
     }
+    else {
+      $sourceinfo .= $fourspace.'query->parse(kLoad'.$classname.');'.LF;
+    }
     $sourceinfo .= $fourspace.'result = System::load();'.LF;
     $sourceinfo .= $fourspace.'return result;'.LF;
     $sourceinfo .= $twospace.$functionleave;
