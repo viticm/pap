@@ -49,11 +49,12 @@ class System {
    DB_TYPES db_type_;
    DBOP_TYPE op_type_;
    ODBCInterface* odbc_interface_;
-   DB_QUERY* get_internal_query();
-   LONG_DB_QUERY* get_long_internal_query();
+   db_query_t* get_internal_query();
+   long_db_query_t* get_long_internal_query();
    int32_t get_internal_affect_count();
    bool is_prepare();
-   bool check_db_connect(); //check the connect if work, and repeat 5 times when fails
+   bool check_db_connect(); //check the connect if work, 
+                            //and repeat 5 times when fails
    bool long_load();
    bool long_save(void* source);
 };

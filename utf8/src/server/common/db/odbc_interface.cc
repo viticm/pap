@@ -16,7 +16,7 @@ ODBCInterface::ODBCInterface() {
     memset(user_, 0, DB_USER_NAME_LENGTH);
     memset(password_, 0, DB_PASSWORD_LENGTH);
     query_.clear();
-    long_quer_.clear();
+    long_query_.clear();
   __LEAVE_FUNCTION
 }
 
@@ -38,7 +38,10 @@ bool ODBCInterface::connect(const char* connection_name,
     strncpy(user_, user, DB_USER_NAME_LENGTH);
     strncpy(password_, password, DB_PASSWORD_LENGTH);
     SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &sql_henv_);
-    SQLSetEnvAttr(sql_henv_, SQL_ATTR_ODBC_VERSION, static_cast<SQLPOINTER>(SQL_OV_ODBC3), SQL_IS_INTEGER);
+    SQLSetEnvAttr(sql_henv_, 
+                  SQL_ATTR_ODBC_VERSION, 
+                  static_cast<SQLPOINTER>(SQL_OV_ODBC3), 
+                  SQL_IS_INTEGER);
     SQLAllocHandle(SQL_HANDLE_DBC, sql_henv_, &sql_hdbc_);
     result_ = SQLConnect(hDbc,
                          static_cast<SQLCHAR*>(connection_name_),
@@ -70,7 +73,10 @@ bool ODBCInterface::connect() {
     close(); //first disconnect
 #ifdef MUST_CLOSE_HENV_HANDLE
     SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &sql_henv_);
-    SQLSetEnvAttr(sql_henv_, SQL_ATTR_ODBC_VERSION, static_cast<SQLPOINTER>(SQL_OV_ODBC3), SQL_IS_INTEGER);
+    SQLSetEnvAttr(sql_henv_, 
+                  SQL_ATTR_ODBC_VERSION, 
+                  static_cast<SQLPOINTER>(SQL_OV_ODBC3), 
+                  SQL_IS_INTEGER);
 #endif
     SQLAllocHandle(SQL_HANDLE_DBC, sql_henv_, &sql_hdbc_);
     result_ = SQLConnect(hDbc,
@@ -143,7 +149,9 @@ bool ODBCInterface::close() {
 bool ODBCInterface::excute() {
   __ENTER_FUNCTION
     //int column_index;
-    result_ = SQLExecDirect(sql_hstmt_, static_cast<SQLCHAR*>(query_.sql_str_), SQL_NTS);
+    result_ = SQLExecDirect(sql_hstmt_, 
+                            static_cast<SQLCHAR*>(query_.sql_str_), 
+                            SQL_NTS);
     if ((SQL_SUCCESS != result_) && 
         (SQL_SUCCESS_WITH_INFO != result_) &&
         (SQL_NO_DATA != result_)) {
@@ -186,8 +194,8 @@ bool ODBCInterface::excute() {
 
 bool ODBCInterface::excute(const char* sql_str) {
   __ENTER_FUNCTION
-    memset(query_.sql_str_, 0, MAX_SQL_LENGTH);
-    strncpy(query_.sql_str_, sql_str_, MAX_SQL_LENGTH);
+    memset(query_.sql_str_, '\0', sizeof(query_.sql_str_));
+    strncpy(query_.sql_str_, sql_str_, sizeof(query_.sql_str_) - 1);
     return execute();
   __LEAVE_FUNCTION
     return false;
@@ -196,7 +204,9 @@ bool ODBCInterface::excute(const char* sql_str) {
 bool ODBCInterface::long_excute() {
   __ENTER_FUNCTION
     //int column_index;
-    result_ = SQLExecDirect(sql_hstmt_, static_cast<SQLCHAR*>(long_query_.sql_str_), SQL_NTS);
+    result_ = SQLExecDirect(sql_hstmt_, 
+                            static_cast<SQLCHAR*>(long_query_.sql_str_), 
+                            SQL_NTS);
     if ((SQL_SUCCESS != result_) && 
         (SQL_SUCCESS_WITH_INFO != result_) &&
         (SQL_NO_DATA != result_)) {
@@ -238,8 +248,8 @@ bool ODBCInterface::long_excute() {
 
 bool ODBCInterface::long_excute(const char* sql_str) {
   __ENTER_FUNCTION
-    memset(long_query_.sql_str_, 0, MAX_LONG_SQL_LENGTH);
-    strncpy(long_query_.sql_str_, sql_str_, MAX_LONG_SQL_LENGTH);
+    memset(long_query_.sql_str_, '\0', sizeof(long_query_.sql_str_));
+    strncpy(long_query_.sql_str_, sql_str_, sizeof(long_query_.sql_str_) - 1);
     return long_execute();
   __LEAVE_FUNCTION
     return false;
@@ -292,7 +302,8 @@ bool ODBCInterface::long_fetch() {
       diag_state();
       return false;
     }
-    for (int32_t column_index = 0; column_index < column_count_; ++column_index) {
+    for (int32_t column_index = 0; 
+         column_index < column_count_; ++column_index) {
       int32_t get_total = 0;
       SQLLEN data_length = 0;
       while((result_ = SQLGetData(sql_hstmt_, 
@@ -507,8 +518,12 @@ void ODBCInterface::diag_state() {
         close();
       }
     }
-    char error_buffer[512] = {0};
-    sprintf(error_buffer,"error code: %d, error msg: %s,error sql", error_code_, error_message_);
+    char error_buffer[512];
+    memset(error_buffer, '\0', sizeof(error_buffer));
+    snprintf(error_buffer,
+             sizeof(error_buffer) - 1,
+             "error code: %d, error msg: %s,error sql", 
+             error_code_, error_message_);
     save_error_log(error_buffer);
     save_error_log(static_cast<const char*>(query_.sql_str_));
   __LEAVE_FUNCTION
@@ -554,8 +569,13 @@ void ODBCInterface::diag_state_ex() {
         close();
       }
     }
-    char error_buffer[512] = {0};
-    sprintf(error_buffer,"error code: %d, error msg: %s,error sql", error_code_, error_message_);
+    char error_buffer[512];
+    memset(error_buffer, '\0', sizeof(error_buffer));
+    snprintf(error_buffer,
+             sizeof(error_buffer) - 1,
+             "error code: %d, error msg: %s,error sql", 
+             error_code_, 
+             error_message_);
     save_error_log(error_buffer);
     save_error_log(static_cast<const char*>(long_query_.sql_str_));
   __LEAVE_FUNCTION
@@ -665,13 +685,13 @@ bool ODBCInterface::is_prepare() {
   __LEAVE_FUNCTION
 }
 
-DB_QUERY& ODBCInterface::get_query() {
+db_query_t& ODBCInterface::get_query() {
   __ENTER_FUNCTION
     return query_;
   __LEAVE_FUNCTION
 }
 
-LONG_DB_QUERY& ODBCInterface::get_long_query() {
+long_db_query_t& ODBCInterface::get_long_query() {
   __ENTER_FUNCTION
     return long_query_;
   __LEAVE_FUNCTION

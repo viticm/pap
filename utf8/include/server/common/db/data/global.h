@@ -33,7 +33,7 @@ class Global : public System {
    int16_t get_pool_id();
 
  private:
-   int16_t pool_id_;
+   int16_t poolid_;
 
 };
 

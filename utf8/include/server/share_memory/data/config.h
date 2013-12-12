@@ -14,6 +14,7 @@
 #include "common/base/type.h"
 
 const uint32_t kServerIdleTime = 5000; //服务器停止响应时间(毫秒)
+const uint16_t kCmdSize = 256;
 
 typedef enum {
   kCmdUnkown,

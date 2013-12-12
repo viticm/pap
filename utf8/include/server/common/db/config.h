@@ -11,36 +11,42 @@
 #ifndef PAP_SERVER_COMMON_DB_DEFINE_H_
 #define PAP_SERVER_COMMON_DB_DEFINE_H_
 #include "common/base/type.h"
-#define MAX_SQL_LENGTH 4096
-#define MAX_LONG_SQL_LENGTH 204800
+#define SQL_LENGTH_MAX 4096
+#define LONG_SQL_LENGTH_MAX 204800
 
-struct DB_QUERY {
-  char sql_str_[MAX_SQL_LENGTH];
+struct db_query_t {
+  char sql_str_[SQL_LENGTH_MAX];
   void clear() {
-    memset(sql_str_, 0, MAX_SQL_LENGTH);
+    memset(sql_str_, '\0', sizeof(sql_str_));
   }
   void parse(const char* temp, ...) {
     va_list argptr;
     va_start(argptr, temp);
-    int nchars  = tvsnprintf(static_cast<char*>(sql_str_), MAX_SQL_LENGTH, temp, argptr);
+    int nchars  = snprintf(static_cast<char*>(sql_str_), 
+                           sizeof(SQL_LENGTH_MAX) - 1, 
+                           temp, 
+                           argptr);
     va_end(argptr);
-    if (-1 == nchars || MAX_SQL_LENGTH < nchars) {
+    if (-1 == nchars || sizeof(sql_str_) - 1 < nchars) {
       Assert(false);
     }
   }
 };
 
-struct LONG_DB_QUERY {
-  char sql_str_[MAX_LONG_SQL_LENGTH];
+struct log_db_query_t {
+  char sql_str_[LONG_SQL_LENGTH_MAX];
   void clear() {
-    memset(sql_str_, 0, MAX_LONG_SQL_LENGTH);
+    memset(sql_str_, '\0', LONG_SQL_LENGTH_MAX);
   }
   void parse(const char* temp, ...) {
     va_list argptr;
     va_start(argptr, temp);
-    int nchars  = tvsnprintf(static_cast<char*>(sql_str_), MAX_LONG_SQL_LENGTH, temp, argptr);
+    int nchars  = snprintf(static_cast<char*>(sql_str_), 
+                           sizeof(sql_str_) - 1, 
+                           temp, a
+                           rgptr);
     va_end(argptr);
-    if (-1 == nchars || MAX_SQL_LENGTH < nchars) {
+    if (-1 == nchars || sizeof(sql_str_) - 1 < nchars) {
       Assert(false);
     }
   }

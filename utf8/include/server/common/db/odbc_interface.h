@@ -54,15 +54,17 @@ class ODBCInterface {
    SQLCHAR column_name_[MAX_COLUMN][MAX_COLUMN_NAME];
    SQLLEN column_locate_[MAX_COLUMN];
    
-   DB_QUERY query_;
-   LONG_DB_QUERY long_query_;
+   db_query_t query_;
+   long_db_query_t long_query_;
    SQLINTEGER error_code_;
    SQLCHAR error_message_[MAX_ERROR_MESSAGE_LENGTH];
 
  public:
    ODBCInterface();
    ~ODBCInterface();
-   bool connect(const char* connection_name, const char* user = NULL, const char* password = NULL);
+   bool connect(const char* connection_name, 
+                const char* user = NULL, 
+                const char* password = NULL);
    bool connect();
    bool close();
    int32_t get_error_code();
@@ -74,8 +76,8 @@ class ODBCInterface {
    void clear_no_commit();
    bool fetch();
    bool long_fetch();
-   DB_QUERY& get_query();
-   LONG_DB_QUERY& get_long_query();
+   db_query_t& get_query();
+   long_db_query_t& get_long_query();
    bool execute();
    bool execute(const char* sql_str);
    bool long_execute();
@@ -86,9 +88,18 @@ class ODBCInterface {
    uint16_t get_ushort(int32_t column_index, int32_t &error_code);
    uint8_t get_byte(int32_t column_index, int32_t &error_code);
    int16_t get_short(int32_t column_index, int32_t &error_code);
-   void get_string(int32_t column, char* buffer, int32_t buffer_length, int32_t &error_code);
-   void get_field(int32_t column, char* buffer, int32_t buffer_length, int32_t &error_code);
-   void get_long_field(int32_t column, char* buffer, int32_t buffer_length, int32_t &error_code);
+   void get_string(int32_t column, 
+                   char* buffer, 
+                   int32_t buffer_length, 
+                   int32_t &error_code);
+   void get_field(int32_t column, 
+                  char* buffer, 
+                  int32_t buffer_length, 
+                  int32_t &error_code);
+   void get_long_field(int32_t column, 
+                       char* buffer, 
+                       int32_t buffer_length, 
+                       int32_t &error_code);
 
    //分析
    void diag_state();

@@ -417,36 +417,6 @@ typedef enum { //怪物AI基本类型
 
 }; //namespace monster
 
-namespace share_memory {
-
-typedef enum {
-  kInvalid = -1,
-  kHuman = 1,
-  kGuild = 2,
-  kMail = 3,
-  kPlayerShop = 4,
-  kGlobalData = 5,
-  kCommisionShop = 6,
-  kItemSerial = 7,
-  kUserData = 8,
-} _enum;
-
-
-}; //namespace share_memory
-
-namespace server { //服务器类型
-
-typedef enum {
-  kGame = 0, //游戏服务器（主服务器）
-  kLogin = 1, //登陆服务器
-  kShareMemory = 2, //共享内存服务器
-  kWorld = 3, //世界服务器
-  kBilling = 4, //验证服务器（包括元宝等的充值以及与游戏后台交互）
-  kCount,
-} _enum;
-
-}; //namespace server
-
 namespace relation { //关系类型
 
 typedef enum {

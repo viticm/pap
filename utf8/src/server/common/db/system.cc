@@ -18,13 +18,13 @@ uint System::get_result_count() {
   __LEAVE_FUNCTION
 }
 
-DB_QUERY* System::get_internal_query() {
+db_query_t* System::get_internal_query() {
   __ENTER_FUNCTION
     return &odbc_interface_->get_query();
   __LEAVE_FUNCTION
 }
 
-LONG_DB_QUERY* System::get_long_internal_query() {
+long_db_query_t* System::get_long_internal_query() {
   __ENTER_FUNCTION
     return &odbc_interface_->get_long_query();
   __LEAVE_FUNCTION

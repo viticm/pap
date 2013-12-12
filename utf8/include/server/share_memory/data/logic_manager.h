@@ -56,8 +56,8 @@ class LogicManager {
            old_version_ = 0;
            pap_server_common_base::Log::fast_save_log(
                kShareMemoryLogFile, 
-               "[share memory][logic manager](heartbeat)\ 
-receive server crash command."); //string wrap will to line start
+               "[logic manager](heartbeat)" 
+               "receive server crash command."); //string wrap i use like this 
            result = save_all();
            pool_pointer->set_head_version(0);
            return result;
