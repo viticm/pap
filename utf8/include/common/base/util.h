@@ -29,7 +29,10 @@ bool string_tobinary(const char* in,
 void sleep(uint32_t million_seconds);
 uint32_t str_length(const char* str);
 void char_swap(char* str, uint source, uint32_t destination);
-void simple_encrypt_decrypt( char* str, uint32_t str_length, uint32_t key_begin = 0); //use first is encrypt and next to decrypt
+void simple_encrypt_decrypt(char* str, 
+                            uint32_t str_length, 
+                            uint32_t key_begin = 0); //use first is encrypt 
+                                                     //and next to decrypt
 int charset_convert(const char* from, 
                     const char* to, 
                     char* save, 

@@ -22,7 +22,7 @@ class Manager {
    DBManager();
    ~DBManager();
    bool init(db_type_enum db_type = kAllDatabase);
-   ODBCInterface* get_interface(enum_db_type db_type);
+   ODBCInterface* get_interface(db_type_enum db_type);
 
  private:
    db_type_enum db_type_;

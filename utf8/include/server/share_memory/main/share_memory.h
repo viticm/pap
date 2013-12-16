@@ -32,7 +32,7 @@ class ShareMemory {
    };
    struct logicmanager_t {
      void* logic_manager;
-     pap_server_common_game::define::type::key_enum key_type;
+     pap_server_common_game::define::type::share_memory::key_enum key_type;
      manager_t() {
        logic_manager = NULL;
        key_type = pap_server_common_game::define::type::kKeyInvalid;
@@ -43,7 +43,7 @@ class ShareMemory {
    bool init();
    bool loop();
    bool exit();
-   bool startwork();
+   bool work();
    void consolecommand();
 
  protected:

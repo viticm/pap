@@ -1,16 +1,20 @@
 #include "server/share_memory/main/share_memory.h"
+#include "server/share_memory/main/command_thread.h"
 #include "server/common/base/log.h"
 #include "server/common/base/time_manager.h"
 #include "server/common/db/manager.h"
+#include "common/base/util.h"
 #include "server/share_memory/data/logic_manager.h"
 
 ShareMemory g_sharememory;
 
-bool check_allsave_file();
+bool check_saveall_file();
 bool check_exitfile();
+bool check_start_savelogout();
+bool check_stop_savelogout();
 
 int32_t main(int32_t argc, char* argv[]) {
-using namespace 
+using namespace
 #if defined(__WINDOWS__)
   _CrtSetDbgFlag(_CrtSetDbgFlag(0) | _CRTDBG_LEAK_CHECK_DF);
 #endif
@@ -65,7 +69,7 @@ bool ShareMemory::init() {
   __ENTER_FUNCTION
     using namespace pap_server_common_base;
     bool result = true;
-    
+
     Log::save_log("share_memory", "start read config files");
     result = g_config.init();
     Assert(result);
@@ -85,9 +89,179 @@ bool ShareMemory::init() {
   __LEAVE_FUNCTION
     return false;
 }
+
 bool ShareMemory::loop() {
   __ENTER_FUNCTION
+    using namespace pap_server_common_base;
+    using namespace pap_common_base;
+    if (g_cmd_input) {
+      g_command_thread.start();
+      Log::save_log("share_memory", "g_command_thread.start()");
+    }
+    Log::save_log("share_memory", "loop ... start");
+    while (true) {
+      startwork();
+      util::sleep(1000);
+    }
+    Log::save_log("share_memory", "loop ... end");
+  __LEAVE_FUNCTION
+    return false;
+}
 
+bool ShareMemory::exit() {
+  __ENTER_FUNCTION
+    delete_staticmanager();
+    exited_ = true;
+    return true;
+  __LEAVE_FUNCTION
+    return false;
+}
+
+bool ShareMemory::work() {
+  using namespace pap_server_common_base;
+  using namespace pap_common_base;
+  using namespace pap_server_common_db;
+  using namespace pap_server_common_sys;
+  using namespace pap_server_common_game::define; //the type namespace
+  try { //body use try catch then allow not use enter and leave function
+    bool exit = false;
+    uint32_t daytime = g_time_manager->get_day_time();
+    if (g_file_name_fix != daytime) g_file_name_fix = daytime;
+    ODBCInterface* odbc_interface =
+      g_db_manager->get_interface(kCharacterDatabase);
+    Assert(odbc_interface);
+    if (!odbc_interface->is_connected()) {
+      g_log->fast_save_log(kShareMemoryLogFile, "connect database failed");
+      bool connectresult = false;
+      connectresult = odbc_interface->connect();
+      if (!connectresult) {
+        g_log->fast_save_log(kShareMemoryLogFile,
+                             "try connect database failed");
+        util::sleep(5000);
+        if (kCmdUnkown == g_command_thread.command_config.state.type) {
+          return false;
+        }
+      }
+      else {
+        Log::fast_save_log(kShareMemoryLogFile, "try connect database success");
+      }
+    }
+
+    if (check_saveall_file()) {
+      g_command_thread.command_config.state.type = kCmdSaveAll;
+      Log::fast_save_log(kShareMemoryLogFile, "cmd enter save all");
+    }
+    if (check_exitfile()) {
+      g_command_thread.command_config.state.type = kCmdSaveAll;
+      exit = true;
+      Log::fast_save_log(kShareMemoryLogFile, "cmd enter exit");
+    }
+    if (check_start_savelogout()) {
+      Log::fast_save_log(kShareMemoryLogFile, "cmd enter start save logout");
+    }
+    if (check_stop_savelogout()) {
+      Log::fast_save_log(kShareMemoryLogFile, "cmd enter stop save logout");
+    }
+    if (g_command_thread.command_config.state.type != kCmdUnkown) {
+      g_command_config = g_command_thread.command_config;
+      g_command_thread.command_config.state.type = kCmdUnkown;
+    }
+ 
+    uint32_t i;
+    for (i = 0; i < share_memory::kObjMax; ++i) {
+      if (logicmanager_pool_[i].logic_manager) {
+        type::share_memory::key_enum key_type;
+        key_type = logicmanager_pool_[i].key_type;
+        switch (key_type) {
+          case type::share_memory::kKeyGlobalData: {
+            LogicManager<Global>* globaldata_manager =
+              static_cast<LogicManager<Global>*>(
+                  logicmanager_pool_[i].logic_manager);
+            if (globaldata_manager) {
+              globaldata_manager->heartbeat();
+            }
+            else {
+              AssertEx(false, "ShareMemory::work run time error");
+            }
+            break;
+          }
+          default: {
+            AssertEx(false, "ShareMemory::work unkown key type");
+          }
+        }
+      }
+    }
+   
+    if (kCmdClearAll == g_command_config.sate.type) {
+      exit(0);
+    }
+    g_command_config.sate.type = kCmdUnkown;
+
+    if (exit) {
+      Log::save_log("share_memory", "share memory need exit");
+      exit(0);
+    }
+    return true;
+  }
+  catch(...) {
+    Log::save_log("share_memroy", "ShareMemory::work is error");
+    return false;
+  }
+}
+
+bool ShareMemory::new_staticmanager() {
+  __ENTER_FUNCTION
+    using pap_server_common_db;
+    bool result = true;
+    g_db_manager = new Manager();
+    AssertEx(g_db_manager, "new pap_server_common_db:Manager failed");
+    Log::save_log("share_memory", "new pap_server_common_db:Manager success");
+    uint32_t i;
+    for (i = 0; i < g_config.share_memory_info_.obj_count; ++i) {
+      keydata_pool_[i].key_data = g_config.share_memory_info_.key_data[i];
+    }
+  __LEAVE_FUNCTION
+    return false;
+}
+
+bool check_saveall_file() {
+  __ENTER_FUNCTION
+    bool result = true;
+    if (-1 == remove("saveall.cmd")) result = false;
+    return result;
+  __LEAVE_FUNCTION
+    return false;
+}
+
+bool check_exitfile() {
+  __ENTER_FUNCTION
+    bool result = true;
+    if (-1 == remove("exit.cmd")) result = false;
+    extern bool g_lock_timeout_enable;
+    g_lock_timeout_enable = true;
+    return result;
+  __LEAVE_FUNCTION
+    return false;
+}
+
+bool check_start_savelogout() {
+  __ENTER_FUNCTION
+    bool result = true;
+    if (-1 == remove("startsave.cmd")) result = false;
+    extern bool g_need_savelogout;
+    g_need_savelogout = true;
+    return result;
+  __LEAVE_FUNCTION
+    return false;
+}
+
+bool check_stop_savelogout() {
+  __ENTER_FUNCTION
+    bool result = true;
+    if (-1 == remove("stopsave.cmd")) result = false;
+    extern bool g_need_savelogout;
+    g_need_savelogout = true;
+    return result;
   __LEAVE_FUNCTION
     return false;
 }
