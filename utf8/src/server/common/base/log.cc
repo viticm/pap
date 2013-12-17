@@ -219,7 +219,7 @@ void Log::get_log_file_name(const char* file_name_prefix, char* file_name) {
                FILENAME_MAX - 1,
                "%s_%d.log",
                file_name_prefix,
-               day_time_);
+               999999);
     }
    
   __LEAVE_FUNCTION
@@ -242,7 +242,7 @@ void Log::flush_log(enum_log_id log_id) {
     catch(...) {
       //do nothing
     }
-    log_cache_[log_id].unlock();
+    log_lock_[log_id].unlock();
   __LEAVE_FUNCTION
 }
 

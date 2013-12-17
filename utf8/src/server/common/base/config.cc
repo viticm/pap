@@ -1,6 +1,7 @@
 #include "server/common/base/config.h"
 #include "server/common/base/file_define.h"
 #include "server/common/base/log.h"
+#include "common/file/ini.h"
 
 pap_server_common_base::Config g_config;
 
@@ -272,15 +273,19 @@ share_memory_info_t::share_memory_info_t() {
     encrypt_password = false;
     world_data_save_interval = 1200000;
     human_data_save_interval = 900000;
-  __ENTER_FUNCTION
+  __LEAVE_FUNCTION
 }
 
 share_memory_info_t::~share_memory_info_t() {
-  SAFE_DELETE_ARRAY(key_data);
+  __ENTER_FUNCTION
+    SAFE_DELETE_ARRAY(key_data);
+  __LEAVE_FUNCTION
 }
 
 machine_data_t::machine_data_t() {
-  id = ID_INVALID;
+  __ENTER_FUNCTION
+    id = ID_INVALID;
+  __LEAVE_FUNCTION
 }
 
 machine_data_t::~machine_data_t() {
@@ -306,7 +311,7 @@ proxy_data_t::proxy_data_t() {
     isp = kIspInvalid;
     memset(ip, '\0', sizeof(ip));
     port = 0;
-    enable = false;
+    //enable = false;
   __LEAVE_FUNCTION
 }
 
@@ -341,10 +346,11 @@ server_info_t::server_info_t() {
     count = 0;
     current_server_id = -1;
     memset(world_data.ip, '\0', sizeof(world_data.ip));
+	memset(hash_server, 0, sizeof(hash_server));
   __LEAVE_FUNCTION
 }
 
-server_data_t::~server_info_t() {
+server_info_t::~server_info_t() {
   //do nothing
 }
 
@@ -382,7 +388,7 @@ scene_info_t::~scene_info_t() {
   //do nothing
 }
 
-internal_ip_of_proxy_t::internal_ip_of_proxy_t{
+internal_ip_of_proxy_t::internal_ip_of_proxy_t() {
   __ENTER_FUNCTION
     memset(proxy_for_cnc_user, '\0', sizeof(proxy_for_cnc_user));
     memset(proxy_for_ctc_user, '\0', sizeof(proxy_for_ctc_user));
@@ -420,7 +426,7 @@ BillingInfo::BillingInfo() {
     info_pool_ = NULL;
     number_ = 0;
     current_billing_no_ = 0;
-    can_use_ = false;
+    used_ = false;
     memset(ip_, '\0', sizeof(ip_));
     port_ = 0;
   __LEAVE_FUNCTION
@@ -444,16 +450,16 @@ void BillingInfo::clean_up() {
     memset(ip_, '\0', sizeof(ip_));
     number_ = 0;
     current_billing_no_ = 0;
-    can_use_ = false;
+    used_ = false;
   __LEAVE_FUNCTION
 }
 
 bool BillingInfo::init(uint16_t number) {
   __ENTER_FUNCTION
-    pap_common_base::Assert(number > 0);
+    Assert(number > 0);
     number_ = number;
     info_pool_ = new billing_data_t*[number_];
-    pap_common_base::Assert(info_pool_);
+    Assert(info_pool_);
     uint32_t i;
     for (i = 0; i < number_; ++i) {
       info_pool_[i] = new billing_data_t();
@@ -465,7 +471,7 @@ bool BillingInfo::init(uint16_t number) {
 
 uint16_t BillingInfo::get_number() {
   __ENTER_FUNCTION
-    return number_
+    return number_;
   __LEAVE_FUNCTION
     return 0;
 }
@@ -483,7 +489,7 @@ void BillingInfo::begin_use() {
     current_billing_no_ = 0;
     used_ = true;
     if (info_pool_) {
-      billing_data_t current = info_pool_[current_billing_no_];
+      billing_data_t* current = info_pool_[current_billing_no_];
       port_ = current->port;
       snprintf(ip_, strlen(current->ip),"%s", current->ip);
     }
@@ -910,7 +916,7 @@ void Config::load_billing_info_only() {
       billing_data_t* billing_data = billing_info_.next();
       snprintf(key, sizeof(key) - 1, "IP%d", i);
       if (true == server_info_ini.read_exist_text("Billing", 
-                                                  static_cast<const char*>(key)), 
+                                                  static_cast<const char*>(key), 
                                                   billing_data.ip, 
                                                   sizeof(billing_data.ip) - 1) {
         snprintf(message, sizeof(message) - 1, "Config::load_billing_info_only is failed, can't find key: %s", key);
@@ -962,7 +968,7 @@ void Config::load_share_memory_info_only() {
       snprintf(key, sizeof(key) - 1, "Key%d", i);
       snprintf(type, sizeof(type) - 1, "Type%d", i);
       share_memory_info_.key_data.key = share_memory_info_ini.read_uint32("Key", key);
-      share_memory_info_ini.key_data.type = share_memory_info_ini.read_uint8("Key", type);
+      share_memory_info_.key_data.type = share_memory_info_ini.read_uint8("Key", type);
     }
     share_memory_info_ini.read_text("System", "DBIP", share_memory_info_.db_ip, sizeof(share_memory_info_.db_ip) - 1);
     share_memory_info_.db_port = share_memory_info_ini.read_uint16("System", "DBPort");
@@ -1039,7 +1045,7 @@ void Config::load_server_info_only() {
     pap_common_file::Ini server_info_ini(SERVER_INFO_FILE);
     server_info_.count = server_info_ini.read_uint16("System", "ServerNumber");
     server_info_.data = new server_data_t[server_info_.count];
-    memset(server_info.data, 0, sizeof(server_info_.data));
+    memset(server_info_.data, 0, sizeof(server_info_.data));
     uint32_t i;
     for (i = 0; i < server_info_.count; ++i) {
       char section[256];
@@ -1050,7 +1056,7 @@ void Config::load_server_info_only() {
       server_info_.data[i].machine_id = server_info_ini.read_int16(kSection, "MachineID");
       server_info_ini.read_text(kSection, "IP0", server_info_.data[i].ip0, sizeof(server_info_.data[i].ip0) - 1);
       server_info_.data[i].port0 = server_info_ini.read_uint16(kSection, "Port0");
-      server_info_.read_text(kSection, "IP1", server_info_.data[i].ip1, sizeof(server_info_.data[i].ip1) - 1);
+      server_info_ini.read_text(kSection, "IP1", server_info_.data[i].ip1, sizeof(server_info_.data[i].ip1) - 1);
       server_info_.data[i].port1 = server_info_ini.read_uint16(kSection, "Port1");
       server_info_.data[i].type = server_info_ini.read_int8(kSection, "Type");
       //not active proxy

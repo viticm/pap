@@ -253,7 +253,7 @@ void simple_encrypt_decrypt(char* str, uint32_t strlength, uint32_t key_begin) {
     password_swap_chars(key);
     uint32_t key_length = str_length(key);
     uint32_t i;
-    for (i = 0; i < str_length; ++i) {
+    for (i = 0; i < strlength; ++i) {
       *str ^= key[(i + key_begin) % key_length];
       str++;
     }

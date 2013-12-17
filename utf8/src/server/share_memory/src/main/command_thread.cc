@@ -31,7 +31,7 @@ bool CommandParser::handleinput() {
     int32_t charinput;
     while (true) {
       charinput = getchar();
-      if ('\n' = charinput) break;
+      if ('\n' == charinput) break;
       if (charcount > sizeof(cmd) - 1) break;
       cmd[charcount] = charinput;
       ++charcount;

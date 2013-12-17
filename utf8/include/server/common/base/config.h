@@ -504,6 +504,7 @@ struct server_info_t {
   server_data_t* data;
   uint16_t count;
   int16_t current_server_id;
+  int16_t hash_server[OVER_SERVER_MAX];
   server_world_data_t world_data;
   server_info_t();
   ~server_info_t();
@@ -576,6 +577,7 @@ class BillingInfo {
    uint16_t get_number();
    billing_data_t* next();
    void begin_use();
+   bool is_use();
 
  private:
    billing_data_t** info_pool_;
@@ -598,6 +600,7 @@ class Config {
    machine_info_t machine_info_;
    server_info_t server_info_;
    share_memory_info_t share_memory_info_;
+   scene_info_t scene_info_;
  
  public:
    bool init();
