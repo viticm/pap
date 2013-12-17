@@ -775,7 +775,7 @@ typedef enum {
 
 }; //namespace combat
 
-}; namespace value
+}; //namespace value
 //value --
 
 //-- index
