@@ -51,9 +51,26 @@ using namespace
   g_time_manager->init();
 
   bool result = false;
-
+  Log::save_log("share_memory", "(###)main...");
+  Log::save_log("share_memory", "sharememory start ...");
+  result = g_sharememory.init();
+  if (false == result) {
+    Assert(false);
+    return 1;
+  }
+  result = g_sharememory.loop();
+  if (false == result) {
+    Assert(false);
+    return 1;
+  }
+  result = g_sharememory.exit();
+  if (false == result) {
+    Assert(false);
+    return 1;
+  }
+  SAFE_DELETE(g_time_ganager);
+  return 0;
 }
-
 
 ShareMemory::ShareMemory() {
   __ENTER_FUNCTION
@@ -123,6 +140,7 @@ bool ShareMemory::work() {
   using namespace pap_server_common_db;
   using namespace pap_server_common_sys;
   using namespace pap_server_common_game::define; //the type namespace
+  using namespace pap_server_common_game::db;
   try { //body use try catch then allow not use enter and leave function
     bool exit = false;
     uint32_t daytime = g_time_manager->get_day_time();
@@ -174,8 +192,8 @@ bool ShareMemory::work() {
         key_type = logicmanager_pool_[i].key_type;
         switch (key_type) {
           case type::share_memory::kKeyGlobalData: {
-            LogicManager<Global>* globaldata_manager =
-              static_cast<LogicManager<Global>*>(
+            LogicManager<share_memory::global_data_t>* globaldata_manager =
+              static_cast<LogicManager<data::Global>*>(
                   logicmanager_pool_[i].logic_manager);
             if (globaldata_manager) {
               globaldata_manager->heartbeat();
@@ -211,7 +229,11 @@ bool ShareMemory::work() {
 
 bool ShareMemory::new_staticmanager() {
   __ENTER_FUNCTION
-    using pap_server_common_db;
+    using namespace pap_server_common_base;
+    using namespace pap_server_common_db;
+    using namespace pap_server_common_sys;
+    using namespace pap_server_common_game::define; //the define namespace
+    using namespace pap_server_common_game::db;
     bool result = true;
     g_db_manager = new Manager();
     AssertEx(g_db_manager, "new pap_server_common_db:Manager failed");
@@ -219,7 +241,115 @@ bool ShareMemory::new_staticmanager() {
     uint32_t i;
     for (i = 0; i < g_config.share_memory_info_.obj_count; ++i) {
       keydata_pool_[i].key_data = g_config.share_memory_info_.key_data[i];
+      type::share_memory::key_enum key_type;
+      key_type = g_config.share_memory_info_.key_data[i].type;
+      switch (key_type) {
+        case type::share_memory::kKeyGlobalData: {
+          keydata_pool_[i].pool = 
+            new share_memory::UnitPool<share_memory::global_data_t>();
+          Assert(keydata_pool_[i].pool);
+          Log::save_log("share_memory", 
+                        "share_memory::UnitPool<Global> success");
+          logicmanager_pool_[i].logic_manager = 
+            new LogicManager<share_memory::global_data_t>();
+          Assert(logicmanager_pool_[i].logic_manager);
+          Log::save_log("share_memory", "new LogicManager<Global> success");
+          logicmanager_pool_[i].key_type = type::share_memory::kKeyGlobalData;
+          break;
+        }
+        default: {
+          break;
+        }
+      }
     }
+    return true;
+  __LEAVE_FUNCTION
+    return false;
+}
+
+bool ShareMemory::init_staticmanager() {
+  __ENTER_FUNCTION
+    using namespace pap_server_common_base;
+    using namespace pap_server_common_db;
+    using namespace pap_server_common_sys;
+    using namespace pap_server_common_game::define; //the type namespace
+
+    bool result = true;
+    Assert(g_db_manager);
+    result = g_db_manager->init(kCharacterDatabase); //db character
+    if (!result) {
+      Log::save_log("share_memory", 
+                    "g_db_manager->init(kCharacterDatabase) failed");
+    }
+    else {
+      Log::save_log("share_memory", 
+                    "g_db_manager->init(kCharacterDatabase) success");
+    }
+    uint32_t i;
+    uint16_t obj_count = g_config.share_memory_info_.obj_count;
+    for (i = 0; i < obj_count; ++i) {
+      type::share_memory::key_enum key_type;
+      key_type = g_config.share_memory_info_.key_data[i].type;
+      switch (key_type) {
+        case type::share_memory::kKeyGlobalData: {
+          share_memory::UnitPool<share_memory::global_data_t>* global_pool;
+          global_pool = 
+            static_cast<share_memory::UnitPool<share_memory::global_data_t>*>(
+                keydata_pool_[i].pool);
+          Assert(global_pool);
+          uint64_t key = keydata_pool_[i].key_data.key;
+          result = global_pool->init(1, key, share_memory::kSmptShareMemory);
+          Assert(result);
+          LogicManager<share_memory::global_data_t>* global_logicmanager = 
+            static_cast<LogicManager<share_memory::global_data_t>*>(
+                logicmanager_pool_[i].logic_manager);
+          Assert(global_logicmanager);
+          result = global_logicmanager->init(global_pool);
+          Assert(result);
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    }
+    return result;
+  __LEAVE_FUNCTION
+    return false;
+}
+
+bool ShareMemory::delete_staticmanager() {
+  __ENTER_FUNCTION
+    using namespace pap_server_common_base;
+    using namespace pap_server_common_db;
+    using namespace pap_server_common_sys;
+    using namespace pap_server_common_game::define; //the define namespace
+    using namespace pap_server_common_game::db;
+    bool result = true;
+    uint32_t i;
+    uint16_t obj_count = g_config.share_memory_info_.obj_count;
+    for (i = 0; i < obj_count; ++i) {
+      type::share_memory::key_enum _type;
+      _type = g_config.share_memory_info_.key_data[i].type;
+      switch (_type) {
+        case type::share_memory::kKeyGlobalData: {
+          share_memory::UnitPool<share_memory::global_data_t>* global_pool;
+          global_pool = 
+            static_cast<share_memory::UnitPool<share_memory::global_data_t>*>(
+                keydata_pool_[i].pool);
+          LogicManager<share_memory::global_data_t>* global_logicmanager = 
+            static_cast<LogicManager<share_memory::global_data_t>*>(
+                logicmanager_pool_[i].logic_manager);
+          SAFE_DELETE(global_pool);
+          SAFE_DELETE(global_logicmanager);
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    }
+    return result;
   __LEAVE_FUNCTION
     return false;
 }
@@ -265,3 +395,66 @@ bool check_stop_savelogout() {
   __LEAVE_FUNCTION
     return false;
 }
+
+void inthandler(int32_t) {
+  __ENTER_FUNCTION
+    pap_common_sys::util::dumpstack("share_memory_dump", "int exception:");
+    exit(0);
+  __LEAVE_FUNCTION
+}
+
+void termhandler(int32_t) {
+  __ENTER_FUNCTION
+    pap_common_sys::util::dumpstack("share_memory_dump", "term exception:");
+    exit(0);
+  __LEAVE_FUNCTION
+}
+
+void aborthandler(int32_t) {
+  __ENTER_FUNCTION
+    pap_common_sys::util::dumpstack("share_memory_dump", "abort exception:");
+    exit(0);
+  __LEAVE_FUNCTION
+}
+
+void illhandler(int32_t) {
+  __ENTER_FUNCTION
+    pap_common_sys::util::dumpstack("share_memory_dump", "ill exception:");
+    exit(0);
+  __LEAVE_FUNCTION
+}
+
+void fpehandler(int32_t) {
+  __ENTER_FUNCTION
+    pap_common_sys::util::dumpstack("share_memory_dump", "fpe exception:");
+    exit(0);
+  __LEAVE_FUNCTION
+}
+
+void segvhandler(int32_t) {
+  __ENTER_FUNCTION
+    pap_common_sys::util::dumpstack("share_memory_dump", "segv exception:");
+    exit(0);
+  __LEAVE_FUNCTION
+}
+
+void xfszhandler(int32_t) {
+  __ENTER_FUNCTION
+    pap_common_sys::util::dumpstack("share_memory_dump", "xfsz exception:");
+    exit(0);
+  __LEAVE_FUNCTION
+}
+
+ExceptionHandler::ExceptionHandler() {
+  __ENTER_FUNCTION
+    signal(SIGSEGV, segvhandler);
+    signal(SIGFPE, fpehandler);
+    signal(SIGILL, illhandler);
+    signal(SIGINT, inthandler);
+    signal(SIGTERM, termhandler);
+    signal(SIGABRT, aborthandler);
+    signal(SIGXFSZ, xfszhandler);
+  __LEAVE_FUNCTION
+}
+
+ExceptionHandler g_exception_handler;

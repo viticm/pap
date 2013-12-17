@@ -271,6 +271,9 @@ void Log::save_log(const char* file_name_prefix, const char* format, ...) {
         get_log_time_str(time_str, sizeof(time_str) - 1);
         strncat(buffer, time_str, strlen(time_str));
       }
+      else { //add the wrap
+        strncat(buffer, LF, sizeof(LF));
+      }
       char log_file_name[FILENAME_MAX];
       memset(log_file_name, '\0', sizeof(log_file_name));
       get_log_file_name(file_name_prefix, log_file_name);
