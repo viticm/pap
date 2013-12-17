@@ -64,7 +64,7 @@ command_state_t CommandParser::parser_commandtype(const char* str) {
     uint32_t i;
     for (i = 0; i < sizeof(cmdhead) - 1; ++i) {
       char charinput = str[i];
-      if (' ' == charinput || '\t' == charinput '\0' == charinput) break;
+      if (' ' == charinput || '\t' == charinput || '\0' == charinput) break;
       cmdhead[i] = str[i];
     }
     if (0 == strcmp(cmdhead, "saveall")) {
@@ -75,5 +75,4 @@ command_state_t CommandParser::parser_commandtype(const char* str) {
     }
     return state;
   __LEAVE_FUNCTION
-    return kCmdUnkown; 
 }

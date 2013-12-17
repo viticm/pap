@@ -33,7 +33,7 @@ struct db_query_t {
   }
 };
 
-struct log_db_query_t {
+struct long_db_query_t {
   char sql_str_[LONG_SQL_LENGTH_MAX];
   void clear() {
     memset(sql_str_, '\0', LONG_SQL_LENGTH_MAX);
@@ -43,8 +43,8 @@ struct log_db_query_t {
     va_start(argptr, temp);
     int nchars  = snprintf(static_cast<char*>(sql_str_), 
                            sizeof(sql_str_) - 1, 
-                           temp, a
-                           rgptr);
+                           temp,
+                           argptr);
     va_end(argptr);
     if (-1 == nchars || sizeof(sql_str_) - 1 < nchars) {
       Assert(false);

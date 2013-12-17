@@ -11,6 +11,7 @@
 #ifndef PAP_SERVER_COMMON_DB_SYSTEM_H_
 #define PAP_SERVER_COMMON_DB_SYSTEM_H_
 #include "server/common/db/config.h"
+#include "server/common/db/odbc_interface.h"
 
 namespace pap_server_common_db {
 
@@ -26,17 +27,20 @@ class System {
 #if defined(__WINDOWS__)
    enum ODBC_ERROR {
      DB_SAME_PRI_KEY = 2601, //repeat primary key
-   }
+   };
 #elif defined(__LINUX__)
    enum ODBC_ERROR {
      DB_SAME_PRI_KEY = 1026, //repeat primary key
-   }
+   };
 #endif
-   DBSystem();
-   void set_db_type(DB_TYPES db_type);
-   uint get_result_count();
+
+ public:
+   System();
+   ~System();
+   void set_db_type(db_type_enum db_type);
+   uint32_t get_result_count();
    int get_error_code();
-   char* get_error_msg();
+   char* get_error_message();
    virtual bool load();
    virtual bool add_new();
    virtual bool delete_();
@@ -46,7 +50,7 @@ class System {
  protected:
    int32_t result_count_;
    bool result_;
-   DB_TYPES db_type_;
+   db_type_enum db_type_;
    DBOP_TYPE op_type_;
    ODBCInterface* odbc_interface_;
    db_query_t* get_internal_query();

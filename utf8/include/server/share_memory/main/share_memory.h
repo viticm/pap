@@ -24,7 +24,7 @@ class ShareMemory {
 
  public: //define extend types
    struct pool_keydata_t {
-     share_memory_key_data_t key_data;
+	   pap_server_common_base::share_memory_key_data_t key_data;
      void* pool;
      pool_keydata_t() {
        pool = NULL;
@@ -33,9 +33,10 @@ class ShareMemory {
    struct logicmanager_t {
      void* logic_manager;
      pap_server_common_game::define::type::share_memory::key_enum key_type;
-     manager_t() {
+     logicmanager_t() {
        logic_manager = NULL;
-       key_type = pap_server_common_game::define::type::kKeyInvalid;
+	   using namespace pap_server_common_game::define;
+	   key_type = type::share_memory::kKeyInvalid;
      }
    };
 

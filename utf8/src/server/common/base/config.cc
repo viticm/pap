@@ -118,7 +118,7 @@ config_info_t::config_info_t() {
     minor_password.unlock_delay_time = 24;
     minor_password.energy_set_cost = 20;
     minor_password.energy_modify_cost = 20;
-    minor_password.energy_unlock_cost 100;
+    minor_password.energy_unlock_cost = 100;
     minor_password.input_error_times_per_day = 5;
     minor_password.password_unlock_time = 24;
     world.hash_online_user_count = 2000;
@@ -189,7 +189,7 @@ config_info_t::~config_info_t() {
 
 login_info_t::login_info_t() {
   __ENTER_FUNCTION
-    login_id = ID_INVALID; 
+    id = ID_INVALID; 
     memset(db_ip, '\0', sizeof(db_ip));
     db_port = 3306; //default mysql port
     memset(db_name, '\0', sizeof(db_name));
@@ -197,13 +197,13 @@ login_info_t::login_info_t() {
     memset(db_user, '\0', sizeof(db_user));
     memset(db_password, '\0', sizeof(db_password));
     odbc_switch = true;
-    db_type = -1;
+    db_type_enum = -1;
     encrypt_password = false;
     client_version = 0;
     db_connect_count = 1;
     turn_player_count = 100;
     proxy_connect = 0;
-    enable_license = false
+    enable_license = false;
     relogin_limit = false;
     relogin_stop = false;
     relogin_stop_time = 60000;
@@ -268,23 +268,19 @@ share_memory_info_t::share_memory_info_t() {
     memset(db_user, '\0', sizeof(db_user));
     memset(db_password, '\0', sizeof(db_password));
     odbc_switch = true;
-    db_type = -1;
+    db_type_enum = -1;
     encrypt_password = false;
     world_data_save_interval = 1200000;
-    human_data_save_interval = 900000;;
+    human_data_save_interval = 900000;
   __ENTER_FUNCTION
 }
 
 share_memory_info_t::~share_memory_info_t() {
-  __ENTER_FUNCTION
-    SAFE_DELETE_ARRAY(key_data);
-  __LEAVE_FUNCTION
+  SAFE_DELETE_ARRAY(key_data);
 }
 
 machine_data_t::machine_data_t() {
-  __ENTER_FUNCTION
-    id = ID_INVALID;
-  __LEAVE_FUNCTION
+  id = ID_INVALID;
 }
 
 machine_data_t::~machine_data_t() {
@@ -827,7 +823,7 @@ void Config::load_login_info_only() {
     login_info_ini.read_text("System", "DBUser", login_info_.db_user, sizeof(login_info_.db_user) - 1);
     login_info_ini.read_text("System", "DBPassword", login_info_.db_password, sizeof(login_info_.db_password) - 1);
     login_info_.odbc_switch = login_info_ini.read_bool("System", "ODBCSwitch");
-    login_info_.db_type = login_info_ini.read_int8("System", "DBType");
+    login_info_.db_type_enum = login_info_ini.read_int8("System", "DBType");
     login_info_.encrypt_password = login_info_ini.read_bool("System", "EncryptPassword");
     login_info_.client_version = login_info_ini.read_uint16("System", "ClientVersion");
     login_info_.db_connect_count = login_info_ini.read_uint8("System", "DBConnectCount");
@@ -903,7 +899,7 @@ void Config::load_billing_info_only() {
     billing_info_ini.read_text("System", "DBUser", billing_info_.db_user_, sizeof(billing_info_.db_user_) - 1);
     billing_info_ini.read_text("System", "db_password_", billing_info_.db_password_, sizeof(billing_info_.db_password_) - 1);
     billing_info_.odbc_switch_ = billing_info_ini.read_bool("System", "ODBCSwitch");
-    billing_info_.db_type_ = billing_info_ini.read_int8("System", "DBType");
+    billing_info_.db_type_enum_ = billing_info_ini.read_int8("System", "DBType");
     billing_info_.encrypt_password_ = billing_info_ini.read_bool("System", "EncryptPassword");
     int32_t i;
     for (i = 0; i < billing_info_.get_number(); ++i) {
@@ -987,7 +983,7 @@ void Config::load_share_memory_info_only() {
                                     share_memory_info_.db_password,
                                     sizeof(share_memory_info_.db_password) - 1);
     share_memory_info_.odbc_switch = share_memory_info_ini.read_bool("System", "ODBCSwitch");
-    share_memory_info_.db_type = share_memory_info_ini.read_int8("System", "DBType");
+    share_memory_info_.db_type_enum = share_memory_info_ini.read_int8("System", "DBType");
     share_memory_info_.world_data_save_interval = share_memory_info_ini.read_uint32("System", "WorldDataSaveInterval");
     share_memory_info_.human_data_save_interval = share_memory_info_ini.read_uint32("System", "HumanDataSaveInterval");
     share_memory_info_.encrypt_password = share_memory_info_ini.read_bool("System", "EncryptPassword");

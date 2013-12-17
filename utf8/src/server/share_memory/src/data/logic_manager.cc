@@ -2,8 +2,15 @@
 #include "server/common/base/time_manager.h"
 #include "server/common/db/odbc_interface.h"
 #include "server/common/db/manager.h"
+#include "server/common/game/db/struct.h"
+#include "server/common/db/data/global.h"
+#include "server/common/sys/share_memory.h"
+#include "server/common/base/log.h"
 
 using namespace pap_server_common_game::db::share_memory;
+using namespace pap_server_common_sys::share_memory;
+using namespace pap_server_common_base;
+
 const uint32_t kIntervalSaveTime = 30000; //需要循环保存数据储存的时间间隔
 
 //全局数据操作的实现
@@ -28,8 +35,8 @@ bool LogicManager<global_data_t>::save_all() {
     uint64_t key = pool_pointer_->get_key();
     pap_server_common_db::ODBCInterface* odbc_interface = g_db_manager->get_interface(kCharacterDatabase);
     Assert(odbc_interface);
-    pap_server_common_db::data::GlobalData _global_data(odbc_interface);
-    _global_data->set_pool_id(100);
+	pap_server_common_db::data::Global _global_data(odbc_interface);
+    _global_data.set_pool_id(100);
     int32_t error_code;
     if (_global_data.save(&data)) {
       _global_data.parse_result(&error_code);
@@ -71,7 +78,7 @@ template <>
 bool LogicManager<global_data_t>::post_init() {
   __ENTER_FUNCTION
     if (!pool_pointer_) return false;
-    if (kCmdModelClearAll = g_cmd_model) return true;
+    if (kCmdModelClearAll == g_cmd_model) return true;
     uint32_t run_time = g_time_manager->get_run_time();
     int32_t max_pool_size = pool_pointer_->get_max_size();
     uint64_t key = pool_pointer_->get_key();
@@ -80,12 +87,12 @@ bool LogicManager<global_data_t>::post_init() {
       Assert(global_data);
       return false;
     }
-    data = global_data->get_data(kFlagSelfRead);
+    //uint32_t _data = global_data->get_data(kFlagSelfRead);
     pap_server_common_db::ODBCInterface* odbc_interface = g_db_manager->get_interface(kCharacterDatabase);
     Assert(odbc_interface);
     uint32_t _data = 100; //test
-    pap_server_common_db::data::GlobalData _global_data(odbc_interface);
-    _global_data->set_pool_id(100);
+	pap_server_common_db::data::Global _global_data(odbc_interface);
+    _global_data.set_pool_id(100);
     int32_t error_code;
     if (_global_data.load()) {
       _global_data.parse_result(&error_code);

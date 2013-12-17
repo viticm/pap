@@ -44,7 +44,7 @@ class Thread {
 
 };
 
-extern g_quit_thread_count;
+extern int32_t g_quit_thread_count;
 #if defined(__LINUX__)
 void* pap_thread_process(void* derived_thread);
 #elif defined(__WINDOWS__)
@@ -60,8 +60,8 @@ class ThreadLock {
 #endif
    ThreadLock();
    ~ThreadLock();
-   lock();
-   unlock();
+   void lock();
+   void unlock();
 };
 
 uint64_t get_current_thread_id();

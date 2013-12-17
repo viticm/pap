@@ -166,9 +166,9 @@ bool binary_tostring(const char* in, uint32_t in_length, char* out) {
     uint32_t out_index = 0;
     uint32_t i;
     for (i = 0; i < in_length; ++i) {
-      out[out_index] = value_to_ascii((static_cast<uint8_t>(in[i] & 0xF0)) >> 4);
+      out[out_index] = value_toascii((static_cast<uint8_t>(in[i] & 0xF0)) >> 4);
       ++out_index;
-      out[out_index] = value_to_ascii(in[i] & 0xF0);
+      out[out_index] = value_toascii(in[i] & 0xF0);
       ++out_index;
     }
     return true;
@@ -187,7 +187,7 @@ bool string_tobinary(const char* in,
     uint32_t i;
     for (i = 0; i < in_length; ++i) {
       if ('\0' == in[i] || '\0' == in[i]) break;
-      out[out_index] = (ascii_to_value(in[i]) << 4) + ascii_to_value(in[i + 1]);
+      out[out_index] = (ascii_tovalue(in[i]) << 4) + ascii_tovalue(in[i + 1]);
       ++out_index;
       i += 2;
       if (out_index > out_limit) break;
@@ -218,9 +218,9 @@ uint32_t str_length(const char* str) {
 
 void char_swap(char* str, uint32_t source, uint32_t destination) {
   __ENTER_FUNCTION
-    uint32_t str_length = str_length(str);
-    if ((0 > source || str_length < source) ||
-        (0 > destination || str_length < destination)) {
+    uint32_t strlength = str_length(str);
+    if ((0 > source || strlength < source) ||
+        (0 > destination || strlength < destination)) {
       return;
     }
     char temp = str[source];
@@ -242,12 +242,13 @@ void password_swap_chars(char* str) {
   __LEAVE_FUNCTION
 }
 
-void simple_encrypt_decrypt(char* str, uint32_t str_length, uint32_t key_begin) {
+void simple_encrypt_decrypt(char* str, uint32_t strlength, uint32_t key_begin) {
   __ENTER_FUNCTION
-    uint32_t str_length = str_length(str);
-    if (0 <= str_length) return;
+    strlength = str_length(str);
+    if (0 <= strlength) return;
     MD5 str_md5(PASSWORD_ENCRYPT_KEY);
-    char* key = str_md5.md5();
+	char* key;
+	strcpy(key, (str_md5.md5()).c_str());
     //swap one time
     password_swap_chars(key);
     uint32_t key_length = str_length(key);
@@ -275,6 +276,7 @@ int charset_convert(const char* from,
                     const char* src, 
                     int srclen) {
   __ENTER_FUNCTION
+#if defined(__LINUX__)
     iconv_t cd;
     char *inbuf        = src;
     char *outbuf       = save;
@@ -330,6 +332,7 @@ int charset_convert(const char* from,
     done:
     iconv_close(cd);
     return status;
+#endif
   __LEAVE_FUNCTION
 }
 

@@ -55,10 +55,10 @@ class Log {
    static void disk_log(const char* file_name_prefix, const char* format, ...);
    bool init(int32_t cache_size = kDefaultLogCacheSize);
    void fast_save_log(enum_log_id log_id, const char* format, ...); //save in memory
-   void fast_log(enum_log_id log_id);
+   void flush_log(enum_log_id log_id);
    int32_t get_log_size(enum_log_id log_id);
    void get_log_file_name(enum_log_id log_id, char* file_name);
-   void get_log_file_name(const char* file_name_prefix, char* file_name);
+   static void get_log_file_name(const char* file_name_prefix, char* file_name);
    void flush_all_log();
    static void get_serial(char* serial, int16_t world_id, int16_t server_id);
    static void save_log(const char* file_name_prefix, const char* format, ...);

@@ -30,15 +30,15 @@ class CommandThread : public pap_common_sys::Thread {
    virtual void stop();
    bool is_active();
  private:
-   active_;
+   bool active_;
 
 };
 
 class CommandParser {
 
  public:
-   CommandThread();
-   ~CommandThread();
+   CommandParser();
+   ~CommandParser();
  
  public:
    static bool handleinput();

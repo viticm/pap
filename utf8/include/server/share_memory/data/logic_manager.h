@@ -35,7 +35,7 @@ class LogicManager {
    ~LogicManager() {
      //do nothing
    };
-   bool init(pap_common_sys::share_memory::UnitPool<T>* pool) {
+   bool init(pap_server_common_sys::share_memory::UnitPool<T>* pool) {
      __ENTER_FUNCTION
        if (!pool) return false;
        pool_pointer_ = pool;
@@ -91,10 +91,10 @@ class LogicManager {
    bool post_init(); //data init on server start
 
  private:
-   pap_common_sys::share_memory::UnitPool<T>* pool_pointer_;
+   pap_server_common_sys::share_memory::UnitPool<T>* pool_pointer_;
    T* data_;
    uint32_t last_save_time_;
-   bool ready;
+   bool ready_;
    uint32_t old_version_;
    uint32_t old_check_time_;
 

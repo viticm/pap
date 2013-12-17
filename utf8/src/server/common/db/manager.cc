@@ -1,4 +1,6 @@
 #include "server/common/db/manager.h"
+#include "server/common/base/log.h"
+#include "server/common/base/config.h"
 
 pap_server_common_db::Manager* g_db_manager = NULL;
 
@@ -12,7 +14,7 @@ Manager::Manager() {
   __LEAVE_FUNCTION
 }
 
-Manager::~DBManager() {
+Manager::~Manager() {
   __ENTER_FUNCTION
     SAFE_DELETE(user_interface_);
     SAFE_DELETE(character_interface_);
@@ -21,13 +23,14 @@ Manager::~DBManager() {
 
 bool Manager::init(db_type_enum db_type) {
   __ENTER_FUNCTION
+    using namespace pap_server_common_base;
     db_type_ = db_type;
     char host[HOST_LENGTH];
-    uint port;
+    uint16_t port;
     char connection_name[DB_CONNECTION_NAME_LENGTH];
     char user[DB_USER_NAME_LENGTH];
     char password[DB_PASSWORD_LENGTH]; //this password is use in mysql, not encrypt password
-    if (kAllDatabase == db_type || kCharacterDatabase == db_type) { //share memory
+    if (kAllDatabase == db_type_ || kCharacterDatabase == db_type_) { //share memory
       //init all variable in first(character db)
       character_interface_ = new ODBCInterface();
       memset(host, 0, HOST_LENGTH);
@@ -56,12 +59,12 @@ bool Manager::init(db_type_enum db_type) {
       Assert(character_interface_); //safe code
       bool connected = character_interface_->connect(connection_name, user, password);
       if (!connected) {
-        Log::save_log(DB_LOG_FILE, 
+        Log::save_log("dbmanager", 
                       "character_interface_->connect()...get error: %s, db_type: %d", 
                       character_interface_->get_error_message(), 
-                      db_type);
+                      db_type_);
       }
-      if (kAllDatabase == db_type || kCharacterDatabase == db_type) { //login
+      if (kAllDatabase == db_type_ || kCharacterDatabase == db_type_) { //login
       //init all variable in first(user db)
       character_interface_ = new ODBCInterface();
       memset(host, 0, HOST_LENGTH);
@@ -90,14 +93,14 @@ bool Manager::init(db_type_enum db_type) {
       Assert(character_interface_); //safe code
       bool connected = character_interface_->connect(connection_name, user, password);
       if (!connected) {
-        Log::save_log(DB_LOG_FILE, 
-                      "character_interface_->connect()...get error: %s, DB_TYPE: %d", 
+        Log::save_log("dbmanager", 
+                      "character_interface_->connect()...get error: %s, db_type: %d", 
                       character_interface_->get_error_message(), 
-                      db_type);
+                      db_type_);
       }
     }
 
-    if (kAllDatabase == db_type || kUserDatabase == db_type) { //billing
+    if (kAllDatabase == db_type_ || kUserDatabase == db_type_) { //billing
       //init all variable in first(character db)
       user_interface_ = new ODBCInterface();
       memset(host, 0, HOST_LENGTH);
@@ -105,8 +108,8 @@ bool Manager::init(db_type_enum db_type) {
       memset(connection_name, 0, DB_CONNECTION_NAME_LENGTH);
       memset(user, 0, DB_USER_NAME_LENGTH);
       memset(password, 0, DB_PASSWORD_LENGTH);
-      strncpy(host, g_config.login_info_.db_host_, HOST_LENGTH);
-      port = g_config.login_info_.db_port_;
+      strncpy(host, g_config.billing_info_.db_ip_, HOST_LENGTH);
+      port = g_config.billing_info_.db_port_;
       strncpy(connection_name, g_config.billing_info_.db_connection_name_, DB_CONNECTION_NAME_LENGTH);
       strncpy(user, g_config.billing_info_.db_user_, DB_USER_NAME_LENGTH);
       strncpy(password, g_config.billing_info_.db_password_, DB_PASSWORD_LENGTH);
@@ -118,13 +121,15 @@ bool Manager::init(db_type_enum db_type) {
       Assert(user_interface_); //safe code
       bool connected = user_interface_->connect(connection_name, user, password);
       if (!connected) {
-        Log::save_log(DB_LOG_FILE, 
+        Log::save_log("dbmanager", 
                       "user_interface_->connect()...get error: %s, db_type: %d", 
                       user_interface_->get_error_message(), 
-                      db_type);
+                      db_type_);
       }
     }
+	return connected;
   __LEAVE_FUNCTION
+    return false;
 }
 
 ODBCInterface* Manager::get_interface(db_type_enum db_type) {

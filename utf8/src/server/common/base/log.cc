@@ -13,7 +13,7 @@ const char* g_log_file_name[] = {
   "./log/login", //kLoginLogFile
   "./log/debug", //kDebugLogFile
   "./log/error", //kErrorLogFile
-  "./log/share_memory"
+  "./log/share_memory",
   '\0',
 };
 
@@ -24,7 +24,7 @@ bool g_log_in_one_file = false;
 Log::Log() {
   __ENTER_FUNCTION
     int32_t i;
-    for (i = 0; i < kLogFileNumber; ++i) {
+    for (i = 0; i < kLogFileCount; ++i) {
       log_cache_[i] = NULL;
       log_position_[i] = 0;
     }
@@ -36,7 +36,7 @@ Log::Log() {
 Log::~Log() {
   __ENTER_FUNCTION
     int32_t i;
-    for (i = 0; i < kLogFileNumber; ++i) {
+    for (i = 0; i < kLogFileCount; ++i) {
       SAFE_DELETE_ARRAY(log_cache_[i]);
     }
     cache_size_ = 0;
@@ -55,7 +55,7 @@ void Log::get_log_time_str(char* time_str, int32_t length) {
                  g_time_manager->get_day(),
                  g_time_manager->get_hour(),
                  g_time_manager->get_minute(),
-                 g_time_ganager->get_second(),
+                 g_time_manager->get_second(),
                  static_cast<float>(g_time_manager->get_run_time())/1000.0,
                  LF);
     }
@@ -65,13 +65,13 @@ void Log::get_log_time_str(char* time_str, int32_t length) {
 void Log::disk_log(const char* file_name_prefix, const char* format, ...) {
   __ENTER_FUNCTION
     if (g_command_log_active != true) return;
-    if (NULL == filename || 0 == filename[0]) return;
+    if (NULL == file_name_prefix || 0 == file_name_prefix[0]) return;
     char buffer[kLogBufferTemp];
     memset(buffer, '\0', sizeof(buffer));
     va_list argptr;
     try {
-      va_start(argptr, msg);
-			vsnprintf(buffer, sizeof(kLogBufferTemp) - kLogNameTemp - 1, format, argptr);
+      va_start(argptr, format);
+	    vsnprintf(buffer, sizeof(kLogBufferTemp) - kLogNameTemp - 1, format, argptr);
       va_end(argptr);
       if (g_time_manager) {
         char time_str[kLogNameTemp] ;
@@ -126,14 +126,14 @@ bool Log::init(int32_t cache_size) {
   __ENTER_FUNCTION
     cache_size_ = cache_size;
     int32_t i;
-    for (i = 0; i < kLogFileNumber; ++i) {
+    for (i = 0; i < kLogFileCount; ++i) {
       log_cache_[i] = new char[cache_size_];
       if (NULL == log_cache_[i]) { //local memory is failed
         return false;
       }
       log_position_[i] = 0;
     }
-    day_time_ = g_time_ganager ? g_time_ganager->get_day_time() : 6000;
+    day_time_ = g_time_manager ? g_time_manager->get_day_time() : 6000;
     return true;
   __LEAVE_FUNCTION
     return false;
@@ -141,14 +141,14 @@ bool Log::init(int32_t cache_size) {
 
 void Log::fast_save_log(enum_log_id log_id, const char* format, ...) {
   __ENTER_FUNCTION
-    if (log_id < 0 || log_id >= kLogFileNumber) return;
+    if (log_id < 0 || log_id >= kLogFileCount) return;
     char buffer[2049];
     va_list argptr;
     try {
       va_start(argptr, format);
       vsnprintf(buffer, sizeof(buffer) - 1, format, argptr);
       va_end(argptr);
-      if (g_time_ganager) {
+      if (g_time_manager) {
         char time_str[256];
         memset(time_str, '\0', sizeof(time_str));
         get_log_time_str(time_str, sizeof(time_str) - 1);
@@ -159,7 +159,7 @@ void Log::fast_save_log(enum_log_id log_id, const char* format, ...) {
       Assert(false);
       return;
     }
-    int32_t length = static_cast<int32_t>(strlen(length));
+    int32_t length = static_cast<int32_t>(strlen(buffer));
     if (length <= 0) return;
     if (g_log_in_one_file) {
       //do nothing(one log file is not active in pap)
@@ -173,7 +173,7 @@ void Log::fast_save_log(enum_log_id log_id, const char* format, ...) {
       //do nogthing
     }
     log_position_[log_id] += length;
-    log_lock_[log_id].unlock;
+    log_lock_[log_id].unlock();
     if (log_position_[log_id] > (kDefaultLogCacheSize * 2) / 3) {
       flush_log(log_id);
     }
@@ -201,7 +201,7 @@ void Log::get_log_file_name(enum_log_id log_id, char* file_name) {
   __LEAVE_FUNCTION
 }
 
-void Log::void get_log_file_name(const char* file_name_prefix, char* file_name) { 
+void Log::get_log_file_name(const char* file_name_prefix, char* file_name) { 
 //remember the file_name_prefix is model name
   __ENTER_FUNCTION
      if (g_time_manager) {
@@ -218,7 +218,7 @@ void Log::void get_log_file_name(const char* file_name_prefix, char* file_name) 
       snprintf(file_name,
                FILENAME_MAX - 1,
                "%s_%d.log",
-               g_log_file_name[log_id],
+               file_name_prefix,
                day_time_);
     }
    
@@ -249,8 +249,9 @@ void Log::flush_log(enum_log_id log_id) {
 void Log::flush_all_log() {
   __ENTER_FUNCTION
     int32_t i;
-    for (i = 0; i < kLogFileNumber; ++i) {
-      flush_log(i);
+    for (i = 0; i < kLogFileCount; ++i) {
+	  enum_log_id log_id = static_cast<enum_log_id>(i);
+      flush_log(log_id);
     }
   __LEAVE_FUNCTION
 }

@@ -1,4 +1,5 @@
 #include "server/common/db/data/global.h"
+#include "server/common/db/data/sql_template.h"
 
 namespace pap_server_common_db {
 
@@ -37,13 +38,13 @@ bool Global::save(void* source) {
     enum {
       kPoolid = 1,
       kData
-    }
-    uint32_t data = *(static_cast<uint32_t*>(source));
+    };
+    uint32_t _data = *(static_cast<uint32_t*>(source));
     //save
-    db_query_t query = get_internal_query();
+    db_query_t* query = get_internal_query();
     if (!query) Assert(false);
     query->clear();
-    query->parse(kSaveGlobal, poolid_, data);
+    query->parse(kSaveGlobal, poolid_, _data);
     if (!System::save(source)) result = false;
     return result;
   __LEAVE_FUNCTION
@@ -64,8 +65,8 @@ bool Global::parse_result(void* source) {
     enum {
       kPoolid = 1,
       kData
-    }
-    switch(op_type_) {
+    };
+    switch (op_type_) {
       case DB_LOAD: {
         Assert(source);
         Assert(odbc_interface_);

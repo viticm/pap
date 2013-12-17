@@ -17,8 +17,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="../../../../run/server"
+			IntermediateDirectory="../../../../vc_build/Intermediate/$(ConfigurationName)/$(ProjectName)"
 			ConfigurationType="1"
 			CharacterSet="2"
 			>
@@ -40,6 +40,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../../../../include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;__WINDOWS__;_CRT_SECURE_NO_DEPRECATE;__SHAREMEMORY__;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -187,16 +189,124 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<Filter
-				Name="main"
+				Name="common"
 				>
+				<Filter
+					Name="base"
+					>
+					<File
+						RelativePath="..\..\..\common\base\util.cc"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="sys"
+					>
+					<File
+						RelativePath="..\..\..\common\sys\assert.cc"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\common\sys\thread.cc"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\common\sys\util.cc"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
-				Name="db"
+				Name="server"
 				>
-			</Filter>
-			<Filter
-				Name="share_data"
-				>
+				<Filter
+					Name="common"
+					>
+					<Filter
+						Name="game"
+						>
+						<Filter
+							Name="db"
+							>
+							<File
+								RelativePath="..\..\common\game\db\struct.cc"
+								>
+							</File>
+						</Filter>
+					</Filter>
+					<Filter
+						Name="db"
+						>
+						<File
+							RelativePath="..\..\common\db\manager.cc"
+							>
+						</File>
+						<File
+							RelativePath="..\..\common\db\odbc_interface.cc"
+							>
+						</File>
+						<File
+							RelativePath="..\..\common\db\system.cc"
+							>
+						</File>
+						<Filter
+							Name="data"
+							>
+							<File
+								RelativePath="..\..\common\db\data\global.cc"
+								>
+							</File>
+							<File
+								RelativePath="..\..\common\db\data\sql_template.cc"
+								>
+							</File>
+						</Filter>
+					</Filter>
+					<Filter
+						Name="base"
+						>
+						<File
+							RelativePath="..\..\common\base\config.cc"
+							>
+						</File>
+						<File
+							RelativePath="..\..\common\base\log.cc"
+							>
+						</File>
+						<File
+							RelativePath="..\..\common\base\time_manager.cc"
+							>
+						</File>
+					</Filter>
+				</Filter>
+				<Filter
+					Name="sharememory"
+					>
+					<Filter
+						Name="src"
+						>
+						<Filter
+							Name="main"
+							>
+							<File
+								RelativePath="..\src\main\command_thread.cc"
+								>
+							</File>
+							<File
+								RelativePath="..\src\main\share_memory.cc"
+								>
+							</File>
+						</Filter>
+						<Filter
+							Name="data"
+							>
+							<File
+								RelativePath="..\src\data\logic_manager.cc"
+								>
+							</File>
+						</Filter>
+					</Filter>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -210,19 +320,187 @@
 				<Filter
 					Name="common"
 					>
+					<Filter
+						Name="base"
+						>
+						<File
+							RelativePath="..\..\..\..\include\server\common\base\config.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\server\common\base\define.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\server\common\base\file_define.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\server\common\base\log.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\server\common\base\log_define.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\server\common\base\time_manager.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="db"
+						>
+						<File
+							RelativePath="..\..\..\..\include\server\common\db\config.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\server\common\db\manager.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\server\common\db\odbc_interface.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\server\common\db\system.h"
+							>
+						</File>
+						<Filter
+							Name="data"
+							>
+							<File
+								RelativePath="..\..\..\..\include\server\common\db\data\config.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\..\..\include\server\common\db\data\global.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\..\..\include\server\common\db\data\sql_template.h"
+								>
+							</File>
+						</Filter>
+					</Filter>
+					<Filter
+						Name="game"
+						>
+						<File
+							RelativePath="..\..\..\..\include\server\common\game\config.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\server\common\game\define.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\server\common\game\struct.h"
+							>
+						</File>
+						<Filter
+							Name="db"
+							>
+							<File
+								RelativePath="..\..\..\..\include\server\common\game\db\config.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\..\..\include\server\common\game\db\define.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\..\..\include\server\common\game\db\struct.h"
+								>
+							</File>
+						</Filter>
+					</Filter>
 				</Filter>
 				<Filter
 					Name="share_memory"
 					>
-					<File
-						RelativePath="..\..\..\include\server\share_memory\main\share_memroy.h"
+					<Filter
+						Name="main"
 						>
-					</File>
+						<File
+							RelativePath="..\..\..\..\include\server\share_memory\main\command_thread.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\server\share_memory\main\share_memory.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="data"
+						>
+						<File
+							RelativePath="..\..\..\..\include\server\share_memory\data\config.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\server\share_memory\data\logic_manager.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 			</Filter>
 			<Filter
 				Name="common"
 				>
+				<Filter
+					Name="base"
+					>
+					<File
+						RelativePath="..\..\..\..\include\common\base\config.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\include\common\base\type.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\include\common\base\util.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="sys"
+					>
+					<File
+						RelativePath="..\..\..\..\include\common\sys\assert.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\include\common\sys\config.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\include\common\sys\thread.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\include\common\sys\util.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="game"
+					>
+					<File
+						RelativePath="..\..\..\..\include\common\game\config.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\include\common\game\define.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\include\common\game\struct.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter

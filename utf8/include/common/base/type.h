@@ -115,7 +115,7 @@
     // add by viticm, fast output some debug info 
     #define LERR(...) {\
         char buffer[2048]; sprintf(buffer, __VA_ARGS__); \
-        buffer[2047] = '\0'; \ //防止越界
+        buffer[2048] = '\0'; \
         const char* start  = "[ERROR...]"; \
         const char* end    = "[...ERROR]\r\n"; \
         size_t format_length = sizeof(start) + sizeof(buffer) + sizeof(end); \
@@ -143,6 +143,10 @@
         } 
     // common define
     #define LF "\n"
-#endif 
+#endif
+
+#if defined(__WINDOWS__)
+#define snprintf _snprintf
+#endif
 
 #endif //PAP_COMMON_BASE_TYPE_H_

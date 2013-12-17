@@ -1,10 +1,9 @@
 #include "server/common/base/time_manager.h"
 
 pap_server_common_base::TimeManager* g_time_manager = NULL;
+int32_t g_file_name_fix = 0;
 
 namespace pap_server_common_base {
-
-int32_t g_file_name_fix = 0;
 
 TimeManager::TimeManager() {
   __ENTER_FUNCTION
@@ -55,7 +54,8 @@ uint32_t TimeManager::get_current_date() {
   __ENTER_FUNCTION
     reset_time();
     uint32_t time;
-    tm_tonumber(&_tm, time);
+	tm* _tm;
+    tm_totime(&_tm, time);
     return time;
   __LEAVE_FUNCTION
     return 0;
@@ -97,14 +97,14 @@ uint16_t TimeManager::get_year() {
 
 uint8_t TimeManager::get_month() {
   __ENTER_FUNCTION
-    return tm_.tm_month;
+    return tm_.tm_mon;
   __LEAVE_FUNCTION
     return 0;
 }
 
 uint8_t TimeManager::get_day() {
   __ENTER_FUNCTION
-    return tm_.tm_day;
+    return tm_.tm_mday;
   __LEAVE_FUNCTION
     return 0;
 }
@@ -223,7 +223,7 @@ void TimeManager::time_totm(uint32_t time, tm* _tm) {
   __LEAVE_FUNCTION
 }
 
-void TimeManager::void tm_totime(tm* _tm, uint32_t &time) {
+void TimeManager::tm_totime(tm* _tm, uint32_t &time) {
   __ENTER_FUNCTION
     Assert(_tm);
     time = 0;

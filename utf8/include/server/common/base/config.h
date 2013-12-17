@@ -371,7 +371,7 @@ struct login_info_t {
   char db_user[DB_USER_NAME_LENGTH]; //database use user name
   char db_password[DB_PASSWORD_LENGTH]; //database password
   bool odbc_switch; //是否开启ODBC连接
-  int8_t db_type; //数据库类型 0 mysql, 1 sqlserver, 2 mongodb
+  int8_t db_type_enum; //数据库类型 0 mysql, 1 sqlserver, 2 mongodb
   bool encrypt_password; //if encrypt password
   uint16_t client_version; 
   uint8_t db_connect_count;
@@ -418,8 +418,8 @@ struct world_info_t {
 struct share_memory_key_data_t {
   uint32_t key;
   uint8_t type;
-  share_memory_key_t();
-  ~share_memory_key_t();
+  share_memory_key_data_t();
+  ~share_memory_key_data_t();
 };
 
 struct share_memory_info_t {
@@ -430,9 +430,10 @@ struct share_memory_info_t {
   char db_connection_name[DB_CONNECTION_NAME_LENGTH]; //odbc connection name
   char db_user[DB_USER_NAME_LENGTH]; //database use user name
   char db_password[DB_PASSWORD_LENGTH]; //database password
+  char db_name[DB_DBNAME_LENGTH]; //database name
   bool encrypt_password; //if encrypt password
   bool odbc_switch; //是否开启ODBC连接
-  int8_t db_type; //数据库类型 0 mysql, 1 sqlserver, 2 mongodb
+  int8_t db_type_enum; //数据库类型 0 mysql, 1 sqlserver, 2 mongodb
   uint32_t world_data_save_interval;
   uint32_t human_data_save_interval;
   share_memory_info_t();
@@ -537,7 +538,7 @@ struct scene_info_t {
 
 struct internal_ip_of_proxy_t {
   enum {
-    kProxyForOneNetworkMax = 2;
+    kProxyForOneNetworkMax = 2
   };
   //proxy net
   char proxy_for_cnc_user[kProxyForOneNetworkMax][IP_SIZE]; //
@@ -564,7 +565,7 @@ class BillingInfo {
    char db_user_[DB_USER_NAME_LENGTH]; //database use user name
    char db_password_[DB_PASSWORD_LENGTH]; //database password
    bool odbc_switch_; //是否开启ODBC连接
-   int8_t db_type_; //数据库类型 0 mysql, 1 sqlserver, 2 mongodb
+   int8_t db_type_enum_; //数据库类型 0 mysql, 1 sqlserver, 2 mongodb
    bool encrypt_password_; //if encrypt password
    BillingInfo();
    ~BillingInfo();
@@ -573,11 +574,11 @@ class BillingInfo {
    void clean_up();
    bool init(uint16_t number);
    uint16_t get_number();
-   billing_info* next();
+   billing_data_t* next();
    void begin_use();
 
  private:
-   billing_info** info_pool_;
+   billing_data_t** info_pool_;
    uint16_t number_;
    uint32_t current_billing_no_;
    bool used_;

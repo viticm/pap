@@ -12,6 +12,7 @@
 #define PAP_SERVER_COMMON_DB_ODBC_INTERFACE_H_
 
 #include "server/common/db/config.h"
+#include "server/common/base/define.h"
 //include from odbc
 #include "sql.h"
 #include "sqlext.h"
@@ -105,7 +106,7 @@ class ODBCInterface {
    void diag_state();
    void diag_state_ex();
    void save_error_log(const char* log);
-   void save_warning(const char* log);
+   void save_warning_log(const char* log);
    void clear_env();
    void dump(int32_t column);
 };

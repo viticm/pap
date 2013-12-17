@@ -20,7 +20,7 @@ namespace util {
 
 char value_toascii(char in);
 char ascii_tovalue(char in);
-bool binary_tostring(const char* in, uint in_length, char* out);
+bool binary_tostring(const char* in, uint32_t in_length, char* out);
 bool string_tobinary(const char* in, 
                      uint32_t in_length, 
                      char* out, 
@@ -28,9 +28,9 @@ bool string_tobinary(const char* in,
                      uint32_t &out_length);
 void sleep(uint32_t million_seconds);
 uint32_t str_length(const char* str);
-void char_swap(char* str, uint source, uint32_t destination);
+void char_swap(char* str, uint32_t source, uint32_t destination);
 void simple_encrypt_decrypt(char* str, 
-                            uint32_t str_length, 
+                            uint32_t strlength, 
                             uint32_t key_begin = 0); //use first is encrypt 
                                                      //and next to decrypt
 int charset_convert(const char* from, 

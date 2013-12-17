@@ -30,7 +30,7 @@ void Thread::start() {
   __LEAVE_FUNCTION
 }
 
-void Thread::stop {
+void Thread::stop() {
   //do nothing
 }
 
@@ -55,7 +55,7 @@ DWORD WINAPI pap_thread_process(void* derived_thread) {
 #endif
   __ENTER_FUNCTION
     Thread* thread = static_cast<Thread*>(derived_thread);
-    if (NULL == thread) return;
+    if (NULL == thread) return NULL;
     thread->set_status(Thread::kRunning);
     thread->run();
     thread->set_status(Thread::kExit);
@@ -73,7 +73,7 @@ int64_t Thread::get_id() {
   return id_;
 }
 
-enum_thread_status Thread::get_status() {
+Thread::enum_thread_status Thread::get_status() {
   return status_;
 }
 

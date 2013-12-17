@@ -19,8 +19,8 @@ namespace pap_server_common_db {
 
 class Manager {
  public:
-   DBManager();
-   ~DBManager();
+   Manager();
+   ~Manager();
    bool init(db_type_enum db_type = kAllDatabase);
    ODBCInterface* get_interface(db_type_enum db_type);
 

@@ -43,7 +43,7 @@ bool ODBCInterface::connect(const char* connection_name,
                   static_cast<SQLPOINTER>(SQL_OV_ODBC3), 
                   SQL_IS_INTEGER);
     SQLAllocHandle(SQL_HANDLE_DBC, sql_henv_, &sql_hdbc_);
-    result_ = SQLConnect(hDbc,
+    result_ = SQLConnect(sql_hdbc_,
                          static_cast<SQLCHAR*>(connection_name_),
                          SQL_NTS,
                          static_cast<SQLCHAR*>(user_),
@@ -79,8 +79,8 @@ bool ODBCInterface::connect() {
                   SQL_IS_INTEGER);
 #endif
     SQLAllocHandle(SQL_HANDLE_DBC, sql_henv_, &sql_hdbc_);
-    result_ = SQLConnect(hDbc,
-                         static_cast<SQLCHAR*>(database_),
+    result_ = SQLConnect(sql_hdbc_,
+                         static_cast<SQLCHAR*>(connection_name_),
                          SQL_NTS,
                          static_cast<SQLCHAR*>(user_),
                          SQL_NTS,
@@ -88,7 +88,7 @@ bool ODBCInterface::connect() {
                          SQL_NTS);
     if (SQL_SUCCESS != result_ && SQL_SUCCESS_WITH_INFO != result_) {
       char log_buffer[512] = {0};
-      sprintf(log_buffer, "connect database: %s", database_);
+      sprintf(log_buffer, "connect name: %s", connection_name_);
       sprintf(log_buffer, "connect user: %s", user_);
       diag_state();
       return false;
@@ -146,8 +146,8 @@ bool ODBCInterface::close() {
     return false;
 }
 
-bool ODBCInterface::excute() {
-  __ENTER_FUNCTION
+bool ODBCInterface::execute() {
+  try {
     //int column_index;
     result_ = SQLExecDirect(sql_hstmt_, 
                             static_cast<SQLCHAR*>(query_.sql_str_), 
@@ -186,13 +186,15 @@ bool ODBCInterface::excute() {
     }
     **/ //this code will be want the result to array, but now i don't known it.
     return true;
-  __LEAVE_FUNCTION
+  }
+  catch(...) {
      save_error_log("Huge Error occur:");
      save_error_log(static_cast<const char*>(query_.sql_str_));
      return false;
+  }
 }
 
-bool ODBCInterface::excute(const char* sql_str) {
+bool ODBCInterface::execute(const char* sql_str) {
   __ENTER_FUNCTION
     memset(query_.sql_str_, '\0', sizeof(query_.sql_str_));
     strncpy(query_.sql_str_, sql_str_, sizeof(query_.sql_str_) - 1);
@@ -201,7 +203,7 @@ bool ODBCInterface::excute(const char* sql_str) {
     return false;
 }
 
-bool ODBCInterface::long_excute() {
+bool ODBCInterface::long_execute() {
   __ENTER_FUNCTION
     //int column_index;
     result_ = SQLExecDirect(sql_hstmt_, 
@@ -495,7 +497,7 @@ void ODBCInterface::diag_state() {
                                     &msg_length)) != SQL_NO_DATA) {
       ++j;
     }
-    error_message_[MAX_ERROR_MSG_LENGHT - 1] = '\0';
+    error_message_[MAX_ERROR_MESSAGE_LENGTH - 1] = '\0';
     if (0 == strlen(static_cast<const char*>(error_message_))) {
       result_ = SQLError(sql_henv_,
                          sql_hdbc_,
@@ -546,7 +548,7 @@ void ODBCInterface::diag_state_ex() {
                                     &msg_length)) != SQL_NO_DATA) {
       ++j;
     }
-    error_message_[MAX_ERROR_MSG_LENGHT - 1] = '\0';
+    error_message_[MAX_ERROR_MESSAGE_LENGTH - 1] = '\0';
     if (0 == strlen(static_cast<const char*>(error_message_))) {
       result_ = SQLError(sql_henv_,
                          sql_hdbc_,
