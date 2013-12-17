@@ -12,7 +12,7 @@
 #ifndef PAP_COMMON_SYS_CONFIG_H_
 #define PAP_COMMON_SYS_CONFIG_H_
 
-#define "common/base/type.h"
+#include "common/base/type.h"
 
 #define INTERFACE_NAME_MAX 20
 #ifndef LINE_MAX
