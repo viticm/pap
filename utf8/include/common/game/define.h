@@ -113,7 +113,7 @@ typedef enum {
   kInfoIntellectAffectMP = 7, //智力对内力影响系数
   kInfoLevelAffectMP = 8, //等级对内力影响系数
   kInfoBaseMPRecover = 9, //初始内力恢复
-  kInfoIntellectAffectMP =10, //智力对内力回复影响系数
+  kInfoIntellectAffectMPRecover =10, //智力对内力回复影响系数
   kInfoLevelAffectMPRecover = 11, //等级对内力回复影响系数
   kInfoBasePhysicalAttack = 12, //初始物理攻击 --外功攻击
   kInfoPowerAffectPhysicalAttack = 13, //力量对物理攻击的影响系数
@@ -367,6 +367,19 @@ typedef enum {
   kCount,
 } _enum;
 
+typedef enum {
+  kPlayerNone = 0, //空
+  kPlayerFriend, //好友
+  kPlayerBrother, //结拜
+  kPlayerMarry, //结婚
+  kPlayerBlack, //黑名单
+  kPlayerTempFriend, //临时好友
+  kPlayerStranger, //陌生人
+  kPlayerProffer, //师傅关系
+  kPlayerDisciple, //徒弟关系
+  kPlayerCount,
+} player_enum;
+
 }; //namespace relation
 
 namespace chat {
@@ -416,23 +429,6 @@ typedef enum { //怪物AI基本类型
 } ai_base_enum;
 
 }; //namespace monster
-
-namespace relation { //关系类型
-
-typedef enum {
-  kNone = 0, //空
-  kFriend, //好友
-  kBrother, //结拜
-  kMarry, //结婚
-  kBlack, //黑名单
-  kTempFriend, //临时好友
-  kStranger, //陌生人
-  kProffer, //师傅关系
-  kDisciple, //徒弟关系
-  kCount,
-} _enum;
-
-}; //namespace relation
 
 namespace skill {
 
@@ -669,7 +665,7 @@ typedef enum {
 namespace size {
 
 typedef enum {
-  kCooldownList = 255;
+  kCooldownList = 255
 } cooldown_list_enum;
 
 
