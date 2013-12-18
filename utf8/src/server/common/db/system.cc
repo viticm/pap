@@ -11,34 +11,43 @@ System::System() {
   __LEAVE_FUNCTION
 }
 
+System::~System() {
+  //do nothing
+}
+
 uint32_t System::get_result_count() {
   __ENTER_FUNCTION
     return result_count_;
   __LEAVE_FUNCTION
+    return 0;
 }
 
 db_query_t* System::get_internal_query() {
   __ENTER_FUNCTION
     return &odbc_interface_->get_query();
   __LEAVE_FUNCTION
+    return NULL;
 }
 
 long_db_query_t* System::get_long_internal_query() {
   __ENTER_FUNCTION
     return &odbc_interface_->get_long_query();
   __LEAVE_FUNCTION
+    return NULL;
 }
 
 int32_t System::get_internal_affect_count() {
   __ENTER_FUNCTION
     return odbc_interface_->get_affect_row_count();
   __LEAVE_FUNCTION
+    return -1;
 }
 
 bool System::is_prepare() {
   __ENTER_FUNCTION
     return odbc_interface_->is_prepare();
   __LEAVE_FUNCTION
+    return false;
 }
 
 bool System::check_db_connect() {

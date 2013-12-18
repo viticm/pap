@@ -78,3 +78,16 @@ command_state_t CommandParser::parser_commandtype(const char* str) {
     return state;
   __LEAVE_FUNCTION
 }
+
+bool CommandThread::is_active() {
+  __ENTER_FUNCTION
+    return active_;
+  __LEAVE_FUNCTION
+    return false;
+}
+
+void CommandThread::stop() {
+  __ENTER_FUNCTION
+    active_ = false;
+  __LEAVE_FUNCTION
+}

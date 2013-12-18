@@ -108,6 +108,14 @@ uint32_t global_data_t::get_data(char type) {
     return 0;
 }
 
+void global_data_t::set_data(char type, uint32_t data) {
+  __ENTER_FUNCTION
+    lock(type);
+    global_data = data;
+    unlock(type);
+  __LEAVE_FUNCTION
+}
+
 } //namespace share_memory
 
 } //namespace db
