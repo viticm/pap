@@ -151,7 +151,8 @@ bool ShareMemory::work() {
   try { //body use try catch then allow not use enter and leave function
     bool exitflag = false;
     uint32_t daytime = g_time_manager->get_day_time();
-    if (g_file_name_fix != daytime) g_file_name_fix = daytime;
+    if (static_cast<uint32_t>(g_file_name_fix) != daytime) 
+      g_file_name_fix = daytime;
     ODBCInterface* odbc_interface =
       g_db_manager->get_interface(kCharacterDatabase);
     Assert(odbc_interface);

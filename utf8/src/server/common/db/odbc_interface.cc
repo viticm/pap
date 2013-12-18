@@ -283,11 +283,11 @@ bool ODBCInterface::fetch() {
       int get_total = 0;
       SQLLEN data_length = 0;
       while((result_ = SQLGetData(sql_hstmt_, 
-                                    column_index + 1, 
-                                    SQL_C_CHAR, 
-                                    column_[column_index] + get_total, 
-                                    MAX_COLUMN_BUFFER, 
-                                    &data_length)) != SQL_NO_DATA) {
+                                  column_index + 1, 
+                                  SQL_C_CHAR, 
+                                  column_[column_index] + get_total, 
+                                  MAX_COLUMN_BUFFER, 
+                                  &data_length)) != SQL_NO_DATA) {
         break;
       }
     }
@@ -347,19 +347,19 @@ uint32_t ODBCInterface::get_uint(int32_t column_index, int32_t &error_code) {
     if (column_index > column_count_) {
       error_code = QUERY_NO_COLUMN;
       Assert(false);
-      return QUERY_NO_COLUMN;
+      return 0;
     }
     if (SQL_NULL_DATA == column_locate_[column_index - 1]) {
       error_code = QUERY_NULL;
       Assert(false);
-      return QUERY_NULL;
+      return 0;
     }
     else {
       error_code = QUERY_OK;
       return static_cast<uint32_t>(atoi(column_[column_index - 1]));
     }
   __LEAVE_FUNCTION
-    return QUERY_NULL;
+    return 0;
 }
 
 float ODBCInterface::get_float(int32_t column_index, int32_t &error_code) {

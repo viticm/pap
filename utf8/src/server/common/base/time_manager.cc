@@ -87,49 +87,49 @@ void TimeManager::get_full_format_time(char* format_time, uint32_t length) {
 
 uint16_t TimeManager::get_year() {
   __ENTER_FUNCTION
-    return tm_.tm_year + 1900;
+    return static_cast<uint16_t>(tm_.tm_year + 1900);
   __LEAVE_FUNCTION
     return 0;
 }
 
 uint8_t TimeManager::get_month() {
   __ENTER_FUNCTION
-    return tm_.tm_mon;
+    return static_cast<uint8_t>(tm_.tm_mon);
   __LEAVE_FUNCTION
     return 0;
 }
 
 uint8_t TimeManager::get_day() {
   __ENTER_FUNCTION
-    return tm_.tm_mday;
+    return static_cast<uint8_t>(tm_.tm_mday);
   __LEAVE_FUNCTION
     return 0;
 }
 
 uint8_t TimeManager::get_hour() {
   __ENTER_FUNCTION
-    return tm_.tm_hour;
+    return statice_cast<uint8_t>(tm_.tm_hour);
   __LEAVE_FUNCTION
     return 0;
 }
 
 uint8_t TimeManager::get_minute() {
   __ENTER_FUNCTION
-    return tm_.tm_min;
+    return static_cast<uint8_t>(tm_.tm_min);
   __LEAVE_FUNCTION
     return 0;
 }
 
 uint8_t TimeManager::get_second() {
   __ENTER_FUNCTION
-    return tm_.tm_sec;
+    return static_cast<uint8_t>(tm_.tm_sec);
   __LEAVE_FUNCTION
     return 0;
 }
 
 uint8_t TimeManager::get_week() {
   __ENTER_FUNCTION
-    return tm_.tm_wday;
+    return static_cast<uint8_t>(tm_.tm_wday);
   __LEAVE_FUNCTION
     return 0;
 }

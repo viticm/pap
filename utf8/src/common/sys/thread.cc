@@ -43,6 +43,7 @@ void Thread::stop() {
 
 void Thread::exit(void* retval) {
   __ENTER_FUNCTION
+    USE_PARAM(retval);
 #if defined(__LINUX__)
     pthread_exit(retval);
 #elif defined(__WINDOWS__)

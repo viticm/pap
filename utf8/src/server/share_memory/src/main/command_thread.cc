@@ -35,7 +35,7 @@ bool CommandParser::handleinput() {
       charinput = getchar();
       if ('\n' == charinput) break;
       if (charcount > sizeof(cmd) - 1) break;
-      cmd[charcount] = charinput;
+      cmd[charcount] = static_cast<char>(charinput);
       ++charcount;
     }
     command_state_t state = parser_commandtype(cmd);
@@ -52,7 +52,7 @@ bool CommandParser::handleinput() {
         g_log->fast_save_log(kShareMemoryLogFile, "unkown command%s", LF);
       }
     }
-    return true;
+    return result;
   __LEAVE_FUNCTION
     return false;
 }

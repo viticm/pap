@@ -67,6 +67,7 @@ int32_t open(uint64_t key, uint32_t size) {
 HANDLE open(uint64_t key, uint32_t size) {
 #endif
   __ENTER_FUNCTION
+    USE_PARAM(size);
 #if defined(__LINUX__)
     int32_t handle;
     handle = shmget(key, size, 0);
@@ -355,6 +356,7 @@ bool trylock(char &flag, char type) {
 
 void unlock(char &flag, char type) {
   __ENTER_FUNCTION
+    USE_PARAM(type);
     _loop:
       if (kUseFree == flag) return;
       flag = kUseFree;

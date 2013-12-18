@@ -19,12 +19,12 @@ bool LogicManager<global_data_t>::save_all() {
   __ENTER_FUNCTION
     using namespace pap_server_common_sys::share_memory;
     uint32_t data = 0;
-    uint32_t run_time = g_time_manager->get_run_time();
+    //uint32_t run_time = g_time_manager->get_run_time();
     if (!pool_pointer_) {
       Assert(pool_pointer_);
       return false;
     }
-    int32_t max_pool_size = pool_pointer_->get_max_size();
+    //int32_t max_pool_size = pool_pointer_->get_max_size();
     Assert(1 == max_pool_size);
     global_data_t* global_data = pool_pointer_->get_obj(0);
     if (!global_data) {
@@ -32,7 +32,7 @@ bool LogicManager<global_data_t>::save_all() {
       return false;
     }
     data = global_data->get_data(kFlagSelfRead);
-    uint64_t key = pool_pointer_->get_key();
+    //uint64_t key = pool_pointer_->get_key();
     pap_server_common_db::ODBCInterface* odbc_interface = g_db_manager->get_interface(kCharacterDatabase);
     Assert(odbc_interface);
 	pap_server_common_db::data::Global _global_data(odbc_interface);
@@ -79,8 +79,8 @@ bool LogicManager<global_data_t>::post_init() {
   __ENTER_FUNCTION
     if (!pool_pointer_) return false;
     if (kCmdModelClearAll == g_cmd_model) return true;
-    uint32_t run_time = g_time_manager->get_run_time();
-    int32_t max_pool_size = pool_pointer_->get_max_size();
+    //uint32_t run_time = g_time_manager->get_run_time();
+    //int32_t max_pool_size = pool_pointer_->get_max_size();
     uint64_t key = pool_pointer_->get_key();
     global_data_t* global_data = pool_pointer_->get_obj(0);
     if (!global_data) {

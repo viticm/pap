@@ -6,6 +6,8 @@ namespace util {
 
 void dumpstack(const char* log_fileprefix, const char* type) {
   __ENTER_FUNCTION
+    USE_PARAM(log_fileprefix);
+    USE_PARAM(type);
 #if defined(__LINUX__)
     void* dumparray[25];
     int32_t size = backtrace(dumparray, 25);

@@ -100,6 +100,10 @@
 #define DELETE_ARRAY(x)	if((x)!=NULL) { delete[] (x); (x)=NULL; }
 #endif
 #endif
+
+#ifndef USE_PARAM
+#define USE_PARAM(x) if (!x) {}
+#endif
 //根据指针调用free接口
 #ifndef SAFE_FREE
 #define SAFE_FREE(x) if((x)!=NULL) { free(x); (x)=NULL; }

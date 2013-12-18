@@ -24,7 +24,7 @@ Manager::~Manager() {
 bool Manager::init(db_type_enum db_type) {
   __ENTER_FUNCTION
     using namespace pap_server_common_base;
-    bool connected;
+    bool connected = false;
     db_type_ = db_type;
     char host[HOST_LENGTH];
     uint16_t port;

@@ -169,7 +169,7 @@ class UnitPool {
      __ENTER_FUNCTION
        obj_ = NULL;
        ref_obj_pointer_ = NULL;
-       max_size_ = -1;
+       max_size_ = 0;
        position_ = -1;
      __LEAVE_FUNCTION
    };
@@ -272,7 +272,7 @@ class UnitPool {
      __ENTER_FUNCTION
        return max_size_;
      __LEAVE_FUNCTION
-       return -1;
+       return 0;
    };
    int32_t get_position() {
      __ENTER_FUNCTION

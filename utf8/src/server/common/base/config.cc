@@ -464,7 +464,7 @@ bool BillingInfo::init(uint16_t number) {
     uint32_t i;
     for (i = 0; i < number_; ++i) {
       info_pool_[i] = new billing_data_t();
-      info_pool_[i]->container_postion = i;
+      info_pool_[i]->container_postion = static_cast<int16_t>(i);
     }
   __LEAVE_FUNCTION
     return false;
@@ -1073,7 +1073,7 @@ void Config::load_server_info_only() {
       int16_t server_id = server_info_.data[i].id;
       Assert(server_id != ID_INVALID && server_id <= OVER_SERVER_MAX);
       Assert(-1 == server_info_.hash_server[server_id]);
-      server_info_.hash_server[server_id] = i;
+      server_info_.hash_server[server_id] = static_cast<int16_t>(i);
     }
     Log::save_log("config", "load %s only ... ok!", SERVER_INFO_FILE);
   __LEAVE_FUNCTION

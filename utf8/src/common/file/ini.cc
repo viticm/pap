@@ -624,7 +624,7 @@ uint32_t Ini::read_uint32(const char* section, int32_t line) {
   __ENTER_FUNCTION
     return static_cast<uint32_t>(read_int64(section, line));
   __LEAVE_FUNCTION
-    return ERROR_DATA;
+    return 0;
 }
 
 int16_t Ini::read_int16(const char* section, int32_t line) {
@@ -785,7 +785,7 @@ int32_t Ini::find_one_line(int32_t line) {
 int32_t Ini::get_line_number(const char* str) {
   __ENTER_FUNCTION
     int32_t result = -1;
-    //result = find_data_index(str);
+    result = find_data_index(1, str);
     return result;
   __LEAVE_FUNCTION
     return -1;

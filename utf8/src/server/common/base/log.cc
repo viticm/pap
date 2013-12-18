@@ -306,7 +306,10 @@ void Log::remove_log(const char* file_name) {
 
 void Log::get_serial(char* serial, int16_t world_id, int16_t server_id) {
   __ENTER_FUNCTION
-    int32_t step = 100;
+    USE_PARAM(world_id);
+    USE_PARAM(server_id);
+	USE_PARAM(serial);
+    //int32_t step = 100;
   __LEAVE_FUNCTION
 }
 
