@@ -46,8 +46,8 @@ struct global_data_t {
   uint32_t get_pool_id();
   bool set_use_status(int32_t status, char type);
   int32_t get_use_status(char type);
-  uint32_t get_save_time();
-  void set_save_time(uint32_t time);
+  uint32_t get_save_time(char type);
+  void set_save_time(uint32_t time, char type);
   uint32_t get_data(char type);
   void set_data(char type, uint32_t data);
   void init();

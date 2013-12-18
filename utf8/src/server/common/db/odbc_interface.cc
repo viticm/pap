@@ -197,7 +197,7 @@ bool ODBCInterface::execute() {
 bool ODBCInterface::execute(const char* sql_str) {
   __ENTER_FUNCTION
     memset(query_.sql_str_, '\0', sizeof(query_.sql_str_));
-    strncpy(query_.sql_str_, sql_str_, sizeof(query_.sql_str_) - 1);
+    strncpy(query_.sql_str_, sql_str, sizeof(query_.sql_str_) - 1);
     return execute();
   __LEAVE_FUNCTION
     return false;
@@ -251,7 +251,7 @@ bool ODBCInterface::long_execute() {
 bool ODBCInterface::long_excute(const char* sql_str) {
   __ENTER_FUNCTION
     memset(long_query_.sql_str_, '\0', sizeof(long_query_.sql_str_));
-    strncpy(long_query_.sql_str_, sql_str_, sizeof(long_query_.sql_str_) - 1);
+    strncpy(long_query_.sql_str_, sql_str, sizeof(long_query_.sql_str_) - 1);
     return long_execute();
   __LEAVE_FUNCTION
     return false;

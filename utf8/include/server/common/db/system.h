@@ -44,7 +44,7 @@ class System {
    virtual bool load();
    virtual bool add_new();
    virtual bool delete_();
-   virtual bool save(void* source);
+   virtual bool save();
    virtual bool parse_result(void* result) = 0;
 
  protected:
@@ -60,7 +60,7 @@ class System {
    bool check_db_connect(); //check the connect if work, 
                             //and repeat 5 times when fails
    bool long_load();
-   bool long_save(void* source);
+   bool long_save();
 };
 
 }; //namespace pap_server_common_db

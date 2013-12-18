@@ -45,7 +45,7 @@ bool Global::save(void* source) {
     if (!query) Assert(false);
     query->clear();
     query->parse(kSaveGlobal, poolid_, _data);
-    if (!System::save(source)) result = false;
+    if (!System::save()) result = false;
     return result;
   __LEAVE_FUNCTION
     return false;

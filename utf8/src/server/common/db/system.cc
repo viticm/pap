@@ -112,7 +112,7 @@ bool System::save() {
     if (!is_prepare()) return false;
     if (!odbc_interface_) return false;
     op_type_ = DB_SAVE;
-    result_ = odbc_interface_->excute();
+    result_ = odbc_interface_->execute();
     result_count_ = odbc_interface_->get_affect_row_count();
     return result_;
   __LEAVE_FUNCTION
@@ -124,7 +124,7 @@ bool System::long_save() {
     if (!is_prepare()) return false;
     if (!odbc_interface_) return false;
     op_type_ = DB_SAVE;
-    result_ = odbc_interface_->long_excute();
+    result_ = odbc_interface_->long_execute();
     result_count_ = odbc_interface_->get_affect_row_count();
     return result_;
   __LEAVE_FUNCTION

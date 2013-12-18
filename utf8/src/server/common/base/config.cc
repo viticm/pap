@@ -463,7 +463,7 @@ bool BillingInfo::init(uint16_t number) {
     uint32_t i;
     for (i = 0; i < number_; ++i) {
       info_pool_[i] = new billing_data_t();
-      info_pool_[i].container_postion = i;
+      info_pool_[i]->container_postion = i;
     }
   __LEAVE_FUNCTION
     return false;
@@ -917,8 +917,8 @@ void Config::load_billing_info_only() {
       snprintf(key, sizeof(key) - 1, "IP%d", i);
       if (true == server_info_ini.read_exist_text("Billing", 
                                                   static_cast<const char*>(key), 
-                                                  billing_data.ip, 
-                                                  sizeof(billing_data.ip) - 1) {
+												  billing_data->ip, 
+                                                  sizeof(billing_data->ip) - 1) {
         snprintf(message, sizeof(message) - 1, "Config::load_billing_info_only is failed, can't find key: %s", key);
         AssertEx(false, message);
       }
@@ -927,13 +927,13 @@ void Config::load_billing_info_only() {
       snprintf(key, sizeof(key) - 1, "Port%d", i);
       if (false == server_info_ini.read_exist_uint16("Billing",
                                                      static_cast<const char*>(key),
-                                                     billing_data.port)) {
+													 billing_data->port)) {
         snprintf(message, sizeof(message) - 1, "Config::load_billing_info_only is failed, can't find key: %s", key);
         AssertEx(false, message);
       }
       if (0 == i) {
-        billing_info_.port_ = billing_data.port;
-        memcpy(billing_info_.ip_, billing_data.ip, sizeof(billing_info_.ip_) - 1);
+		billing_info_.port_ = billing_data->port;
+        memcpy(billing_info_.ip_, billing_data->ip, sizeof(billing_info_.ip_) - 1);
       }
     }
     billing_info_.begin_use();
@@ -967,8 +967,8 @@ void Config::load_share_memory_info_only() {
       memset(type, '\0', sizeof(type));
       snprintf(key, sizeof(key) - 1, "Key%d", i);
       snprintf(type, sizeof(type) - 1, "Type%d", i);
-      share_memory_info_.key_data.key = share_memory_info_ini.read_uint32("Key", key);
-      share_memory_info_.key_data.type = share_memory_info_ini.read_uint8("Key", type);
+      share_memory_info_.key_data->key = share_memory_info_ini.read_uint32("Key", key);
+      share_memory_info_.key_data->type = share_memory_info_ini.read_uint8("Key", type);
     }
     share_memory_info_ini.read_text("System", "DBIP", share_memory_info_.db_ip, sizeof(share_memory_info_.db_ip) - 1);
     share_memory_info_.db_port = share_memory_info_ini.read_uint16("System", "DBPort");
@@ -1102,7 +1102,7 @@ void Config::load_scene_info_only() {
       char section[256];
       memset(section, '\0', sizeof(section));
       snprintf(section, sizeof(section) - 1, "Scene%d", i);
-      const char kSection = static_cast<const char*>(section);
+      const char* kSection = static_cast<const char*>(section);
       scene_info_.data[i].id = static_cast<int16_t>(i);
       scene_info_.data[i].thread_index = scene_info_ini.read_int16(kSection, "ThreadIndex");
       scene_info_.data[i].client_resource_index = scene_info_ini.read_int16(kSection, "ClientResourceIndex");
@@ -1119,8 +1119,8 @@ void Config::load_scene_info_only() {
     for (i = 0; i < scene_info_.count; ++i) {
       int16_t scene_id = scene_info_.data[i].id;
       Assert(scene_id != ID_INVALID && scene_id < SCENE_MAX);
-      Assert(-1 == hash_scene[i]);
-      scene_info_.hash_scene[scene_id] = static_cast<int16_t>(i);
+      Assert(-1 == scene_info_.scene_hash[i]);
+      scene_info_.scene_hash[scene_id] = static_cast<int16_t>(i);
     }
     Log::save_log("config", "load %s only ... ok!", SCENE_INFO_FILE);
   __LEAVE_FUNCTION
@@ -1132,7 +1132,7 @@ void Config::load_scene_info_reload() {
   __LEAVE_FUNCTION
 }
 
-void Config::load_copy_scene_info {
+void Config::load_copy_scene_info() {
   __ENTER_FUNCTION
     load_copy_scene_info_only();
     load_copy_scene_info_reload();
@@ -1151,7 +1151,7 @@ int16_t Config::get_server_id_by_scene_id(int16_t id) const {
   __ENTER_FUNCTION
     Assert(id >= 0);
     Assert(id < scene_info_.count);
-    return scene_info_.data[scene_info_.hash_scene[id]].server_id;
+    return scene_info_.data[scene_info_.scene_hash[id]].server_id;
   __LEAVE_FUNCTION
     return -1;
 }

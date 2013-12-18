@@ -54,7 +54,7 @@ uint32_t TimeManager::get_current_date() {
   __ENTER_FUNCTION
     reset_time();
     uint32_t time;
-	tm* _tm;
+	tm _tm;
     tm_totime(&_tm, time);
     return time;
   __LEAVE_FUNCTION
@@ -151,7 +151,7 @@ uint32_t TimeManager::tm_todword() {
     result += get_hour();
     result *= 100;
     result += get_minute();
-  __ENTER_FUNCTION
+  __LEAVE_FUNCTION
     return 0;
 }
 

@@ -27,7 +27,7 @@ void head_t::clean_up() {
   __LEAVE_FUNCTION
 }
 
-global_data_t::init() {
+void global_data_t::init() {
   __ENTER_FUNCTION
     global_data = 0;
   __LEAVE_FUNCTION
