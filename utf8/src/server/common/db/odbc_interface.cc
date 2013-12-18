@@ -376,7 +376,7 @@ float ODBCInterface::get_float(int32_t column_index, int32_t &error_code) {
     }
     else {
       error_code = QUERY_OK;
-      return atof(column_[column_index - 1]);
+      return static_cast<float>(atof(column_[column_index - 1]));
     }
   __LEAVE_FUNCTION
     return QUERY_NULL;
@@ -643,60 +643,64 @@ uint16_t ODBCInterface::get_ushort(int32_t column_index, int32_t &error_code) {
   __ENTER_FUNCTION
     return static_cast<uint16_t>(get_int(column_index, error_code));
   __LEAVE_FUNCTION
+    return 0;
 }
 
 uint8_t ODBCInterface::get_byte(int32_t column_index, int32_t &error_code) {
   __ENTER_FUNCTION
     return static_cast<uint8_t>(get_int(column_index, error_code));
   __LEAVE_FUNCTION
+    return 0;
 }
 
 int16_t ODBCInterface::get_short(int32_t column_index, int32_t &error_code) {
   __ENTER_FUNCTION
     return static_cast<int16_t>(get_int(column_index, error_code));
   __LEAVE_FUNCTION
+    return 0;
 }
 
 int32_t ODBCInterface::get_error_code() {
   __ENTER_FUNCTION
     return error_code_;
   __LEAVE_FUNCTION
+    return 0;
 }
 
 char* ODBCInterface::get_error_message() {
   __ENTER_FUNCTION
-     return reinterpret_cast<char*>(error_message_);
+    return reinterpret_cast<char*>(error_message_);
   __LEAVE_FUNCTION
+    return NULL;
 }
 
 bool ODBCInterface::is_connected() {
   __ENTER_FUNCTION
-     return connectd_;
+    return connectd_;
   __LEAVE_FUNCTION
+    return false;
 }
 
 int ODBCInterface::get_affect_row_count() {
   __ENTER_FUNCTION
-     return affect_count_;
+    return affect_count_;
   __LEAVE_FUNCTION
+    return 0;
 }
 
 bool ODBCInterface::is_prepare() {
   __ENTER_FUNCTION
     return connectd_;
   __LEAVE_FUNCTION
+    return false;
 }
 
 db_query_t& ODBCInterface::get_query() {
-  __ENTER_FUNCTION
-    return query_;
-  __LEAVE_FUNCTION
+   return query_;
 }
 
 long_db_query_t& ODBCInterface::get_long_query() {
-  __ENTER_FUNCTION
-    return long_query_;
-  __LEAVE_FUNCTION
+  return long_query_;
 }
 
 } //namespace pap_server_common_db

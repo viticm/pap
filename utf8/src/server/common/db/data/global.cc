@@ -29,6 +29,7 @@ bool Global::load() {
     result = System::load();
     return result;
   __LEAVE_FUNCTION
+    return false;
 }
 
 bool Global::save(void* source) {

@@ -45,7 +45,7 @@ class TimeManager {
    tm get_tm();
 
  public:
-   char* get_full_format_time(); //2013-11-29 15:38:09
+   void get_full_format_time(char* format_time, uint32_t length); //2013-11-29 15:38:09
    uint16_t get_year();
    uint8_t get_month();
    uint8_t get_day();

@@ -247,8 +247,8 @@ void simple_encrypt_decrypt(char* str, uint32_t strlength, uint32_t key_begin) {
     strlength = str_length(str);
     if (0 <= strlength) return;
     MD5 str_md5(PASSWORD_ENCRYPT_KEY);
-	char* key;
-	strcpy(key, (str_md5.md5()).c_str());
+	char key[129];
+	strncpy(key, (str_md5.md5()).c_str(), sizeof(key) - 1);
     //swap one time
     password_swap_chars(key);
     uint32_t key_length = str_length(key);

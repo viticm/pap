@@ -59,7 +59,7 @@ bool Ini::open(const char* file_name) {
       FILE* fp;
       fp = fopen(file_name_, "rb");
       AssertEx(fp != NULL, file_name_);
-      fread(data_info_, data_length_, 1, fp);
+      fread(data_info_, static_cast<size_t>(data_length_), 1, fp);
       fclose(fp);
       init_section();
       result = true;
@@ -94,7 +94,7 @@ bool Ini::save(char* file_name) { //save file_name
     if (NULL == file_name) file_name = file_name_;
     fp = fopen(file_name, "wb");
     AssertEx(fp != NULL, file_name); 
-    fwrite(data_info_, data_length_, 1, fp);
+    fwrite(data_info_, static_cast<size_t>(data_length_), 1, fp);
     fclose(fp);
   __LEAVE_FUNCTION
     return false;
@@ -249,7 +249,7 @@ bool Ini::add_section(const char* section) {
       snprintf(str, sizeof(str), "%s[%s]", LF, section);
       data_info_ = static_cast<char*>(realloc(data_info_, 
                                               static_cast<size_t>(data_length_+strlen(str))));
-      snprintf(&data_info_[data_length_], data_length_ -1, "%s", str);
+      snprintf(&data_info_[data_length_], static_cast<size_t>(data_length_ - 1), "%s", str);
       data_length_ += static_cast<int64_t>(strlen(str));
       init_section();
       result = true;
@@ -268,11 +268,12 @@ bool Ini::add_data(int32_t position, const char* key, const char* value) {
     snprintf(str, sizeof(str), "%s=%s", key, value);
     length = static_cast<int32_t>(strlen(str));
     position = goto_next_line(position);
-    data_info_ = static_cast<char*>(realloc(data_info_, 
-                                            static_cast<size_t>(data_length_+strlen(str))));
-    char* temp = new char[data_length_ -  position];
-    memcpy(temp, &data_info_[position], data_length_ - position);
-    memcpy(&data_info_[position + length], temp, data_length_ - position); //the last
+	size_t new_datalength = static_cast<size_t>(data_length_ + length);
+    data_info_ = static_cast<char*>(realloc(data_info_, new_datalength));
+	size_t temp_length = static_cast<size_t>(data_length_ -  position);
+    char* temp = new char[temp_length];
+    memcpy(temp, &data_info_[position], temp_length);
+    memcpy(&data_info_[position + length], temp, temp_length); //the last
     memcpy(&data_info_[position], str, length);
     data_length_ += length;
     SAFE_DELETE(temp);
@@ -291,9 +292,10 @@ bool Ini::modify_data(int32_t position, const char* key, const char* value) {
     int32_t old_length = position - find_position;
     data_info_ = static_cast<char*>(realloc(data_info_, 
       static_cast<size_t>(data_length_ + new_length - old_length))); //reset memory
-    char* temp = new char[data_length_ - position];
-    memcpy(temp, &data_info_[position], data_length_ - position);
-    memcpy(&data_info_[find_position + new_length], temp, data_length_ - position); //swap
+    size_t templength = static_cast<size_t>(data_length_ - position);
+	char* temp = new char[templength];
+    memcpy(temp, &data_info_[position], templength);
+    memcpy(&data_info_[find_position + new_length], temp, templength); //swap
     memcpy(&data_info_[find_position], temp, new_length);
     data_length_ += new_length - old_length;
     SAFE_DELETE(temp);
@@ -490,7 +492,7 @@ float Ini::read_float(const char* section, const char* key) {
     float result = static_cast<float>(atof(str));
     return result;
   __LEAVE_FUNCTION
-    return ERROR_DATA;
+    return static_cast<float>(ERROR_DATA);
 }
 
 bool Ini::read_bool(const char* section, const char* key) { 
@@ -508,41 +510,41 @@ int32_t Ini::read_int32(const char* section, const char* key) {
   __ENTER_FUNCTION
     return static_cast<int32_t>(read_int64(section, key));
   __LEAVE_FUNCTION
-    return ERROR_DATA;
+    return 0;
 }
 
 uint32_t Ini::read_uint32(const char* section, const char* key) {
   __ENTER_FUNCTION
     return static_cast<uint32_t>(read_int64(section, key));
   __LEAVE_FUNCTION
-    return ERROR_DATA;
+    return 0;
 }
 
 int16_t Ini::read_int16(const char* section, const char* key) {
   __ENTER_FUNCTION
     return static_cast<int16_t>(read_int64(section, key));
   __LEAVE_FUNCTION
-    return ERROR_DATA;
+    return 0;
 }
 uint16_t Ini::read_uint16(const char* section, const char* key) {
   __ENTER_FUNCTION
     return static_cast<uint16_t>(read_int64(section, key));
   __LEAVE_FUNCTION
-    return ERROR_DATA;
+    return 0;
 }
 
 int8_t Ini::read_int8(const char* section, const char* key) {
   __ENTER_FUNCTION
     return static_cast<int8_t>(read_int64(section, key));
   __LEAVE_FUNCTION
-    return ERROR_DATA;
+    return 0;
 }
 
 uint8_t Ini::read_uint8(const char* section, const char* key) {
   __ENTER_FUNCTION
     return static_cast<uint8_t>(read_int64(section, key));
   __LEAVE_FUNCTION
-    return ERROR_DATA;
+    return 0;
 }
 
 bool Ini::read_exist_int32(const char* section, const char* key, int32_t &result) {
@@ -629,28 +631,28 @@ int16_t Ini::read_int16(const char* section, int32_t line) {
   __ENTER_FUNCTION
     return static_cast<int16_t>(read_int64(section, line));
   __LEAVE_FUNCTION
-    return ERROR_DATA;
+    return 0;
 }
 
 uint16_t Ini::read_uint16(const char* section, int32_t line) {
   __ENTER_FUNCTION
     return static_cast<uint16_t>(read_int64(section, line));
   __LEAVE_FUNCTION
-    return ERROR_DATA;
+    return 0;
 }
 
 int8_t Ini::read_int8(const char* section, int32_t line) {
   __ENTER_FUNCTION
     return static_cast<int8_t>(read_int64(section, line));
   __LEAVE_FUNCTION
-    return ERROR_DATA;
+    return 0;
 }
 
 uint8_t Ini::read_uint8(const char* section, int32_t line) {
   __ENTER_FUNCTION
     return static_cast<uint8_t>(read_int64(section, line));
   __LEAVE_FUNCTION
-    return ERROR_DATA;
+    return 0;
 }
 
 bool Ini::write(const char* section, const char* key, int32_t value) {
@@ -691,7 +693,7 @@ bool Ini::write(const char* section, const char* key, const char* value) {
     int32_t line;
 	char str[64];
 	memset(str, '\0', sizeof(str));
-    snprintf(str, sizeof(str), "%d", value);
+    snprintf(str, sizeof(str), "%s", value);
     if (-1 == section_index) { //add new section
       add_section(section);
       section_index = find_section_index(section);

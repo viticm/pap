@@ -150,12 +150,14 @@ int32_t System::get_error_code() {
   __ENTER_FUNCTION
     return odbc_interface_->get_error_code();
   __LEAVE_FUNCTION
+    return -1;
 }
 
 char* System::get_error_message() {
   __ENTER_FUNCTION
     return odbc_interface_->get_error_message();
   __LEAVE_FUNCTION
+    return NULL;
 }
 
 } //namespace pap_server_common_db

@@ -66,7 +66,7 @@ config_info_t::config_info_t() {
     pet.compound_baby_per_wild_with_baby = 30;
     pet.compound_perception_per = 70;
     pet.default_max_level = 115;
-    pet.die_lreduce_life = 0.4;
+    pet.die_lreduce_life = 0.4f;
     human.can_get_exp_range = 60;
     human.out_ghost_time = 300000;
     human.default_move_speed = 5000;
@@ -97,16 +97,16 @@ config_info_t::config_info_t() {
     guild.left_guild_buff_enable = true;
     guild.boom_max_value = 999;
     guild.boom_scale_all = 1;
-    guild.boom_scale_online_count = 0.6;
-    guild.boom_scale_attribute_increase = 0.15;
+    guild.boom_scale_online_count = 0.6f;
+    guild.boom_scale_attribute_increase = 0.15f;
     guild.boom_scale_trader_transactions_count = 1;
-    guild.boom_scale_avg_boom = 0.06;
-    guild.boom_scale_dilation = 0.4;
-    guild.boom_scale_farming = 1.6;
-    guild.boom_scale_trading_mission = 1.6;
-    guild.boom_scale_defence = 0.8;
-    guild.boom_scale_industry = 1.6;
-    guild.boom_scale_technology = 0.8;
+    guild.boom_scale_avg_boom = 0.06f;
+    guild.boom_scale_dilation = 0.4f;
+    guild.boom_scale_farming = 1.6f;
+    guild.boom_scale_trading_mission = 1.6f;
+    guild.boom_scale_defence = 0.8f;
+    guild.boom_scale_industry = 1.6f;
+    guild.boom_scale_technology = 0.8f;
     guild.trade_ticket_decrease_value = 136;
     guild.trading_mission_plug = true;
     guild.validate_xianya_level = true;
@@ -145,20 +145,20 @@ config_info_t::config_info_t() {
     good_and_evil.member_die_cost_value = 100;
     plot_point.min = 0;
     plot_point.max = 9999;
-    economic.rate_a = 0.25;
-    economic.rate_b = 0.1;
+    economic.rate_a = 0.25f;
+    economic.rate_b = 0.1f;
     economic.yuanbao_transaction_scene_id = 0;
     economic.yuanbao_ticket_max = 10000;
-    economic.new_server_sale_rate = 1.0;
+    economic.new_server_sale_rate = 1.0f;
     economic.min_exchange_code_level = 15;
     economic.max_exchange_code_level = 25;
-    exp.revise_param = 1.0;
-    exp.team_spouse_add_rate = 0.04;
-    exp.team_brother_add_rate = 0.02;
-    exp.team_master_in_add_rate = 0.2;
-    exp.team_master_notin_add_rate = 0.1;
-    exp.team_disciple_add_rate = 0.05;
-    exp.hidden_or_magic_weapon_absorb_rate = 0.01;
+    exp.revise_param = 1.0f;
+    exp.team_spouse_add_rate = 0.04f;
+    exp.team_brother_add_rate = 0.02f;
+    exp.team_master_in_add_rate = 0.2f;
+    exp.team_master_notin_add_rate = 0.1f;
+    exp.team_disciple_add_rate = 0.05f;
+    exp.hidden_or_magic_weapon_absorb_rate = 0.01f;
     duel.continue_time = 600;
     duel.need_min_level = 10;
     duel.need_energy = 100;
@@ -415,6 +415,7 @@ isp_enum internal_ip_of_proxy_t::ip_from(const char* ip) {
       }
     }
   __LEAVE_FUNCTION
+    return kIspInvalid;
 }
 
 //struct end--

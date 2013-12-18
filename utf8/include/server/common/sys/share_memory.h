@@ -268,7 +268,7 @@ class UnitPool {
      __LEAVE_FUNCTION
        return NULL;
    };
-   int32_t get_max_size() {
+   uint32_t get_max_size() {
      __ENTER_FUNCTION
        return max_size_;
      __LEAVE_FUNCTION
@@ -320,10 +320,10 @@ class UnitPool {
 
  private:
    T** obj_;
-   int32_t max_size_;
+   uint32_t max_size_;
    int32_t position_;
    Base* ref_obj_pointer_;
-   uint32_t key_;
+   uint64_t key_;
 
 };
 

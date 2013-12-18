@@ -78,15 +78,11 @@ time_t TimeManager::get_ansi_time() {
     return set_time_;
 }
 
-char* TimeManager::get_full_format_time() {
+void TimeManager::get_full_format_time(char* format_time, uint32_t length) {
   __ENTER_FUNCTION
-    char full_format_time[20];
-    memset(full_format_time, '\0', sizeof(full_format_time));
     reset_time();
-    strftime(full_format_time, sizeof(full_format_time), "%Y-%m-%d %H:%M:%S", &tm_);
-    return full_format_time;
+    strftime(format_time, length, "%Y-%m-%d %H:%M:%S", &tm_);
   __LEAVE_FUNCTION
-    return 0;
 }
 
 uint16_t TimeManager::get_year() {
@@ -247,8 +243,10 @@ uint32_t TimeManager::diff_time(uint32_t time1, uint32_t time2) {
     tm _tm1, _tm2;
     time_totm(time1, &_tm1);
     time_totm(time2, &_tm2);
-    time_t _time1, _time2;
-    uint32_t result = static_cast<uint32_t>(abs(static_cast<int32_t>(difftime(_time1, _time2))) * 1000);
+    time_t timefirst = 0, timeNext = 0;
+    uint32_t result = static_cast<uint32_t>(
+        abs(static_cast<int32_t>(
+		    difftime(timefirst, timeNext))) * 1000);
     return result;
   __LEAVE_FUNCTION
     return 0;

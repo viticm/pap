@@ -30,8 +30,8 @@ documentation and/or software.
 
 */
 
-#ifndef BZF_MD5_H
-#define BZF_MD5_H
+#ifndef COMMON_BASE_MD5_H_
+#define COMMON_BASE_MD5_H_
 
 #include <string>
 #include <iostream>
@@ -89,4 +89,4 @@ private:
   static inline void II(uint4 &a, uint4 b, uint4 c, uint4 d, uint4 x, uint4 s, uint4 ac);
 };
 
-#endif
+#endif //COMMON_BASE_MD5_H_
