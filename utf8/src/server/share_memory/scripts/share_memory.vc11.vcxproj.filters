@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\common">
+      <UniqueIdentifier>{2d2a03ee-c1d0-450f-b29b-69eab3d0cf92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common\base">
+      <UniqueIdentifier>{5397f4c9-0735-4a41-b530-a5beeec1d55e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common\sys">
+      <UniqueIdentifier>{c971c228-61d6-4b50-b934-8c8a80395308}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common\file">
+      <UniqueIdentifier>{4c5ff9aa-0a00-4e81-baed-bc0a875939b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server">
+      <UniqueIdentifier>{032709c4-e074-4c5a-b8e7-c2a7ecbd88c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common">
+      <UniqueIdentifier>{c18276f1-1774-4b30-aeb1-4e4ff7414191}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common\game">
+      <UniqueIdentifier>{158b5e2a-b6a0-43fa-a4d0-46e11a3db8cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common\game\db">
+      <UniqueIdentifier>{630aa915-89d1-40e6-869f-02fad7a198a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common\db">
+      <UniqueIdentifier>{826b38d5-1816-44f8-8e67-e74b7e2590d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common\db\data">
+      <UniqueIdentifier>{3a4af2e8-4739-488e-aff0-986a6176fd90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common\base">
+      <UniqueIdentifier>{8bc98c3d-1da1-4771-8348-b8d751a1d26a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common\sys">
+      <UniqueIdentifier>{941bc836-ac77-483e-9af1-2777db6b5a76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\sharememory">
+      <UniqueIdentifier>{d365fa71-2b87-4a58-9c57-8ba68065a8f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\sharememory\src">
+      <UniqueIdentifier>{3c3b91f9-f950-49ad-b2dc-477b5c14952d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\sharememory\src\main">
+      <UniqueIdentifier>{817ea4f5-89f7-47b8-8849-3c470df3aafd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\sharememory\src\data">
+      <UniqueIdentifier>{ad7b660d-1188-4105-b24a-f0f559deebdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\server">
+      <UniqueIdentifier>{48b5f237-dd9b-411c-956c-64086a08ff7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common">
+      <UniqueIdentifier>{f262f9fe-4575-4a4a-8b8d-e639b424ad5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\base">
+      <UniqueIdentifier>{d34838e9-b728-4835-88c5-19bc96a92853}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\db">
+      <UniqueIdentifier>{bcb60bfb-5165-43c5-b2a8-263f91cc1deb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\db\data">
+      <UniqueIdentifier>{ca65c0a2-e064-4cb3-b598-229ceab93925}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\game">
+      <UniqueIdentifier>{4b65ae7b-92d1-47af-ab96-8cd3b15a192c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\game\db">
+      <UniqueIdentifier>{ee3a5b07-9e4c-4164-83ea-e400c095fdd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\sys">
+      <UniqueIdentifier>{5fcb097e-6a1f-4434-b22b-b6b2e2329b0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\share_memory">
+      <UniqueIdentifier>{7080e558-0d54-426e-b83a-6c2a1b9fae94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\share_memory\main">
+      <UniqueIdentifier>{a678d5c1-e0fb-4edc-b3d2-e04e0791025b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\share_memory\data">
+      <UniqueIdentifier>{74891ccd-d0ec-4994-aabc-2e48c49b6e42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common">
+      <UniqueIdentifier>{2d3ea18d-c036-4153-993a-9c04d63262a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\base">
+      <UniqueIdentifier>{f70b143c-fed1-4d93-a7fb-48ca3276eb21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\sys">
+      <UniqueIdentifier>{eaaca4d5-1324-47cb-b9bb-8853d8eb5819}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\game">
+      <UniqueIdentifier>{953b977f-1583-42ed-abf6-36820d1f4b7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\file">
+      <UniqueIdentifier>{bd37014c-b604-4378-9cc7-a8d48661d014}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\common\base\md5.cc">
+      <Filter>Source Files\common\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\base\string.cc">
+      <Filter>Source Files\common\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\base\util.cc">
+      <Filter>Source Files\common\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\sys\assert.cc">
+      <Filter>Source Files\common\sys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\sys\thread.cc">
+      <Filter>Source Files\common\sys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\sys\util.cc">
+      <Filter>Source Files\common\sys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\file\ini.cc">
+      <Filter>Source Files\common\file</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\game\db\struct.cc">
+      <Filter>Source Files\server\common\game\db</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\db\manager.cc">
+      <Filter>Source Files\server\common\db</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\db\odbc_interface.cc">
+      <Filter>Source Files\server\common\db</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\db\system.cc">
+      <Filter>Source Files\server\common\db</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\db\data\global.cc">
+      <Filter>Source Files\server\common\db\data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\db\data\sql_template.cc">
+      <Filter>Source Files\server\common\db\data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\base\config.cc">
+      <Filter>Source Files\server\common\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\base\log.cc">
+      <Filter>Source Files\server\common\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\base\time_manager.cc">
+      <Filter>Source Files\server\common\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\sys\share_memory.cc">
+      <Filter>Source Files\server\common\sys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main\command_thread.cc">
+      <Filter>Source Files\server\sharememory\src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main\share_memory.cc">
+      <Filter>Source Files\server\sharememory\src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\data\logic_manager.cc">
+      <Filter>Source Files\server\sharememory\src\data</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\include\server\common\base\config.h">
+      <Filter>Header Files\server\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\base\define.h">
+      <Filter>Header Files\server\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\base\file_define.h">
+      <Filter>Header Files\server\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\base\log.h">
+      <Filter>Header Files\server\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\base\log_define.h">
+      <Filter>Header Files\server\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\base\time_manager.h">
+      <Filter>Header Files\server\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\db\config.h">
+      <Filter>Header Files\server\common\db</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\db\manager.h">
+      <Filter>Header Files\server\common\db</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\db\odbc_interface.h">
+      <Filter>Header Files\server\common\db</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\db\system.h">
+      <Filter>Header Files\server\common\db</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\db\data\config.h">
+      <Filter>Header Files\server\common\db\data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\db\data\global.h">
+      <Filter>Header Files\server\common\db\data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\db\data\sql_template.h">
+      <Filter>Header Files\server\common\db\data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\config.h">
+      <Filter>Header Files\server\common\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\define.h">
+      <Filter>Header Files\server\common\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\struct.h">
+      <Filter>Header Files\server\common\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\db\config.h">
+      <Filter>Header Files\server\common\game\db</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\db\define.h">
+      <Filter>Header Files\server\common\game\db</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\db\struct.h">
+      <Filter>Header Files\server\common\game\db</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\sys\config.h">
+      <Filter>Header Files\server\common\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\sys\share_memory.h">
+      <Filter>Header Files\server\common\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\share_memory\main\command_thread.h">
+      <Filter>Header Files\server\share_memory\main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\share_memory\main\share_memory.h">
+      <Filter>Header Files\server\share_memory\main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\share_memory\data\config.h">
+      <Filter>Header Files\server\share_memory\data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\share_memory\data\logic_manager.h">
+      <Filter>Header Files\server\share_memory\data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\base\config.h">
+      <Filter>Header Files\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\base\md5.h">
+      <Filter>Header Files\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\base\string.h">
+      <Filter>Header Files\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\base\type.h">
+      <Filter>Header Files\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\base\util.h">
+      <Filter>Header Files\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\sys\assert.h">
+      <Filter>Header Files\common\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\sys\config.h">
+      <Filter>Header Files\common\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\sys\thread.h">
+      <Filter>Header Files\common\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\sys\util.h">
+      <Filter>Header Files\common\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\config.h">
+      <Filter>Header Files\common\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define.h">
+      <Filter>Header Files\common\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\struct.h">
+      <Filter>Header Files\common\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\file\config.h">
+      <Filter>Header Files\common\file</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\file\ini.h">
+      <Filter>Header Files\common\file</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
