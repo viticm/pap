@@ -64,7 +64,8 @@ bool Manager::init(db_type_enum db_type) {
                       character_interface_->get_error_message(), 
                       db_type_);
       }
-      if (kAllDatabase == db_type_ || kCharacterDatabase == db_type_) { //login
+    }
+    if (kAllDatabase == db_type_ || kCharacterDatabase == db_type_) { //login
       //init all variable in first(user db)
       character_interface_ = new ODBCInterface();
       memset(host, 0, HOST_LENGTH);
@@ -99,8 +100,7 @@ bool Manager::init(db_type_enum db_type) {
                       db_type_);
       }
     }
-
-	return connected;
+	  return connected;
   __LEAVE_FUNCTION
     return false;
 }
