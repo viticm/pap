@@ -69,7 +69,6 @@ class ExceptionHandler {
 
  public:
    ExceptionHandler();
-   ~ExceptionHandler();
 
 };
 

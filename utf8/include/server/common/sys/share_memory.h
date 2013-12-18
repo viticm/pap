@@ -60,11 +60,18 @@ typedef enum {
 
 namespace api {
 
+#if defined(__LINUX__)
 int32_t create(uint64_t key, uint32_t size);
 int32_t open(uint64_t key, uint32_t size);
-char* map(int32_t handle);
-void unmap(char* pointer);
 void close(int32_t handle);
+char* map(int32_t handle);
+#elif defined(__WINDOWS__)
+HANDLE create(uint64_t key, uint32_t size);
+HANDLE open(uint64_t key, uint32_t size);
+void close(HANDLE handle);
+char* map(HANDLE handle);
+#endif
+void unmap(char* pointer);
 
 }; //namespace api
 
@@ -72,6 +79,8 @@ class Base {
 
  public:
    int32_t cmd_model_; //命令行模式，几种模式在config.h定义
+   Base();
+   ~Base();
 
  public:
    bool create(uint64_t key, uint32_t size);
@@ -88,7 +97,11 @@ class Base {
    uint32_t size_;
    char* data_pointer_;
    char* header_;
+#if defined(__LINUX__)
    int32_t handle_;
+#elif defined(__WINDOWS__)
+   HANDLE handle_;
+#endif
   
 };
 

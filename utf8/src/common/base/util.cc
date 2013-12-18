@@ -276,12 +276,12 @@ int charset_convert(const char* from,
                     const char* src, 
                     int srclen) {
   __ENTER_FUNCTION
+    int status = 0;
 #if defined(__LINUX__)
     iconv_t cd;
     char *inbuf        = src;
     char *outbuf       = save;
     size_t outbufsize  = savelen;
-    int status         = 0;
     size_t savesize    = 0;
     size_t inbufsize   = srclen;
     const char* inptr  = inbuf;
@@ -333,7 +333,9 @@ int charset_convert(const char* from,
     iconv_close(cd);
     return status;
 #endif
+    return status;
   __LEAVE_FUNCTION
+	
 }
 
 } //namespace util

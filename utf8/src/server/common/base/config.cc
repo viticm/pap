@@ -660,7 +660,7 @@ void Config::load_config_info_reload() { //this params can reload again
     for (i = 0; i < GUILD_LEVEL_MAX; ++i) {
       memset(key_temp, '\0', sizeof(key_temp));
       snprintf(key_temp, sizeof(key_temp) - 1, "XianYaMaxTrader%d", i);
-      config_info_.guild.xianya_max_trader[i] = config_info_ini.read_uint16("Guild", static_cast<const char*>(key_temp));
+      config_info_.guild.xianya_max_trader[i] = config_info_ini.read_uint8("Guild", static_cast<const char*>(key_temp));
     }
 
     for (i = 0; i < GUILD_LEVEL_MAX; ++i) {
@@ -777,13 +777,13 @@ void Config::load_config_info_reload() { //this params can reload again
     for (i = 0; i < sizeof(config_info_.commision_shop.yuanbao_value); ++i) {
       memset(key_temp, '\0', sizeof(key_temp));
       snprintf(key_temp, sizeof(key_temp) - 1, "YuanBaoValue%d", i);
-      config_info_.commision_shop.yuanbao_value[i] = config_info_ini.read_float("CommisionShop", static_cast<const char*>(key_temp));
+      config_info_.commision_shop.yuanbao_value[i] = config_info_ini.read_uint32("CommisionShop", static_cast<const char*>(key_temp));
     }
 
     for (i = 0; i < sizeof(config_info_.commision_shop.gold_coin_value); ++i) {
       memset(key_temp, '\0', sizeof(key_temp));
       snprintf(key_temp, sizeof(key_temp) - 1, "GoldCoinValueValue%d", i);
-      config_info_.commision_shop.gold_coin_value[i] = config_info_ini.read_float("CommisionShop", static_cast<const char*>(key_temp));
+      config_info_.commision_shop.gold_coin_value[i] = config_info_ini.read_uint32("CommisionShop", static_cast<const char*>(key_temp));
     }
     //loop read --
 
@@ -796,7 +796,7 @@ void Config::load_config_info_reload() { //this params can reload again
     for (i = 0; i < sizeof(config_info_.player_count_of_scene.hour_point); ++i) {
       memset(key_temp, '\0', sizeof(key_temp));
       snprintf(key_temp, sizeof(key_temp) - 1, "HourPoint%d", i);
-      config_info_.player_count_of_scene.hour_point[i] = config_info_ini.read_float("PlayerCountOfScene", static_cast<const char*>(key_temp));
+      config_info_.player_count_of_scene.hour_point[i] = config_info_ini.read_uint8("PlayerCountOfScene", static_cast<const char*>(key_temp));
     }
     //loop read --
 

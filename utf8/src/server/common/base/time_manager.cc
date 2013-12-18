@@ -2,6 +2,7 @@
 
 pap_server_common_base::TimeManager* g_time_manager = NULL;
 int32_t g_file_name_fix = 0;
+uint32_t g_file_name_fix_last = 0;
 
 namespace pap_server_common_base {
 

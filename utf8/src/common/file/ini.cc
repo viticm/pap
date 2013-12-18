@@ -1,5 +1,4 @@
 #include "common/file/ini.h"
-#include "common/base/type.h"
 
 namespace pap_common_file {
 

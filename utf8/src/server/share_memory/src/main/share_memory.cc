@@ -17,11 +17,15 @@ bool check_exitfile();
 bool check_start_savelogout();
 bool check_stop_savelogout();
 
+int32_t g_cmd_model = -1;
+bool g_cmd_input = false;
+command_config_t g_command_config;
+ExceptionHandler g_exception_handler;
+
 int32_t main(int32_t argc, char* argv[]) {
 #if defined(__WINDOWS__)
   _CrtSetDbgFlag(_CrtSetDbgFlag(0) | _CRTDBG_LEAK_CHECK_DF);
 #endif
-  g_cmd_input = false;
   int32_t i;
   //-- command
   if (argc > 1) {
@@ -374,7 +378,7 @@ bool check_exitfile() {
   __ENTER_FUNCTION
     bool result = true;
     if (-1 == remove("exit.cmd")) result = false;
-    extern bool g_lock_timeout_enable;
+    bool g_lock_timeout_enable;
     g_lock_timeout_enable = true;
     return result;
   __LEAVE_FUNCTION
@@ -385,7 +389,7 @@ bool check_start_savelogout() {
   __ENTER_FUNCTION
     bool result = true;
     if (-1 == remove("startsave.cmd")) result = false;
-    extern bool g_need_savelogout;
+    bool g_need_savelogout;
     g_need_savelogout = true;
     return result;
   __LEAVE_FUNCTION
@@ -396,7 +400,7 @@ bool check_stop_savelogout() {
   __ENTER_FUNCTION
     bool result = true;
     if (-1 == remove("stopsave.cmd")) result = false;
-    extern bool g_need_savelogout;
+    bool g_need_savelogout;
     g_need_savelogout = true;
     return result;
   __LEAVE_FUNCTION
@@ -465,5 +469,3 @@ ExceptionHandler::ExceptionHandler() {
 #endif
   __LEAVE_FUNCTION
 }
-
-ExceptionHandler g_exception_handler;

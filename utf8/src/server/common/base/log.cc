@@ -49,7 +49,7 @@ void Log::get_log_time_str(char* time_str, int32_t length) {
     if (g_time_manager) {
         g_time_manager->reset_time();
         snprintf(time_str, length, 
-                 " (%d)(T0=%d-%d-%d_%d:%d:%d T1=%.4f)%s",
+                 " (%d)(T0=%d-%d-%d_%d:%d:%d T1=%.4f)",
                  pap_common_sys::get_current_thread_id(), 
                  g_time_manager->get_year(),
                  g_time_manager->get_month() + 1,
@@ -57,8 +57,7 @@ void Log::get_log_time_str(char* time_str, int32_t length) {
                  g_time_manager->get_hour(),
                  g_time_manager->get_minute(),
                  g_time_manager->get_second(),
-                 static_cast<float>(g_time_manager->get_run_time())/1000.0,
-                 LF);
+                 static_cast<float>(g_time_manager->get_run_time())/1000.0);
     }
   __LEAVE_FUNCTION
 }
@@ -80,6 +79,7 @@ void Log::disk_log(const char* file_name_prefix, const char* format, ...) {
         get_log_time_str(time_str, sizeof(time_str) - 1);        
         strncat(buffer, time_str, strlen(time_str));
       }
+	  strncat(buffer, LF, sizeof(LF)); //add wrap
     }
 		catch(...) {
       if (g_command_log_print) printf("ERROR: SaveLog unknown error!%s", LF); 
@@ -155,6 +155,7 @@ void Log::fast_save_log(enum_log_id log_id, const char* format, ...) {
         get_log_time_str(time_str, sizeof(time_str) - 1);
         strncat(buffer, time_str, strlen(time_str));
       }
+	  strncat(buffer, LF, sizeof(LF)); //add wrap
     }
     catch(...) {
       Assert(false);
@@ -273,9 +274,7 @@ void Log::save_log(const char* file_name_prefix, const char* format, ...) {
         get_log_time_str(time_str, sizeof(time_str) - 1);
         strncat(buffer, time_str, strlen(time_str));
       }
-      else { //add the wrap
-        strncat(buffer, LF, sizeof(LF));
-      }
+	  strncat(buffer, LF, sizeof(LF)); //add wrap
       char log_file_name[FILENAME_MAX];
       memset(log_file_name, '\0', sizeof(log_file_name));
       get_log_file_name(file_name_prefix, log_file_name);
@@ -283,6 +282,7 @@ void Log::save_log(const char* file_name_prefix, const char* format, ...) {
       fp = fopen(log_file_name, "ab");
       if (fp) {
         fwrite(buffer, 1, strlen(buffer), fp);
+		
         fclose(fp);
       }
       printf(buffer);

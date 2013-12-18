@@ -40,6 +40,7 @@
 #pragma warning (disable: 4786)
 #include <windows.h>
 #include <crtdbg.h>
+#include <tchar.h>
 #elif defined(__LINUX__)
 #include <string.h>
 #include <sys/types.h>
@@ -55,7 +56,11 @@
 //typedef char byte; //-128~127 --use int8_t
 
 #define IP_SIZE 24 //max ip size
-#define HANDLE_INVALID (-1) 
+#if defined(__LINUX__)
+#define HANDLE_INVALID (-1)
+#elif defined(__WINDOWS__)
+#define HANDLE_INVALID ((VOID*)0)
+#endif
 #define ID_INVALID (-1)
 #define INDEX_INVALID (-1)
 #define TAB_PARAM_ID_INVALID (-9999) //invalid id in excel param
@@ -78,7 +83,7 @@
 #define SAFE_DELETE(x)	if((x)!=NULL) { delete (x); (x)=NULL; }
 #endif
 #endif
-//根据指针值删除数组类型内存
+//根据指针值删除数组类型内存 其中注意_CrtIsValidHeapPointer前的定义，在relase需要定义NDEBUG
 #ifndef SAFE_DELETE_ARRAY
 #if defined(__WINDOWS__)
 #define SAFE_DELETE_ARRAY(x) if((x)!=NULL) { Assert(_CrtIsValidHeapPointer(x));delete[] (x); (x)=NULL; }
@@ -124,8 +129,6 @@
         printf(format_str); \
         delete[] format_str; \
         } 
-    // common define
-    #define LF "\r\n"
 #elif defined (__LINUX__)    //linux
     #define __ENTER_FUNCTION {try{
     #define __LEAVE_FUNCTION }catch(...){AssertSpecial(FALSE,__PRETTY_FUNCTION__);}}
@@ -140,13 +143,18 @@
         strcpy(format_str, start); strcat(format_str, buffer); strcat(format_str, end); \
         printf(format_str); \
         delete[] format_str; \
-        } 
-    // common define
-    #define LF "\n"
+        }    
 #endif
 
 #if defined(__WINDOWS__)
 #define snprintf _snprintf
+#endif
+
+// common define
+#if defined(__LINUX__)
+#define LF "\r\n"
+#elif defined(__WINDOWS__)
+#define LF "\n"
 #endif
 
 #endif //PAP_COMMON_BASE_TYPE_H_

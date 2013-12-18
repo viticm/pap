@@ -30,11 +30,15 @@ data_header_t::~data_header_t() {
 
 namespace api {
 
-int32_t create(uint64_t key, uint32_t size) {
-  __ENTER_FUNCTION
-    int32_t handle;
 #if defined(__LINUX__)
-    int32_t handle = shmget(key, size, IPC_CREAT | IPC_EXCL | 0666);
+int32_t create(uint64_t key, uint32_t size) {
+#elif defined(__WINDOWS__)
+HANDLE create(uint64_t key, uint32_t size) {
+#endif
+  __ENTER_FUNCTION
+#if defined(__LINUX__)
+    int32_t handle;
+    handle = shmget(key, size, IPC_CREAT | IPC_EXCL | 0666);
     pap_server_common_base::Log::save_log("share_memory",
                                           "[share memory][api](create) handle = %d, key = %"PRIu64" ,error: %d%s",
                                           handle, 
@@ -42,25 +46,29 @@ int32_t create(uint64_t key, uint32_t size) {
                                           errno, 
                                           LF);
 #elif defined(__WINDOWS__)
+    HANDLE handle;
     char buffer[65];
     memset(buffer, '\0', sizeof(buffer));
     snprintf(buffer, sizeof(buffer) - 1, "%"PRIu64, key);
-    int32_t handle = static_cast<int32_t>(CreateFileMapping(static_cast<HANDLE>(0xFFFFFFFFFFFFFFFF), 
-                                                            NULL, 
-                                                            PAGE_READWRITE, 
-                                                            0, 
-                                                            size, 
-                                                            buffer));
+    handle = (CreateFileMapping(reinterpret_cast<HANDLE>(0xFFFFFFFFFFFFFFFF), 
+                                NULL, 
+                                PAGE_READWRITE, 
+                                0, 
+                                size, 
+                                buffer));
 #endif
     return handle;
   __LEAVE_FUNCTION
-    return -1;
+    return NULL;
 }
-
-int32_t open(uint64_t key, uint32_t size) {
-  __ENTER_FUNCTION
-    int32_t handle;
 #if defined(__LINUX__)
+int32_t open(uint64_t key, uint32_t size) {
+#elif defined(__WINDOWS__)
+HANDLE open(uint64_t key, uint32_t size) {
+#endif
+  __ENTER_FUNCTION
+#if defined(__LINUX__)
+    int32_t handle;
     handle = shmget(key, size, 0);
     pap_server_common_base::Log::save_log("share_memory", 
                                           "[share memory][api](open) handle = %d ,key = %"PRIu64" ,error: %d%s", 
@@ -68,8 +76,8 @@ int32_t open(uint64_t key, uint32_t size) {
                                           key, 
                                           errno, 
                                           LF);
-    return handle;
 #elif defined(__WINDOWS__)
+    HANDLE handle;
     char buffer[65];
     memset(buffer, '\0', sizeof(buffer));
     snprintf(buffer, sizeof(buffer) - 1, "%"PRIu64, key);
@@ -77,10 +85,14 @@ int32_t open(uint64_t key, uint32_t size) {
 #endif
     return handle;
   __LEAVE_FUNCTION
-    return -1;
+    return NULL;
 }
 
+#if defined(__LINUX__)
 char* map(int32_t handle) {
+#elif defined(__WINDOWS__)
+char* map(HANDLE handle) {
+#endif
   __ENTER_FUNCTION
     char* result;
 #if defined(__LINUX__)
@@ -103,12 +115,16 @@ void unmap(char* pointer) {
   __LEAVE_FUNCTION
 }
 
+#if defined(__LINUX__)
 void close(int32_t handle) {
+#elif defined(__WINDOWS__)
+void close(HANDLE handle) {
+#endif
   __ENTER_FUNCTION
 #if defined(__LINUX__)
     shmctl(handle, IPC_RMID, 0);
 #elif defined(__WINDOWS__)
-    CloseHandle(handle);
+    CloseHandle(reinterpret_cast<HANDLE>(handle));
 #endif
   __LEAVE_FUNCTION
 }
@@ -130,7 +146,7 @@ Base::~Base() {
   //do nothing
 }
 
-bool Base::create(uint64_t key, int32_t size) {
+bool Base::create(uint64_t key, uint32_t size) {
   __ENTER_FUNCTION
     if (kCmdModelClearAll == cmd_model_) return false;
     handle_ = api::create(key, size);
@@ -145,8 +161,8 @@ bool Base::create(uint64_t key, int32_t size) {
     header_ = api::map(handle_);
     if (header_) {
       data_pointer_ = header_ + sizeof(data_header_t);
-      (static_cast<data_header_t*>(header_))->key = key;
-      (static_cast<data_header_t*>(header_))->size = size;
+      (reinterpret_cast<data_header_t*>(header_))->key = key;
+      (reinterpret_cast<data_header_t*>(header_))->size = size;
       size_ = size;
       pap_server_common_base::Log::save_log("share_memory", 
                                             "[share memory][base](create) success! handle = %d ,key = %"PRIu64" %s", 
@@ -202,8 +218,8 @@ bool Base::attach(uint64_t key, uint32_t size) {
     header_ = api::map(handle_);
     if (header_) {
       data_pointer_ = header_ + sizeof(data_header_t);
-      Assert((static_cast<data_header_t*>(header_))->key == key);
-      Assert((static_cast<data_header_t*>(header_))->size == size)
+      Assert((reinterpret_cast<data_header_t*>(header_))->key == key);
+      Assert((reinterpret_cast<data_header_t*>(header_))->size == size);
       pap_server_common_base::Log::save_log("share_memory", 
                                             "[share memory][base](attach) success, key = %"PRIu64" %s", 
                                             key, 
@@ -275,13 +291,13 @@ bool Base::merge_from_file(const char* filename) {
 
 void Base::set_head_version(uint32_t version) {
   __ENTER_FUNCTION
-    (static_cast<data_header_t*>(header_))->version = version;
+    (reinterpret_cast<data_header_t*>(header_))->version = version;
   __LEAVE_FUNCTION
 }
 
 uint32_t Base::get_head_version() {
   __ENTER_FUNCTION
-    uint32_t version = (static_cast<data_header_t*>(header_))->version;
+    uint32_t version = (reinterpret_cast<data_header_t*>(header_))->version;
     return version;
   __LEAVE_FUNCTION
     return 0;
