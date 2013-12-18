@@ -33,7 +33,7 @@ Ini::~Ini() {
     }
     if (section_number_ > 0) {
       SAFE_DELETE(section_list_);
-      index_number_ = 0;
+      section_number_ = 0;
     }
   __LEAVE_FUNCTION
 }
@@ -62,7 +62,7 @@ bool Ini::open(const char* file_name) {
       AssertEx(fp != NULL, file_name_);
       fread(data_info_, data_length_, 1, fp);
       fclose(fp);
-      init_index();
+      init_section();
       result = true;
     }
     else {
@@ -82,9 +82,9 @@ void Ini::close() {
       SAFE_DELETE(data_info_);
       data_length_ = 0;
     }
-    if (index_number_ > 0) {
-      SAFE_DELETE(index_list_);
-      index_number_ = 0;
+    if (section_number_ > 0) {
+      SAFE_DELETE(section_list_);
+      section_number_ = 0;
     }
   __LEAVE_FUNCTION
 }
@@ -142,7 +142,7 @@ void Ini::init_section() { //初始化节点数据
     }
     SAFE_DELETE(section_list_);
     if (section_number_ > 0) section_list_ = new int32_t[section_number_];
-    int32_t i, n = 0;
+    int32_t n = 0;
     for (i = 0; i < data_length_; ++i) {
       if('[' == data_info_[i] && ('\n' == data_info_[i] || 0 == i)) {
         section_list_[n] = i + 1;
@@ -170,11 +170,12 @@ int32_t Ini::find_section_index(const char* section) {
 
 int32_t Ini::find_data_index(int32_t position, const char* data) {
   __ENTER_FUNCTION
+    int32_t _position = position;
     while (true) {
-      position = goto_next_line(position);
-      char* find_data = find_key(position);
+      _position = goto_next_line(_position);
+      char* find_data = find_key(_position);
       if (0 == strcmp(data, find_data)) break;
-      if ('[' == name[0]) {
+      if ('[' == find_data[0]) {
         position = -1;
         break;
       }
@@ -244,13 +245,14 @@ bool Ini::add_section(const char* section) {
     char str[256];
     bool result = false;
     memset(str, '\0', sizeof(str));
-    int32_t index = find_(name);
+    int32_t index = find_section_index(section);
     if (-1 == index) {
-      snprintf(str, sizeof(str), "%s[%s]", LF, name);
-      data_info_ = static_cast<char*>(realloc(data_info_, data_length_+strlen(str)));
-      snprintf(&data_info_[data_length_], "%s", str);
+      snprintf(str, sizeof(str), "%s[%s]", LF, section);
+      data_info_ = static_cast<char*>(realloc(data_info_, 
+                                              static_cast<size_t>(data_length_+strlen(str))));
+      snprintf(&data_info_[data_length_], data_length_ -1, "%s", str);
       data_length_ += static_cast<int64_t>(strlen(str));
-      init_index();
+      init_section();
       result = true;
     }
     return result;
@@ -267,7 +269,8 @@ bool Ini::add_data(int32_t position, const char* key, const char* value) {
     snprintf(str, sizeof(str), "%s=%s", key, value);
     length = static_cast<int32_t>(strlen(str));
     position = goto_next_line(position);
-    data_info_ = static_cast<char*>(relloc(data_info_, data_length_ + length));
+    data_info_ = static_cast<char*>(realloc(data_info_, 
+                                            static_cast<size_t>(data_length_+strlen(str))));
     char* temp = new char[data_length_ -  position];
     memcpy(temp, &data_info_[position], data_length_ - position);
     memcpy(&data_info_[position + length], temp, data_length_ - position); //the last
@@ -287,7 +290,8 @@ bool Ini::modify_data(int32_t position, const char* key, const char* value) {
     position = find_position + static_cast<int32_t>(strlen(old_value));
     int32_t new_length = static_cast<int32_t>(strlen(value));
     int32_t old_length = position - find_position;
-    data_info_ = static_cast<char*>(data_info_, data_length_ + new_length - old_length); //reset memory
+    data_info_ = static_cast<char*>(realloc(data_info_, 
+      static_cast<size_t>(data_length_ + new_length - old_length))); //reset memory
     char* temp = new char[data_length_ - position];
     memcpy(temp, &data_info_[position], data_length_ - position);
     memcpy(&data_info_[find_position + new_length], temp, data_length_ - position); //swap
@@ -339,7 +343,7 @@ bool Ini::read_exist_text(const char* section, const char* key, char* str, int32
   __ENTER_FUNCTION
     int32_t section_index = find_section_index(section);
     if (-1 == section_index) return false;
-    int32_t data_index = find_data_index(key);
+    int32_t data_index = find_data_index(section_index, key);
     if (-1 == data_index) return false;
     char* ret = read_text(data_index);
     strncpy(str, ret, length);
@@ -409,7 +413,12 @@ int64_t Ini::read_int64(const char* section, const char* key) {
     int32_t data_index = find_data_index(section_index, key);
     AssertEx(data_index, temp);
     char* str = read_text(data_index);
-    int64_t result = static_cast<int64_t>(atoll(str));
+	int64_t result = ERROR_DATA;
+#if defined(__LINUX__)
+    result = static_cast<int64_t>(atoll(str));
+#elif defined(__WINDOWS__)
+    result = static_cast<int64_t>(atol(str));
+#endif 
     return result;
   __LEAVE_FUNCTION
     return ERROR_DATA;
@@ -420,8 +429,12 @@ bool Ini::read_exist_int64(const char* section, const char* key, int64_t &result
     int32_t section_index = find_section_index(section);
     if (-1 == section_index) return false;
     int32_t data_index = find_data_index(section_index, key);
-    char* str read_text(data_index);
+    char* str = read_text(data_index);
+#if defined(__LINUX__)
     result = static_cast<int64_t>(atoll(str));
+#elif defined(__WINDOWS__)
+    result = static_cast<int64_t>(atol(str));
+#endif
     return true;
   __LEAVE_FUNCTION
     return false;
@@ -446,7 +459,11 @@ int64_t Ini::read_int64(const char* section, int32_t line) { //read in line
       if ('=' == data_info_[position]) {
         ++position;
         char* str = read_text(position);
+#if defined(__LINUX__)
         result = static_cast<int64_t>(atoll(str));
+#elif defined(__WINDOWS__)
+        result = static_cast<int64_t>(atol(str));
+#endif
         break;
       }
       else if ('\r' == data_info_[position] ||
@@ -523,7 +540,7 @@ int8_t Ini::read_int8(const char* section, const char* key) {
 }
 
 uint8_t Ini::read_uint8(const char* section, const char* key) {
-  __LEAVE_FUNCTION
+  __ENTER_FUNCTION
     return static_cast<uint8_t>(read_int64(section, key));
   __LEAVE_FUNCTION
     return ERROR_DATA;
@@ -609,28 +626,28 @@ uint32_t Ini::read_uint32(const char* section, int32_t line) {
     return ERROR_DATA;
 }
 
-int16_t Ini::read_int16(const char* section, uint32_t line) {
+int16_t Ini::read_int16(const char* section, int32_t line) {
   __ENTER_FUNCTION
     return static_cast<int16_t>(read_int64(section, line));
   __LEAVE_FUNCTION
     return ERROR_DATA;
 }
 
-uint16_t Ini::read_uint16(const char* section, uint32_t line) {
+uint16_t Ini::read_uint16(const char* section, int32_t line) {
   __ENTER_FUNCTION
     return static_cast<uint16_t>(read_int64(section, line));
   __LEAVE_FUNCTION
     return ERROR_DATA;
 }
 
-int8_t Ini::read_int8(const char* section, uint32_t line) {
+int8_t Ini::read_int8(const char* section, int32_t line) {
   __ENTER_FUNCTION
     return static_cast<int8_t>(read_int64(section, line));
   __LEAVE_FUNCTION
     return ERROR_DATA;
 }
 
-uint8_t Ini::read_uint8(const char* section, uint32_t line) {
+uint8_t Ini::read_uint8(const char* section, int32_t line) {
   __ENTER_FUNCTION
     return static_cast<uint8_t>(read_int64(section, line));
   __LEAVE_FUNCTION
@@ -648,19 +665,18 @@ bool Ini::write(const char* section, const char* key, int32_t value) {
     if (-1 == section_index) { //add new section
       add_section(section);
       section_index = find_section_index(section);
-      line = goto_next_line(section);
-      add_data(line, key, str);
+      line = goto_last_line(section);
+      add_data(section_index, key, str);
       result = true;
     }
     else {
       int32_t data_index = find_data_index(section_index, key);
       if (-1 == data_index) {
-        int32_t position;
-        position = goto_last_line(section);
-        add_data(position, key, str);
+        section_index = goto_last_line(section);
+        add_data(section_index, key, str);
       }
       else {
-        modify_data(position, key, str);
+        modify_data(section_index, key, str);
       }
       result = true;
     }
@@ -674,23 +690,24 @@ bool Ini::write(const char* section, const char* key, const char* value) {
     bool result = false;
     int32_t section_index = find_section_index(section);
     int32_t line;
+	char str[64];
+	memset(str, '\0', sizeof(str));
     snprintf(str, sizeof(str), "%d", value);
     if (-1 == section_index) { //add new section
       add_section(section);
       section_index = find_section_index(section);
-      line = goto_next_line(section);
+      line = goto_last_line(section);
       add_data(line, key, value);
       result = true;
     }
     else {
       int32_t data_index = find_data_index(section_index, key);
       if (-1 == data_index) {
-        int32_t position;
-        position = goto_last_line(section);
-        add_data(position, key, value);
+        section_index = goto_last_line(section);
+        add_data(section_index, key, value);
       }
       else {
-        modify_data(position, key, value);
+        modify_data(section_index, key, value);
       }
       result = true;
     }
@@ -730,7 +747,7 @@ int32_t Ini::get_continue_data_number(const char* section) {
 char* Ini::read_one_line(int32_t line) {
   __ENTER_FUNCTION
     int32_t start = find_one_line(line);
-    memset(ret_, '\0', sizeof(_ret));
+    memset(ret_, '\0', sizeof(ret_));
     int32_t i;
     for (i = start; i < data_length_; ++i) {
       if ('\r' == data_info_[i] ||
@@ -767,7 +784,7 @@ int32_t Ini::find_one_line(int32_t line) {
 int32_t Ini::get_line_number(const char* str) {
   __ENTER_FUNCTION
     int32_t result = -1;
-    result = find_data(str);
+    //result = find_data_index(str);
     return result;
   __LEAVE_FUNCTION
     return -1;

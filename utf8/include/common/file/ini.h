@@ -25,7 +25,7 @@ class Ini {
    Ini(const char* file_name);
    virtual ~Ini();
    char* get_data();
-   int32_t get_lines();
+   int32_t get_lines(int32_t current);
    bool open(const char* file_name);
    void close();
    bool save(char* file_name = NULL);
@@ -65,9 +65,10 @@ class Ini {
    char* read_one_line(int32_t line); //从指定行上读取数据
    int32_t find_one_line(int32_t line); //查找行，不存在则返回-1
    int32_t get_line_number(const char* str); //获取指定字符串所在的行数
+   int32_t get_lines();
 
  private:
-   char* file_name_[FILENAME_MAX];
+   char file_name_[FILENAME_MAX];
    int64_t data_length_;
    char* data_info_;
    int32_t section_number_; //索引的数量（[]的数目）
@@ -78,8 +79,8 @@ class Ini {
    char ret_[INI_VALUE_MAX];
 
  private:
-   void init_index();
-   int32_t find_key_index(const char* key);
+   void init_section();
+   int32_t find_section_index(const char* section);
    int32_t find_data_index(int32_t postion, const char* data); //返回数据所在的索引
    int32_t goto_next_line(int32_t line); //提行
    char* find_key(int32_t &postion); //在指定位置读取键

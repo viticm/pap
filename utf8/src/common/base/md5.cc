@@ -31,7 +31,7 @@ documentation and/or software.
 */
 
 /* interface header */
-#include "common/md5.h"
+#include "common/base/md5.h"
 
 /* system implementation headers */
 #include <stdio.h>

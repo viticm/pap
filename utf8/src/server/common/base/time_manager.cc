@@ -65,7 +65,7 @@ void TimeManager::reset_time() {
   __ENTER_FUNCTION
     time(&set_time_);
     tm* _tm = localtime(&set_time_);
-    tm_ = _tm;
+    tm_ = *_tm;
   __LEAVE_FUNCTION
 }
 
@@ -171,7 +171,7 @@ uint32_t TimeManager::diff_dword_time(uint32_t time1, uint32_t time2) {
     tm _tm1, _tm2;
     dword_totm(time1, &_tm1);
     dword_totm(time2, &_tm2);
-    time _time1, _time2;
+    time_t _time1, _time2;
     _time1 = mktime(&_tm1);
     _time2 = mktime(&_tm2);
     uint32_t result = static_cast<uint32_t>((abs(static_cast<int32_t>(difftime(_time2,_time1) / 60))));
@@ -258,7 +258,7 @@ uint32_t TimeManager::get_days() {
     uint32_t result = 0;
     time_t _time_t;
     time(&_time_t);
-    tm* _tm = localtime(set_time_);
+    tm* _tm = localtime(&set_time_);
     result = (_tm->tm_year - 100) * 1000;
     result += _tm->tm_yday;
     return result;
@@ -271,7 +271,7 @@ uint32_t TimeManager::get_hours() {
     uint32_t result = 0;
     time_t _time_t;
     time(&_time_t);
-    tm* _tm = localtime(set_time_);
+    tm* _tm = localtime(&set_time_);
     if (2008 == _tm->tm_year + 1900) {
       result = 365;
     }
@@ -289,7 +289,7 @@ uint32_t TimeManager::get_weeks() {
     uint32_t result = 0;
     time_t _time_t;
     time(&_time_t);
-    tm* _tm = localtime(set_time_);
+    tm* _tm = localtime(&set_time_);
     result  = (_tm->tm_year - 100) * 1000;
     if (_tm->tm_yday <= _tm->tm_wday) return result;
     int32_t diff = _tm->tm_yday - _tm->tm_wday;

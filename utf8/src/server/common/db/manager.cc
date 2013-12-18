@@ -24,6 +24,7 @@ Manager::~Manager() {
 bool Manager::init(db_type_enum db_type) {
   __ENTER_FUNCTION
     using namespace pap_server_common_base;
+    bool connected;
     db_type_ = db_type;
     char host[HOST_LENGTH];
     uint16_t port;
@@ -57,7 +58,7 @@ bool Manager::init(db_type_enum db_type) {
       password[DB_PASSWORD_LENGTH - 1] = '\0';
 
       Assert(character_interface_); //safe code
-      bool connected = character_interface_->connect(connection_name, user, password);
+      connected = character_interface_->connect(connection_name, user, password);
       if (!connected) {
         Log::save_log("dbmanager", 
                       "character_interface_->connect()...get error: %s, db_type: %d", 
@@ -92,7 +93,7 @@ bool Manager::init(db_type_enum db_type) {
       password[DB_PASSWORD_LENGTH - 1] = '\0';
 
       Assert(character_interface_); //safe code
-      bool connected = character_interface_->connect(connection_name, user, password);
+      connected = character_interface_->connect(connection_name, user, password);
       if (!connected) {
         Log::save_log("dbmanager", 
                       "character_interface_->connect()...get error: %s, db_type: %d", 
@@ -100,7 +101,7 @@ bool Manager::init(db_type_enum db_type) {
                       db_type_);
       }
     }
-	  return connected;
+	return connected;
   __LEAVE_FUNCTION
     return false;
 }

@@ -54,12 +54,12 @@ class LogicManager {
          uint32_t version = pool_pointer_->get_head_version();
          if (version == old_version_ && old_version_ > 0) {
            old_version_ = 0;
-           pap_server_common_base::Log::fast_save_log(
+		   g_log->fast_save_log(
                kShareMemoryLogFile, 
                "[logic manager](heartbeat)" 
                "receive server crash command."); //string wrap i use like this 
            result = save_all();
-           pool_pointer->set_head_version(0);
+           pool_pointer_->set_head_version(0);
            return result;
          }
          old_version_ = version;

@@ -1,8 +1,10 @@
 #include "common/sys/thread.h"
 
-uint16_t g_quit_thread_count;
+pap_common_sys::ThreadLock g_thread_lock;
 
 namespace pap_common_sys {
+
+uint16_t g_thread_quit_count = 0;
 
 //-- thread class
 Thread::Thread() {
@@ -25,7 +27,12 @@ void Thread::start() {
 #if defined(__LINUX__)
     pthread_create(&id_, NULL, pap_thread_process, this);
 #elif defined(__WINDOWS__)
-    thread_handle_ = ::CreateThread(NULL, 0, pap_thread_process, this, 0, &id_);
+    thread_handle_ = ::CreateThread(NULL, 
+	                                0, 
+									pap_thread_process, 
+									this, 
+									0, 
+									&id_);
 #endif
   __LEAVE_FUNCTION
 }
@@ -61,15 +68,18 @@ DWORD WINAPI pap_thread_process(void* derived_thread) {
     thread->set_status(Thread::kExit);
     thread->exit(NULL);
     g_thread_lock.lock();
-    ++g_quit_thread_count;
+    ++g_thread_quit_count;
     g_thread_lock.unlock();
   __LEAVE_FUNCTION
 #if defined(__WINDOWS__)
     return 0;
 #endif
 }
-
-int64_t Thread::get_id() {
+#if defined(__LINUX__)
+uint64_t Thread::get_id() {
+#elif defined(__WINDOWS__)
+DWORD Thread::get_id() {
+#endif
   return id_;
 }
 
@@ -91,7 +101,7 @@ ThreadLock::ThreadLock() {
 #if defined(__LINUX__)
     pthread_mutex_init(&mutex_, NULL);
 #elif defined(__WINDOWS__)
-    InitializeCriticalSection(lock_);
+    InitializeCriticalSection(&lock_);
 #endif
   __LEAVE_FUNCTION
 }
@@ -101,7 +111,7 @@ ThreadLock::~ThreadLock() {
 #if defined(__LINUX__)
     pthread_mutex_destroy(&mutex_);
 #elif defined(__WINDOWS__)
-    DeleteCriticalSection(lock_);
+    DeleteCriticalSection(&lock_);
 #endif
   __LEAVE_FUNCTION
 }
@@ -111,7 +121,7 @@ void ThreadLock::lock() {
 #if defined(__LINUX__)
     pthread_mutex_lock(&mutex_);
 #elif defined(__WINDOWS__)
-    EnterCriticalSection(lock_);
+    EnterCriticalSection(&lock_);
 #endif
   __LEAVE_FUNCTION
 }
@@ -121,7 +131,7 @@ void ThreadLock::unlock() {
 #if defined(__LINUX__)
     pthread_mutex_unlock(&mutex_);
 #elif defined(__WINDOWS__)
-    LeaveCriticalSection(lock_);
+    LeaveCriticalSection(&lock_);
 #endif
   __LEAVE_FUNCTION
 }

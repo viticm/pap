@@ -66,7 +66,7 @@ int32_t main(int32_t argc, char* argv[]) {
     Assert(false);
     return 1;
   }
-  result = g_sharememory.exit();
+  result = g_sharememory.selfexit();
   if (false == result) {
     Assert(false);
     return 1;
@@ -128,7 +128,7 @@ bool ShareMemory::loop() {
     return false;
 }
 
-bool ShareMemory::exit() {
+bool ShareMemory::selfexit() {
   __ENTER_FUNCTION
 	release_staticmanager();
     exited_ = true;
@@ -145,7 +145,7 @@ bool ShareMemory::work() {
   using namespace pap_server_common_game::define; //the type namespace
   using namespace pap_server_common_game::db::share_memory;
   try { //body use try catch then allow not use enter and leave function
-    bool exit = false;
+    bool exitflag = false;
     uint32_t daytime = g_time_manager->get_day_time();
     if (g_file_name_fix != daytime) g_file_name_fix = daytime;
     ODBCInterface* odbc_interface =
@@ -174,7 +174,7 @@ bool ShareMemory::work() {
     }
     if (check_exitfile()) {
       g_command_thread.command_config.state.type = kCmdSaveAll;
-      exit = true;
+      exitflag = true;
       g_log->fast_save_log(kShareMemoryLogFile, "cmd enter exit");
     }
     if (check_start_savelogout()) {
@@ -218,7 +218,7 @@ bool ShareMemory::work() {
     }
     g_command_config.state.type = kCmdUnkown;
 
-    if (exit) {
+    if (exitflag) {
       Log::save_log("share_memory", "share memory need exit");
       exit(0);
     }
@@ -293,8 +293,9 @@ bool ShareMemory::init_staticmanager() {
     uint32_t i;
     uint16_t obj_count = g_config.share_memory_info_.obj_count;
     for (i = 0; i < obj_count; ++i) {
-      type::share_memory::key_enum key_type;
-      key_type = g_config.share_memory_info_.key_data[i].type;
+      typedef type::share_memory::key_enum key_enum;
+	  key_enum key_type;
+      key_type = static_cast<key_enum>(g_config.share_memory_info_.key_data[i].type);
       switch (key_type) {
         case type::share_memory::kKeyGlobalData: {
           UnitPool<global_data_t>* global_pool;
@@ -334,8 +335,9 @@ bool ShareMemory::release_staticmanager() {
     uint32_t i;
     uint16_t obj_count = g_config.share_memory_info_.obj_count;
     for (i = 0; i < obj_count; ++i) {
-      type::share_memory::key_enum _type;
-      _type = g_config.share_memory_info_.key_data[i].type;
+	  typedef type::share_memory::key_enum key_enum;
+	  key_enum _type;
+      _type = static_cast<key_enum>(g_config.share_memory_info_.key_data[i].type);
       switch (_type) {
         case type::share_memory::kKeyGlobalData: {
           UnitPool<global_data_t>* global_pool;

@@ -1,4 +1,5 @@
 #include "common/base/string.h"
+#include <limits>
 
 namespace pap_common_base {
 
@@ -17,7 +18,7 @@ bool string_toint16(const char* source,
                     uint8_t converted_length, 
                     bool ignored_zero) {
   __ENTER_FUNCTION
-    return string2int(source, result, converted_length, ignored_zero);
+    return string_toint(source, result, converted_length, ignored_zero);
   __LEAVE_FUNCTION
     return false;
 }
@@ -28,10 +29,10 @@ bool string_toint(const char* source,
                   bool ignored_zero) {
   __ENTER_FUNCTION
     int32_t value = 0;
-    if (!string2int32(source, value, converted_length, ignored_zero)) return false;
-    if (value < std::numeric_limits<int16_t>::min()
-      || value > std::numeric_limits<int16_t>::max()) return false;
-    result = static_cast<int16_t>(value);
+    //if (!string_toint32(source, value, converted_length, ignored_zero)) return false;
+//    if (value < std::numeric_limits<int16_t>::min() ||
+//		value > std::numeric_limits<int16_t>::max()) return false;
+//    result = static_cast<int16_t>(value);
     return true;
   __LEAVE_FUNCTION
     return false;

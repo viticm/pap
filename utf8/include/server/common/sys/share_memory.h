@@ -300,7 +300,7 @@ class UnitPool {
    void set_head_version(uint32_t version) {
      __ENTER_FUNCTION
        Assert(ref_obj_pointer_);
-       if (!ref_obj_pointer_) return false;
+       if (!ref_obj_pointer_) return;
        ref_obj_pointer_->set_head_version(version);
      __LEAVE_FUNCTION
    };

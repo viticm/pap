@@ -31,12 +31,20 @@ class Thread {
    virtual void stop();
    void exit(void* retval = NULL);
    virtual void run();
-   int64_t get_id();
+#if defined(__WINDOWS__)
+   DWORD get_id();
+#elif defined(__LINUX__)
+   uint64_t get_id();
+#endif
    enum_thread_status get_status();
    void set_status(enum_thread_status status);
 
  private:
-   int64_t id_;
+#if defined(__LINUX__)
+   uint64_t id_;
+#elif defined(__WINDOWS__)
+   DWORD id_;
+#endif
    enum_thread_status status_;
 #if defined(__WINDOWS__)
    HANDLE thread_handle_;
@@ -44,7 +52,6 @@ class Thread {
 
 };
 
-extern int32_t g_quit_thread_count;
 #if defined(__LINUX__)
 void* pap_thread_process(void* derived_thread);
 #elif defined(__WINDOWS__)
@@ -66,11 +73,12 @@ class ThreadLock {
 
 uint64_t get_current_thread_id();
 
-//thread lock
-extern ThreadLock g_thread_lock;
+//global variable
+extern uint16_t g_thread_quit_count;
 
 }; //namespace pap_common_sys
 
-extern uint16_t g_thread_quit_count;
+//thread lock
+extern pap_common_sys::ThreadLock g_thread_lock;
 
 #endif //PAP_COMMON_THREAD_H_

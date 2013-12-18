@@ -8,6 +8,7 @@ namespace pap_server_common_base {
 
 bool g_command_log_print = true;
 bool g_command_log_active = true;
+const char* kBaseXLogSaveDir = "./log";
 
 const char* g_log_file_name[] = {
   "./log/login", //kLoginLogFile
@@ -208,7 +209,7 @@ void Log::get_log_file_name(const char* file_name_prefix, char* file_name) {
       snprintf(file_name,
                FILENAME_MAX - 1,
                "%s/%s_%d_%d_%d.log", //structure BASE_SAVE_LOG_DIR/logfilename.log
-               kBaseLogSaveDir,
+               kBaseXLogSaveDir,
                file_name_prefix,
                g_time_manager->get_year(),
                g_time_manager->get_month(),

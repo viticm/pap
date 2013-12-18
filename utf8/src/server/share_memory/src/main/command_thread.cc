@@ -1,6 +1,8 @@
 #include "server/share_memory/main/command_thread.h"
 #include "server/common/base/log.h"
 
+CommandThread g_command_thread;
+
 CommandThread::CommandThread() {
   __ENTER_FUNCTION
     active_ = true;

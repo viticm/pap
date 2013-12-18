@@ -40,15 +40,15 @@ bool ODBCInterface::connect(const char* connection_name,
     SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &sql_henv_);
     SQLSetEnvAttr(sql_henv_, 
                   SQL_ATTR_ODBC_VERSION, 
-                  static_cast<SQLPOINTER>(SQL_OV_ODBC3), 
+                  reinterpret_cast<SQLPOINTER>(SQL_OV_ODBC3), 
                   SQL_IS_INTEGER);
     SQLAllocHandle(SQL_HANDLE_DBC, sql_henv_, &sql_hdbc_);
     result_ = SQLConnect(sql_hdbc_,
-                         static_cast<SQLCHAR*>(connection_name_),
+                         reinterpret_cast<SQLCHAR*>(connection_name_),
                          SQL_NTS,
-                         static_cast<SQLCHAR*>(user_),
+                         reinterpret_cast<SQLCHAR*>(user_),
                          SQL_NTS,
-                         static_cast<SQLCHAR*>(password_),
+                         reinterpret_cast<SQLCHAR*>(password_),
                          SQL_NTS);
     if (SQL_SUCCESS != result_ && SQL_SUCCESS_WITH_INFO != result_) {
       char log_buffer[512] = {0};
@@ -80,11 +80,11 @@ bool ODBCInterface::connect() {
 #endif
     SQLAllocHandle(SQL_HANDLE_DBC, sql_henv_, &sql_hdbc_);
     result_ = SQLConnect(sql_hdbc_,
-                         static_cast<SQLCHAR*>(connection_name_),
+                         reinterpret_cast<SQLCHAR*>(connection_name_),
                          SQL_NTS,
-                         static_cast<SQLCHAR*>(user_),
+                         reinterpret_cast<SQLCHAR*>(user_),
                          SQL_NTS,
-                         static_cast<SQLCHAR*>(password_),
+                         reinterpret_cast<SQLCHAR*>(password_),
                          SQL_NTS);
     if (SQL_SUCCESS != result_ && SQL_SUCCESS_WITH_INFO != result_) {
       char log_buffer[512] = {0};
@@ -150,7 +150,7 @@ bool ODBCInterface::execute() {
   try {
     //int column_index;
     result_ = SQLExecDirect(sql_hstmt_, 
-                            static_cast<SQLCHAR*>(query_.sql_str_), 
+                            reinterpret_cast<SQLCHAR*>(query_.sql_str_), 
                             SQL_NTS);
     if ((SQL_SUCCESS != result_) && 
         (SQL_SUCCESS_WITH_INFO != result_) &&
@@ -207,7 +207,7 @@ bool ODBCInterface::long_execute() {
   __ENTER_FUNCTION
     //int column_index;
     result_ = SQLExecDirect(sql_hstmt_, 
-                            static_cast<SQLCHAR*>(long_query_.sql_str_), 
+                            reinterpret_cast<SQLCHAR*>(long_query_.sql_str_), 
                             SQL_NTS);
     if ((SQL_SUCCESS != result_) && 
         (SQL_SUCCESS_WITH_INFO != result_) &&
@@ -498,7 +498,7 @@ void ODBCInterface::diag_state() {
       ++j;
     }
     error_message_[MAX_ERROR_MESSAGE_LENGTH - 1] = '\0';
-    if (0 == strlen(static_cast<const char*>(error_message_))) {
+    if (0 == strlen(reinterpret_cast<const char*>(error_message_))) {
       result_ = SQLError(sql_henv_,
                          sql_hdbc_,
                          sql_hstmt_,
@@ -549,7 +549,7 @@ void ODBCInterface::diag_state_ex() {
       ++j;
     }
     error_message_[MAX_ERROR_MESSAGE_LENGTH - 1] = '\0';
-    if (0 == strlen(static_cast<const char*>(error_message_))) {
+    if (0 == strlen(reinterpret_cast<const char*>(error_message_))) {
       result_ = SQLError(sql_henv_,
                          sql_hdbc_,
                          sql_hstmt_,
@@ -665,7 +665,7 @@ int32_t ODBCInterface::get_error_code() {
 
 char* ODBCInterface::get_error_message() {
   __ENTER_FUNCTION
-     return error_message_;
+     return reinterpret_cast<char*>(error_message_);
   __LEAVE_FUNCTION
 }
 

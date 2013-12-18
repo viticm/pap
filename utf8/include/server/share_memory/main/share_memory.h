@@ -43,7 +43,7 @@ class ShareMemory {
  public:
    bool init();
    bool loop();
-   bool exit();
+   bool selfexit();
    bool work();
    void consolecommand();
 

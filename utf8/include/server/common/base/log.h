@@ -38,9 +38,10 @@ typedef enum {
   kLogFileCount,
 } enum_log_id;
 
+
 namespace pap_server_common_base {
 
-const char* kBaseLogSaveDir = "./log"; //如果不要外部使用，就别使用宏
+extern const char* kBaseXLogSaveDir; //如果不要外部使用，就别使用宏
 const uint32_t kLogBufferTemp = 4096;
 const uint32_t kLogNameTemp = 128;
 const uint32_t kDefaultLogCacheSize = 1024 * 1024 * 4;

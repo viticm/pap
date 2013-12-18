@@ -918,7 +918,7 @@ void Config::load_billing_info_only() {
       if (true == server_info_ini.read_exist_text("Billing", 
                                                   static_cast<const char*>(key), 
 												  billing_data->ip, 
-                                                  sizeof(billing_data->ip) - 1) {
+                                                  sizeof(billing_data->ip) - 1)) {
         snprintf(message, sizeof(message) - 1, "Config::load_billing_info_only is failed, can't find key: %s", key);
         AssertEx(false, message);
       }

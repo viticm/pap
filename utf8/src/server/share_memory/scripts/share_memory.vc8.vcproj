@@ -21,6 +21,7 @@
 			IntermediateDirectory="../../../../vc_build/Intermediate/$(ConfigurationName)/$(ProjectName)"
 			ConfigurationType="1"
 			CharacterSet="2"
+			EnableManagedIncrementalBuild="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -86,8 +87,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="../../../../run/server"
+			IntermediateDirectory="../../../../vc_build/Intermediate/$(ConfigurationName)/$(ProjectName)"
 			ConfigurationType="1"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
@@ -111,6 +112,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="../../../../include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;__WINDOWS__;_CRT_SECURE_NO_DEPRECATE;_PAP_SHARE_MEMORY"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -195,6 +198,14 @@
 					Name="base"
 					>
 					<File
+						RelativePath="..\..\..\common\base\md5.cc"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\common\base\string.cc"
+						>
+					</File>
+					<File
 						RelativePath="..\..\..\common\base\util.cc"
 						>
 					</File>
@@ -212,6 +223,14 @@
 					</File>
 					<File
 						RelativePath="..\..\..\common\sys\util.cc"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="file"
+					>
+					<File
+						RelativePath="..\..\..\common\file\ini.cc"
 						>
 					</File>
 				</Filter>
@@ -275,6 +294,14 @@
 						</File>
 						<File
 							RelativePath="..\..\common\base\time_manager.cc"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="sys"
+						>
+						<File
+							RelativePath="..\..\common\sys\share_memory.cc"
 							>
 						</File>
 					</Filter>
@@ -416,6 +443,18 @@
 							</File>
 						</Filter>
 					</Filter>
+					<Filter
+						Name="sys"
+						>
+						<File
+							RelativePath="..\..\..\..\include\server\common\sys\config.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\server\common\sys\share_memory.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 				<Filter
 					Name="share_memory"
@@ -454,6 +493,14 @@
 					>
 					<File
 						RelativePath="..\..\..\..\include\common\base\config.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\include\common\base\md5.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\include\common\base\string.h"
 						>
 					</File>
 					<File
