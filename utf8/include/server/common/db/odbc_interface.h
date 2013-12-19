@@ -14,6 +14,10 @@
 #include "server/common/db/config.h"
 #include "server/common/base/define.h"
 //include from odbc
+#ifndef VOID
+#define VOID void //for unixODBC
+#endif
+
 #include "sql.h"
 #include "sqlext.h"
 

@@ -29,7 +29,7 @@ bool CommandParser::handleinput() {
     bool result = true;
     char cmd[kCmdSize];
     memset(cmd, '\0', sizeof(cmd));
-    int32_t charcount = 0;
+    uint32_t charcount = 0;
     int32_t charinput;
     for(;;) {
       charinput = getchar();

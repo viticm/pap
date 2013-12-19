@@ -12,6 +12,7 @@
 #define PAP_COMMON_SYS_SHARE_MEMORY_H_
 
 #include "server/common/sys/config.h"
+#include "server/common/base/log.h"
 
 namespace pap_server_common_sys {
 
@@ -21,8 +22,8 @@ namespace share_memory {
 const uint32_t kManagerUnitDataMax = 5000; //如果不需要引入外部，就不要使用宏
 const uint8_t kObjMax = 20;
 #if defined(__LINUX__)
-uint32_t lock_times = 0; //内存锁定的时间
-bool lock_time_enable = false; //共享内存是否有时间锁的限制
+extern uint32_t lock_times; //内存锁定的时间
+extern bool lock_time_enable; //共享内存是否有时间锁的限制
 #endif
 struct data_header_t {
   uint64_t key;

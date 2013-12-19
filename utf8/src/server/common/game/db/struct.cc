@@ -21,8 +21,8 @@ void head_t::clean_up() {
     pool_id = 0;
     id = -1;
     player_id = -1;
-	use_status = pap_server_common_sys::share_memory::kUseFree;
-	flag = pap_server_common_sys::share_memory::kFlagFree;
+	  use_status = pap_server_common_sys::share_memory::kUseFree;
+	  flag = pap_server_common_sys::share_memory::kFlagFree;
     save_time = 0;
   __LEAVE_FUNCTION
 }

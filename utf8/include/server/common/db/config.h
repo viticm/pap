@@ -26,8 +26,9 @@ struct db_query_t {
                            sizeof(SQL_LENGTH_MAX) - 1, 
                            temp, 
                            argptr);
+    int32_t sqlstr_length = static_cast<int32_t>(sizeof(sql_str_));
     va_end(argptr);
-    if (-1 == nchars || sizeof(sql_str_) - 1 < nchars) {
+    if (-1 == nchars || sqlstr_length - 1 < nchars) {
       Assert(false);
     }
   }
@@ -46,7 +47,8 @@ struct long_db_query_t {
                            temp,
                            argptr);
     va_end(argptr);
-    if (-1 == nchars || sizeof(sql_str_) - 1 < nchars) {
+    int32_t sqlstr_length = static_cast<int32_t>(sizeof(sql_str_));
+    if (-1 == nchars || sqlstr_length - 1 < nchars) {
       Assert(false);
     }
   }

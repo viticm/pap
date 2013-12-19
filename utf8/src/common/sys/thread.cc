@@ -72,9 +72,7 @@ DWORD WINAPI pap_thread_process(void* derived_thread) {
     ++g_thread_quit_count;
     g_thread_lock.unlock();
   __LEAVE_FUNCTION
-#if defined(__WINDOWS__)
-    return 0;
-#endif
+    return NULL;
 }
 #if defined(__LINUX__)
 uint64_t Thread::get_id() {
@@ -137,6 +135,7 @@ void ThreadLock::unlock() {
   __LEAVE_FUNCTION
 }
 
+//thread lock class --
 uint64_t get_current_thread_id() {
   __ENTER_FUNCTION
 #if defined(__LINUX__)
@@ -147,7 +146,5 @@ uint64_t get_current_thread_id() {
   __LEAVE_FUNCTION
     return NULL;
 }
-
-//thread lock class --
 
 } //namespace pap_common_sys

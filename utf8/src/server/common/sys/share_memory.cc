@@ -14,6 +14,9 @@ namespace pap_server_common_sys {
 
 namespace share_memory { 
 
+uint32_t lock_times = 0;
+bool lock_time_enable = false;
+
 //-- struct start
 data_header_t::data_header_t() {
   __ENTER_FUNCTION
@@ -363,7 +366,7 @@ void unlock(char &flag, char type) {
       if (kUseFree != flag) {
         pap_common_base::util::sleep(1);
 #if defined(__LINUX__)
-        printf("[share memory](unlock)fail %s, %s, %s", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+        printf("[share memory](unlock)fail %s, %d, %s", __FILE__, __LINE__, __PRETTY_FUNCTION__);
         if (lock_times > 100 && lock_time_enable) {
           lock_times = 0;
           return;

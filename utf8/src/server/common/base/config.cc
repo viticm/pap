@@ -574,7 +574,7 @@ void Config::load_config_info_only() { //this params just read once
 void Config::load_config_info_reload() { //this params can reload again
   __ENTER_FUNCTION
     pap_common_file::Ini config_info_ini(CONFIG_INFO_FILE);
-    int32_t i;
+    uint32_t i;
     config_info_.global.drop_param = config_info_ini.read_float("Global", "DropParam");
     config_info_.global.equipment_damage_point = config_info_ini.read_uint32("Global", "EquipmentDamagePoint");
     config_info_.global.respawn_param = config_info_ini.read_uint8("Global", "RespawnParam");

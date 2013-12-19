@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
-PROJECT (ShareMemory)
+PROJECT (share_memory)
 
-SET(TF_CURRENT_BINARY_PATH_BIN "../../../run/server")
+SET(TF_CURRENT_BINARY_PATH_BIN "../../../../run/server")
 ADD_DEFINITIONS(-D_CRT_SECURE_NO_DEPRECATE)
 ADD_DEFINITIONS(-D__SHAREMEMORY__)
 ADD_DEFINITIONS(-D_USE_32BIT_TIME_T)
@@ -15,188 +15,256 @@ ELSE(CMAKE_SYSTEM MATCHES Linux)
 ENDIF(CMAKE_SYSTEM MATCHES Linux)
 
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR})
-LINK_DIRECTORIES("../../lib" "./")
 
 SET(EXECUTABLE_OUTPUT_PATH ${TF_CURRENT_BINARY_PATH_BIN})
 
 ##update_begin
 
 
-INCLUDE_DIRECTORIES(..\\..\\Server\\Server\\SMU)
-INCLUDE_DIRECTORIES(..\\..\\Server\\Server\\Base)
-INCLUDE_DIRECTORIES(..\\..\\..\\Common\\DBSystem\\DataBase)
-INCLUDE_DIRECTORIES(..\\..\\..\\Common\\DataBase)
-INCLUDE_DIRECTORIES(DB)
-INCLUDE_DIRECTORIES(..\\..\\..\\Common)
-INCLUDE_DIRECTORIES(ShareData)
-INCLUDE_DIRECTORIES(..\\..\\Server\\Server\\Other)
-INCLUDE_DIRECTORIES(Main)
-INCLUDE_DIRECTORIES(/usr/local/unixODBC/include)
+INCLUDE_DIRECTORIES(../../../../include)
 
 
-SET (BASE_LIST
-	../../Server/Server/Base/Config.cpp
-	../../Server/Server/Base/Config.h
-	../../Server/Server/Base/Ini.cpp
-	../../Server/Server/Base/Ini.h
-	../../Server/Server/Base/Log.cpp
-	../../Server/Server/Base/Log.h
-	../../Server/Server/Base/LogDefine.cpp
-	../../Server/Server/Base/LogDefine.h
-	../../Server/Server/Base/Thread.cpp
-	../../Server/Server/Base/Thread.h
-	../../Server/Server/Base/TimeManager.cpp
-	../../Server/Server/Base/TimeManager.h
-	../../../Common/DataBase/WXSJ_DBC.cpp
-	../../../Common/DataBase/WXSJ_DBC.h
+SET (SOURCEFILES_COMMON_BASE_LIST
+	../../../common/base/md5.cc
+	../../../common/base/string.cc
+	../../../common/base/util.cc
 )
 
-SET (MAIN_LIST
-	Main/CommandThread.cpp
-	Main/CommandThread.h
-	Main/ShareMemory.cpp
-	Main/ShareMemory.h
+SET (SOURCEFILES_COMMON_SYS_LIST
+	../../../common/sys/assert.cc
+	../../../common/sys/thread.cc
+	../../../common/sys/util.cc
 )
 
-SET (COMMON_DATABASE_LIST
-	../../../Common/DBSystem/DataBase/DBAbilityList.cpp
-	../../../Common/DBSystem/DataBase/DBAbilityList.h
-	../../../Common/DBSystem/DataBase/DBChardbVersion.cpp
-	../../../Common/DBSystem/DataBase/DBChardbVersion.h
-	../../../Common/DBSystem/DataBase/DBCharFullData.cpp
-	../../../Common/DBSystem/DataBase/DBCharFullData.h
-	../../../Common/DBSystem/DataBase/DBCoolDownInfo.cpp
-	../../../Common/DBSystem/DataBase/DBCoolDownInfo.h
-	../../../Common/DBSystem/DataBase/DBCreateCharOp.cpp
-	../../../Common/DBSystem/DataBase/DBCreateCharOp.h
-	../../../Common/DBSystem/DataBase/DBDeleteCharOp.cpp
-	../../../Common/DBSystem/DataBase/DBDeleteCharOp.h
-	../../../Common/DBSystem/DataBase/DBEquipBaseList.cpp
-	../../../Common/DBSystem/DataBase/DBEquipBaseList.h
-	../../../Common/DBSystem/DataBase/DBGuildInfo.cpp
-	../../../Common/DBSystem/DataBase/DBGuildInfo.h
-	../../../Common/DBSystem/DataBase/DBImpactList.cpp
-	../../../Common/DBSystem/DataBase/DBImpactList.h
-	../../../Common/DBSystem/DataBase/DBItemList.cpp
-	../../../Common/DBSystem/DataBase/DBItemList.h
-	../../../Common/DBSystem/DataBase/DBItemSerial.cpp
-	../../../Common/DBSystem/DataBase/DBItemSerial.h
-	../../../Common/DBSystem/DataBase/DBMailInfo.cpp
-	../../../Common/DBSystem/DataBase/DBMailInfo.h
-	../../../Common/DBSystem/DataBase/DBManager.cpp
-	../../../Common/DBSystem/DataBase/DBManager.h
-	../../../Common/DBSystem/DataBase/DBPetList.cpp
-	../../../Common/DBSystem/DataBase/DBPetList.h
-	../../../Common/DBSystem/DataBase/DBPrivateInfo.cpp
-	../../../Common/DBSystem/DataBase/DBPrivateInfo.h
-	../../../Common/DBSystem/DataBase/DBRelationList.cpp
-	../../../Common/DBSystem/DataBase/DBRelationList.h
-	../../../Common/DBSystem/DataBase/DBSkillList.cpp
-	../../../Common/DBSystem/DataBase/DBSkillList.h
-	../../../Common/DBSystem/DataBase/DBSouXiaList.cpp
-	../../../Common/DBSystem/DataBase/DBSouXiaList.h
-	../../../Common/DBSystem/DataBase/DBTaskList.cpp
-	../../../Common/DBSystem/DataBase/DBTaskList.h
-	../../../Common/DBSystem/DataBase/DBTitleInfo.cpp
-	../../../Common/DBSystem/DataBase/DBTitleInfo.h
-	../../../Common/DBSystem/DataBase/DBXinFaList.cpp
-	../../../Common/DBSystem/DataBase/DBXinFaList.h
-	../../../Common/DBSystem/DataBase/ODBCBase.cpp
-	../../../Common/DBSystem/DataBase/ODBCBase.h
-	../../../Common/DBSystem/DataBase/ODBCInterface.cpp
-	../../../Common/DBSystem/DataBase/ODBCInterface.h
-	../../../Common/DBSystem/DataBase/SqlTemplate.cpp
-	../../../Common/DBSystem/DataBase/SqlTemplate.h
+SET (SOURCEFILES_COMMON_FILE_LIST
+	../../../common/file/ini.cc
 )
 
-SET (COMMON_LIST
-	../../../Common/Assertx.cpp
-	../../../Common/Assertx.h
-	../../../Common/BaseType.h
-	../../../Common/DB_Struct.cpp
-	../../../Common/DB_Struct.h
-	../../../Common/DBSystem/DataBase/DBTypes.h
-	../../../Common/FileAPI.h
-	../../../Common/FoxEncrypt.cpp
-	../../../Common/FoxEncrypt.h
-	../../../Common/GameDefine.h
-	../../../Common/GameDefine2.h
-	../../../Common/GameDefine_Attr.h
-	../../../Common/GameDefine_Item.h
-	../../../Common/GameDefine_Result.h
-	../../../Common/GameDefine_Scene.h
-	../../../Common/GameStruct.cpp
-	../../../Common/GameStruct.h
-	../../../Common/GameStruct_Impact.h
-	../../../Common/GameStruct_Item.h
-	../../../Common/GameStruct_Pet.cpp
-	../../../Common/GameStruct_Pet.h
-	../../../Common/GameStruct_Scene.h
-	../../../Common/GameStruct_Skill.h
-	../../../Common/GameUtil.cpp
-	../../../Common/GameUtil.h
-	../../../Common/Minidump.cpp
-	../../../Common/Minidump.h
-	../../../Common/Rand.cpp
-	../../../Common/Rand.h
-	../../../Common/ServerSocket.h
-	../../../Common/ShareMemAPI.cpp
-	../../../Common/ShareMemAPI.h
-	../../../Common/Socket.h
-	../../../Common/SocketAPI.h
-	../../../Common/SocketInputStream.h
-	../../../Common/SocketOutputStream.h
-	../../../Common/Type.h
+SET (SOURCEFILES_COMMON_LIST
 )
 
-SET (SHAREDATA_LIST
-	../../Server/Server/SMU/ShareMemAO.cpp
-	../../Server/Server/SMU/ShareMemAO.h
-	ShareData/SMULogicManager.cpp
-	ShareData/SMULogicManager.h
-	../../Server/Server/SMU/SMUManager.cpp
-	../../Server/Server/SMU/SMUManager.h
+SET (SOURCEFILES_SERVER_COMMON_GAME_DB_LIST
+	../../common/game/db/struct.cc
 )
 
-SET (DATABASE_LIST
-	DB/ShareDBManager.cpp
-	DB/ShareDBManager.h
+SET (SOURCEFILES_SERVER_COMMON_GAME_LIST
 )
 
-SET (OTHER_LIST
-	../../Server/Server/Other/BBS.cpp
-	../../Server/Server/Other/BBS.h
-	../../Server/Server/Other/PlayerShopDefine.h
+SET (SOURCEFILES_SERVER_COMMON_DB_DATA_LIST
+	../../common/db/data/global.cc
+	../../common/db/data/sql_template.cc
 )
 
-SET (STDAFX_LIST
-	stdafx.cpp
-	stdafx.h
+SET (SOURCEFILES_SERVER_COMMON_DB_LIST
+	../../common/db/manager.cc
+	../../common/db/odbc_interface.cc
+	../../common/db/system.cc
+)
+
+SET (SOURCEFILES_SERVER_COMMON_BASE_LIST
+	../../common/base/config.cc
+	../../common/base/log.cc
+	../../common/base/time_manager.cc
+)
+
+SET (SOURCEFILES_SERVER_COMMON_SYS_LIST
+	../../common/sys/share_memory.cc
+)
+
+SET (SOURCEFILES_SERVER_COMMON_LIST
+)
+
+SET (SOURCEFILES_SERVER_SHAREMEMORY_SRC_MAIN_LIST
+	../src/main/command_thread.cc
+	../src/main/share_memory.cc
+)
+
+SET (SOURCEFILES_SERVER_SHAREMEMORY_SRC_DATA_LIST
+	../src/data/logic_manager.cc
+)
+
+SET (SOURCEFILES_SERVER_SHAREMEMORY_SRC_LIST
+)
+
+SET (SOURCEFILES_SERVER_SHAREMEMORY_LIST
+)
+
+SET (SOURCEFILES_SERVER_LIST
+)
+
+SET (SOURCEFILES_LIST
+)
+
+SET (HEADERFILES_SERVER_COMMON_BASE_LIST
+	../../../../include/server/common/base/config.h
+	../../../../include/server/common/base/define.h
+	../../../../include/server/common/base/file_define.h
+	../../../../include/server/common/base/log.h
+	../../../../include/server/common/base/log_define.h
+	../../../../include/server/common/base/time_manager.h
+)
+
+SET (HEADERFILES_SERVER_COMMON_DB_DATA_LIST
+	../../../../include/server/common/db/data/config.h
+	../../../../include/server/common/db/data/global.h
+	../../../../include/server/common/db/data/sql_template.h
+)
+
+SET (HEADERFILES_SERVER_COMMON_DB_LIST
+	../../../../include/server/common/db/config.h
+	../../../../include/server/common/db/manager.h
+	../../../../include/server/common/db/odbc_interface.h
+	../../../../include/server/common/db/system.h
+)
+
+SET (HEADERFILES_SERVER_COMMON_GAME_DB_LIST
+	../../../../include/server/common/game/db/config.h
+	../../../../include/server/common/game/db/define.h
+	../../../../include/server/common/game/db/struct.h
+)
+
+SET (HEADERFILES_SERVER_COMMON_GAME_LIST
+	../../../../include/server/common/game/config.h
+	../../../../include/server/common/game/define.h
+	../../../../include/server/common/game/struct.h
+)
+
+SET (HEADERFILES_SERVER_COMMON_SYS_LIST
+	../../../../include/server/common/sys/config.h
+	../../../../include/server/common/sys/share_memory.h
+)
+
+SET (HEADERFILES_SERVER_COMMON_LIST
+)
+
+SET (HEADERFILES_SERVER_SHARE_MEMORY_MAIN_LIST
+	../../../../include/server/share_memory/main/command_thread.h
+	../../../../include/server/share_memory/main/share_memory.h
+)
+
+SET (HEADERFILES_SERVER_SHARE_MEMORY_DATA_LIST
+	../../../../include/server/share_memory/data/config.h
+	../../../../include/server/share_memory/data/logic_manager.h
+)
+
+SET (HEADERFILES_SERVER_SHARE_MEMORY_LIST
+)
+
+SET (HEADERFILES_SERVER_LIST
+)
+
+SET (HEADERFILES_COMMON_BASE_LIST
+	../../../../include/common/base/config.h
+	../../../../include/common/base/md5.h
+	../../../../include/common/base/string.h
+	../../../../include/common/base/type.h
+	../../../../include/common/base/util.h
+)
+
+SET (HEADERFILES_COMMON_SYS_LIST
+	../../../../include/common/sys/assert.h
+	../../../../include/common/sys/config.h
+	../../../../include/common/sys/thread.h
+	../../../../include/common/sys/util.h
+)
+
+SET (HEADERFILES_COMMON_GAME_LIST
+	../../../../include/common/game/config.h
+	../../../../include/common/game/define.h
+	../../../../include/common/game/struct.h
+)
+
+SET (HEADERFILES_COMMON_FILE_LIST
+	../../../../include/common/file/config.h
+	../../../../include/common/file/ini.h
+)
+
+SET (HEADERFILES_COMMON_LIST
+)
+
+SET (HEADERFILES_LIST
+)
+
+SET (RESOURCEFILES_LIST
 )
 
 
 
 if (WIN32)
-	source_group(Base FILES ${BASE_LIST})
-	source_group(Main FILES ${MAIN_LIST})
-	source_group(Common\\DataBase FILES ${COMMON_DATABASE_LIST})
-	source_group(Common FILES ${COMMON_LIST})
-	source_group(ShareData FILES ${SHAREDATA_LIST})
-	source_group(DataBase FILES ${DATABASE_LIST})
-	source_group(Other FILES ${OTHER_LIST})
-	source_group(StdAfx FILES ${STDAFX_LIST})
+	source_group(SourceFiles\\common\\base FILES ${SOURCEFILES_COMMON_BASE_LIST})
+	source_group(SourceFiles\\common\\sys FILES ${SOURCEFILES_COMMON_SYS_LIST})
+	source_group(SourceFiles\\common\\file FILES ${SOURCEFILES_COMMON_FILE_LIST})
+	source_group(SourceFiles\\common FILES ${SOURCEFILES_COMMON_LIST})
+	source_group(SourceFiles\\server\\common\\game\\db FILES ${SOURCEFILES_SERVER_COMMON_GAME_DB_LIST})
+	source_group(SourceFiles\\server\\common\\game FILES ${SOURCEFILES_SERVER_COMMON_GAME_LIST})
+	source_group(SourceFiles\\server\\common\\db\\data FILES ${SOURCEFILES_SERVER_COMMON_DB_DATA_LIST})
+	source_group(SourceFiles\\server\\common\\db FILES ${SOURCEFILES_SERVER_COMMON_DB_LIST})
+	source_group(SourceFiles\\server\\common\\base FILES ${SOURCEFILES_SERVER_COMMON_BASE_LIST})
+	source_group(SourceFiles\\server\\common\\sys FILES ${SOURCEFILES_SERVER_COMMON_SYS_LIST})
+	source_group(SourceFiles\\server\\common FILES ${SOURCEFILES_SERVER_COMMON_LIST})
+	source_group(SourceFiles\\server\\sharememory\\src\\main FILES ${SOURCEFILES_SERVER_SHAREMEMORY_SRC_MAIN_LIST})
+	source_group(SourceFiles\\server\\sharememory\\src\\data FILES ${SOURCEFILES_SERVER_SHAREMEMORY_SRC_DATA_LIST})
+	source_group(SourceFiles\\server\\sharememory\\src FILES ${SOURCEFILES_SERVER_SHAREMEMORY_SRC_LIST})
+	source_group(SourceFiles\\server\\sharememory FILES ${SOURCEFILES_SERVER_SHAREMEMORY_LIST})
+	source_group(SourceFiles\\server FILES ${SOURCEFILES_SERVER_LIST})
+	source_group(SourceFiles FILES ${SOURCEFILES_LIST})
+	source_group(HeaderFiles\\server\\common\\base FILES ${HEADERFILES_SERVER_COMMON_BASE_LIST})
+	source_group(HeaderFiles\\server\\common\\db\\data FILES ${HEADERFILES_SERVER_COMMON_DB_DATA_LIST})
+	source_group(HeaderFiles\\server\\common\\db FILES ${HEADERFILES_SERVER_COMMON_DB_LIST})
+	source_group(HeaderFiles\\server\\common\\game\\db FILES ${HEADERFILES_SERVER_COMMON_GAME_DB_LIST})
+	source_group(HeaderFiles\\server\\common\\game FILES ${HEADERFILES_SERVER_COMMON_GAME_LIST})
+	source_group(HeaderFiles\\server\\common\\sys FILES ${HEADERFILES_SERVER_COMMON_SYS_LIST})
+	source_group(HeaderFiles\\server\\common FILES ${HEADERFILES_SERVER_COMMON_LIST})
+	source_group(HeaderFiles\\server\\share\\memory\\main FILES ${HEADERFILES_SERVER_SHARE_MEMORY_MAIN_LIST})
+	source_group(HeaderFiles\\server\\share\\memory\\data FILES ${HEADERFILES_SERVER_SHARE_MEMORY_DATA_LIST})
+	source_group(HeaderFiles\\server\\share\\memory FILES ${HEADERFILES_SERVER_SHARE_MEMORY_LIST})
+	source_group(HeaderFiles\\server FILES ${HEADERFILES_SERVER_LIST})
+	source_group(HeaderFiles\\common\\base FILES ${HEADERFILES_COMMON_BASE_LIST})
+	source_group(HeaderFiles\\common\\sys FILES ${HEADERFILES_COMMON_SYS_LIST})
+	source_group(HeaderFiles\\common\\game FILES ${HEADERFILES_COMMON_GAME_LIST})
+	source_group(HeaderFiles\\common\\file FILES ${HEADERFILES_COMMON_FILE_LIST})
+	source_group(HeaderFiles\\common FILES ${HEADERFILES_COMMON_LIST})
+	source_group(HeaderFiles FILES ${HEADERFILES_LIST})
+	source_group(ResourceFiles FILES ${RESOURCEFILES_LIST})
 endif()
 
 
-ADD_EXECUTABLE(ShareMemory
-	${BASE_LIST}
-	${MAIN_LIST}
-	${COMMON_DATABASE_LIST}
-	${COMMON_LIST}
-	${SHAREDATA_LIST}
-	${DATABASE_LIST}
-	${OTHER_LIST}
-	${STDAFX_LIST}
+ADD_EXECUTABLE(share_memory
+	${SOURCEFILES_COMMON_BASE_LIST}
+	${SOURCEFILES_COMMON_SYS_LIST}
+	${SOURCEFILES_COMMON_FILE_LIST}
+	${SOURCEFILES_COMMON_LIST}
+	${SOURCEFILES_SERVER_COMMON_GAME_DB_LIST}
+	${SOURCEFILES_SERVER_COMMON_GAME_LIST}
+	${SOURCEFILES_SERVER_COMMON_DB_DATA_LIST}
+	${SOURCEFILES_SERVER_COMMON_DB_LIST}
+	${SOURCEFILES_SERVER_COMMON_BASE_LIST}
+	${SOURCEFILES_SERVER_COMMON_SYS_LIST}
+	${SOURCEFILES_SERVER_COMMON_LIST}
+	${SOURCEFILES_SERVER_SHAREMEMORY_SRC_MAIN_LIST}
+	${SOURCEFILES_SERVER_SHAREMEMORY_SRC_DATA_LIST}
+	${SOURCEFILES_SERVER_SHAREMEMORY_SRC_LIST}
+	${SOURCEFILES_SERVER_SHAREMEMORY_LIST}
+	${SOURCEFILES_SERVER_LIST}
+	${SOURCEFILES_LIST}
+	${HEADERFILES_SERVER_COMMON_BASE_LIST}
+	${HEADERFILES_SERVER_COMMON_DB_DATA_LIST}
+	${HEADERFILES_SERVER_COMMON_DB_LIST}
+	${HEADERFILES_SERVER_COMMON_GAME_DB_LIST}
+	${HEADERFILES_SERVER_COMMON_GAME_LIST}
+	${HEADERFILES_SERVER_COMMON_SYS_LIST}
+	${HEADERFILES_SERVER_COMMON_LIST}
+	${HEADERFILES_SERVER_SHARE_MEMORY_MAIN_LIST}
+	${HEADERFILES_SERVER_SHARE_MEMORY_DATA_LIST}
+	${HEADERFILES_SERVER_SHARE_MEMORY_LIST}
+	${HEADERFILES_SERVER_LIST}
+	${HEADERFILES_COMMON_BASE_LIST}
+	${HEADERFILES_COMMON_SYS_LIST}
+	${HEADERFILES_COMMON_GAME_LIST}
+	${HEADERFILES_COMMON_FILE_LIST}
+	${HEADERFILES_COMMON_LIST}
+	${HEADERFILES_LIST}
+	${RESOURCEFILES_LIST}
 )
 
 
@@ -211,9 +279,9 @@ else()
 endif(USE_32BITS)
 
 if (WIN32)
-TARGET_LINK_LIBRARIES(share_memory pnet ws2_32.lib odbc32.lib odbccp32.lib)
+TARGET_LINK_LIBRARIES(share_memory ws2_32.lib odbc32.lib odbccp32.lib iconv.h)
 else()
-TARGET_LINK_LIBRARIES(share_memory pnet pthread odbc)
+TARGET_LINK_LIBRARIES(share_memory pthread odbc iconv)
   if(USE_32BITS)
     SET(CMAKE_C_FLAGS "-Wall -ggdb -pipe -march=i386 -mtune=i686")
     SET(CMAKE_CXX_FLAGS "-Wall -ggdb -pipe -march=i386 -mtune=i686")
@@ -221,4 +289,4 @@ TARGET_LINK_LIBRARIES(share_memory pnet pthread odbc)
     SET(CMAKE_C_FLAGS "-Wall -ggdb -pipe -march=x86-64 -mtune=i686")
     SET(CMAKE_CXX_FLAGS "-Wall -ggdb -pipe -march=x86-64 -mtune=i686")
   endif(USE_32BITS)
-endif()
+endif(WIN32)

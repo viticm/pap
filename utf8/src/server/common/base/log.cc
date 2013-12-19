@@ -49,7 +49,7 @@ void Log::get_log_time_str(char* time_str, int32_t length) {
     if (g_time_manager) {
         g_time_manager->reset_time();
         snprintf(time_str, length, 
-                 " (%d)(T0=%d-%d-%d_%d:%d:%d T1=%.4f)",
+                 " (%"PRIu64")(T0=%d-%d-%d_%d:%d:%d T1=%.4f)",
                  pap_common_sys::get_current_thread_id(), 
                  g_time_manager->get_year(),
                  g_time_manager->get_month() + 1,
@@ -176,7 +176,8 @@ void Log::fast_save_log(enum_log_id log_id, const char* format, ...) {
     }
     log_position_[log_id] += length;
     log_lock_[log_id].unlock();
-    if (log_position_[log_id] > (kDefaultLogCacheSize * 2) / 3) {
+    if (log_position_[log_id] > 
+        static_cast<int32_t>((kDefaultLogCacheSize * 2) / 3)) {
       flush_log(log_id);
     }
   __LEAVE_FUNCTION

@@ -21,60 +21,60 @@ static bool fast_string_toint(const char* str,
                               uint8_t converted_length, 
                               bool ignored_zero) {
   __ENTER_FUNCTION
-  bool negative = false;
-  const char* tmp_str = str;
-  if (NULL == str) return false;
+    bool negative = false;
+    const char* tmp_str = str;
+    if (NULL == str) return false;
 
-  // 处理负数
-  if ('-' == tmp_str[0]) {
-    // 负数
-    negative = true;
-    ++tmp_str;
-  }
-
-  // 处理空字符串
-  if ('\0' == tmp_str[0]) return false;
-
-  // 处理0打头的
-  if ('0' == tmp_str[0]) {
-    // 如果是0开头，则只能有一位数字
-    if (('\0' == tmp_str[1]) || (1 == converted_length)) {
-      result = 0;
-      return true;
+    // 处理负数
+    if ('-' == tmp_str[0]) {
+      // 负数
+      negative = true;
+      ++tmp_str;
     }
-    else {
-      if (!ignored_zero) return false;
-      for (;;) {
-        ++tmp_str;
-        if (tmp_str - str > max_length-1) return false;
-        if (*tmp_str != '0') break;
-      }
-      if ('\0' == *tmp_str) {
+
+    // 处理空字符串
+    if ('\0' == tmp_str[0]) return false;
+
+    // 处理0打头的
+    if ('0' == tmp_str[0]) {
+      // 如果是0开头，则只能有一位数字
+      if (('\0' == tmp_str[1]) || (1 == converted_length)) {
         result = 0;
         return true;
       }
+      else {
+        if (!ignored_zero) return false;
+        for (;;) {
+          ++tmp_str;
+          if (tmp_str - str > max_length-1) return false;
+          if (*tmp_str != '0') break;
+        }
+        if ('\0' == *tmp_str) {
+          result = 0;
+          return true;
+        }
+      }
     }
-  }
 
-  // 检查第一个字符
-  if ((*tmp_str < '0') || (*tmp_str > '9')) return false;
-  result = (*tmp_str - '0');
-
-  while ((0 == converted_length) || (tmp_str - str < converted_length-1)) {
-    ++tmp_str;
-    if ('\0' == *tmp_str) break;
-    if (tmp_str - str > max_length-1) return false;
-
+    // 检查第一个字符
     if ((*tmp_str < '0') || (*tmp_str > '9')) return false;
+    result = (*tmp_str - '0');
 
-    result = result * 10;
-    result += (*tmp_str - '0');
-  }
+    while ((0 == converted_length) || (tmp_str - str < converted_length-1)) {
+      ++tmp_str;
+      if ('\0' == *tmp_str) break;
+      if (tmp_str - str > max_length-1) return false;
 
-  if (negative) result = -result;
-  return true;
+      if ((*tmp_str < '0') || (*tmp_str > '9')) return false;
+
+      result = result * 10;
+      result += (*tmp_str - '0');
+    }
+
+    if (negative) result = -result;
+    return true;
   __LEAVE_FUNCTION
-  return false;
+    return false;
 }
 
 void replace_all(std::string& str, const std::string source, const std::string destination) {

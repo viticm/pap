@@ -46,6 +46,10 @@
 #include <sys/types.h>
 #include <pthread.h>
 #include <cmath>
+#include <signal.h>
+#include <exception>
+#include <setjmp.h>
+#include <sys/epoll.h>
 #endif
 #include "common/sys/assert.h"
 //warning the namespace can't use like this, remember it
@@ -116,10 +120,10 @@
 #if defined(__WINDOWS__) //normal functions
     #if defined(NDEBUG)
         #define __ENTER_FUNCTION {try{
-        #define __LEAVE_FUNCTION }catch(...){AssertSpecial(FALSE,__FUNCTION__);}}
+        #define __LEAVE_FUNCTION }catch(...){AssertSpecial(false,__FUNCTION__);}}
     #else
         #define __ENTER_FUNCTION {try{
-        #define __LEAVE_FUNCTION }catch(...){AssertSpecial(FALSE,__FUNCTION__);}}
+        #define __LEAVE_FUNCTION }catch(...){AssertSpecial(false,__FUNCTION__);}}
     #endif
     // add by viticm, fast output some debug info 
     #define LERR(...) {\
@@ -128,14 +132,14 @@
         const char* start  = "[ERROR...]"; \
         const char* end    = "[...ERROR]\r\n"; \
         size_t format_length = sizeof(start) + sizeof(buffer) + sizeof(end); \
-        char* format_str    = new CHAR[format_length + 1]; \
+        char* format_str    = new char[format_length + 1]; \
         strcpy(format_str, start); strcat(format_str, buffer); strcat(format_str, end); \
         printf(format_str); \
         delete[] format_str; \
         } 
 #elif defined (__LINUX__)    //linux
     #define __ENTER_FUNCTION {try{
-    #define __LEAVE_FUNCTION }catch(...){AssertSpecial(FALSE,__PRETTY_FUNCTION__);}}
+    #define __LEAVE_FUNCTION }catch(...){AssertSpecial(false,__PRETTY_FUNCTION__);}}
     // add by viticm, fast output some debug info 
     #define LERR(...) {\
         char buffer[2048]; sprintf(buffer, __VA_ARGS__); \
@@ -143,7 +147,7 @@
         const char* start = "\e[0;31;1m"; \
         const char* end  = "\e[0m\n"; \
         size_t format_length = sizeof(start) + sizeof(buffer) + sizeof(end); \
-        char* format_str = new CHAR[format_length + 1]; \
+        char* format_str = new char[format_length + 1]; \
         strcpy(format_str, start); strcat(format_str, buffer); strcat(format_str, end); \
         printf(format_str); \
         delete[] format_str; \

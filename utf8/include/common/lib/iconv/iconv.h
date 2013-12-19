@@ -18,15 +18,19 @@
 
 /* When installed, this file is called "iconv.h". */
 
-#ifndef _LIBICONV_H
-#define _LIBICONV_H
+#ifndef PAP_COMMON_LIB_ICONV_ICONV_H_
+#define PAP_COMMON_LIB_ICONV_ICONV_H_
 
 #define _LIBICONV_VERSION 0x0109    /* version number: (major<<8) + minor */
 
+#if defined(__WINDOWS__)
 #ifdef BUILDING_LIBICONV
 #define LIBICONV_DLL_EXPORTED __declspec(dllexport)
 #else
 #define LIBICONV_DLL_EXPORTED __declspec(dllimport)
+#endif
+#elif defined(__LINUX__)
+#define LIBICONV_DLL_EXPORTED
 #endif
 extern LIBICONV_DLL_EXPORTED int _libiconv_version;       /* Likewise */
 
@@ -134,4 +138,4 @@ extern LIBICONV_DLL_EXPORTED void libiconv_set_relocation_prefix (const char *or
 #endif
 
 
-#endif /* _LIBICONV_H */
+#endif /* PAP_COMMON_LIB_ICONV_ICONV_H_ */
