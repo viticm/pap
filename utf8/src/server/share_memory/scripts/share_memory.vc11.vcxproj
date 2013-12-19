@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>share_memory</ProjectName>
+    <ProjectGuid>{D78A9474-FC59-4C87-B957-022EFD4BEC92}</ProjectGuid>
+    <RootNamespace>share_memory</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>11.0.50727.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>../../../../run/server\</OutDir>
+    <IntDir>../../../../vc_build/Intermediate/$(Configuration)/$(ProjectName)\</IntDir>
+    <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>../../../../run/server\</OutDir>
+    <IntDir>../../../../vc_build/Intermediate/$(Configuration)/$(ProjectName)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;__WINDOWS__;_CRT_SECURE_NO_DEPRECATE;_PAP_SHARE_MEMORY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>../../../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;__WINDOWS__;_CRT_SECURE_NO_DEPRECATE;_PAP_SHARE_MEMORY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <UseFullPaths>false</UseFullPaths>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>libc.lib;libcd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Manifest>
+      <GenerateCatalogFiles>false</GenerateCatalogFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\common\base\md5.cc" />
+    <ClCompile Include="..\..\..\common\base\string.cc" />
+    <ClCompile Include="..\..\..\common\base\util.cc" />
+    <ClCompile Include="..\..\..\common\sys\assert.cc" />
+    <ClCompile Include="..\..\..\common\sys\thread.cc" />
+    <ClCompile Include="..\..\..\common\sys\util.cc" />
+    <ClCompile Include="..\..\..\common\file\ini.cc" />
+    <ClCompile Include="..\..\common\game\db\struct.cc" />
+    <ClCompile Include="..\..\common\db\manager.cc" />
+    <ClCompile Include="..\..\common\db\odbc_interface.cc" />
+    <ClCompile Include="..\..\common\db\system.cc" />
+    <ClCompile Include="..\..\common\db\data\global.cc" />
+    <ClCompile Include="..\..\common\db\data\sql_template.cc" />
+    <ClCompile Include="..\..\common\base\config.cc" />
+    <ClCompile Include="..\..\common\base\log.cc" />
+    <ClCompile Include="..\..\common\base\time_manager.cc" />
+    <ClCompile Include="..\..\common\sys\share_memory.cc" />
+    <ClCompile Include="..\src\main\command_thread.cc" />
+    <ClCompile Include="..\src\main\share_memory.cc" />
+    <ClCompile Include="..\src\data\logic_manager.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\include\server\common\base\config.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\base\define.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\base\file_define.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\base\log.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\base\log_define.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\base\time_manager.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\db\config.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\db\manager.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\db\odbc_interface.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\db\system.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\db\data\config.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\db\data\global.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\db\data\sql_template.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\config.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\define.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\struct.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\db\config.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\db\define.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\db\struct.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\sys\config.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\sys\share_memory.h" />
+    <ClInclude Include="..\..\..\..\include\server\share_memory\main\command_thread.h" />
+    <ClInclude Include="..\..\..\..\include\server\share_memory\main\share_memory.h" />
+    <ClInclude Include="..\..\..\..\include\server\share_memory\data\config.h" />
+    <ClInclude Include="..\..\..\..\include\server\share_memory\data\logic_manager.h" />
+    <ClInclude Include="..\..\..\..\include\common\base\config.h" />
+    <ClInclude Include="..\..\..\..\include\common\base\md5.h" />
+    <ClInclude Include="..\..\..\..\include\common\base\string.h" />
+    <ClInclude Include="..\..\..\..\include\common\base\type.h" />
+    <ClInclude Include="..\..\..\..\include\common\base\util.h" />
+    <ClInclude Include="..\..\..\..\include\common\sys\assert.h" />
+    <ClInclude Include="..\..\..\..\include\common\sys\config.h" />
+    <ClInclude Include="..\..\..\..\include\common\sys\thread.h" />
+    <ClInclude Include="..\..\..\..\include\common\sys\util.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\config.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\struct.h" />
+    <ClInclude Include="..\..\..\..\include\common\file\config.h" />
+    <ClInclude Include="..\..\..\..\include\common\file\ini.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
