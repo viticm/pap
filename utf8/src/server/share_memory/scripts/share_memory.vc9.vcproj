@@ -44,10 +44,12 @@
 				AdditionalIncludeDirectories="../../../../include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;__WINDOWS__;_CRT_SECURE_NO_DEPRECATE;_PAP_SHARE_MEMORY"
 				MinimalRebuild="true"
+				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				WarningLevel="3"
+				WarningLevel="4"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4819"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -60,13 +62,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ws2_32.lib"
+				AdditionalDependencies="ws2_32.lib ../../../../lib/iconv/iconv.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="1"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="1"
+				OptimizeReferences="0"
+				EnableCOMDATFolding="0"
+				LinkTimeCodeGeneration="0"
 				RandomizedBaseAddress="1"
 				TargetMachine="1"
 			/>

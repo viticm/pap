@@ -123,11 +123,11 @@ bool ShareMemory::loop() {
       Log::save_log("share_memory", "g_command_thread.start()");
     }
     Log::save_log("share_memory", "loop ... start");
-    while (true) {
+    for (;;) {
       work();
       util::sleep(1000);
     }
-    Log::save_log("share_memory", "loop ... end");
+    //Log::save_log("share_memory", "loop ... end");
   __LEAVE_FUNCTION
     return false;
 }
@@ -272,7 +272,7 @@ bool ShareMemory::new_staticmanager() {
         }
       }
     }
-    return true;
+    return result;
   __LEAVE_FUNCTION
     return false;
 }

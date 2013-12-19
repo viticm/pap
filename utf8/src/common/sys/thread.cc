@@ -145,6 +145,7 @@ uint64_t get_current_thread_id() {
     return static_cast<uint64_t>(GetCurrentThreadId());
 #endif
   __LEAVE_FUNCTION
+    return NULL;
 }
 
 //thread lock class --

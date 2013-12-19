@@ -124,6 +124,7 @@ ODBCInterface* Manager::get_interface(db_type_enum db_type) {
     }
     return odbc_interface;
   __LEAVE_FUNCTION
+    return NULL;
 }
 
 } //namespace pap_server_common_db

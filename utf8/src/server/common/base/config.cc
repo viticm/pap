@@ -483,6 +483,7 @@ billing_data_t* BillingInfo::next() {
     current_billing_no_ = (current_billing_no_ + 1) >= number_ ? 0 : current_billing_no_ + 1;
     return current;
   __LEAVE_FUNCTION
+    return NULL;
 }
 
 void BillingInfo::begin_use() {

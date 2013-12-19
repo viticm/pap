@@ -24,7 +24,7 @@ bool LogicManager<global_data_t>::save_all() {
       Assert(pool_pointer_);
       return false;
     }
-    //int32_t max_pool_size = pool_pointer_->get_max_size();
+    int32_t max_pool_size = pool_pointer_->get_max_size();
     Assert(1 == max_pool_size);
     global_data_t* global_data = pool_pointer_->get_obj(0);
     if (!global_data) {

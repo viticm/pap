@@ -31,7 +31,7 @@ bool CommandParser::handleinput() {
     memset(cmd, '\0', sizeof(cmd));
     int32_t charcount = 0;
     int32_t charinput;
-    while (true) {
+    for(;;) {
       charinput = getchar();
       if ('\n' == charinput) break;
       if (charcount > sizeof(cmd) - 1) break;
@@ -58,9 +58,9 @@ bool CommandParser::handleinput() {
 }
 
 command_state_t CommandParser::parser_commandtype(const char* str) {
-  __ENTER_FUNCTION
     command_state_t state;
     state.type = kCmdUnkown;
+  __ENTER_FUNCTION
     char cmdhead[kCmdSize];
     memset(cmdhead, '\0', sizeof(cmdhead));
     uint32_t i;
@@ -77,6 +77,7 @@ command_state_t CommandParser::parser_commandtype(const char* str) {
     }
     return state;
   __LEAVE_FUNCTION
+    return state;
 }
 
 bool CommandThread::is_active() {

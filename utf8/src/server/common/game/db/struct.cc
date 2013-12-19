@@ -55,6 +55,7 @@ uint32_t global_data_t::get_pool_id() {
   __ENTER_FUNCTION
     return head.pool_id;
   __LEAVE_FUNCTION
+    return 0;
 }
 
 bool global_data_t::set_use_status(int32_t status, char type) {

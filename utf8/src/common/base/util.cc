@@ -1,4 +1,5 @@
 #include "common/base/util.h" //无论如何都是用全路径
+#include "common/lib/iconv/iconv.h"
 
 namespace pap_common_base {
 
@@ -214,6 +215,7 @@ uint32_t str_length(const char* str) {
     while (str[i]) ++i;
     return i;
   __LEAVE_FUNCTION
+    return NULL;
 }
 
 void char_swap(char* str, uint32_t source, uint32_t destination) {
@@ -277,9 +279,8 @@ int charset_convert(const char* from,
                     int srclen) {
   __ENTER_FUNCTION
     int status = 0;
-#if defined(__LINUX__)
     iconv_t cd;
-    char *inbuf        = src;
+    const char *inbuf  = src;
     char *outbuf       = save;
     size_t outbufsize  = savelen;
     size_t savesize    = 0;
@@ -296,7 +297,7 @@ int charset_convert(const char* from,
       goto done;
     }
     while (0 < insize) {
-      size_t res = iconv(cd, (char**)&inptr, &insize, &outptr, &outsize);
+      size_t res = iconv(cd, (const char**)&inptr, &insize, &outptr, &outsize);
       if (outptr != outbuf) {
         int saved_errno = errno;
         int outsize = outptr - outbuf;
@@ -332,10 +333,8 @@ int charset_convert(const char* from,
     done:
     iconv_close(cd);
     return status;
-#endif
-    return status;
   __LEAVE_FUNCTION
-	
+    return -1;
 }
 
 } //namespace util

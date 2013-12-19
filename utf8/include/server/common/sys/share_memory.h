@@ -26,7 +26,7 @@ bool lock_time_enable = false; //共享内存是否有时间锁的限制
 #endif
 struct data_header_t {
   uint64_t key;
-  int32_t size;
+  uint32_t size;
   uint32_t version;
   data_header_t();
   ~data_header_t();
@@ -263,7 +263,7 @@ class UnitPool {
    };
    T* get_obj(int32_t index) {
      __ENTER_FUNCTION
-       Assert(index < max_size_);
+	   Assert(index > 0 && static_cast<uint32_t>(index) < max_size_);
        return obj_[index];
      __LEAVE_FUNCTION
        return NULL;

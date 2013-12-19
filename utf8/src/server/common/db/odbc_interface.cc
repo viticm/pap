@@ -283,8 +283,8 @@ bool ODBCInterface::fetch() {
       int get_total = 0;
       SQLLEN data_length = 0;
       while((result_ = SQLGetData(sql_hstmt_, 
-                                  column_index + 1, 
-                                  SQL_C_CHAR, 
+                                  static_cast<SQLUSMALLINT>(column_index + 1), 
+                                  static_cast<SQLUSMALLINT>(SQL_C_CHAR), 
                                   column_[column_index] + get_total, 
                                   MAX_COLUMN_BUFFER, 
                                   &data_length)) != SQL_NO_DATA) {
@@ -309,11 +309,11 @@ bool ODBCInterface::long_fetch() {
       int32_t get_total = 0;
       SQLLEN data_length = 0;
       while((result_ = SQLGetData(sql_hstmt_, 
-                                   column_index + 1, 
-                                   SQL_C_CHAR, 
-                                   column_[column_index] + get_total, 
-                                   MAX_LONG_COLUMN_BUFFER, 
-                                   &data_length)) != SQL_NO_DATA) {
+                                  static_cast<SQLUSMALLINT>(column_index + 1), 
+                                  static_cast<SQLUSMALLINT>(SQL_C_CHAR), 
+                                  column_[column_index] + get_total, 
+                                  MAX_LONG_COLUMN_BUFFER, 
+                                  &data_length)) != SQL_NO_DATA) {
         break;
       }
     }
@@ -489,7 +489,7 @@ void ODBCInterface::diag_state() {
     memset(error_message_, 0, MAX_ERROR_MESSAGE_LENGTH);
     while ((result_ = SQLGetDiagRec(SQL_HANDLE_DBC, 
                                     sql_hdbc_,
-                                    j, 
+                                    static_cast<SQLUSMALLINT>(j), 
                                     sql_state,
                                     &native_error,
                                     error_message_, 
@@ -540,7 +540,7 @@ void ODBCInterface::diag_state_ex() {
     memset(error_message_, 0, MAX_ERROR_MESSAGE_LENGTH);
     while ((result_ = SQLGetDiagRec(SQL_HANDLE_DBC, 
                                     sql_hdbc_,
-                                    j, 
+                                    static_cast<SQLUSMALLINT>(j), 
                                     sql_state,
                                     &native_error,
                                     error_message_, 

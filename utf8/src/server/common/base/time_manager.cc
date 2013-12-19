@@ -108,7 +108,7 @@ uint8_t TimeManager::get_day() {
 
 uint8_t TimeManager::get_hour() {
   __ENTER_FUNCTION
-    return statice_cast<uint8_t>(tm_.tm_hour);
+    return static_cast<uint8_t>(tm_.tm_hour);
   __LEAVE_FUNCTION
     return 0;
 }

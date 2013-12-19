@@ -104,6 +104,7 @@ char* Ini::get_data() {
   __ENTER_FUNCTION
     return data_info_;
   __LEAVE_FUNCTION
+    return NULL;
 }
 
 int32_t Ini::get_lines(int32_t current) {
@@ -170,7 +171,7 @@ int32_t Ini::find_section_index(const char* section) {
 int32_t Ini::find_data_index(int32_t position, const char* data) {
   __ENTER_FUNCTION
     int32_t _position = position;
-    while (true) {
+    for(;;) {
       _position = goto_next_line(_position);
       char* find_data = find_key(_position);
       if (0 == strcmp(data, find_data)) break;
@@ -224,7 +225,7 @@ char* Ini::read_text(int32_t position) {
     int32_t n = position, m = 0, i;
     int32_t line_number = goto_next_line(position) - position + 1;
     ret = static_cast<char*>(value_);
-    memset(ret, '\0', sizeof(ret));
+    memset(ret, '\0', line_number);
     for (i = 0; i < data_length_ - position; ++i) {
       _char = data_info_[n];
       if ('\r' == _char || '\n' == _char || '\t' == _char || ';' == _char || ']' == _char) {
@@ -308,7 +309,7 @@ int32_t Ini::goto_last_line(const char* section) {
   __ENTER_FUNCTION
     int32_t position = find_section_index(section);
     position = goto_next_line(position);
-    while (true) {
+    for(;;) {
       if ('\r' == data_info_[position] || 
           EOF == data_info_[position] || 
           -3 == data_info_[position] ||
@@ -722,7 +723,7 @@ int32_t Ini::get_continue_data_number(const char* section) {
     int32_t number = 0;
     int32_t section_index = find_section_index(section);
     int32_t position = goto_next_line(section_index);
-    while (true) {
+    for(;;) {
       if ('\r' == data_info_[position] ||
           '\n' == data_info_[position] ||
           EOF == data_info_[position] ||
