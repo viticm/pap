@@ -62,7 +62,7 @@ function rewrite_vcscript($modelname = NULL, $revert = false) {
                         $fatherdir.'_'.$filename;
         $cmd = '';
         $cmd .= 'cd '.dirname($fullpath);
-        $cmd .= ' && ';
+        execcmd($cmd, $ostype);
         rename($filename, $new_filename);
         $new_sourcefile = str_replace($filename, '', $sourcefile).$new_filename;
         $scriptinfo = str_replace($sourcefile, $new_sourcefile, $scriptinfo);
@@ -140,10 +140,12 @@ function main() {
     echo 'param error',"\n";
     return 1;
   }
+  $revert = false;
+  if (3 == $argc && 'yes' == $argv[2]) $revert = true; 
   $models = explode(' ', $argv[1]);
   foreach ($models as $k => $model) {
     $result = 
-      2 == $argc ? rewrite_vcscript($model) : rewrite_vcscript($model, true);
+      2 == $argc ? rewrite_vcscript($model) : rewrite_vcscript($model, $revert);
     if (!result) return 1;
   }
   return 0;
