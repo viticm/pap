@@ -515,9 +515,7 @@ Config::~Config() {
 
 bool Config::init() {
   __ENTER_FUNCTION
-#if defined(_PAP_SERVER)
     load_config_info();
-#endif
     load_login_info();
     load_world_info();
     load_billing_info();
@@ -533,9 +531,7 @@ bool Config::init() {
 
 void Config::reload() {
   __ENTER_FUNCTION
-#if defined(_PAP_SERVER)
     load_config_info_reload();
-#endif
     load_login_info_reload();
     load_world_info_reload();
     load_billing_info_reload();
@@ -555,250 +551,445 @@ void Config::load_config_info() {
 }
 
 void Config::load_config_info_only() { //this params just read once
+#if defined(_PAP_SERVER)
   __ENTER_FUNCTION
     pap_common_file::Ini config_info_ini(CONFIG_INFO_FILE);
-    config_info_.zone.size = config_info_ini.read_uint8("Zone", "Size");
-    config_info_.portal.max_count = config_info_ini.read_uint16("Portal", "MaxCount");
-    config_info_.platform.max_count = config_info_ini.read_uint16("Platform", "MaxCount");
-    config_info_.skill_obj.max_count = config_info_ini.read_uint16("SkillObj", "MaxCount");
-    config_info_.special_obj.max_count = config_info_ini.read_uint16("SpecialObj", "MaxCount");
-    config_info_.bus_obj.max_count = config_info_ini.read_uint16("BusObj", "MaxCount");
-    config_info_.player_shop.max_count = config_info_ini.read_uint16("PlayerShop", "MaxCount");
-    config_info_.scene_timer.max_count = config_info_ini.read_uint16("SceneTimer","MaxCount");
-    config_info_.human_timer.max_count = config_info_ini.read_uint16("HumanTimer","MaxCount");
-    config_info_.localization.language = config_info_ini.read_uint8("Localization", "Language");
+    config_info_.zone.size = 
+      config_info_ini.read_uint8("Zone", "Size");
+    config_info_.portal.max_count = 
+      config_info_ini.read_uint16("Portal", "MaxCount");
+    config_info_.platform.max_count = 
+      config_info_ini.read_uint16("Platform", "MaxCount");
+    config_info_.skill_obj.max_count = 
+      config_info_ini.read_uint16("SkillObj", "MaxCount");
+    config_info_.special_obj.max_count = 
+      config_info_ini.read_uint16("SpecialObj", "MaxCount");
+    config_info_.bus_obj.max_count = 
+      config_info_ini.read_uint16("BusObj", "MaxCount");
+    config_info_.player_shop.max_count = 
+      config_info_ini.read_uint16("PlayerShop", "MaxCount");
+    config_info_.scene_timer.max_count = 
+      config_info_ini.read_uint16("SceneTimer","MaxCount");
+    config_info_.human_timer.max_count = 
+      config_info_ini.read_uint16("HumanTimer","MaxCount");
+    config_info_.localization.language = 
+      config_info_ini.read_uint8("Localization", "Language");
     Log::save_log("config", "load %s only ... ok!", CONFIG_INFO_FILE);
   __LEAVE_FUNCTION
+#endif
 }
 
 void Config::load_config_info_reload() { //this params can reload again
+#if defined(_PAP_SERVER)
   __ENTER_FUNCTION
     pap_common_file::Ini config_info_ini(CONFIG_INFO_FILE);
     uint32_t i;
-    config_info_.global.drop_param = config_info_ini.read_float("Global", "DropParam");
-    config_info_.global.equipment_damage_point = config_info_ini.read_uint32("Global", "EquipmentDamagePoint");
-    config_info_.global.respawn_param = config_info_ini.read_uint8("Global", "RespawnParam");
-    config_info_.global.pk_refix_of_damage = config_info_ini.read_uint16("Global", "PkRefixOfDamage");
-    config_info_.global.disciple_proffer_exp = config_info_ini.read_uint8("Global", "DiscipleProfferExp");
-    config_info_.global.god_relive_top_level = config_info_ini.read_uint8("Global", "GodReliveTopLevel");
-    config_info_.global.audit_switch = config_info_ini.read_bool("Global", "AuditSwitch");
-    config_info_.global.auto_remove_bad_pet = config_info_ini.read_bool("Global", "AutoRemoveBadPet");
-    config_info_.time.recover_time = config_info_ini.read_uint32("Time", "RecoverTime");
-    config_info_.time.disconnect_time1 = config_info_ini.read_uint32("Time", "DisconnectTime1");
-    config_info_.time.disconnect_time2 = config_info_ini.read_uint32("Time", "DisconnectTime2");
-    config_info_.time.kick_user_time = config_info_ini.read_uint32("Time", "KickUserTime");
-    config_info_.time.smu_kick_user_time = config_info_ini.read_uint32("Time", "SMUKickUserTime");
-    config_info_.time.drop_box_recycle = config_info_ini.read_uint32("Time", "DropBoxRecycle");
-    config_info_.time.time_change_interval = config_info_ini.read_uint32("Time", "TimeChangeInterval");
-    config_info_.time.packet_audit_time = config_info_ini.read_uint32("Time", "PacketAuditTime");
-    config_info_.monster.max_count = config_info_ini.read_uint32("Monster", "MaxCount");
-    config_info_.monster.default_respawn_time = config_info_ini.read_uint32("Monster", "DefaultRespawnTime");
-    config_info_.monster.default_position_range = config_info_ini.read_uint16("Monster", "DefaultPositionRange");
-    config_info_.monster.default_ai_type = config_info_ini.read_uint8("Monster", "DefaultAIType");
-    config_info_.monster.default_body_time = config_info_ini.read_uint32("Monster", "DefaultBodyTime");
-    config_info_.monster.default_boss_body_time = config_info_ini.read_uint32("Monster", "DefaultBossBodyTime");
-    config_info_.monster.default_refuse_scan_time = config_info_ini.read_uint32("Monster", "DefaultRefuseScanTime");
-    config_info_.monster.odds_of_change_target = config_info_ini.read_uint16("Monster", "OddsOfChangeTarget");
-    config_info_.monster.odds_of_attack_assistant = config_info_ini.read_uint16("Monster", "OddsOfAttackAssistant");
-    config_info_.monster.change_target_cooldown = config_info_ini.read_uint16("Monster", "ChangeTargetCooldown");
-    config_info_.monster.default_max_level = config_info_ini.read_uint8("Monster", "DefaultMaxLevel");
-    config_info_.player_shop.payment_per_hour = config_info_ini.read_uint32("PlayerShop", "PaymentPerHour");
-    config_info_.pet.max_count = config_info_ini.read_uint32("Pet", "MaxCount");
-    config_info_.pet.body_time = config_info_ini.read_uint32("Pet", "BodyTime");
-    config_info_.pet.happiness_interval = config_info_ini.read_uint32("Pet", "HappinessInterval");
-    config_info_.pet.life_interval = config_info_ini.read_uint32("Pet", "LifeInterval");
-    config_info_.pet.dec_life_step = config_info_ini.read_uint8("Pet", "PetDecLifeStep");
-    config_info_.pet.call_up_happiness = config_info_ini.read_uint8("Pet", "CallUpHappiness");
-    config_info_.pet.placard_time = config_info_ini.read_uint32("Pet", "PlacardTime");
-    config_info_.pet.placard_need_level = config_info_ini.read_uint8("Pet", "PlacardNeedLevel");
-    config_info_.pet.placard_need_happiness = config_info_ini.read_uint16("Pet", "PlacardNeedHappiness");
-    config_info_.pet.placard_need_life = config_info_ini.read_uint32("Pet", "PlacardNeedLife");
-    config_info_.pet.compound_gen_gu_float = config_info_ini.read_uint8("Pet", "CompoundGenGuFloat");
-    config_info_.pet.compound_grow_float = config_info_ini.read_uint8("Pet", "CompoundGrowFloat");
-    config_info_.pet.compound_baby_per_wild_with_wild = config_info_ini.read_uint8("Pet", "CompoundBabyPerWildWithWild");
-    config_info_.pet.compound_baby_per_baby_with_baby = config_info_ini.read_uint8("Pet", "CompoundBabyPerBabyWithBaby");
-    config_info_.pet.compound_baby_per_wild_with_baby = config_info_ini.read_uint8("Pet", "CompoundBabyPerWildWithBaby");
-    config_info_.pet.compound_perception_per = config_info_ini.read_uint8("Pet", "CompoundPerceptionPer");
-    config_info_.pet.default_max_level = config_info_ini.read_uint8("Pet", "DefaultMaxLevel");
-    config_info_.pet.die_lreduce_life = config_info_ini.read_float("Pet", "DieLReduceLife");
-    config_info_.human.can_get_exp_range = config_info_ini.read_uint16("Human", "CanGetExpRange"); 
-    config_info_.human.out_ghost_time = config_info_ini.read_uint32("Human", "OutGhostTime");
-    config_info_.human.default_move_speed = config_info_ini.read_uint32("Human", "DefaultMoveSpeed");
-    config_info_.human.default_attack_speed = config_info_ini.read_uint32("Human", "DefaultAttackSpeed");
-    config_info_.human.default_refresh_rate = config_info_ini.read_uint32("Human", "DefaultRefreshRate");
-    config_info_.human.energy_vigor_recover_interval = config_info_ini.read_uint32("Human", "EnergyVigorRecoverInterval");
-    config_info_.human.default_max_level = config_info_ini.read_uint8("Human", "DefaultMaxLevel");
-    config_info_.human.pk_value_refresh_rate = config_info_ini.read_uint32("Human", "PKValueRefreshRate");
-    config_info_.human.default_pilfer_lock_time = config_info_ini.read_uint32("Human", "DefPilferLockTime");
-    config_info_.human.default_xinfa_max_level = config_info_ini.read_uint8("Human", "DefaultXinfaMaxLevel");
-    config_info_.human.level_up_validate_min_level = config_info_ini.read_uint8("Human", "LevelUpValidateMinLevel");
-    config_info_.human.level_up_validate_max_level = config_info_ini.read_uint8("Human", "LevelUpValidateMaxLevel");
-    config_info_.human.can_get_yuanbao_ticket_min_level = config_info_ini.read_uint8("Human", "CanGetYuanbaoTicketMinLevel");
-    config_info_.team.available_follow_dist = config_info_ini.read_uint16("Team", "VailableFollowDist");
-    config_info_.team.time_for_lose_follow = config_info_ini.read_uint32("Team", "TimeForLoseFollow");
-    config_info_.guild.found_duration = config_info_ini.read_uint16("Guild", "FoundDuration");
-    config_info_.guild.default_max_member_count = config_info_ini.read_uint16("Guild", "DefaultMaxMemberCount");
-    config_info_.guild.response_user_count = config_info_ini.read_uint8("Guild", "ResponseUserCount");
+    config_info_.global.drop_param = 
+      config_info_ini.read_float("Global", "DropParam");
+    config_info_.global.equipment_damage_point = 
+      config_info_ini.read_uint32("Global", "EquipmentDamagePoint");
+    config_info_.global.respawn_param = 
+      config_info_ini.read_uint8("Global", "RespawnParam");
+    config_info_.global.pk_refix_of_damage = 
+      config_info_ini.read_uint16("Global", "PkRefixOfDamage");
+    config_info_.global.disciple_proffer_exp = 
+      config_info_ini.read_uint8("Global", "DiscipleProfferExp");
+    config_info_.global.god_relive_top_level = 
+      config_info_ini.read_uint8("Global", "GodReliveTopLevel");
+    config_info_.global.audit_switch = 
+      config_info_ini.read_bool("Global", "AuditSwitch");
+    config_info_.global.auto_remove_bad_pet = 
+      config_info_ini.read_bool("Global", "AutoRemoveBadPet");
+    config_info_.time.recover_time = 
+      config_info_ini.read_uint32("Time", "RecoverTime");
+    config_info_.time.disconnect_time1 = 
+      config_info_ini.read_uint32("Time", "DisconnectTime1");
+    config_info_.time.disconnect_time2 = 
+      config_info_ini.read_uint32("Time", "DisconnectTime2");
+    config_info_.time.kick_user_time = 
+      config_info_ini.read_uint32("Time", "KickUserTime");
+    config_info_.time.smu_kick_user_time = 
+      config_info_ini.read_uint32("Time", "SMUKickUserTime");
+    config_info_.time.drop_box_recycle = 
+      config_info_ini.read_uint32("Time", "DropBoxRecycle");
+    config_info_.time.time_change_interval = 
+      config_info_ini.read_uint32("Time", "TimeChangeInterval");
+    config_info_.time.packet_audit_time = 
+      config_info_ini.read_uint32("Time", "PacketAuditTime");
+    config_info_.monster.max_count = 
+      config_info_ini.read_uint32("Monster", "MaxCount");
+    config_info_.monster.default_respawn_time = 
+      config_info_ini.read_uint32("Monster", "DefaultRespawnTime");
+    config_info_.monster.default_position_range = 
+      config_info_ini.read_uint16("Monster", "DefaultPositionRange");
+    config_info_.monster.default_ai_type = 
+      config_info_ini.read_uint8("Monster", "DefaultAIType");
+    config_info_.monster.default_body_time = 
+      config_info_ini.read_uint32("Monster", "DefaultBodyTime");
+    config_info_.monster.default_boss_body_time = 
+      config_info_ini.read_uint32("Monster", "DefaultBossBodyTime");
+    config_info_.monster.default_refuse_scan_time = 
+      config_info_ini.read_uint32("Monster", "DefaultRefuseScanTime");
+    config_info_.monster.odds_of_change_target = 
+      config_info_ini.read_uint16("Monster", "OddsOfChangeTarget");
+    config_info_.monster.odds_of_attack_assistant = 
+      config_info_ini.read_uint16("Monster", "OddsOfAttackAssistant");
+    config_info_.monster.change_target_cooldown = 
+      config_info_ini.read_uint16("Monster", "ChangeTargetCooldown");
+    config_info_.monster.default_max_level = 
+      config_info_ini.read_uint8("Monster", "DefaultMaxLevel");
+    config_info_.player_shop.payment_per_hour = 
+      config_info_ini.read_uint32("PlayerShop", "PaymentPerHour");
+    config_info_.pet.max_count = 
+      config_info_ini.read_uint32("Pet", "MaxCount");
+    config_info_.pet.body_time = 
+      config_info_ini.read_uint32("Pet", "BodyTime");
+    config_info_.pet.happiness_interval = 
+      config_info_ini.read_uint32("Pet", "HappinessInterval");
+    config_info_.pet.life_interval = 
+      config_info_ini.read_uint32("Pet", "LifeInterval");
+    config_info_.pet.dec_life_step = 
+      config_info_ini.read_uint8("Pet", "PetDecLifeStep");
+    config_info_.pet.call_up_happiness = 
+      config_info_ini.read_uint8("Pet", "CallUpHappiness");
+    config_info_.pet.placard_time = 
+      config_info_ini.read_uint32("Pet", "PlacardTime");
+    config_info_.pet.placard_need_level = 
+      config_info_ini.read_uint8("Pet", "PlacardNeedLevel");
+    config_info_.pet.placard_need_happiness = 
+      config_info_ini.read_uint16("Pet", "PlacardNeedHappiness");
+    config_info_.pet.placard_need_life = 
+      config_info_ini.read_uint32("Pet", "PlacardNeedLife");
+    config_info_.pet.compound_gen_gu_float = 
+      config_info_ini.read_uint8("Pet", "CompoundGenGuFloat");
+    config_info_.pet.compound_grow_float = 
+      config_info_ini.read_uint8("Pet", "CompoundGrowFloat");
+    config_info_.pet.compound_baby_per_wild_with_wild = 
+      config_info_ini.read_uint8("Pet", "CompoundBabyPerWildWithWild");
+    config_info_.pet.compound_baby_per_baby_with_baby = 
+      config_info_ini.read_uint8("Pet", "CompoundBabyPerBabyWithBaby");
+    config_info_.pet.compound_baby_per_wild_with_baby = 
+      config_info_ini.read_uint8("Pet", "CompoundBabyPerWildWithBaby");
+    config_info_.pet.compound_perception_per = 
+      config_info_ini.read_uint8("Pet", "CompoundPerceptionPer");
+    config_info_.pet.default_max_level = 
+      config_info_ini.read_uint8("Pet", "DefaultMaxLevel");
+    config_info_.pet.die_lreduce_life = 
+      config_info_ini.read_float("Pet", "DieLReduceLife");
+    config_info_.human.can_get_exp_range = 
+      config_info_ini.read_uint16("Human", "CanGetExpRange"); 
+    config_info_.human.out_ghost_time = 
+      config_info_ini.read_uint32("Human", "OutGhostTime");
+    config_info_.human.default_move_speed = 
+      config_info_ini.read_uint32("Human", "DefaultMoveSpeed");
+    config_info_.human.default_attack_speed = 
+      config_info_ini.read_uint32("Human", "DefaultAttackSpeed");
+    config_info_.human.default_refresh_rate = 
+      config_info_ini.read_uint32("Human", "DefaultRefreshRate");
+    config_info_.human.energy_vigor_recover_interval = 
+      config_info_ini.read_uint32("Human", "EnergyVigorRecoverInterval");
+    config_info_.human.default_max_level = 
+      config_info_ini.read_uint8("Human", "DefaultMaxLevel");
+    config_info_.human.pk_value_refresh_rate = 
+      config_info_ini.read_uint32("Human", "PKValueRefreshRate");
+    config_info_.human.default_pilfer_lock_time = 
+      config_info_ini.read_uint32("Human", "DefPilferLockTime");
+    config_info_.human.default_xinfa_max_level = 
+      config_info_ini.read_uint8("Human", "DefaultXinfaMaxLevel");
+    config_info_.human.level_up_validate_min_level = 
+      config_info_ini.read_uint8("Human", "LevelUpValidateMinLevel");
+    config_info_.human.level_up_validate_max_level = 
+      config_info_ini.read_uint8("Human", "LevelUpValidateMaxLevel");
+    config_info_.human.can_get_yuanbao_ticket_min_level = 
+      config_info_ini.read_uint8("Human", "CanGetYuanbaoTicketMinLevel");
+    config_info_.team.available_follow_dist = 
+      config_info_ini.read_uint16("Team", "VailableFollowDist");
+    config_info_.team.time_for_lose_follow = 
+      config_info_ini.read_uint32("Team", "TimeForLoseFollow");
+    config_info_.guild.found_duration = 
+      config_info_ini.read_uint16("Guild", "FoundDuration");
+    config_info_.guild.default_max_member_count = 
+      config_info_ini.read_uint16("Guild", "DefaultMaxMemberCount");
+    config_info_.guild.response_user_count = 
+      config_info_ini.read_uint8("Guild", "ResponseUserCount");
     //-- loop read
     char key_temp[33];
     for (i = 0; i < GUILD_LEVEL_MAX; ++i) {
       memset(key_temp, '\0', sizeof(key_temp));
       snprintf(key_temp, sizeof(key_temp) - 1, "XianYaMaxUser%d", i);
-      config_info_.guild.xianya_max_user[i] = config_info_ini.read_uint16("Guild", static_cast<const char*>(key_temp));
+      config_info_.guild.xianya_max_user[i] = 
+        config_info_ini.read_uint16("Guild", 
+                                    static_cast<const char*>(key_temp));
     }
     
     for (i = 0; i < GUILD_LEVEL_MAX; ++i) {
       memset(key_temp, '\0', sizeof(key_temp));
       snprintf(key_temp, sizeof(key_temp) - 1, "XianYaStandardMoney%d", i);
-      config_info_.guild.xianya_standard_money[i] = config_info_ini.read_uint32("Guild", static_cast<const char*>(key_temp));
+      config_info_.guild.xianya_standard_money[i] = 
+        config_info_ini.read_uint32("Guild", 
+                                    static_cast<const char*>(key_temp));
     }
 
     for (i = 0; i < GUILD_LEVEL_MAX; ++i) {
       memset(key_temp, '\0', sizeof(key_temp));
       snprintf(key_temp, sizeof(key_temp) - 1, "XianYaMaxMoney%d", i);
-      config_info_.guild.xianya_max_money[i] = config_info_ini.read_uint32("Guild", static_cast<const char*>(key_temp));
+      config_info_.guild.xianya_max_money[i] = 
+        config_info_ini.read_uint32("Guild", 
+                                    static_cast<const char*>(key_temp));
     }
     
     for (i = 0; i < GUILD_LEVEL_MAX; ++i) {
       memset(key_temp, '\0', sizeof(key_temp));
       snprintf(key_temp, sizeof(key_temp) - 1, "XianYaMaxTrader%d", i);
-      config_info_.guild.xianya_max_trader[i] = config_info_ini.read_uint8("Guild", static_cast<const char*>(key_temp));
+      config_info_.guild.xianya_max_trader[i] = 
+        config_info_ini.read_uint8("Guild", 
+                                   static_cast<const char*>(key_temp));
     }
 
     for (i = 0; i < GUILD_LEVEL_MAX; ++i) {
       memset(key_temp, '\0', sizeof(key_temp));
       snprintf(key_temp, sizeof(key_temp) - 1, "BankStandardMoney%d", i);
-      config_info_.guild.bank_standard_money[i] = config_info_ini.read_uint8("Guild", static_cast<const char*>(key_temp));
+      config_info_.guild.bank_standard_money[i] = 
+        config_info_ini.read_uint8("Guild", 
+                                   static_cast<const char*>(key_temp));
     }
 
     for (i = 0; i < GUILD_LEVEL_MAX; ++i) {
       memset(key_temp, '\0', sizeof(key_temp));
       snprintf(key_temp, sizeof(key_temp) - 1, "WingMaxUser%d", i);
-      config_info_.guild.wing_max_user[i] = config_info_ini.read_uint16("Guild", static_cast<const char*>(key_temp));
+      config_info_.guild.wing_max_user[i] = 
+        config_info_ini.read_uint16("Guild", 
+                                    static_cast<const char*>(key_temp));
     }
     //loop read --
 
-    config_info_.guild.create_city_money = config_info_ini.read_uint32("Guild", "CreateCityMoney");
-    config_info_.guild.leave_word_cost = config_info_ini.read_uint32("Guild", "LeaveWordCost");
-    config_info_.guild.battle_time = config_info_ini.read_uint32("Guild", "BattleTime");
-    config_info_.guild.left_guild_buff_enable = config_info_ini.read_bool("Guild", "LeftGuildBuffEnable");
-    config_info_.guild.boom_max_value = config_info_ini.read_uint16("Guild", "BoomMaxValue");
-    config_info_.guild.boom_scale_all = config_info_ini.read_float("Guild", "BoomScaleAll");
-    config_info_.guild.boom_scale_online_count = config_info_ini.read_float("Guild", "BoomScaleOnlineCount");
-    config_info_.guild.boom_scale_attribute_increase = config_info_ini.read_float("Guild", "BoomScaleAttributeIncrease");
-    config_info_.guild.boom_scale_trader_transactions_count = config_info_ini.read_float("Guild", "BoomScaleTraderTransactionsCount");
-    config_info_.guild.boom_scale_avg_boom = config_info_ini.read_float("Guild", "BoomScaleAvgBoom");
-    config_info_.guild.boom_scale_dilation = config_info_ini.read_float("Guild", "BoomScaleDilation");
-    config_info_.guild.boom_scale_farming = config_info_ini.read_float("Guild", "BoomScaleFarming");
-    config_info_.guild.boom_scale_trading_mission = config_info_ini.read_float("Guild", "BoomScaleTradingMission");
-    config_info_.guild.boom_scale_defence = config_info_ini.read_float("Guild", "BoomScaleDefence");
-    config_info_.guild.boom_scale_industry = config_info_ini.read_float("Guild", "BoomScaleIndustry");
-    config_info_.guild.boom_scale_technology = config_info_ini.read_float("Guild", "BoomScaleTechnology");
-    config_info_.guild.trade_ticket_decrease_value = config_info_ini.read_uint16("Guild", "TradeTicketDecreaseValue");
-    config_info_.guild.trading_mission_plug = config_info_ini.read_bool("Guild", "TradingMissionPlug");
-    config_info_.guild.validate_xianya_level = config_info_ini.read_bool("Guild", "ValidateXianYaLevel");
-    config_info_.guild_league.max_count = config_info_ini.read_uint16("GuildLeague", "MaxCount");
-    config_info_.guild_league.quit_league_wait_time = config_info_ini.read_uint16("GuildLeague", "QuitLeagueWaitTime");
-    config_info_.guild_league.create_money = config_info_ini.read_uint32("GuildLeague", "CreateMoney");
-    config_info_.relation.password_point = config_info_ini.read_uint16("Relation", "PasswordPoint");
-    config_info_.relation.prompt_point = config_info_ini.read_uint16("Relation", "PromptPoint");
-    config_info_.relation.get_point_need_exp = config_info_ini.read_uint32("Relation", "GetPointNeedExp");
-    config_info_.minor_password.unlock_delay_time = config_info_ini.read_uint16("MinorPassword", "UnlockDelayTime");
-    config_info_.minor_password.energy_set_cost = config_info_ini.read_uint16("MinorPassword", "EnergySetCost");
-    config_info_.minor_password.energy_modify_cost = config_info_ini.read_uint16("MinorPassword", "EnergyModifyCost");
-    config_info_.minor_password.energy_unlock_cost = config_info_ini.read_uint16("MinorPassword", "EnergyUnlockCost");
-    config_info_.minor_password.input_error_times_per_day = config_info_ini.read_uint16("MinorPassword", "InputErrorTimesPerDay");
-    config_info_.minor_password.password_unlock_time = config_info_ini.read_uint16("MinorPassword", "PasswordUnlockTime");
-    config_info_.world.hash_online_user_count = config_info_ini.read_uint32("World", "HashOnlineUserCount");
-    config_info_.world.hash_mail_user_count = config_info_ini.read_uint32("World", "HashMailUserCount");
-    config_info_.world.max_offline_user_count = config_info_ini.read_uint32("World", "MaxOfflineUserCount");
-    config_info_.world.speaker_pool_max = config_info_ini.read_uint8("World", "SpeakerPoolMax");
-    config_info_ini.read_text("Temp", "UserPath", config_info_.temp.user_path, sizeof(config_info_.temp.user_path) - 1);
-    config_info_.combat.default_damage_fluctuation = config_info_ini.read_uint32("Combat", "DefaultDamageFluctuation");
-    config_info_.combat.h0_of_hit_calculation = config_info_ini.read_uint16("Combat", "H0ofHitCalculation");
-    config_info_.combat.c0_of_crit_calculation = config_info_ini.read_uint16("Combat", "C0ofCritCalculation");
-    config_info_.combat.c1_of_crit_calculation = config_info_ini.read_uint16("Combat", "C1ofCritCalculation");
-    config_info_.combat.c2_of_crit_calculation = config_info_ini.read_uint16("Combat", "C2ofCritCalculation");
-    config_info_.good_and_evil.min_value = config_info_ini.read_uint32("GoodAndEvil", "MaxValue");
-    config_info_.good_and_evil.max_value = config_info_ini.read_uint32("GoodAndEvil", "MinValue");
-    config_info_.good_and_evil.get_value_need_level = config_info_ini.read_uint8("GoodAndEvil", "GetValueNeedLevel");
-    config_info_.good_and_evil.give_value_min_level = config_info_ini.read_uint8("GoodAndEvil", "GiveValueMinLevel");
-    config_info_.good_and_evil.give_value_max_level = config_info_ini.read_uint8("GoodAndEvil", "GiveValueMaxLevel");
-    config_info_.good_and_evil.give_value_difference_level = config_info_ini.read_uint8("GoodAndEvil", "GiveValueDifferenceLevel");
-    config_info_.good_and_evil.give_value_radius = config_info_ini.read_uint16("GoodAndEvil", "GiveValueRadius");
-    config_info_.good_and_evil.per_member_give_value = config_info_ini.read_uint32("GoodAndEvil", "PerMemberGiveValue");
-    config_info_.good_and_evil.per_disciple_give_value = config_info_ini.read_uint32("GoodAndEvil", "PerDiscipleGiveValue");
-    config_info_.good_and_evil.once_max_give_value = config_info_ini.read_uint32("GoodAndEvil", "OnceMaxGiveValue");
-    config_info_.good_and_evil.member_die_cost_value = config_info_ini.read_uint32("GoodAndEvil", "MemberDieCostValue");
-    config_info_.plot_point.min = config_info_ini.read_uint16("PlotPoint", "Min");
-    config_info_.plot_point.max = config_info_ini.read_uint16("PlotPoint", "Max");
-    config_info_.economic.rate_a = config_info_ini.read_float("Economic", "RateA");
-    config_info_.economic.rate_b = config_info_ini.read_float("Economic", "RateB");
-    config_info_.economic.yuanbao_transaction_scene_id = config_info_ini.read_uint16("Economic", "YuanBaoTransactionSceneId");
-    config_info_.economic.yuanbao_ticket_max = config_info_ini.read_uint32("Economic", "YuanBaoTicketMax");
-    config_info_.economic.new_server_sale_rate = config_info_ini.read_float("Economic", "NewServerSaleRate");
-    config_info_.economic.min_exchange_code_level = config_info_ini.read_uint8("Economic", "MinExchangeCodeLevel");
-    config_info_.economic.max_exchange_code_level = config_info_ini.read_uint8("Economic", "MaxExchangeCodeLevel");
-    config_info_.exp.revise_param = config_info_ini.read_float("Exp", "ReviseParam");
-    config_info_.exp.team_spouse_add_rate = config_info_ini.read_float("Exp", "TeamSpouseAddRate");
-    config_info_.exp.team_brother_add_rate = config_info_ini.read_float("Exp", "TeamBrotherAddRate");
-    config_info_.exp.team_master_in_add_rate = config_info_ini.read_float("Exp", "TeamMasterInTeamAddRate");
-    config_info_.exp.team_master_notin_add_rate = config_info_ini.read_float("Exp", "TeamMasterNotInTeamAddRate");
-    config_info_.exp.team_disciple_add_rate = config_info_ini.read_float("Exp", "TeamDiscipleAddRate");
-    config_info_.exp.hidden_or_magic_weapon_absorb_rate = config_info_ini.read_float("Exp", "HiddenOrMagicWeaponAbsorbRate");
-    config_info_.duel.continue_time = config_info_ini.read_uint32("Duel", "ContinueTime");
-    config_info_.duel.need_min_level = config_info_ini.read_uint8("Duel", "NeedMinLevel");
-    config_info_.duel.need_energy = config_info_ini.read_uint16("Duel", "NeedEnergy");
-    config_info_.warfare.continue_time = config_info_ini.read_uint32("Warfare", "ContinueTime");
-    config_info_.pk.flag_switch_delay = config_info_ini.read_uint32("PK", "FlagSwitchDelay");
-    config_info_.pk.hostile_player_warning = config_info_ini.read_uint32("PK", "HostilePlayerWarning");
-    config_info_.fight_back.legal_fight_back_time = config_info_ini.read_uint32("FightBack", "LegalFightBackTime");
+    config_info_.guild.create_city_money = 
+      config_info_ini.read_uint32("Guild", "CreateCityMoney");
+    config_info_.guild.leave_word_cost = 
+      config_info_ini.read_uint32("Guild", "LeaveWordCost");
+    config_info_.guild.battle_time = 
+      config_info_ini.read_uint32("Guild", "BattleTime");
+    config_info_.guild.left_guild_buff_enable = 
+      config_info_ini.read_bool("Guild", "LeftGuildBuffEnable");
+    config_info_.guild.boom_max_value = 
+      config_info_ini.read_uint16("Guild", "BoomMaxValue");
+    config_info_.guild.boom_scale_all = 
+      config_info_ini.read_float("Guild", "BoomScaleAll");
+    config_info_.guild.boom_scale_online_count = 
+      config_info_ini.read_float("Guild", "BoomScaleOnlineCount");
+    config_info_.guild.boom_scale_attribute_increase = 
+      config_info_ini.read_float("Guild", "BoomScaleAttributeIncrease");
+    config_info_.guild.boom_scale_trader_transactions_count = 
+      config_info_ini.read_float("Guild", "BoomScaleTraderTransactionsCount");
+    config_info_.guild.boom_scale_avg_boom = 
+      config_info_ini.read_float("Guild", "BoomScaleAvgBoom");
+    config_info_.guild.boom_scale_dilation = 
+      config_info_ini.read_float("Guild", "BoomScaleDilation");
+    config_info_.guild.boom_scale_farming = 
+      config_info_ini.read_float("Guild", "BoomScaleFarming");
+    config_info_.guild.boom_scale_trading_mission = 
+      config_info_ini.read_float("Guild", "BoomScaleTradingMission");
+    config_info_.guild.boom_scale_defence = 
+      config_info_ini.read_float("Guild", "BoomScaleDefence");
+    config_info_.guild.boom_scale_industry = 
+      config_info_ini.read_float("Guild", "BoomScaleIndustry");
+    config_info_.guild.boom_scale_technology = 
+      config_info_ini.read_float("Guild", "BoomScaleTechnology");
+    config_info_.guild.trade_ticket_decrease_value = 
+      config_info_ini.read_uint16("Guild", "TradeTicketDecreaseValue");
+    config_info_.guild.trading_mission_plug = 
+      config_info_ini.read_bool("Guild", "TradingMissionPlug");
+    config_info_.guild.validate_xianya_level = 
+      config_info_ini.read_bool("Guild", "ValidateXianYaLevel");
+    config_info_.guild_league.max_count = 
+      config_info_ini.read_uint16("GuildLeague", "MaxCount");
+    config_info_.guild_league.quit_league_wait_time = 
+      config_info_ini.read_uint16("GuildLeague", "QuitLeagueWaitTime");
+    config_info_.guild_league.create_money = 
+      config_info_ini.read_uint32("GuildLeague", "CreateMoney");
+    config_info_.relation.password_point = 
+      config_info_ini.read_uint16("Relation", "PasswordPoint");
+    config_info_.relation.prompt_point = 
+      config_info_ini.read_uint16("Relation", "PromptPoint");
+    config_info_.relation.get_point_need_exp = 
+      config_info_ini.read_uint32("Relation", "GetPointNeedExp");
+    config_info_.minor_password.unlock_delay_time = 
+      config_info_ini.read_uint16("MinorPassword", "UnlockDelayTime");
+    config_info_.minor_password.energy_set_cost = 
+      config_info_ini.read_uint16("MinorPassword", "EnergySetCost");
+    config_info_.minor_password.energy_modify_cost = 
+      config_info_ini.read_uint16("MinorPassword", "EnergyModifyCost");
+    config_info_.minor_password.energy_unlock_cost = 
+      config_info_ini.read_uint16("MinorPassword", "EnergyUnlockCost");
+    config_info_.minor_password.input_error_times_per_day = 
+      config_info_ini.read_uint16("MinorPassword", "InputErrorTimesPerDay");
+    config_info_.minor_password.password_unlock_time = 
+      config_info_ini.read_uint16("MinorPassword", "PasswordUnlockTime");
+    config_info_.world.hash_online_user_count = 
+      config_info_ini.read_uint32("World", "HashOnlineUserCount");
+    config_info_.world.hash_mail_user_count = 
+      config_info_ini.read_uint32("World", "HashMailUserCount");
+    config_info_.world.max_offline_user_count = 
+      config_info_ini.read_uint32("World", "MaxOfflineUserCount");
+    config_info_.world.speaker_pool_max = 
+      config_info_ini.read_uint8("World", "SpeakerPoolMax");
+    config_info_ini.read_text("Temp", 
+                              "UserPath", 
+                              config_info_.temp.user_path, 
+                              sizeof(config_info_.temp.user_path) - 1);
+    config_info_.combat.default_damage_fluctuation = 
+      config_info_ini.read_uint32("Combat", "DefaultDamageFluctuation");
+    config_info_.combat.h0_of_hit_calculation = 
+      config_info_ini.read_uint16("Combat", "H0ofHitCalculation");
+    config_info_.combat.c0_of_crit_calculation = 
+      config_info_ini.read_uint16("Combat", "C0ofCritCalculation");
+    config_info_.combat.c1_of_crit_calculation = 
+      config_info_ini.read_uint16("Combat", "C1ofCritCalculation");
+    config_info_.combat.c2_of_crit_calculation = 
+      config_info_ini.read_uint16("Combat", "C2ofCritCalculation");
+    config_info_.good_and_evil.min_value = 
+      config_info_ini.read_uint32("GoodAndEvil", "MaxValue");
+    config_info_.good_and_evil.max_value = 
+      config_info_ini.read_uint32("GoodAndEvil", "MinValue");
+    config_info_.good_and_evil.get_value_need_level = 
+      config_info_ini.read_uint8("GoodAndEvil", "GetValueNeedLevel");
+    config_info_.good_and_evil.give_value_min_level = 
+      config_info_ini.read_uint8("GoodAndEvil", "GiveValueMinLevel");
+    config_info_.good_and_evil.give_value_max_level = 
+      config_info_ini.read_uint8("GoodAndEvil", "GiveValueMaxLevel");
+    config_info_.good_and_evil.give_value_difference_level = 
+      config_info_ini.read_uint8("GoodAndEvil", "GiveValueDifferenceLevel");
+    config_info_.good_and_evil.give_value_radius = 
+      config_info_ini.read_uint16("GoodAndEvil", "GiveValueRadius");
+    config_info_.good_and_evil.per_member_give_value = 
+      config_info_ini.read_uint32("GoodAndEvil", "PerMemberGiveValue");
+    config_info_.good_and_evil.per_disciple_give_value = 
+      config_info_ini.read_uint32("GoodAndEvil", "PerDiscipleGiveValue");
+    config_info_.good_and_evil.once_max_give_value = 
+      config_info_ini.read_uint32("GoodAndEvil", "OnceMaxGiveValue");
+    config_info_.good_and_evil.member_die_cost_value = 
+      config_info_ini.read_uint32("GoodAndEvil", "MemberDieCostValue");
+    config_info_.plot_point.min = 
+      config_info_ini.read_uint16("PlotPoint", "Min");
+    config_info_.plot_point.max = 
+      config_info_ini.read_uint16("PlotPoint", "Max");
+    config_info_.economic.rate_a = 
+      config_info_ini.read_float("Economic", "RateA");
+    config_info_.economic.rate_b = 
+      config_info_ini.read_float("Economic", "RateB");
+    config_info_.economic.yuanbao_transaction_scene_id = 
+      config_info_ini.read_uint16("Economic", "YuanBaoTransactionSceneId");
+    config_info_.economic.yuanbao_ticket_max = 
+      config_info_ini.read_uint32("Economic", "YuanBaoTicketMax");
+    config_info_.economic.new_server_sale_rate = 
+      config_info_ini.read_float("Economic", "NewServerSaleRate");
+    config_info_.economic.min_exchange_code_level = 
+      config_info_ini.read_uint8("Economic", "MinExchangeCodeLevel");
+    config_info_.economic.max_exchange_code_level = 
+      config_info_ini.read_uint8("Economic", "MaxExchangeCodeLevel");
+    config_info_.exp.revise_param = 
+      config_info_ini.read_float("Exp", "ReviseParam");
+    config_info_.exp.team_spouse_add_rate = 
+      config_info_ini.read_float("Exp", "TeamSpouseAddRate");
+    config_info_.exp.team_brother_add_rate = 
+      config_info_ini.read_float("Exp", "TeamBrotherAddRate");
+    config_info_.exp.team_master_in_add_rate = 
+      config_info_ini.read_float("Exp", "TeamMasterInTeamAddRate");
+    config_info_.exp.team_master_notin_add_rate = 
+      config_info_ini.read_float("Exp", "TeamMasterNotInTeamAddRate");
+    config_info_.exp.team_disciple_add_rate = 
+      config_info_ini.read_float("Exp", "TeamDiscipleAddRate");
+    config_info_.exp.hidden_or_magic_weapon_absorb_rate = 
+      config_info_ini.read_float("Exp", "HiddenOrMagicWeaponAbsorbRate");
+    config_info_.duel.continue_time = 
+      config_info_ini.read_uint32("Duel", "ContinueTime");
+    config_info_.duel.need_min_level = 
+      config_info_ini.read_uint8("Duel", "NeedMinLevel");
+    config_info_.duel.need_energy = 
+      config_info_ini.read_uint16("Duel", "NeedEnergy");
+    config_info_.warfare.continue_time = 
+      config_info_ini.read_uint32("Warfare", "ContinueTime");
+    config_info_.pk.flag_switch_delay = 
+      config_info_ini.read_uint32("PK", "FlagSwitchDelay");
+    config_info_.pk.hostile_player_warning = 
+      config_info_ini.read_uint32("PK", "HostilePlayerWarning");
+    config_info_.fight_back.legal_fight_back_time = 
+      config_info_ini.read_uint32("FightBack", "LegalFightBackTime");
 
     //-- loop read
     for (i = 0; i < sizeof(config_info_.ability.assistant_demand_formula_param); ++i) {
       memset(key_temp, '\0', sizeof(key_temp));
-      snprintf(key_temp, sizeof(key_temp) - 1, "AssistantDemandFormulaParam%d", i);
-      config_info_.ability.assistant_demand_formula_param[i] = config_info_ini.read_float("Ability", static_cast<const char*>(key_temp));
+      snprintf(key_temp, 
+               sizeof(key_temp) - 1, 
+               "AssistantDemandFormulaParam%d", 
+               i);
+      config_info_.ability.assistant_demand_formula_param[i] = 
+        config_info_ini.read_float("Ability", 
+                                   static_cast<const char*>(key_temp));
     }
     //loop read --
 
-    config_info_.fatigue.enable = config_info_ini.read_bool("Fatigue", "Enable");
-    config_info_.fatigue.little_fatigue_time = config_info_ini.read_uint32("Fatigue", "LittleFatigueTime");
-    config_info_.fatigue.exceeding_fatigue_time = config_info_ini.read_uint32("Fatigue", "ExceedingFatigueTime");
-    config_info_.fatigue.reset_fatigue_state_offline_time = config_info_ini.read_uint32("Fatigue", "ResetFatigueStateOfflineTime");
-    config_info_.yuanbao.max_day_can_cost = config_info_ini.read_uint32("YuanBao", "MaxDayCanCost");
-    config_info_.yuanbao.enable_exchage_yuanbao_ticket = config_info_ini.read_bool("YuanBao", "EnableExchageYuanBaoTicket");
-    config_info_.monster_income.little_count = config_info_ini.read_uint32("MonsterIncome", "LittleCount");
-    config_info_.monster_income.nil_count = config_info_ini.read_uint32("MonsterIncome", "NilCount");
-    config_info_.monster_income.little_percent = config_info_ini.read_float("MonsterIncome", "LittlePercent");
-    config_info_.commision_shop.send_back_time = config_info_ini.read_uint32("CommisionShop", "SendBackTime");
-    config_info_.commision_shop.yuanbao_fee = config_info_ini.read_uint8("CommisionShop", "YuanBaoFee");
-    config_info_.commision_shop.gold_coin_fee = config_info_ini.read_uint8("CommisionShop", "GoldCoinFee");
+    config_info_.fatigue.enable = 
+      config_info_ini.read_bool("Fatigue", "Enable");
+    config_info_.fatigue.little_fatigue_time = 
+      config_info_ini.read_uint32("Fatigue", "LittleFatigueTime");
+    config_info_.fatigue.exceeding_fatigue_time = 
+      config_info_ini.read_uint32("Fatigue", "ExceedingFatigueTime");
+    config_info_.fatigue.reset_fatigue_state_offline_time = 
+      config_info_ini.read_uint32("Fatigue", "ResetFatigueStateOfflineTime");
+    config_info_.yuanbao.max_day_can_cost = 
+      config_info_ini.read_uint32("YuanBao", "MaxDayCanCost");
+    config_info_.yuanbao.enable_exchage_yuanbao_ticket = 
+      config_info_ini.read_bool("YuanBao", "EnableExchageYuanBaoTicket");
+    config_info_.monster_income.little_count = 
+      config_info_ini.read_uint32("MonsterIncome", "LittleCount");
+    config_info_.monster_income.nil_count = 
+      config_info_ini.read_uint32("MonsterIncome", "NilCount");
+    config_info_.monster_income.little_percent = 
+      config_info_ini.read_float("MonsterIncome", "LittlePercent");
+    config_info_.commision_shop.send_back_time = 
+      config_info_ini.read_uint32("CommisionShop", "SendBackTime");
+    config_info_.commision_shop.yuanbao_fee = 
+      config_info_ini.read_uint8("CommisionShop", "YuanBaoFee");
+    config_info_.commision_shop.gold_coin_fee = 
+      config_info_ini.read_uint8("CommisionShop", "GoldCoinFee");
 
     //-- loop read
     for (i = 0; i < sizeof(config_info_.commision_shop.yuanbao_value); ++i) {
       memset(key_temp, '\0', sizeof(key_temp));
       snprintf(key_temp, sizeof(key_temp) - 1, "YuanBaoValue%d", i);
-      config_info_.commision_shop.yuanbao_value[i] = config_info_ini.read_uint32("CommisionShop", static_cast<const char*>(key_temp));
+      config_info_.commision_shop.yuanbao_value[i] = 
+        config_info_ini.read_uint32("CommisionShop", 
+                                    static_cast<const char*>(key_temp));
     }
 
     for (i = 0; i < sizeof(config_info_.commision_shop.gold_coin_value); ++i) {
       memset(key_temp, '\0', sizeof(key_temp));
       snprintf(key_temp, sizeof(key_temp) - 1, "GoldCoinValueValue%d", i);
-      config_info_.commision_shop.gold_coin_value[i] = config_info_ini.read_uint32("CommisionShop", static_cast<const char*>(key_temp));
+      config_info_.commision_shop.gold_coin_value[i] = 
+        config_info_ini.read_uint32("CommisionShop", 
+                                    static_cast<const char*>(key_temp));
     }
     //loop read --
 
-    config_info_.commision_shop.close_yuanbao_sell = config_info_ini.read_bool("CommisionShop", "CloseYuanBaoSell");
-    config_info_.commision_shop.close_gold_coin_sell = config_info_ini.read_bool("CommisionShop", "CloseGoldCoinSell");
-    config_info_.cache_log_time.login_cache_time = config_info_ini.read_uint16("CacheLogTime", "LogInCacheTime");
-    config_info_.system_notice.join_guild = config_info_ini.read_bool("SystemNotice", "JoinGuild");
+    config_info_.commision_shop.close_yuanbao_sell = 
+      config_info_ini.read_bool("CommisionShop", "CloseYuanBaoSell");
+    config_info_.commision_shop.close_gold_coin_sell = 
+      config_info_ini.read_bool("CommisionShop", "CloseGoldCoinSell");
+    config_info_.cache_log_time.login_cache_time = 
+      config_info_ini.read_uint16("CacheLogTime", "LogInCacheTime");
+    config_info_.system_notice.join_guild = 
+      config_info_ini.read_bool("SystemNotice", "JoinGuild");
     
     //-- loop read
-    for (i = 0; i < sizeof(config_info_.player_count_of_scene.hour_point); ++i) {
+    for (i = 0; 
+         i < sizeof(config_info_.player_count_of_scene.hour_point); 
+         ++i) {
       memset(key_temp, '\0', sizeof(key_temp));
       snprintf(key_temp, sizeof(key_temp) - 1, "HourPoint%d", i);
-      config_info_.player_count_of_scene.hour_point[i] = config_info_ini.read_uint8("PlayerCountOfScene", static_cast<const char*>(key_temp));
+      config_info_.player_count_of_scene.hour_point[i] = 
+        config_info_ini.read_uint8("PlayerCountOfScene", 
+                                   static_cast<const char*>(key_temp));
     }
     //loop read --
 
@@ -806,11 +997,14 @@ void Config::load_config_info_reload() { //this params can reload again
     for (i = 0; i < 2; ++i) {
       memset(key_temp, '\0', sizeof(key_temp));
       snprintf(key_temp, sizeof(key_temp) - 1, "Card%d", i);
-      config_info_.active_riches_card.state[i] = config_info_ini.read_bool("ActiveRichesCard", static_cast<const char*>(key_temp));
+      config_info_.active_riches_card.state[i] = 
+        config_info_ini.read_bool("ActiveRichesCard", 
+                                  static_cast<const char*>(key_temp));
     }
     //loop read --
     Log::save_log("config", "load %s reload ... ok!", CONFIG_INFO_FILE);
   __LEAVE_FUNCTION
+#endif
 }
 
 void Config::load_login_info() {
@@ -821,35 +1015,64 @@ void Config::load_login_info() {
 }
 
 void Config::load_login_info_only() {
+#if defined(_PAP_LOGIN)
   __ENTER_FUNCTION
     pap_common_file::Ini login_info_ini(LOGIN_INFO_FILE);
     login_info_.id = login_info_ini.read_int16("System", "ID");
-    login_info_ini.read_text("System", "DBIP", login_info_.db_ip, sizeof(login_info_.db_ip) - 1);
+    login_info_ini.read_text("System", 
+                             "DBIP", 
+                             login_info_.db_ip, 
+                             sizeof(login_info_.db_ip) - 1);
     login_info_.db_port = login_info_ini.read_uint16("System", "DBPort");
-    login_info_ini.read_text("System", "DBName", login_info_.db_name, sizeof(login_info_.db_name) - 1);
-    login_info_ini.read_text("System", "DBConnectionName", login_info_.db_connection_name, sizeof(login_info_.db_connection_name) - 1);
-    login_info_ini.read_text("System", "DBUser", login_info_.db_user, sizeof(login_info_.db_user) - 1);
-    login_info_ini.read_text("System", "DBPassword", login_info_.db_password, sizeof(login_info_.db_password) - 1);
+    login_info_ini.read_text("System", 
+                             "DBName", 
+                             login_info_.db_name, 
+                             sizeof(login_info_.db_name) - 1);
+    login_info_ini.read_text("System", 
+                             "DBConnectionName", 
+                             login_info_.db_connection_name, 
+                             sizeof(login_info_.db_connection_name) - 1);
+    login_info_ini.read_text("System", 
+                             "DBUser", 
+                             login_info_.db_user, 
+                             sizeof(login_info_.db_user) - 1);
+    login_info_ini.read_text("System", 
+                             "DBPassword", 
+                             login_info_.db_password, 
+                             sizeof(login_info_.db_password) - 1);
     login_info_.odbc_switch = login_info_ini.read_bool("System", "ODBCSwitch");
     login_info_.db_type_enum = login_info_ini.read_int8("System", "DBType");
-    login_info_.encrypt_password = login_info_ini.read_bool("System", "EncryptPassword");
-    login_info_.client_version = login_info_ini.read_uint16("System", "ClientVersion");
-    login_info_.db_connect_count = login_info_ini.read_uint8("System", "DBConnectCount");
-    login_info_.turn_player_count = login_info_ini.read_uint16("System", "TurnPlayerCount");
-    login_info_.proxy_connect = login_info_ini.read_uint8("System", "ProxyConnect");
-    login_info_.enable_license = login_info_ini.read_bool("System", "EnableLicense");
-    login_info_.relogin_limit = login_info_ini.read_bool("System", "ReLoginLimit");
-    login_info_.relogin_stop = login_info_ini.read_bool("System", "ReLoginStop");
-    login_info_.relogin_stop_time = login_info_ini.read_uint32("System", "ReLoginStopTime");
-    login_info_.notify_safe_sign = login_info_ini.read_bool("System", "NotifySafeSign");
+    login_info_.encrypt_password = 
+      login_info_ini.read_bool("System", "EncryptPassword");
+    login_info_.client_version = 
+      login_info_ini.read_uint16("System", "ClientVersion");
+    login_info_.db_connect_count = 
+      login_info_ini.read_uint8("System", "DBConnectCount");
+    login_info_.turn_player_count = 
+      login_info_ini.read_uint16("System", "TurnPlayerCount");
+    login_info_.proxy_connect = 
+      login_info_ini.read_uint8("System", "ProxyConnect");
+    login_info_.enable_license = 
+      login_info_ini.read_bool("System", "EnableLicense");
+    login_info_.relogin_limit = 
+      login_info_ini.read_bool("System", "ReLoginLimit");
+    login_info_.relogin_stop = 
+      login_info_ini.read_bool("System", "ReLoginStop");
+    login_info_.relogin_stop_time = 
+      login_info_ini.read_uint32("System", "ReLoginStopTime");
+    login_info_.notify_safe_sign = 
+      login_info_ini.read_bool("System", "NotifySafeSign");
     Log::save_log("config", "load %s only ... ok!", LOGIN_INFO_FILE);
   __LEAVE_FUNCTION
+#endif
 }
 
 void Config::load_login_info_reload() {
+#if defined(_PAP_LOGIN)
   __ENTER_FUNCTION
     Log::save_log("config", "load %s reload ... ok!", LOGIN_INFO_FILE);
   __LEAVE_FUNCTION
+#endif
 }
 
 void Config::load_world_info() {
@@ -860,26 +1083,38 @@ void Config::load_world_info() {
 }
 
 void Config::load_world_info_only() {
+#if defined(_PAP_WORLD)
   __ENTER_FUNCTION
     pap_common_file::Ini world_info_ini(WORLD_INFO_FILE);
     world_info_.id = world_info_ini.read_int16("System", "ID");
     world_info_.zone_id = world_info_ini.read_int16("System", "ZoneId");
-    world_info_.share_memory_key.guild = world_info_ini.read_uint32("System", "GuildShareMemoryKey");
-    world_info_.share_memory_key.mail = world_info_ini.read_uint32("System", "MailShareMemoryKey");
-    world_info_.share_memory_key.pet = world_info_ini.read_uint32("System", "PetShareMemoryKey");
-    world_info_.share_memory_key.city = world_info_ini.read_uint32("System", "CityShareMemoryKey");
-    world_info_.share_memory_key.global_data = world_info_ini.read_uint32("System", "GlobalDataShareMemoryKey");
-    world_info_.share_memory_key.league = world_info_ini.read_uint32("System", "LeagueShareMemoryKey");
-    world_info_.share_memory_key.find_friend = world_info_ini.read_uint32("System", "FindFriendShareMemoryKey");
-    world_info_.enable_share_memory = world_info_ini.read_bool("System", "EnableShareMemory");
+    world_info_.share_memory_key.guild = 
+      world_info_ini.read_uint32("System", "GuildShareMemoryKey");
+    world_info_.share_memory_key.mail = 
+      world_info_ini.read_uint32("System", "MailShareMemoryKey");
+    world_info_.share_memory_key.pet = 
+      world_info_ini.read_uint32("System", "PetShareMemoryKey");
+    world_info_.share_memory_key.city = 
+      world_info_ini.read_uint32("System", "CityShareMemoryKey");
+    world_info_.share_memory_key.global_data = 
+      world_info_ini.read_uint32("System", "GlobalDataShareMemoryKey");
+    world_info_.share_memory_key.league = 
+      world_info_ini.read_uint32("System", "LeagueShareMemoryKey");
+    world_info_.share_memory_key.find_friend = 
+      world_info_ini.read_uint32("System", "FindFriendShareMemoryKey");
+    world_info_.enable_share_memory = 
+      world_info_ini.read_bool("System", "EnableShareMemory");
     Log::save_log("config", "load %s only ... ok!", WORLD_INFO_FILE);
   __LEAVE_FUNCTION
+#endif
 }
 
 void Config::load_world_info_reload() {
+#if defined(_PAP_WORLD)
   __ENTER_FUNCTION
     Log::save_log("config", "load %s reload ... ok!", WORLD_INFO_FILE);
   __LEAVE_FUNCTION
+#endif
 }
 
 void Config::load_billing_info() {
@@ -890,25 +1125,48 @@ void Config::load_billing_info() {
 }
 
 void Config::load_billing_info_only() {
+#if defined(_PAP_BILLING)
   __ENTER_FUNCTION
     pap_common_file::Ini billing_info_ini(BILLING_INFO_FILE);
     pap_common_file::Ini server_info_ini(SERVER_INFO_FILE);
     uint16_t number;
-    if (false == server_info_ini.read_exist_uint16("Billing", "Number", number)) {
-      AssertEx(false, "Config::load_billing_info_only is failed, can't find Billing Number");
+    if (false == server_info_ini.read_exist_uint16("Billing", 
+                                                   "Number", 
+                                                   number)) {
+      AssertEx(false, 
+          "Config::load_billing_info_only is failed," 
+          "can't find Billing Number");
     }
     billing_info_.clean_up();
     billing_info_.init(number);
     //db info by viticm
-    billing_info_ini.read_text("System", "DBIP", billing_info_.db_ip_, sizeof(billing_info_.db_ip_) - 1);
+    billing_info_ini.read_text("System", 
+                               "DBIP", 
+                               billing_info_.db_ip_, 
+                               sizeof(billing_info_.db_ip_) - 1);
     billing_info_.db_port_ = billing_info_ini.read_uint16("System", "DBPort");
-    billing_info_ini.read_text("System", "DBName", billing_info_.db_name_, sizeof(billing_info_.db_name_) - 1);
-    billing_info_ini.read_text("System", "DBConnectionName", billing_info_.db_connection_name_, sizeof(billing_info_.db_connection_name_) - 1);
-    billing_info_ini.read_text("System", "DBUser", billing_info_.db_user_, sizeof(billing_info_.db_user_) - 1);
-    billing_info_ini.read_text("System", "db_password_", billing_info_.db_password_, sizeof(billing_info_.db_password_) - 1);
-    billing_info_.odbc_switch_ = billing_info_ini.read_bool("System", "ODBCSwitch");
-    billing_info_.db_type_enum_ = billing_info_ini.read_int8("System", "DBType");
-    billing_info_.encrypt_password_ = billing_info_ini.read_bool("System", "EncryptPassword");
+    billing_info_ini.read_text("System", 
+                               "DBName", 
+                               billing_info_.db_name_, 
+                               sizeof(billing_info_.db_name_) - 1);
+    billing_info_ini.read_text("System", 
+                               "DBConnectionName", 
+                               billing_info_.db_connection_name_, 
+                               sizeof(billing_info_.db_connection_name_) - 1);
+    billing_info_ini.read_text("System", 
+                               "DBUser", 
+                               billing_info_.db_user_, 
+                               sizeof(billing_info_.db_user_) - 1);
+    billing_info_ini.read_text("System", 
+                               "DBPassword", 
+                               billing_info_.db_password_, 
+                               sizeof(billing_info_.db_password_) - 1);
+    billing_info_.odbc_switch_ = 
+      billing_info_ini.read_bool("System", "ODBCSwitch");
+    billing_info_.db_type_enum_ = 
+      billing_info_ini.read_int8("System", "DBType");
+    billing_info_.encrypt_password_ = 
+      billing_info_ini.read_bool("System", "EncryptPassword");
     int32_t i;
     for (i = 0; i < billing_info_.get_number(); ++i) {
       char key[65];
@@ -917,11 +1175,15 @@ void Config::load_billing_info_only() {
       memset(message, '\0', sizeof(message));
       billing_data_t* billing_data = billing_info_.next();
       snprintf(key, sizeof(key) - 1, "IP%d", i);
-      if (true == server_info_ini.read_exist_text("Billing", 
-                                                  static_cast<const char*>(key), 
-												  billing_data->ip, 
-                                                  sizeof(billing_data->ip) - 1)) {
-        snprintf(message, sizeof(message) - 1, "Config::load_billing_info_only is failed, can't find key: %s", key);
+      if (false == server_info_ini.read_exist_text(
+            "Billing", 
+            static_cast<const char*>(key), 
+						billing_data->ip, 
+            sizeof(billing_data->ip) - 1)) {
+        snprintf(message, 
+                 sizeof(message) - 1, 
+                 "Config::load_billing_info_only is failed, can't find key: %s", 
+                 key);
         AssertEx(false, message);
       }
       memset(key, '\0', sizeof(key));
@@ -930,7 +1192,10 @@ void Config::load_billing_info_only() {
       if (false == server_info_ini.read_exist_uint16("Billing",
                                                      static_cast<const char*>(key),
 													 billing_data->port)) {
-        snprintf(message, sizeof(message) - 1, "Config::load_billing_info_only is failed, can't find key: %s", key);
+        snprintf(message, 
+                 sizeof(message) - 1, 
+                 "Config::load_billing_info_only is failed, can't find key: %s", 
+                 key);
         AssertEx(false, message);
       }
       if (0 == i) {
@@ -941,12 +1206,15 @@ void Config::load_billing_info_only() {
     billing_info_.begin_use();
     Log::save_log("config", "load %s only ... ok!", BILLING_INFO_FILE);
   __LEAVE_FUNCTION
+#endif
 }
 
 void Config::load_billing_info_reload() {
+#if defined(_PAP_BILLING)
   __ENTER_FUNCTION
     Log::save_log("config", "load %s reload ... ok!", BILLING_INFO_FILE);
   __LEAVE_FUNCTION
+#endif
 }
 
 void Config::load_share_memory_info() {
@@ -957,10 +1225,13 @@ void Config::load_share_memory_info() {
 }
 
 void Config::load_share_memory_info_only() {
+#if defined(_PAP_SHAREMEMORY)
   __ENTER_FUNCTION
     pap_common_file::Ini share_memory_info_ini(SHARE_MEMORY_INFO_FILE);
-    share_memory_info_.obj_count = share_memory_info_ini.read_uint16("System", "KeyCount");
-    share_memory_info_.key_data = new share_memory_key_data_t[share_memory_info_.obj_count];
+    share_memory_info_.obj_count = 
+      share_memory_info_ini.read_uint16("System", "KeyCount");
+    share_memory_info_.key_data = 
+      new share_memory_key_data_t[share_memory_info_.obj_count];
     uint32_t i;
     for (i = 0; i < share_memory_info_.obj_count; ++i) {
       char key[256];
@@ -969,19 +1240,24 @@ void Config::load_share_memory_info_only() {
       memset(type, '\0', sizeof(type));
       snprintf(key, sizeof(key) - 1, "Key%d", i);
       snprintf(type, sizeof(type) - 1, "Type%d", i);
-      share_memory_info_.key_data->key = share_memory_info_ini.read_uint32("Key", key);
-      share_memory_info_.key_data->type = share_memory_info_ini.read_uint8("Key", type);
+      share_memory_info_.key_data->key = 
+        share_memory_info_ini.read_uint32("Key", key);
+      share_memory_info_.key_data->type = 
+        share_memory_info_ini.read_uint8("Key", type);
     }
-    share_memory_info_ini.read_text("System", "DBIP", share_memory_info_.db_ip, sizeof(share_memory_info_.db_ip) - 1);
-    share_memory_info_.db_port = share_memory_info_ini.read_uint16("System", "DBPort");
+    share_memory_info_ini.read_text("System", 
+                                    "DBIP", 
+                                    share_memory_info_.db_ip, 
+                                    sizeof(share_memory_info_.db_ip) - 1);
+    share_memory_info_.db_port = 
+      share_memory_info_ini.read_uint16("System", "DBPort");
     share_memory_info_ini.read_text("System", 
                                     "DBName", 
                                     share_memory_info_.db_name, 
                                     sizeof(share_memory_info_.db_name) - 1);
-    share_memory_info_ini.read_text("System", 
-                                    "DBConnectionName", 
-                                    share_memory_info_.db_connection_name, 
-                                    sizeof(share_memory_info_.db_connection_name) - 1);
+    share_memory_info_ini.read_text(
+        "System", "DBConnectionName", share_memory_info_.db_connection_name, 
+        sizeof(share_memory_info_.db_connection_name) - 1);
     share_memory_info_ini.read_text("System",
                                     "DBUser", 
                                     share_memory_info_.db_user, 
@@ -990,19 +1266,27 @@ void Config::load_share_memory_info_only() {
                                     "DBPassword",
                                     share_memory_info_.db_password,
                                     sizeof(share_memory_info_.db_password) - 1);
-    share_memory_info_.odbc_switch = share_memory_info_ini.read_bool("System", "ODBCSwitch");
-    share_memory_info_.db_type_enum = share_memory_info_ini.read_int8("System", "DBType");
-    share_memory_info_.world_data_save_interval = share_memory_info_ini.read_uint32("System", "WorldDataSaveInterval");
-    share_memory_info_.human_data_save_interval = share_memory_info_ini.read_uint32("System", "HumanDataSaveInterval");
-    share_memory_info_.encrypt_password = share_memory_info_ini.read_bool("System", "EncryptPassword");
+    share_memory_info_.odbc_switch = 
+      share_memory_info_ini.read_bool("System", "ODBCSwitch");
+    share_memory_info_.db_type_enum = 
+      share_memory_info_ini.read_int8("System", "DBType");
+    share_memory_info_.world_data_save_interval = 
+      share_memory_info_ini.read_uint32("System", "WorldDataSaveInterval");
+    share_memory_info_.human_data_save_interval = 
+      share_memory_info_ini.read_uint32("System", "HumanDataSaveInterval");
+    share_memory_info_.encrypt_password = 
+      share_memory_info_ini.read_bool("System", "EncryptPassword");
     Log::save_log("config", "load %s only ... ok!", SHARE_MEMORY_INFO_FILE);
   __LEAVE_FUNCTION
+#endif
 }
 
 void Config::load_share_memory_info_reload() {
+#if defined(_PAP_SHAREMEMORY)
   __ENTER_FUNCTION
     Log::save_log("config", "load %s reload ... ok!", SHARE_MEMORY_INFO_FILE);
   __LEAVE_FUNCTION
+#endif
 }
 
 void Config::load_machine_info() {
@@ -1013,9 +1297,11 @@ void Config::load_machine_info() {
 }
 
 void Config::load_machine_info_only() {
+#if defined(_PAP_SERVER)
   __ENTER_FUNCTION
     pap_common_file::Ini machine_info_ini(MACHINE_INFO_FILE);
-    machine_info_.count = machine_info_ini.read_uint16("System", "MachineNumber");
+    machine_info_.count = 
+      machine_info_ini.read_uint16("System", "MachineNumber");
     machine_info_.data = new machine_data_t[machine_info_.count];
     memset(machine_info_.data, 0, sizeof(machine_info_.data));
     uint32_t i;
@@ -1023,16 +1309,21 @@ void Config::load_machine_info_only() {
       char section[256];
       memset(section, '\0', sizeof(section));
       snprintf(section, sizeof(section) - 1, "Machine%d", i);
-      machine_info_.data[i].id = machine_info_ini.read_int16(static_cast<const char*>(section), "MachineID");
+      machine_info_.data[i].id = 
+        machine_info_ini.read_int16(static_cast<const char*>(section), 
+                                    "MachineID");
     }
     Log::save_log("config", "load %s only ... ok!", MACHINE_INFO_FILE);
   __LEAVE_FUNCTION
+#endif
 }
 
 void Config::load_machine_info_reload() {
+#if defined(_PAP_SERVER)
   __ENTER_FUNCTION
     Log::save_log("config", "load %s reload ... ok!", MACHINE_INFO_FILE);
   __LEAVE_FUNCTION
+#endif
 }
 
 void Config::load_server_info() {
@@ -1043,6 +1334,7 @@ void Config::load_server_info() {
 }
 
 void Config::load_server_info_only() {
+#if defined(_PAP_SERVER)
   __ENTER_FUNCTION
     pap_common_file::Ini server_info_ini(SERVER_INFO_FILE);
     server_info_.count = server_info_ini.read_uint16("System", "ServerNumber");
@@ -1054,21 +1346,39 @@ void Config::load_server_info_only() {
       memset(section, '\0', sizeof(section));
       snprintf(section, sizeof(section) - 1, "Server%d", i);
       const char* kSection = static_cast<const char*>(section);
-      server_info_.data[i].id = server_info_ini.read_int16(kSection, "ServerID");
-      server_info_.data[i].machine_id = server_info_ini.read_int16(kSection, "MachineID");
-      server_info_ini.read_text(kSection, "IP0", server_info_.data[i].ip0, sizeof(server_info_.data[i].ip0) - 1);
-      server_info_.data[i].port0 = server_info_ini.read_uint16(kSection, "Port0");
-      server_info_ini.read_text(kSection, "IP1", server_info_.data[i].ip1, sizeof(server_info_.data[i].ip1) - 1);
-      server_info_.data[i].port1 = server_info_ini.read_uint16(kSection, "Port1");
+      server_info_.data[i].id = 
+        server_info_ini.read_int16(kSection, "ServerID");
+      server_info_.data[i].machine_id = 
+        server_info_ini.read_int16(kSection, "MachineID");
+      server_info_ini.read_text(kSection, 
+                                "IP0", 
+                                server_info_.data[i].ip0, 
+                                sizeof(server_info_.data[i].ip0) - 1);
+      server_info_.data[i].port0 = 
+        server_info_ini.read_uint16(kSection, "Port0");
+      server_info_ini.read_text(kSection, 
+                                "IP1", 
+                                server_info_.data[i].ip1, 
+                                sizeof(server_info_.data[i].ip1) - 1);
+      server_info_.data[i].port1 = 
+        server_info_ini.read_uint16(kSection, "Port1");
       server_info_.data[i].type = server_info_ini.read_int8(kSection, "Type");
       //not active proxy
-      server_info_.data[i].share_memory_key.human =  server_info_ini.read_uint32(kSection, "HumanShareMemoryKey");
-      server_info_.data[i].share_memory_key.player_shop = server_info_ini.read_uint32(kSection, "PlayShopShareMemoryKey");
-      server_info_.data[i].share_memory_key.item_serial = server_info_ini.read_uint32(kSection, "ItemSerialShareMemoryKey");
-      server_info_.data[i].share_memory_key.commision_shop = server_info_ini.read_uint32(kSection, "CommisionShopShareMemoryKey");
-      server_info_.data[i].enable_share_memory = server_info_ini.read_bool(kSection, "EnableShareMemory");
+      server_info_.data[i].share_memory_key.human =  
+        server_info_ini.read_uint32(kSection, "HumanShareMemoryKey");
+      server_info_.data[i].share_memory_key.player_shop = 
+        server_info_ini.read_uint32(kSection, "PlayShopShareMemoryKey");
+      server_info_.data[i].share_memory_key.item_serial = 
+        server_info_ini.read_uint32(kSection, "ItemSerialShareMemoryKey");
+      server_info_.data[i].share_memory_key.commision_shop = 
+        server_info_ini.read_uint32(kSection, "CommisionShopShareMemoryKey");
+      server_info_.data[i].enable_share_memory = 
+        server_info_ini.read_bool(kSection, "EnableShareMemory");
     }
-    server_info_ini.read_text("World", "IP", server_info_.world_data.ip, sizeof(server_info_.world_data.ip) - 1);
+    server_info_ini.read_text("World", 
+                              "IP", 
+                              server_info_.world_data.ip, 
+                              sizeof(server_info_.world_data.ip) - 1);
     server_info_.world_data.port = server_info_ini.read_uint16("World", "Port");
     for (i = 0; i < server_info_.count; ++i) {
       int16_t server_id = server_info_.data[i].id;
@@ -1078,12 +1388,15 @@ void Config::load_server_info_only() {
     }
     Log::save_log("config", "load %s only ... ok!", SERVER_INFO_FILE);
   __LEAVE_FUNCTION
+#endif
 }
 
 void Config::load_server_info_reload() {
+#if defined(_PAP_SERVER)
   __ENTER_FUNCTION
     Log::save_log("config", "load %s reload ... ok!", SERVER_INFO_FILE);
   __LEAVE_FUNCTION
+#endif
 }
 
 void Config::load_scene_info() {
@@ -1094,6 +1407,7 @@ void Config::load_scene_info() {
 }
 
 void Config::load_scene_info_only() {
+#if defined(_PAP_SERVER)
   __ENTER_FUNCTION
     pap_common_file::Ini scene_info_ini(SCENE_INFO_FILE);
     scene_info_.count = scene_info_ini.read_uint16("System", "SceneNumber");
@@ -1106,16 +1420,29 @@ void Config::load_scene_info_only() {
       snprintf(section, sizeof(section) - 1, "Scene%d", i);
       const char* kSection = static_cast<const char*>(section);
       scene_info_.data[i].id = static_cast<int16_t>(i);
-      scene_info_.data[i].thread_index = scene_info_ini.read_int16(kSection, "ThreadIndex");
-      scene_info_.data[i].client_resource_index = scene_info_ini.read_int16(kSection, "ClientResourceIndex");
-      scene_info_ini.read_text(kSection, "Name", scene_info_.data[i].name, sizeof(scene_info_.data[i].name) - 1);
-      scene_info_ini.read_text(kSection, "File", scene_info_.data[i].file, sizeof(scene_info_.data[i].file) - 1);
-      scene_info_.data[i].server_id = scene_info_ini.read_int16(kSection, "ServerID");
+      scene_info_.data[i].thread_index = 
+        scene_info_ini.read_int16(kSection, "ThreadIndex");
+      scene_info_.data[i].client_resource_index = 
+        scene_info_ini.read_int16(kSection, "ClientResourceIndex");
+      scene_info_ini.read_text(kSection, 
+                               "Name", 
+                               scene_info_.data[i].name, 
+                               sizeof(scene_info_.data[i].name) - 1);
+      scene_info_ini.read_text(kSection, 
+                               "File", 
+                               scene_info_.data[i].file, 
+                               sizeof(scene_info_.data[i].file) - 1);
+      scene_info_.data[i].server_id = 
+        scene_info_ini.read_int16(kSection, "ServerID");
       scene_info_.data[i].type = scene_info_ini.read_int8(kSection, "Type");
-      scene_info_.data[i].pvp_ruler = scene_info_ini.read_uint16(kSection, "PvpRuler");
-      scene_info_.data[i].begin_plus = scene_info_ini.read_uint32(kSection, "BeginPlus");
-      scene_info_.data[i].plus_client_resource_index = scene_info_ini.read_int16(kSection, "PlusClientResourceIndex");
-      scene_info_.data[i].end_plus = scene_info_ini.read_uint32(kSection, "EndPlus");
+      scene_info_.data[i].pvp_ruler = 
+        scene_info_ini.read_uint16(kSection, "PvpRuler");
+      scene_info_.data[i].begin_plus = 
+        scene_info_ini.read_uint32(kSection, "BeginPlus");
+      scene_info_.data[i].plus_client_resource_index = 
+        scene_info_ini.read_int16(kSection, "PlusClientResourceIndex");
+      scene_info_.data[i].end_plus = 
+        scene_info_ini.read_uint32(kSection, "EndPlus");
       scene_info_.data[i].relive = scene_info_ini.read_bool(kSection, "Relive");
     }
     for (i = 0; i < scene_info_.count; ++i) {
@@ -1126,12 +1453,15 @@ void Config::load_scene_info_only() {
     }
     Log::save_log("config", "load %s only ... ok!", SCENE_INFO_FILE);
   __LEAVE_FUNCTION
+#endif
 }
 
 void Config::load_scene_info_reload() {
+#if defined(_PAP_SERVER)
   __ENTER_FUNCTION
     Log::save_log("config", "load %s reload ... ok!", SCENE_INFO_FILE);
   __LEAVE_FUNCTION
+#endif
 }
 
 void Config::load_copy_scene_info() {
@@ -1142,11 +1472,15 @@ void Config::load_copy_scene_info() {
 }
 
 void Config::load_copy_scene_info_only() {
+#if defined(_PAP_SERVER)
   //do nothing
+#endif
 }
 
 void Config::load_copy_scene_info_reload() {
+#if defined(_PAP_SERVER)
   //do nothing
+#endif
 }
 
 int16_t Config::get_server_id_by_scene_id(int16_t id) const {

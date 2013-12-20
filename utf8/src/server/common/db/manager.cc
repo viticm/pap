@@ -45,8 +45,8 @@ bool Manager::init(db_type_enum db_type) {
       strncpy(connection_name, g_config.login_info_.db_connection_name, DB_CONNECTION_NAME_LENGTH);
       strncpy(user, g_config.login_info_.db_user, DB_USER_NAME_LENGTH);
       strncpy(password, g_config.login_info_.db_password, DB_PASSWORD_LENGTH);
-#elif defined(_PAP_SHARE_MEMORY)
-	  strncpy(host, g_config.share_memory_info_.db_ip, HOST_LENGTH);
+#elif defined(_PAP_SHAREMEMORY)
+	    strncpy(host, g_config.share_memory_info_.db_ip, HOST_LENGTH);
       port = g_config.share_memory_info_.db_port;
       strncpy(connection_name, g_config.share_memory_info_.db_connection_name, DB_CONNECTION_NAME_LENGTH);
       strncpy(user, g_config.share_memory_info_.db_user, DB_USER_NAME_LENGTH);
@@ -80,7 +80,7 @@ bool Manager::init(db_type_enum db_type) {
       strncpy(connection_name, g_config.login_info_.db_connection_name, DB_CONNECTION_NAME_LENGTH);
       strncpy(user, g_config.login_info_.db_user, DB_USER_NAME_LENGTH);
       strncpy(password, g_config.login_info_.db_password, DB_PASSWORD_LENGTH);
-#elif defined(_PAP_SHARE_MEMORY)
+#elif defined(_PAP_SHAREMEMORY)
       strncpy(host, g_config.share_memory_info_.db_ip, HOST_LENGTH);
       port = g_config.share_memory_info_.db_port;
       strncpy(connection_name, g_config.share_memory_info_.db_connection_name, DB_CONNECTION_NAME_LENGTH);
@@ -101,7 +101,7 @@ bool Manager::init(db_type_enum db_type) {
                       db_type_);
       }
     }
-	return connected;
+	  return connected;
   __LEAVE_FUNCTION
     return false;
 }

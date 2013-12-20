@@ -221,3 +221,18 @@ CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
 Makefile
+
+#######################
+## Ctags and Cscope
+#######################
+cscope.*
+tags
+
+#############
+## Run Bin
+#############
+share_memory
+billing
+server
+login
+world

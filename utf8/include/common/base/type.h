@@ -45,6 +45,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <pthread.h>
+#include <execinfo.h>
 #include <cmath>
 #include <signal.h>
 #include <exception>

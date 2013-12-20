@@ -280,9 +280,9 @@ bool ShareMemory::new_staticmanager() {
 bool ShareMemory::init_staticmanager() {
   __ENTER_FUNCTION
     using namespace pap_server_common_base;
-	using namespace pap_server_common_sys::share_memory;
+    using namespace pap_server_common_sys::share_memory;
     using namespace pap_server_common_game::define; //the type namespace
-	using namespace pap_server_common_game::db::share_memory;
+    using namespace pap_server_common_game::db::share_memory;
 
     bool result = true;
     Assert(g_db_manager);
