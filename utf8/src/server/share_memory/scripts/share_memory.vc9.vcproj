@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ws2_32.lib ../../../../lib/iconv/iconv.lib"
+				AdditionalDependencies="ws2_32.lib ../../../../lib/common/iconv/lib/libiconv.dll.a"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -126,6 +126,7 @@
 				AdditionalIncludeDirectories="../../../../include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;__WINDOWS__;_CRT_SECURE_NO_DEPRECATE;_PAP_SHARE_MEMORY"
 				StringPooling="true"
+				ExceptionHandling="2"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="4"
@@ -146,7 +147,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/FORCE:MULTIPLE"
-				AdditionalDependencies="ws2_32.lib"
+				AdditionalDependencies="ws2_32.lib ../../../../lib/common/iconv/link/libiconv.lib"
 				LinkIncremental="1"
 				IgnoreDefaultLibraryNames="libc.lib;libcd.lib"
 				GenerateDebugInformation="true"
@@ -556,6 +557,18 @@
 						RelativePath="..\..\..\..\include\common\file\ini.h"
 						>
 					</File>
+				</Filter>
+				<Filter
+					Name="lib"
+					>
+					<Filter
+						Name="iconv"
+						>
+						<File
+							RelativePath="..\..\..\..\include\common\lib\iconv\iconv.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 			</Filter>
 		</Filter>

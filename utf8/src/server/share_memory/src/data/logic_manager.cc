@@ -25,6 +25,9 @@ bool LogicManager<global_data_t>::save_all() {
       return false;
     }
     int32_t max_pool_size = pool_pointer_->get_max_size();
+#if defined(NDEBUG)
+    USE_PARAM(max_pool_size);
+#endif
     Assert(1 == max_pool_size);
     global_data_t* global_data = pool_pointer_->get_obj(0);
     if (!global_data) {

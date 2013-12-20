@@ -297,7 +297,7 @@ int charset_convert(const char* from,
       goto done;
     }
     while (0 < insize) {
-      size_t res = iconv(cd, (const char**)&inptr, &insize, &outptr, &outsize);
+      size_t res = iconv(cd, (char**)&inptr, &insize, &outptr, &outsize);
       if (outptr != outbuf) {
         int saved_errno = errno;
         int outsize = outptr - outbuf;

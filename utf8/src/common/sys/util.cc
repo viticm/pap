@@ -1,4 +1,3 @@
-#include <execinfo.h>
 #include "common/sys/util.h"
 #include "common/sys/thread.h"
 
