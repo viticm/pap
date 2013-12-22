@@ -318,7 +318,7 @@
 								>
 							</File>
 							<File
-								RelativePath="..\src\main\share_memory.cc"
+								RelativePath="..\\\src\main\share_memory.cc"
 								>
 							</File>
 						</Filter>

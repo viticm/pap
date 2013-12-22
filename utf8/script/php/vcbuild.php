@@ -14,7 +14,8 @@ function str_replace_once($needle, $replace, $haystack) {
     // Nothing found
     return $haystack;
   }
-  return substr_replace($haystack, $replace, $pos, strlen($needle));
+  $result = substr_replace($haystack, $replace, $pos, strlen($needle));
+  return $result;
 }
 
 
@@ -59,6 +60,8 @@ function rewrite_vcscript($modelname = NULL, $revert = false) {
   $renamelist = get_renamelist($modelname);
   if (empty($renamelist)) return true;
   $scriptfiles = explode(' ', $renamelist['scriptfile']);
+  //specail
+  if ('sharememory' == $modelname) $modelname = 'share_memory';
   foreach ($scriptfiles as $k => $scriptfile) {
     $scriptpath = $renamelist['scriptpath'];
     $scriptinfo = file_get_contents(PROJECTPATH.$scriptpath.$scriptfile);
@@ -68,32 +71,32 @@ function rewrite_vcscript($modelname = NULL, $revert = false) {
       $fullpath = PROJECTPATH.$sourcefile;
       $fullpath = $revert ? dirname($fullpath).'/'.basename(dirname($fullpath)).
         '_'.basename($fullpath) : $fullpath;
-      $sourcefile = basename($fullpath);
+      $sourcefile = str_replace(PROJECTPATH, '', $fullpath);
+      $ostype = get_ostype();
+      $filename = basename($fullpath);
+      $fatherdir = basename(dirname($fullpath));
+      $new_filename = $revert ? str_replace($fatherdir.'_', '', $filename) :
+                      $fatherdir.'_'.$filename;
       if (file_exists($fullpath)) {
-        $ostype = get_ostype();
-        $filename = basename($fullpath);
-        $fatherdir = basename(dirname($fullpath));
-        $new_filename = $revert ? str_replace($fatherdir.'_', '', $filename) :
-                        $fatherdir.'_'.$filename;
         $cmd = '';
         $cmd .= 'cd '.dirname($fullpath);
         $cmd .= ' &&';
         $cmd .= OS_WINDOWS == $ostype ? ' ren' : ' mv';
         $cmd .= ' '.$filename.' '.$new_filename;
         execcmd($cmd, $ostype);
-        $new_sourcefile = str_replace($filename, '', $sourcefile).$new_filename;
-        $new_sourcefile = str_replace_once ('src/', '', $new_sourcefile);
-        $new_sourcefile = str_replace_once('server/'.$modelname, 
-                                           '', 
-                                           $new_sourcefile);
-        $new_sourcefile = str_replace('/', '\\', $new_sourcefile);
-        $sourcefile = str_replace_once('/src', '', $sourcefile);
-        $sourcefile = str_replace_once('server/'.$modelname,
-                                       '',
-                                       $sourcefile);
-        $sourcefile = str_replace('/', '\\', $sourcefile);
-        $scriptinfo = str_replace($sourcefile, $new_sourcefile, $scriptinfo);
       }
+      $new_sourcefile = str_replace($filename, '', $sourcefile).$new_filename;
+      $new_sourcefile = str_replace_once ('src/', '', $new_sourcefile);
+      $new_sourcefile = str_replace_once('server/'.$modelname, 
+                                         '', 
+                                         $new_sourcefile);
+      $new_sourcefile = str_replace('/', '\\', $new_sourcefile);
+      $sourcefile = str_replace_once('src/', '', $sourcefile);
+      $sourcefile = str_replace_once('server/'.$modelname.'/',
+                                     '',
+                                     $sourcefile);
+      $sourcefile = str_replace('/', '\\', $sourcefile);
+      $scriptinfo = str_replace($sourcefile, $new_sourcefile, $scriptinfo);
     }
     $commonsource = get_renamelist('common');
     foreach ($commonsource as $k => $common_sourcefile) {
@@ -101,33 +104,30 @@ function rewrite_vcscript($modelname = NULL, $revert = false) {
       $fullpath = $revert ? dirname($fullpath).'/'.basename(dirname($fullpath)).
         '_'.basename($fullpath) : $fullpath;
       //revert
-      $common_sourcefile = basename($fullpath);
+      $common_sourcefile = str_replace(PROJECTPATH, '', $fullpath);
+      $ostype = get_ostype();
+      $filename = basename($fullpath);
+      $fatherdir = basename(dirname($fullpath));
+      $new_filename = $revert ? str_replace($fatherdir.'_', '', $filename) :
+        $fatherdir.'_'.$filename;
       if (file_exists($fullpath)) {
-        $ostype = get_ostype();
-        $filename = basename($fullpath);
-        $fatherdir = basename(dirname($fullpath));
-        $new_filename = $revert ? str_replace($fatherdir.'_', '', $filename) :
-          $fatherdir.'_'.$filename;
         $cmd = '';
         $cmd .= 'cd '.dirname($fullpath);
         $cmd .= ' &&';
         $cmd .= OS_WINDOWS == $ostype ? ' ren' : ' mv';
         $cmd .= ' '.$filename.' '.$new_filename;
         execcmd($cmd, $ostype);
-        $new_sourcefile = str_replace($filename, 
-                                      '', 
-                                      $common_sourcefile).$new_filename;
-        $new_sourcefile = str_replace_once('src/', '', $new_sourcefile);
-        $new_sourcefile = str_replace_once('server/'.$modelname,
-                                           '',
-                                           $new_sourcefile);
-        $new_sourcefile = str_replace('/', '\\', $new_sourcefile);
-        $common_sourcefile = str_replace_once('src/', '', $common_sourcefile);
-        $common_sourcefile = str_replace('/', '\\', $common_sourcefile);
-        $scriptinfo = str_replace($common_sourcefile, 
-                                  $new_sourcefile, 
-                                  $scriptinfo);
       }
+      $new_sourcefile = str_replace($filename, 
+                                    '', 
+                                    $common_sourcefile).$new_filename;
+      $new_sourcefile = str_replace_once('src/', '', $new_sourcefile);
+      $new_sourcefile = str_replace('/', '\\', $new_sourcefile);
+      $common_sourcefile = str_replace_once('src/', '', $common_sourcefile);
+      $common_sourcefile = str_replace('/', '\\', $common_sourcefile);
+      $scriptinfo = str_replace($common_sourcefile, 
+                                $new_sourcefile, 
+                                $scriptinfo);
     }
     $result = file_put_contents(PROJECTPATH.$scriptpath.$scriptfile, 
                                 $scriptinfo);

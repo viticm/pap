@@ -165,7 +165,7 @@
     <ClCompile Include="..\src\main\command_thread.cc">
       <Filter>Source Files\server\sharememory\src\main</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\main\share_memory.cc">
+    <ClCompile Include="..\\\src\main\share_memory.cc">
       <Filter>Source Files\server\sharememory\src\main</Filter>
     </ClCompile>
     <ClCompile Include="..\src\data\logic_manager.cc">
