@@ -2,52 +2,150 @@
 /**
  * bacause the vs obj name can't rename, so i will chang it
  * @author viticm<viticm@126.com>
- * @version 1.0
+ * @version 2.0
  * @uses to rename source files and visual studio script
  */
 
-function str_replace_once($needle, $replace, $haystack) {
-  // Looks for the first occurence of $needle in $haystack
-  // and replaces it with $replace.
-  $pos = strpos($haystack, $needle);
-  if ($pos === false) {
-    // Nothing found
-    return $haystack;
+/**
+ * string replace of php system extend (viticm)
+ * @param mixed $search
+ * @param mixed $replace
+ * @param mixed $subject
+ * @param number $count
+ * @return mixed
+ */
+function str_nreplace($search, $replace, $subject, $count = -1) {
+  $result = $subject;
+  if ($count < -1) return $result;
+  if (-1 === $count) {
+    $result = str_replace($search, $replace, $subject);
   }
-  $result = substr_replace($haystack, $replace, $pos, strlen($needle));
+  else {
+    for ($i = 0; $i < $count; ++$i) {
+      $pos = strpos($result, $search);
+      if ($pos === false) {
+        break;
+      }
+      else {
+        $result = substr_replace($result, $replace, $pos, strlen($search));
+      }
+    }
+  }
   return $result;
 }
 
+/**
+ * complement full path(add the last delimiter)
+ * this function not check the path if exist
+ * @param string $path
+ * @param string $delimiter
+ * @return string
+ */
+function complementpath($path, $delimiter = '/') {
+  $result = $path;
+  $lastlimiter = substr($path, -1, 1);
+  if ($lastlimiter != $delimiter) $result .= $delimiter;
+  return $result;
+}
 
 /**
- * get rename list
- * @param string $modelname
- * @return array
+ * format the path to use system path
+ * and if path like this server/name/../path will chage to server/path
+ * @param string $path
+ * @param string $from_ostype
+ * @return string
  */
-function get_renamelist($modelname) { 
-  $renamelist = array( //all path base of project/charset/ dir
-    'sharememory' => array(
-      'scriptpath' => 'src/server/share_memory/scripts/',
-      'scriptfile' => 'share_memory.vc9.vcproj share_memory.vc11.vcxproj'
-        .' share_memory.vc11.vcxproj.filters',
-      'source' => 'src/server/share_memory/src/main/share_memory.cc'
-    ),
-    'common' => array( //无论如何公用的都会执行，不管是不是服务器与客户端公用的
-      'src/common/sys/util.cc'
-    ),
-  );
-  $result = array_key_exists($modelname, $renamelist) ? $renamelist[$modelname]
-    : array();
-  return $result; 
+function format_systempath($path, $from_ostype = OS_LINUX) {
+  $result = $path;
+  $current_ostype = get_ostype();
+  $find_delimiter = OS_WINDOWS == $from_ostype ? '\\' : '/';
+  $delimiter = OS_WINDOWS == $current_ostype ? '\\' : '/';
+  $result = str_replace($find_delimiter, $delimiter, $path);
+  $fatherpath = '..'.$delimiter;
+  while (($fatherpath_pos = strpos($result, $fatherpath)) !== false) {
+    $temp = substr($result, 0, $fatherpath_pos);
+    $find_fatherpath_pos = strrpos($temp, $fatherpath);
+    $find_fatherpath_length = strlen($temp) - $find_fatherpath_pos;
+    $result = substr_replace($result, 
+                             $find_fatherpath_pos, 
+                             $find_fatherpath_pos, 
+                             $find_fatherpath_length);
+  }
+  return $result;
 }
+
+//project visual studio script file dirs
+$g_scriptdirs = <<<EOF
+billing src/server/billing/scripts
+sharememory src/server/sharememory/scripts
+login src/server/login/scripts
+world src/server/world/scripts
+server src/server/server/scripts
+EOF;
 
 $selfpath = str_replace('\\', '/', dirname(realpath(__FILE__)));
 $projectpath = str_replace('script/php', '', $selfpath);
 define('PROJECTPATH', $projectpath);
+define('PROJECTNAME', 'pap');
 define('OS_UNKONWN', 0);
 define('OS_WINDOWS', 1);
 define('OS_LINUX', 2);
 
+/**
+ * get server visual studio script dir(full path)
+ * @param string $modelname
+ * @return string
+ */
+function get_scriptdir($modelname) {
+  $result = NULL;
+  $scriptdir_array = explode("\n", $GLOBALS['g_scriptdirs']);
+  foreach ($scriptdir_array as $key => $val) {
+    list($model, $dir) = explode(' ', $val);
+    if ($model == $modelname) {
+      $result = PROJECTPATH.$dir;
+      break;
+    }
+  }
+  $result = complementpath($result);
+  return $result;
+}
+
+/**
+ * rename dir or file (form system cmd)
+ * @param string $path
+ * @param string $old
+ * @param string $new
+ */
+function sys_rename($path, $old, $new) {
+  $path = complementpath($path);
+  $path = format_systempath($path);
+  if (!file_exists($path.$old) && !is_dir($path)) return false;
+  $ostype = get_ostype();
+  $cmd = '';
+  $cmd .= 'cd '.$path;
+  $cmd .= ' &&';
+  $cmd .= OS_WINDOWS == $ostype ? ' ren' : ' mv';
+  $cmd .= ' '.$old.' '.$new;
+  execcmd($cmd, $ostype);
+  return true;
+}
+
+/**
+ * get server visual studio script files(full path)
+ * @param string $path
+ * @return array
+ */
+function get_scriptfile($path) {
+  $result = array();
+  $ostype = get_ostype();
+  $pathdemiliter = OS_WINDOWS == $ostype ? '\\' : '/';
+  if (empty($path) || !is_dir($path)) return $result;
+  $path = complementpath($path, $pathdemiliter); //fix it
+  $vc9_scriptfiles = glob($path.'*.vcproj');
+  $vc11_scriptfiles = glob($path.'*.vcxproj*');
+  $result = array_merge($vc9_scriptfiles, $vc11_scriptfiles);
+  return $result;
+}
 
 /**
  * rewrite visual studio script
@@ -55,85 +153,32 @@ define('OS_LINUX', 2);
  * @param string $filename
  * @return bool
  */
-function rewrite_vcscript($modelname = NULL, $revert = false) {
-  if(empty($modelname)) return false;
-  $renamelist = get_renamelist($modelname);
-  if (empty($renamelist)) return true;
-  $scriptfiles = explode(' ', $renamelist['scriptfile']);
-  //specail
-  if ('sharememory' == $modelname) $modelname = 'share_memory';
-  foreach ($scriptfiles as $k => $scriptfile) {
-    $scriptpath = $renamelist['scriptpath'];
-    $scriptinfo = file_get_contents(PROJECTPATH.$scriptpath.$scriptfile);
-    $selfsource = $renamelist['source'];
-    $selfsource_array = explode(' ', $selfsource);
-    foreach ($selfsource_array as $k1 => $sourcefile) {
-      $fullpath = PROJECTPATH.$sourcefile;
-      $fullpath = $revert ? dirname($fullpath).'/'.basename(dirname($fullpath)).
-        '_'.basename($fullpath) : $fullpath;
-      $sourcefile = str_replace(PROJECTPATH, '', $fullpath);
-      $ostype = get_ostype();
-      $filename = basename($fullpath);
-      $fatherdir = basename(dirname($fullpath));
-      $new_filename = $revert ? str_replace($fatherdir.'_', '', $filename) :
-                      $fatherdir.'_'.$filename;
-      if (file_exists($fullpath)) {
-        $cmd = '';
-        $cmd .= 'cd '.dirname($fullpath);
-        $cmd .= ' &&';
-        $cmd .= OS_WINDOWS == $ostype ? ' ren' : ' mv';
-        $cmd .= ' '.$filename.' '.$new_filename;
-        execcmd($cmd, $ostype);
-      }
-      $new_sourcefile = str_replace($filename, '', $sourcefile).$new_filename;
-      $new_sourcefile = str_replace_once ('src/', '', $new_sourcefile);
-      $new_sourcefile = str_replace_once('server/'.$modelname, 
-                                         '', 
-                                         $new_sourcefile);
-      $new_sourcefile = str_replace('/', '\\', $new_sourcefile);
-      $sourcefile = str_replace_once('src/', '', $sourcefile);
-      $sourcefile = str_replace_once('server/'.$modelname.'/',
-                                     '',
-                                     $sourcefile);
-      $sourcefile = str_replace('/', '\\', $sourcefile);
-      $scriptinfo = str_replace($sourcefile, $new_sourcefile, $scriptinfo);
+function rewrite_vcscript($modelname = NULL, 
+                          $revert = false, 
+                          $randsuffix = false) {
+  $result = true;
+  if (empty($modelname)) return false;
+  $model_scriptpath = get_scriptdir($modelname);
+  $scriptfiles = get_scriptfile($model_scriptpath);
+  if (0 == count($scriptfiles)) return false;
+  foreach ($scriptfiles as $scriptfile) {
+    $scriptfile_info = file_get_contents($scriptfile);
+    $match_sourcefiles = array();
+    preg_match_all('/".*.cc/', $scriptfile_info, $match_sourcefiles);
+    foreach ($match_sourcefiles as $sourcefile) {
+      $sourcefile = substr($scriptfile, 1, strlen($scriptfile) - 1);
+      $sourcefile_path = $model_scriptpath.$sourcefile;
+      $sourcefile_path = dirname(format_systempath($sourcefile_path));
+      $sourcefile_name = basename($sourcefile_path);
+      $sourcefile_dir = dirname($sourcefile_path);
+      $temp = str_replace(format_systempath(PROJECTPATH), '', $sourcefile_dir);
+      $new_sourcefile_name = str_replace('\\', '_', $temp);
+      $new_sourcefile_name .= true === $randsuffix ? '_'.time().rand(1, 1000) :
+        ''; 
+      sys_rename($sourcefile_path, $sourcefile_name, $new_sourcefile_name);
     }
-    $commonsource = get_renamelist('common');
-    foreach ($commonsource as $k => $common_sourcefile) {
-      $fullpath = PROJECTPATH.$common_sourcefile;
-      $fullpath = $revert ? dirname($fullpath).'/'.basename(dirname($fullpath)).
-        '_'.basename($fullpath) : $fullpath;
-      //revert
-      $common_sourcefile = str_replace(PROJECTPATH, '', $fullpath);
-      $ostype = get_ostype();
-      $filename = basename($fullpath);
-      $fatherdir = basename(dirname($fullpath));
-      $new_filename = $revert ? str_replace($fatherdir.'_', '', $filename) :
-        $fatherdir.'_'.$filename;
-      if (file_exists($fullpath)) {
-        $cmd = '';
-        $cmd .= 'cd '.dirname($fullpath);
-        $cmd .= ' &&';
-        $cmd .= OS_WINDOWS == $ostype ? ' ren' : ' mv';
-        $cmd .= ' '.$filename.' '.$new_filename;
-        execcmd($cmd, $ostype);
-      }
-      $new_sourcefile = str_replace($filename, 
-                                    '', 
-                                    $common_sourcefile).$new_filename;
-      $new_sourcefile = str_replace_once('src/', '', $new_sourcefile);
-      $new_sourcefile = str_replace('/', '\\', $new_sourcefile);
-      $common_sourcefile = str_replace_once('src/', '', $common_sourcefile);
-      $common_sourcefile = str_replace('/', '\\', $common_sourcefile);
-      $scriptinfo = str_replace($common_sourcefile, 
-                                $new_sourcefile, 
-                                $scriptinfo);
-    }
-    $result = file_put_contents(PROJECTPATH.$scriptpath.$scriptfile, 
-                                $scriptinfo);
     if (!$result) {
       echo 'rewrite '.$scriptfile.' failed!',"\n";
-      return false;
     }
     else {
       echo 'rewrite '.$scriptfile.' success.',"\n";
@@ -194,5 +239,6 @@ function main() {
   }
   return 0;
 }
-
-main();
+// main();
+// rewrite_vcscript('sharememory');
+echo dirname('F:\servers\develop\Zend\workspaces\pap\utf8\src\server\sharememory\scripts\\'.'..\..\..\..\run/server');
