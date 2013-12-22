@@ -6,6 +6,18 @@
  * @uses to rename source files and visual studio script
  */
 
+function str_replace_once($needle, $replace, $haystack) {
+  // Looks for the first occurence of $needle in $haystack
+  // and replaces it with $replace.
+  $pos = strpos($haystack, $needle);
+  if ($pos === false) {
+    // Nothing found
+    return $haystack;
+  }
+  return substr_replace($haystack, $replace, $pos, strlen($needle));
+}
+
+
 /**
  * get rename list
  * @param string $modelname
@@ -46,48 +58,80 @@ function rewrite_vcscript($modelname = NULL, $revert = false) {
   if(empty($modelname)) return false;
   $renamelist = get_renamelist($modelname);
   if (empty($renamelist)) return true;
-  $fileinfo = file_get_contents($filename);
   $scriptfiles = explode(' ', $renamelist['scriptfile']);
   foreach ($scriptfiles as $k => $scriptfile) {
-    $scriptinfo = file_get_contents($scriptfile);
+    $scriptpath = $renamelist['scriptpath'];
+    $scriptinfo = file_get_contents(PROJECTPATH.$scriptpath.$scriptfile);
     $selfsource = $renamelist['source'];
     $selfsource_array = explode(' ', $selfsource);
     foreach ($selfsource_array as $k1 => $sourcefile) {
       $fullpath = PROJECTPATH.$sourcefile;
+      $fullpath = $revert ? dirname($fullpath).'/'.basename(dirname($fullpath)).
+        '_'.basename($fullpath) : $fullpath;
+      $sourcefile = basename($fullpath);
       if (file_exists($fullpath)) {
         $ostype = get_ostype();
         $filename = basename($fullpath);
         $fatherdir = basename(dirname($fullpath));
-        $new_filename = $revert ? str_replace($fatherdir, '', $filename) :
+        $new_filename = $revert ? str_replace($fatherdir.'_', '', $filename) :
                         $fatherdir.'_'.$filename;
         $cmd = '';
         $cmd .= 'cd '.dirname($fullpath);
+        $cmd .= ' &&';
+        $cmd .= OS_WINDOWS == $ostype ? ' ren' : ' mv';
+        $cmd .= ' '.$filename.' '.$new_filename;
         execcmd($cmd, $ostype);
-        rename($filename, $new_filename);
         $new_sourcefile = str_replace($filename, '', $sourcefile).$new_filename;
+        $new_sourcefile = str_replace_once ('src/', '', $new_sourcefile);
+        $new_sourcefile = str_replace_once('server/'.$modelname, 
+                                           '', 
+                                           $new_sourcefile);
+        $new_sourcefile = str_replace('/', '\\', $new_sourcefile);
+        $sourcefile = str_replace_once('/src', '', $sourcefile);
+        $sourcefile = str_replace_once('server/'.$modelname,
+                                       '',
+                                       $sourcefile);
+        $sourcefile = str_replace('/', '\\', $sourcefile);
         $scriptinfo = str_replace($sourcefile, $new_sourcefile, $scriptinfo);
       }
     }
     $commonsource = get_renamelist('common');
     foreach ($commonsource as $k => $common_sourcefile) {
       $fullpath = PROJECTPATH.$common_sourcefile;
+      $fullpath = $revert ? dirname($fullpath).'/'.basename(dirname($fullpath)).
+        '_'.basename($fullpath) : $fullpath;
+      //revert
+      $common_sourcefile = basename($fullpath);
       if (file_exists($fullpath)) {
         $ostype = get_ostype();
         $filename = basename($fullpath);
         $fatherdir = basename(dirname($fullpath));
-        $new_filename = $revert ? str_replace($fatherdir, '', $filename) :
-        $fatherdir.'_'.$filename;
-        rename($filename, $new_filename);
+        $new_filename = $revert ? str_replace($fatherdir.'_', '', $filename) :
+          $fatherdir.'_'.$filename;
+        $cmd = '';
+        $cmd .= 'cd '.dirname($fullpath);
+        $cmd .= ' &&';
+        $cmd .= OS_WINDOWS == $ostype ? ' ren' : ' mv';
+        $cmd .= ' '.$filename.' '.$new_filename;
+        execcmd($cmd, $ostype);
         $new_sourcefile = str_replace($filename, 
                                       '', 
                                       $common_sourcefile).$new_filename;
+        $new_sourcefile = str_replace_once('src/', '', $new_sourcefile);
+        $new_sourcefile = str_replace_once('server/'.$modelname,
+                                           '',
+                                           $new_sourcefile);
+        $new_sourcefile = str_replace('/', '\\', $new_sourcefile);
+        $common_sourcefile = str_replace_once('src/', '', $common_sourcefile);
+        $common_sourcefile = str_replace('/', '\\', $common_sourcefile);
         $scriptinfo = str_replace($common_sourcefile, 
                                   $new_sourcefile, 
                                   $scriptinfo);
       }
     }
-    $result = file_put_contents($scriptfile, $scriptinfo);
-    if (!result) {
+    $result = file_put_contents(PROJECTPATH.$scriptpath.$scriptfile, 
+                                $scriptinfo);
+    if (!$result) {
       echo 'rewrite '.$scriptfile.' failed!',"\n";
       return false;
     }
@@ -136,7 +180,7 @@ function execcmd($cmd, $ostype) {
 function main() {
   $argc = $GLOBALS['argc'];
   $argv = $GLOBALS['argv'];
-  if (1 >= $argc || 3 <= $argc) {
+  if (1 >= $argc || 3 < $argc) {
     echo 'param error',"\n";
     return 1;
   }
@@ -146,7 +190,7 @@ function main() {
   foreach ($models as $k => $model) {
     $result = 
       2 == $argc ? rewrite_vcscript($model) : rewrite_vcscript($model, $revert);
-    if (!result) return 1;
+    if (!$result) return 1;
   }
   return 0;
 }
