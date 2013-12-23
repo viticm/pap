@@ -202,16 +202,17 @@ char* Ini::find_key(int32_t &position) {
     char _char;
     char* ret;
     int32_t m, i;
+    uint16_t kKeyLength = 64;
     m = 0;
-    ret = new char[64];
-    memset(ret, '\0', sizeof(ret));
+    ret = new char[kKeyLength];
+    memset(ret, '\0', kKeyLength);
     for (i = position; i < data_length_; ++i) {
       _char = data_info_[i];
       if ('\r' == _char || '\n' == _char || '=' == _char || ';' == _char) {
         position = i + 1;
         break;
       }
-      ret[m] = data_info_[i];
+      ret[m] = _char;
       ++m;
     }
     return ret;

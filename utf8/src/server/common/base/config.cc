@@ -1229,7 +1229,7 @@ void Config::load_share_memory_info_only() {
   __ENTER_FUNCTION
     pap_common_file::Ini share_memory_info_ini(SHARE_MEMORY_INFO_FILE);
     share_memory_info_.obj_count = 
-      share_memory_info_ini.read_uint16("System", "KeyCount");
+      share_memory_info_ini.read_uint16("Key", "KeyCount");
     share_memory_info_.key_data = 
       new share_memory_key_data_t[share_memory_info_.obj_count];
     uint32_t i;
