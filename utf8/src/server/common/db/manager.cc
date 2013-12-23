@@ -66,38 +66,34 @@ bool Manager::init(db_type_enum db_type) {
                       db_type_);
       }
     }
-    if (kAllDatabase == db_type_ || kCharacterDatabase == db_type_) { //login
+    if (kAllDatabase == db_type_ || kUserDatabase == db_type_) { //Billing
       //init all variable in first(user db)
-      character_interface_ = new ODBCInterface();
+      user_interface_ = new ODBCInterface();
       memset(host, 0, HOST_LENGTH);
       port = 3306; //default mysql port
       memset(connection_name, 0, DB_CONNECTION_NAME_LENGTH);
       memset(user, 0, DB_USER_NAME_LENGTH);
       memset(password, 0, DB_PASSWORD_LENGTH);
-#if defined(_PAP_LOGIN) //this diffrent from login server and share memory
-      strncpy(host, g_config.login_info_.db_ip, HOST_LENGTH);
-      port = g_config.login_info_.db_port;
-      strncpy(connection_name, g_config.login_info_.db_connection_name, DB_CONNECTION_NAME_LENGTH);
-      strncpy(user, g_config.login_info_.db_user, DB_USER_NAME_LENGTH);
-      strncpy(password, g_config.login_info_.db_password, DB_PASSWORD_LENGTH);
-#elif defined(_PAP_SHAREMEMORY)
-      strncpy(host, g_config.share_memory_info_.db_ip, HOST_LENGTH);
-      port = g_config.share_memory_info_.db_port;
-      strncpy(connection_name, g_config.share_memory_info_.db_connection_name, DB_CONNECTION_NAME_LENGTH);
-      strncpy(user, g_config.share_memory_info_.db_user, DB_USER_NAME_LENGTH);
-      strncpy(password, g_config.share_memory_info_.db_password, DB_PASSWORD_LENGTH);
+#if defined(_PAP_BILLING)
+      strncpy(host, g_config.billing_info_.db_ip_, HOST_LENGTH);
+      port = g_config.billing_info_.db_port_;
+      strncpy(connection_name, 
+              g_config.billing_info_.db_connection_name_, 
+              DB_CONNECTION_NAME_LENGTH);
+      strncpy(user, g_config.billing_info_.db_user_, DB_USER_NAME_LENGTH);
+      strncpy(password, g_config.billing_info_.db_password, DB_PASSWORD_LENGTH);
 #endif
       host[HOST_LENGTH - 1] = '\0';
       connection_name[DB_CONNECTION_NAME_LENGTH - 1] = '\0';
       user[DB_USER_NAME_LENGTH - 1] = '\0';
       password[DB_PASSWORD_LENGTH - 1] = '\0';
 
-      Assert(character_interface_); //safe code
-      connected = character_interface_->connect(connection_name, user, password);
+      Assert(user_interface_); //safe code
+      connected = user_interface_->connect(connection_name, user, password);
       if (!connected) {
         Log::save_log("dbmanager", 
                       "character_interface_->connect()...get error: %s, db_type: %d", 
-                      character_interface_->get_error_message(), 
+                      user_interface_->get_error_message(), 
                       db_type_);
       }
     }
