@@ -44,7 +44,7 @@ HANDLE create(uint64_t key, uint32_t size) {
     handle = shmget(key, size, IPC_CREAT | IPC_EXCL | 0666);
     pap_server_common_base::Log::save_log(
         "share_memory",
-        "[share memory][api](create) handle = %d, key = %"PRIu64" ,error: %d%s",
+        "[share memory][api](create) handle = %d, key = %"PRIu64" ,error: %d",
         handle, 
         key, 
         errno);
@@ -208,7 +208,6 @@ void Base::destory() {
 bool Base::attach(uint64_t key, uint32_t size) {
   __ENTER_FUNCTION
     handle_ = api::open(key, size);
-    LERR("size_: %d", size_);
     if (kCmdModelClearAll == cmd_model_) {
       destory();
       pap_server_common_base::Log::save_log(
@@ -220,7 +219,7 @@ bool Base::attach(uint64_t key, uint32_t size) {
     if (HANDLE_INVALID == handle_) {
       pap_server_common_base::Log::save_log(
           "share_memory", 
-          "[share memory][base](attach) create failed, key = %"PRIu64"", 
+          "[share memory][base](attach) failed, key = %"PRIu64"", 
           key); 
       return false;
     }
