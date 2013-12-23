@@ -3,7 +3,7 @@
  * bacause the vs obj name can't rename, so i will chang it
  * @author viticm<viticm@126.com>
  * @version 2.0
- * @uses to rename source files and visual studio script
+ * @uses rename source files and visual studio script(also can revert it)
  */
 
 /**
