@@ -208,6 +208,7 @@ void Base::destory() {
 bool Base::attach(uint64_t key, uint32_t size) {
   __ENTER_FUNCTION
     handle_ = api::open(key, size);
+    LERR("size_: %d", size_);
     if (kCmdModelClearAll == cmd_model_) {
       destory();
       pap_server_common_base::Log::save_log(

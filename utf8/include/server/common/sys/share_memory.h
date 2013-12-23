@@ -198,10 +198,11 @@ class UnitPool {
        else if(!result) {
          return false;
        }
+
        if (!result && kCmdModelClearAll == ref_obj_pointer_->cmd_model_) {
          return true;
        }
-       else {
+       else if(!result) {
          pap_server_common_base::Log::save_log(
              "share_memory", 
              "[share memory][datapool](init) failed");

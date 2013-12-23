@@ -42,6 +42,7 @@ class LogicManager {
        pool_pointer_->set_head_version(0);
        old_check_time_ = g_time_manager->get_run_time();
        old_version_ = 0;
+       return true;
      __LEAVE_FUNCTION
        return false;
    };

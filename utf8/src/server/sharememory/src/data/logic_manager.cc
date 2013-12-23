@@ -36,9 +36,10 @@ bool LogicManager<global_data_t>::save_all() {
     }
     data = global_data->get_data(kFlagSelfRead);
     //uint64_t key = pool_pointer_->get_key();
-    pap_server_common_db::ODBCInterface* odbc_interface = g_db_manager->get_interface(kCharacterDatabase);
+    pap_server_common_db::ODBCInterface* odbc_interface = 
+      g_db_manager->get_interface(kCharacterDatabase);
     Assert(odbc_interface);
-	pap_server_common_db::data::Global _global_data(odbc_interface);
+	  pap_server_common_db::data::Global _global_data(odbc_interface);
     _global_data.set_pool_id(100);
     int32_t error_code;
     if (_global_data.save(&data)) {
@@ -91,10 +92,11 @@ bool LogicManager<global_data_t>::post_init() {
       return false;
     }
     //uint32_t _data = global_data->get_data(kFlagSelfRead);
-    pap_server_common_db::ODBCInterface* odbc_interface = g_db_manager->get_interface(kCharacterDatabase);
+    pap_server_common_db::ODBCInterface* odbc_interface = 
+      g_db_manager->get_interface(kCharacterDatabase);
     Assert(odbc_interface);
     uint32_t _data = 100; //test
-	pap_server_common_db::data::Global _global_data(odbc_interface);
+	  pap_server_common_db::data::Global _global_data(odbc_interface);
     _global_data.set_pool_id(100);
     int32_t error_code;
     if (_global_data.load()) {
@@ -108,7 +110,9 @@ bool LogicManager<global_data_t>::post_init() {
       Assert(false);
     }
     ready_ = true;
-    Log::save_log("share_memory", "global_data post_init from key=%"PRIu64" is success.", key);
+    Log::save_log("share_memory", 
+                  "global_data post_init from key=%"PRIu64" is success.", 
+                  key);
     return true;
   __LEAVE_FUNCTION
     return false;

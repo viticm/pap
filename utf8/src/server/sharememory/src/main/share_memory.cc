@@ -259,7 +259,7 @@ bool ShareMemory::new_staticmanager() {
             new UnitPool<global_data_t>();
           Assert(keydata_pool_[i].pool);
           Log::save_log("share_memory", 
-                        "UnitPool<Global> success");
+                        "new UnitPool<Global> success");
           logicmanager_pool_[i].logic_manager = 
             new LogicManager<global_data_t>();
           Assert(logicmanager_pool_[i].logic_manager);
