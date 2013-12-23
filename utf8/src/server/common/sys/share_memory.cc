@@ -42,12 +42,12 @@ HANDLE create(uint64_t key, uint32_t size) {
 #if defined(__LINUX__)
     int32_t handle;
     handle = shmget(key, size, IPC_CREAT | IPC_EXCL | 0666);
-    pap_server_common_base::Log::save_log("share_memory",
-                                          "[share memory][api](create) handle = %d, key = %"PRIu64" ,error: %d%s",
-                                          handle, 
-                                          key, 
-                                          errno, 
-                                          LF);
+    pap_server_common_base::Log::save_log(
+        "share_memory",
+        "[share memory][api](create) handle = %d, key = %"PRIu64" ,error: %d%s",
+        handle, 
+        key, 
+        errno);
 #elif defined(__WINDOWS__)
     HANDLE handle;
     char buffer[65];
@@ -74,12 +74,12 @@ HANDLE open(uint64_t key, uint32_t size) {
 #if defined(__LINUX__)
     int32_t handle;
     handle = shmget(key, size, 0);
-    pap_server_common_base::Log::save_log("share_memory", 
-                                          "[share memory][api](open) handle = %d ,key = %"PRIu64" ,error: %d%s", 
-                                          handle, 
-                                          key, 
-                                          errno, 
-                                          LF);
+    pap_server_common_base::Log::save_log(
+        "share_memory", 
+        "[share memory][api](open) handle = %d ,key = %"PRIu64" ,error: %d", 
+        handle, 
+        key, 
+        errno);
 #elif defined(__WINDOWS__)
     HANDLE handle;
     char buffer[65];
@@ -102,7 +102,8 @@ char* map(HANDLE handle) {
 #if defined(__LINUX__)
     result = static_cast<char*>(shmat(handle, 0, 0));
 #elif defined(__WINDOWS__)
-    result = static_cast<char*>(MapViewOfFile(handle, FILE_MAP_ALL_ACCESS, 0, 0, 0));
+    result = 
+      static_cast<char*>(MapViewOfFile(handle, FILE_MAP_ALL_ACCESS, 0, 0, 0));
 #endif
     return result;
   __LEAVE_FUNCTION
@@ -155,11 +156,12 @@ bool Base::create(uint64_t key, uint32_t size) {
     if (kCmdModelClearAll == cmd_model_) return false;
     handle_ = api::create(key, size);
     if (HANDLE_INVALID == handle_) {
-      pap_server_common_base::Log::save_log("share_memory", 
-                                            "[share memory][base](create) create failed! handle = %d,key = %"PRIu64" %s", 
-                                            handle_, 
-                                            key, 
-                                            LF);
+      pap_server_common_base::Log::save_log(
+          "share_memory", 
+          "[share memory][base](create)"
+          " create failed! handle = %d,key = %"PRIu64"",
+          handle_, 
+          key);
       return false;
     }
     header_ = api::map(handle_);
@@ -168,19 +170,21 @@ bool Base::create(uint64_t key, uint32_t size) {
       (reinterpret_cast<data_header_t*>(header_))->key = key;
       (reinterpret_cast<data_header_t*>(header_))->size = size;
       size_ = size;
-      pap_server_common_base::Log::save_log("share_memory", 
-                                            "[share memory][base](create) success! handle = %d ,key = %"PRIu64" %s", 
-                                            handle_, 
-                                            key, 
-                                            LF);
+      pap_server_common_base::Log::save_log(
+          "share_memory", 
+          "[share memory][base](create)"
+          " success! handle = %d ,key = %"PRIu64"",
+          handle_, 
+          key);
       return true;
     }
     else {
-      pap_server_common_base::Log::save_log("share_memory", 
-                                            "[share memory][base](create) map failed! handle = %d ,key = %"PRIu64" %s", 
-                                            handle_, 
-                                            key,
-                                            LF);
+      pap_server_common_base::Log::save_log(
+          "share_memory", 
+          "[share memory][base](create)"
+          "map failed! handle = %d ,key = %"PRIu64"", 
+          handle_, 
+          key);
       return false;
     }
   __LEAVE_FUNCTION
@@ -206,17 +210,17 @@ bool Base::attach(uint64_t key, uint32_t size) {
     handle_ = api::open(key, size);
     if (kCmdModelClearAll == cmd_model_) {
       destory();
-      pap_server_common_base::Log::save_log("share_memory",
-                                            "[share memory][base](attach) close memory, key = %"PRIu64" %s", 
-                                            key, 
-                                            LF);
+      pap_server_common_base::Log::save_log(
+          "share_memory",
+          "[share memory][base](attach) close memory, key = %"PRIu64"", 
+          key);
       return false;
     }
     if (HANDLE_INVALID == handle_) {
-      pap_server_common_base::Log::save_log("share_memory", 
-                                            "[share memory][base](attach) create failed, key = %"PRIu64" %s", 
-                                            key, 
-                                            LF);
+      pap_server_common_base::Log::save_log(
+          "share_memory", 
+          "[share memory][base](attach) create failed, key = %"PRIu64"", 
+          key); 
       return false;
     }
     header_ = api::map(handle_);
@@ -224,17 +228,17 @@ bool Base::attach(uint64_t key, uint32_t size) {
       data_pointer_ = header_ + sizeof(data_header_t);
       Assert((reinterpret_cast<data_header_t*>(header_))->key == key);
       Assert((reinterpret_cast<data_header_t*>(header_))->size == size);
-      pap_server_common_base::Log::save_log("share_memory", 
-                                            "[share memory][base](attach) success, key = %"PRIu64" %s", 
-                                            key, 
-                                            LF);
+      pap_server_common_base::Log::save_log(
+          "share_memory", 
+          "[share memory][base](attach) success, key = %"PRIu64"", 
+          key); 
       return true;
     }
     else {
-      pap_server_common_base::Log::save_log("share_memory", 
-                                            "[share memory][base](attach) map failed, key = %"PRIu64" %s", 
-                                            key, 
-                                            LF);
+      pap_server_common_base::Log::save_log(
+          "share_memory", 
+          "[share memory][base](attach) map failed, key = %"PRIu64"", 
+          key); 
       return false;
     }
   __LEAVE_FUNCTION
@@ -319,7 +323,10 @@ void lock(char &flag, char type) {
       pap_common_base::util::sleep(1);
 #if defined(__LINUX__)
       ++lock_times;
-      printf("[share memory](lock) fail %s, %d, %s", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+      printf("[share memory](lock) fail %s, %d, %s", 
+             __FILE__, 
+             __LINE__, 
+             __PRETTY_FUNCTION__);
       if (lock_times < 100 && lock_time_enable) {
         lock_times = 0;
         return;
@@ -366,7 +373,10 @@ void unlock(char &flag, char type) {
       if (kUseFree != flag) {
         pap_common_base::util::sleep(1);
 #if defined(__LINUX__)
-        printf("[share memory](unlock)fail %s, %d, %s", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+        printf("[share memory](unlock)fail %s, %d, %s", 
+               __FILE__, 
+               __LINE__, 
+               __PRETTY_FUNCTION__);
         if (lock_times > 100 && lock_time_enable) {
           lock_times = 0;
           return;

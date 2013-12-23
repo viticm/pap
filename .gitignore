@@ -231,8 +231,9 @@ tags
 #############
 ## Run Bin
 #############
-share_memory
-billing
-server
-login
-world
+run/server/share_memory
+run/server/billing
+run/server/server
+run/server/login
+run/server/world
+run/client

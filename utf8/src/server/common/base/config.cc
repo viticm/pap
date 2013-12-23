@@ -1240,9 +1240,9 @@ void Config::load_share_memory_info_only() {
       memset(type, '\0', sizeof(type));
       snprintf(key, sizeof(key) - 1, "Key%d", i);
       snprintf(type, sizeof(type) - 1, "Type%d", i);
-      share_memory_info_.key_data->key = 
+      share_memory_info_.key_data[i].key = 
         share_memory_info_ini.read_uint32("Key", key);
-      share_memory_info_.key_data->type = 
+      share_memory_info_.key_data[i].type = 
         share_memory_info_ini.read_uint8("Key", type);
     }
     share_memory_info_ini.read_text("System", 
