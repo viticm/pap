@@ -82,13 +82,13 @@ function format_systempath($path, $from_ostype = OS_LINUX) {
 }
 
 //project visual studio script file dirs
-$g_scriptdirs = <<<EOF
-billing src/server/billing/scripts
-sharememory src/server/sharememory/scripts
-login src/server/login/scripts
-world src/server/world/scripts
-server src/server/server/scripts
-EOF;
+$g_scriptdirs = array(
+"billing src/server/billing/scripts",
+"sharememory src/server/sharememory/scripts",
+"login src/server/login/scripts",
+"world src/server/world/scripts",
+"server src/server/server/scripts"
+); //not use EOF, if you want it work not just use output
 
 $selfpath = str_replace('\\', '/', dirname(realpath(__FILE__)));
 $projectpath = str_replace('script/php', '', $selfpath);
@@ -105,7 +105,7 @@ define('OS_LINUX', 2);
  */
 function get_scriptdir($modelname) {
   $result = NULL;
-  $scriptdir_array = explode("\n", $GLOBALS['g_scriptdirs']);
+  $scriptdir_array = $GLOBALS['g_scriptdirs'];
   foreach ($scriptdir_array as $key => $val) {
     list($model, $dir) = explode(' ', $val);
     if ($model == $modelname) {
