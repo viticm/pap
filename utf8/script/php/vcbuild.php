@@ -12,9 +12,14 @@
  * @param mixed $replace
  * @param mixed $subject
  * @param number $count
+ * @param bool $beginlast
  * @return mixed
  */
-function str_nreplace($search, $replace, $subject, $count = -1) {
+function str_nreplace($search, 
+                      $replace, 
+                      $subject, 
+                      $count = -1, 
+                      $beginlast = false) {
   $result = $subject;
   if ($count < -1) return $result;
   if (-1 === $count) {
@@ -22,7 +27,7 @@ function str_nreplace($search, $replace, $subject, $count = -1) {
   }
   else {
     for ($i = 0; $i < $count; ++$i) {
-      $pos = strpos($result, $search);
+      $pos = $beginlast ? strrpos($result, $search): strpos($result, $search);
       if ($pos === false) {
         break;
       }
@@ -63,13 +68,15 @@ function format_systempath($path, $from_ostype = OS_LINUX) {
   $result = str_replace($find_delimiter, $delimiter, $path);
   $fatherpath = '..'.$delimiter;
   while (($fatherpath_pos = strpos($result, $fatherpath)) !== false) {
-    $temp = substr($result, 0, $fatherpath_pos);
-    $find_fatherpath_pos = strrpos($temp, $fatherpath);
+    $temp = substr($result, 0, $fatherpath_pos - 1);
+    $find_fatherpath_pos = strrpos($temp, $delimiter);
+    if (!$find_fatherpath_pos) break;
     $find_fatherpath_length = strlen($temp) - $find_fatherpath_pos;
     $result = substr_replace($result, 
-                             $find_fatherpath_pos, 
+                             '', 
                              $find_fatherpath_pos, 
                              $find_fatherpath_length);
+    $result = str_nreplace($fatherpath, '', $result, 1);
   }
   return $result;
 }
@@ -119,7 +126,7 @@ function get_scriptdir($modelname) {
 function sys_rename($path, $old, $new) {
   $path = complementpath($path);
   $path = format_systempath($path);
-  if (!file_exists($path.$old) && !is_dir($path)) return false;
+  if (!file_exists($path.$old) && !is_dir($path.$old)) return false;
   $ostype = get_ostype();
   $cmd = '';
   $cmd .= 'cd '.$path;
@@ -131,16 +138,30 @@ function sys_rename($path, $old, $new) {
 }
 
 /**
+ * delete path more delimiter, example: /// to /
+ */
+function trimpath($path) {
+  $result = $path;
+  
+  $result = str_replace('//', '/', $result, $count);
+  while ($count != 0) {
+    $result = str_replace('//', '/', $result, $count);
+  }
+  $result = str_replace('\\\\', '\\', $result, $count);
+  while ($count != 0) {
+    $result = str_replace('\\\\', '\\', $result, $count);
+  }
+  return $result;
+}
+
+/**
  * get server visual studio script files(full path)
  * @param string $path
  * @return array
  */
 function get_scriptfile($path) {
   $result = array();
-  $ostype = get_ostype();
-  $pathdemiliter = OS_WINDOWS == $ostype ? '\\' : '/';
   if (empty($path) || !is_dir($path)) return $result;
-  $path = complementpath($path, $pathdemiliter); //fix it
   $vc9_scriptfiles = glob($path.'*.vcproj');
   $vc11_scriptfiles = glob($path.'*.vcxproj*');
   $result = array_merge($vc9_scriptfiles, $vc11_scriptfiles);
@@ -149,8 +170,9 @@ function get_scriptfile($path) {
 
 /**
  * rewrite visual studio script
- * @param string $model
- * @param string $filename
+ * @param string $modelname
+ * @param bool|number $revert
+ * @param bool $randsuffix
  * @return bool
  */
 function rewrite_vcscript($modelname = NULL, 
@@ -159,30 +181,88 @@ function rewrite_vcscript($modelname = NULL,
   $result = true;
   if (empty($modelname)) return false;
   $model_scriptpath = get_scriptdir($modelname);
+  $needrevert = file_exists($model_scriptpath.'vcscript_revert');
+  if (-1 == $revert && $needrevert) $revert = true;
+  if (true === $revert) {
+    echo '['.$modelname.'] will revret to standard.',"\n";
+  }
+  else {
+    echo '['.$modelname.'] will rename the all scripts',"\n";
+  }
+  if (false == $revert && $needrevert) {
+    echo 'warning: ['.$modelname.'] need revert, your choice not revert.';
+  }
   $scriptfiles = get_scriptfile($model_scriptpath);
   if (0 == count($scriptfiles)) return false;
   foreach ($scriptfiles as $scriptfile) {
     $scriptfile_info = file_get_contents($scriptfile);
     $match_sourcefiles = array();
-    preg_match_all('/".*.cc/', $scriptfile_info, $match_sourcefiles);
-    foreach ($match_sourcefiles as $sourcefile) {
-      $sourcefile = substr($scriptfile, 1, strlen($scriptfile) - 1);
+    preg_match_all('/".*\.cc"/', $scriptfile_info, $match_sourcefiles);
+    $sourcefiles = $match_sourcefiles[0];
+    foreach ($sourcefiles as $sourcefile) {
+      $scriptfile_old = $sourcefile;
+      $sourcefile = substr($sourcefile, 1, strlen($sourcefile) - 2); //del '"'
+      $sourcefile = trimpath($sourcefile);
       $sourcefile_path = $model_scriptpath.$sourcefile;
-      $sourcefile_path = dirname(format_systempath($sourcefile_path));
+      $sourcefile_path = format_systempath($sourcefile_path);
       $sourcefile_name = basename($sourcefile_path);
       $sourcefile_dir = dirname($sourcefile_path);
       $temp = str_replace(format_systempath(PROJECTPATH), '', $sourcefile_dir);
+      $temp = str_nreplace('src\\', '', $temp, 1);
       $new_sourcefile_name = str_replace('\\', '_', $temp);
-      $new_sourcefile_name .= true === $randsuffix ? '_'.time().rand(1, 1000) :
-        ''; 
-      sys_rename($sourcefile_path, $sourcefile_name, $new_sourcefile_name);
+      if (true === $revert) {
+        $new_sourcefile_name = str_replace($new_sourcefile_name.'_', 
+                                           '', 
+                                           $sourcefile_name);
+        $randsuffix_match = array();
+        preg_match('/_\d{11,13}\./', $sourcefile_name, $randsuffix_match);
+        if (count($randsuffix_match) > 0) {
+          $randsuffix_str = //del '.'
+            substr($randsuffix_match[0], 0, strlen($randsuffix_match[0]) - 1);
+          $new_sourcefile_name = //del random str
+            str_replace($randsuffix_str, '', $new_sourcefile_name);
+        }
+      }
+      else {
+        $new_sourcefile_name .= 
+          true === $randsuffix ? '_'.time().rand(1, 1000) : '';
+        $new_sourcefile_name .= '_'.$sourcefile_name;
+      }
+      $new_sourcefile = str_replace($sourcefile_name,
+                                    $new_sourcefile_name,
+                                    $sourcefile);
+      sys_rename($sourcefile_dir, 
+                 $sourcefile_name, 
+                 $new_sourcefile_name);
+      $scriptfile_info = str_replace($scriptfile_old, 
+                                     '"'.$new_sourcefile.'"', 
+                                     $scriptfile_info);
+
     }
+    $result = file_put_contents($scriptfile, $scriptfile_info);
     if (!$result) {
       echo 'rewrite '.$scriptfile.' failed!',"\n";
     }
     else {
       echo 'rewrite '.$scriptfile.' success.',"\n";
     }
+  }
+
+$revert_fileinfo = <<<EOF
+1
+en:
+  This is a flag file of visual studio script if need revert.
+  If you don't kown this, you don't delete it.
+cn:
+    这个文件用来作为是否需要还原vcscript的标记。
+    如果你不清楚该文件的用途，则不要删除它。
+EOF;
+ 
+  if (true === $revert) { 
+    @unlink($model_scriptpath.'vcscript_revert');
+  }
+  else {
+    file_put_contents($model_scriptpath.'vcscript_revert', $revert_fileinfo);
   }
 }
 
@@ -229,8 +309,9 @@ function main() {
     echo 'param error',"\n";
     return 1;
   }
-  $revert = false;
-  if (3 == $argc && 'yes' == $argv[2]) $revert = true; 
+  $revert = -1;
+  if (3 == $argc && 'yes' === $argv[2]) $revert = true;
+  if (3 == $argc && 'no' === $argv[2]) $revert = false;
   $models = explode(' ', $argv[1]);
   foreach ($models as $k => $model) {
     $result = 
@@ -239,6 +320,4 @@ function main() {
   }
   return 0;
 }
-// main();
-// rewrite_vcscript('sharememory');
-echo dirname('F:\servers\develop\Zend\workspaces\pap\utf8\src\server\sharememory\scripts\\'.'..\..\..\..\run/server');
+main();
