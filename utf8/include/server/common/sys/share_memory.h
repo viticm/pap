@@ -265,7 +265,7 @@ class UnitPool {
    };
    T* get_obj(int32_t index) {
      __ENTER_FUNCTION
-	     Assert(index >= 0 && static_cast<uint32_t>(index) < max_size_);
+       Assert(index >= 0 && static_cast<uint32_t>(index) < max_size_);
        return obj_[index];
      __LEAVE_FUNCTION
        return NULL;
