@@ -346,7 +346,7 @@ server_info_t::server_info_t() {
     count = 0;
     current_server_id = -1;
     memset(world_data.ip, '\0', sizeof(world_data.ip));
-	memset(hash_server, 0, sizeof(hash_server));
+    memset(hash_server, 0, sizeof(hash_server));
   __LEAVE_FUNCTION
 }
 
@@ -1177,21 +1177,21 @@ void Config::load_billing_info_only() {
       snprintf(key, sizeof(key) - 1, "IP%d", i);
       if (false == server_info_ini.read_exist_text(
             "Billing", 
-            static_cast<const char*>(key), 
-						billing_data->ip, 
+            static_cast<const char*>(key), billing_data->ip, 
             sizeof(billing_data->ip) - 1)) {
-        snprintf(message, 
-                 sizeof(message) - 1, 
-                 "Config::load_billing_info_only is failed, can't find key: %s", 
-                 key);
+      snprintf(message, 
+               sizeof(message) - 1, 
+               "Config::load_billing_info_only is failed, can't find key: %s", 
+               key);
         AssertEx(false, message);
       }
       memset(key, '\0', sizeof(key));
       memset(message, '\0', sizeof(message));
       snprintf(key, sizeof(key) - 1, "Port%d", i);
-      if (false == server_info_ini.read_exist_uint16("Billing",
-                                                     static_cast<const char*>(key),
-													 billing_data->port)) {
+      if (false == server_info_ini.read_exist_uint16(
+            "Billing",
+            static_cast<const char*>(key),
+            billing_data->port)) {
         snprintf(message, 
                  sizeof(message) - 1, 
                  "Config::load_billing_info_only is failed, can't find key: %s", 
@@ -1199,7 +1199,7 @@ void Config::load_billing_info_only() {
         AssertEx(false, message);
       }
       if (0 == i) {
-		billing_info_.port_ = billing_data->port;
+        billing_info_.port_ = billing_data->port;
         memcpy(billing_info_.ip_, billing_data->ip, sizeof(billing_info_.ip_) - 1);
       }
     }

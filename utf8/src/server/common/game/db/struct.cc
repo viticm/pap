@@ -21,8 +21,8 @@ void head_t::clean_up() {
     pool_id = 0;
     id = -1;
     player_id = -1;
-	  use_status = pap_server_common_sys::share_memory::kUseFree;
-	  flag = pap_server_common_sys::share_memory::kFlagFree;
+    use_status = pap_server_common_sys::share_memory::kUseFree;
+    flag = pap_server_common_sys::share_memory::kFlagFree;
     save_time = 0;
   __LEAVE_FUNCTION
 }
@@ -41,7 +41,7 @@ void global_data_t::lock(char type) {
 
 void global_data_t::unlock(char type) {
   __ENTER_FUNCTION
-	pap_server_common_sys::share_memory::unlock(head.flag, type);
+    pap_server_common_sys::share_memory::unlock(head.flag, type);
   __LEAVE_FUNCTION
 }
 
@@ -60,7 +60,7 @@ uint32_t global_data_t::get_pool_id() {
 
 bool global_data_t::set_use_status(int32_t status, char type) {
   __ENTER_FUNCTION
-	lock(type);
+    lock(type);
     head.use_status = status;
     unlock(type);
     return true;

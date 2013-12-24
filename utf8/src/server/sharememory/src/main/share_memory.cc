@@ -129,7 +129,7 @@ bool ShareMemory::loop() {
       work();
       util::sleep(1000);
     }
-    //Log::save_log("share_memory", "loop ... end");
+    //Log::save_log("sharememory", "loop ... end");
   __LEAVE_FUNCTION
     return false;
 }
@@ -242,13 +242,13 @@ bool ShareMemory::new_staticmanager() {
     using namespace pap_server_common_base;
     using namespace pap_server_common_sys::share_memory;
     using namespace pap_server_common_game::define; //the type namespace
-	using namespace pap_server_common_game::db::share_memory;
-	using namespace pap_server_common_db;
+    using namespace pap_server_common_game::db::share_memory;
+    using namespace pap_server_common_db;
 	
     bool result = true;
     g_db_manager = new Manager();
-    AssertEx(g_db_manager, "new pap_server_common_db:Manager failed");
-    Log::save_log("sharememory", "new pap_server_common_db:Manager success");
+    AssertEx(g_db_manager, "new Manager(db) failed");
+    Log::save_log("sharememory", "new Manager(db) success");
     uint32_t i;
     for (i = 0; i < g_config.share_memory_info_.obj_count; ++i) {
       keydata_pool_[i].key_data = g_config.share_memory_info_.key_data[i];
@@ -265,7 +265,7 @@ bool ShareMemory::new_staticmanager() {
           logicmanager_pool_[i].logic_manager = 
             new LogicManager<global_data_t>();
           Assert(logicmanager_pool_[i].logic_manager);
-          Log::save_log("share_memory", "new LogicManager<Global> success");
+          Log::save_log("sharememory", "new LogicManager<Global> success");
           logicmanager_pool_[i].key_type = type::share_memory::kKeyGlobalData;
           break;
         }

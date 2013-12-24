@@ -97,8 +97,8 @@ bool string_toint16(const char* source,
 
 bool string_toint32(const char* source,
                     int32_t& result, 
-					uint8_t converted_length, 
-					bool ignored_zero) {
+                    uint8_t converted_length, 
+                    bool ignored_zero) {
   return string_toint(source, result, converted_length, ignored_zero);
 }
 
@@ -111,9 +111,9 @@ bool string_toint(const char* source, int32_t& result, uint8_t converted_length,
     if (!fast_string_toint<long>(source, value, sizeof("-2147483648")-1, converted_length, ignored_zero)) return false;
 #undef max
 #undef min
-	int32_t _max = std::numeric_limits<int32_t>::max();
-	int32_t _min = std::numeric_limits<int32_t>::min();
-	if (value < _min || value > _max)  return false;
+    int32_t _max = std::numeric_limits<int32_t>::max();
+    int32_t _min = std::numeric_limits<int32_t>::min();
+    if (value < _min || value > _max)  return false;
     result = static_cast<int32_t>(value);
     return true;
   __LEAVE_FUNCTION
@@ -128,7 +128,7 @@ bool string_toint(const char* source,
     int32_t value = 0;
     if (!string_toint32(source, value, converted_length, ignored_zero)) return false;
     if (value < std::numeric_limits<int16_t>::min() ||
-		value > std::numeric_limits<int16_t>::max()) return false;
+        value > std::numeric_limits<int16_t>::max()) return false;
     result = static_cast<int16_t>(value);
     return true;
   __LEAVE_FUNCTION

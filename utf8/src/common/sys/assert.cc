@@ -59,7 +59,6 @@ void __messagebox__(const char* msg) {
 
 void __assert__ (const char* file, unsigned int line, const char* func , const char* expr) {
   char temp[1024] = {0};
-	
 #ifdef __LINUX__ //换个格式
   sprintf(temp, "[%s][%d][%s][%s]\n", file, line, func, expr);
 #else
@@ -80,7 +79,6 @@ void __assertex__ (const char* file, unsigned int line, const char* func, const 
 
 void __assertspecial__ (const char* file, unsigned int line, const char* func, const char* expr,const char* msg) {
   char temp[1024] = {0};
-	
 #ifdef __LINUX__
   sprintf(temp, "S[%s][%d][%s][%s]\n[%s]\n", file, line, func, expr, msg) ;
 #else

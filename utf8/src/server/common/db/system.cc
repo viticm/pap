@@ -7,7 +7,7 @@ System::System() {
   __ENTER_FUNCTION
     result_ = 0;
     result_count_ = 0;
-	op_type_ = DB_INIT_EMPTY;
+    op_type_ = DB_INIT_EMPTY;
   __LEAVE_FUNCTION
 }
 

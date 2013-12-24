@@ -71,20 +71,20 @@ void Log::disk_log(const char* file_name_prefix, const char* format, ...) {
     va_list argptr;
     try {
       va_start(argptr, format);
-	    vsnprintf(buffer, 
+      vsnprintf(buffer, 
                 sizeof(kLogBufferTemp) - kLogNameTemp - 1, 
                 format, 
                 argptr);
       va_end(argptr);
       if (g_time_manager) {
         char time_str[kLogNameTemp] ;
-				memset(time_str, '\0', sizeof(time_str));
+        memset(time_str, '\0', sizeof(time_str));
         get_log_time_str(time_str, sizeof(time_str) - 1);        
         strncat(buffer, time_str, strlen(time_str));
       }
-	  strncat(buffer, LF, sizeof(LF)); //add wrap
+      strncat(buffer, LF, sizeof(LF)); //add wrap
     }
-		catch(...) {
+    catch(...) {
       if (g_command_log_print) printf("ERROR: SaveLog unknown error!%s", LF); 
       return;
     }
@@ -102,7 +102,7 @@ void Log::disk_log(const char* file_name_prefix, const char* format, ...) {
     }
     
     g_log_lock.lock();
-		
+
     try {
       FILE* fp = fopen(log_file_name, "a+");
       if (fp) {
@@ -116,7 +116,7 @@ void Log::disk_log(const char* file_name_prefix, const char* format, ...) {
     }
     catch(...) {
     }
-		
+
     g_log_lock.unlock();
     
     if (true == g_command_log_print) {
@@ -158,7 +158,7 @@ void Log::fast_save_log(enum_log_id log_id, const char* format, ...) {
         get_log_time_str(time_str, sizeof(time_str) - 1);
         strncat(buffer, time_str, strlen(time_str));
       }
-	  strncat(buffer, LF, sizeof(LF)); //add wrap
+      strncat(buffer, LF, sizeof(LF)); //add wrap
     }
     catch(...) {
       Assert(false);
@@ -256,7 +256,7 @@ void Log::flush_all_log() {
   __ENTER_FUNCTION
     int32_t i;
     for (i = 0; i < kLogFileCount; ++i) {
-	  enum_log_id log_id = static_cast<enum_log_id>(i);
+      enum_log_id log_id = static_cast<enum_log_id>(i);
       flush_log(log_id);
     }
   __LEAVE_FUNCTION
@@ -278,7 +278,7 @@ void Log::save_log(const char* file_name_prefix, const char* format, ...) {
         get_log_time_str(time_str, sizeof(time_str) - 1);
         strncat(buffer, time_str, strlen(time_str));
       }
-	  strncat(buffer, LF, sizeof(LF)); //add wrap
+      strncat(buffer, LF, sizeof(LF)); //add wrap
       char log_file_name[FILENAME_MAX];
       memset(log_file_name, '\0', sizeof(log_file_name));
       get_log_file_name(file_name_prefix, log_file_name);
@@ -286,7 +286,6 @@ void Log::save_log(const char* file_name_prefix, const char* format, ...) {
       fp = fopen(log_file_name, "ab");
       if (fp) {
         fwrite(buffer, 1, strlen(buffer), fp);
-		
         fclose(fp);
       }
       printf(buffer);
@@ -312,7 +311,7 @@ void Log::get_serial(char* serial, int16_t world_id, int16_t server_id) {
   __ENTER_FUNCTION
     USE_PARAM(world_id);
     USE_PARAM(server_id);
-	USE_PARAM(serial);
+    USE_PARAM(serial);
     //int32_t step = 100;
   __LEAVE_FUNCTION
 }

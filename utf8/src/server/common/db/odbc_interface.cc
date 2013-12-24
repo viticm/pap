@@ -1,4 +1,5 @@
 #include "server/common/db/odbc_interface.h"
+#include "server/common/base/log.h"
 #include "common/base/util.h"
 
 namespace pap_server_common_db {
@@ -11,10 +12,10 @@ ODBCInterface::ODBCInterface() {
     sql_henv_ = NULL;
     sql_hdbc_ = NULL;
     sql_hstmt_ = NULL;
-    memset(error_message_, 0, MAX_ERROR_MESSAGE_LENGTH);
-    memset(connection_name_, 0, DB_CONNECTION_NAME_LENGTH);
-    memset(user_, 0, DB_USER_NAME_LENGTH);
-    memset(password_, 0, DB_PASSWORD_LENGTH);
+    memset(error_message_, '\0', sizeof(error_message_));
+    memset(connection_name_, '\0', sizeof(connection_name_));
+    memset(user_, '\0', sizeof(user_));
+    memset(password_, '\0', sizeof(password_));
     query_.clear();
     long_query_.clear();
   __LEAVE_FUNCTION
@@ -33,10 +34,11 @@ bool ODBCInterface::connect(const char* connection_name,
                             const char* user,
                             const char* password) {
   __ENTER_FUNCTION
+    using namespace pap_server_common_base;
     close(); //first disconnect
-    strncpy(connection_name_, connection_name, DB_CONNECTION_NAME_LENGTH);
-    strncpy(user_, user, DB_USER_NAME_LENGTH);
-    strncpy(password_, password, DB_PASSWORD_LENGTH);
+    strncpy(connection_name_, connection_name, sizeof(connection_name_) - 1);
+    strncpy(user_, user, sizeof(user_) - 1);
+    strncpy(password_, password, sizeof(password_) - 1);
     SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &sql_henv_);
     SQLSetEnvAttr(sql_henv_, 
                   SQL_ATTR_ODBC_VERSION, 
@@ -51,14 +53,19 @@ bool ODBCInterface::connect(const char* connection_name,
                          reinterpret_cast<SQLCHAR*>(password_),
                          SQL_NTS);
     if (SQL_SUCCESS != result_ && SQL_SUCCESS_WITH_INFO != result_) {
-      char log_buffer[512] = {0};
-      sprintf(log_buffer, "connection name: %s", connection_name_);
-      sprintf(log_buffer, "connect user: %s", user_);
+      char log_buffer[512];
+      memset(log_buffer, '\0', sizeof(log_buffer));
+      snprintf(log_buffer, 
+               sizeof(log_buffer) - 1,
+               "connection name: %s", 
+               connection_name_);
+      snprintf(log_buffer, sizeof(log_buffer) - 1, "connect user: %s", user_);
+      Log::save_log("odbc_interface", "[odbc] connect failed, %s", log_buffer);
       diag_state();
       return false;
     }
     result_ = SQLAllocHandle(SQL_HANDLE_STMT, sql_hdbc_, &sql_hstmt_);
-    if (SQL_SUCCESS != result_ && SQL_SUCCESS_WITH_INFO != result_) {
+    if (result_ != SQL_SUCCESS && result_ != SQL_SUCCESS_WITH_INFO) {
       sql_hstmt_ = NULL;
       return false;
     }
@@ -70,6 +77,7 @@ bool ODBCInterface::connect(const char* connection_name,
 
 bool ODBCInterface::connect() {
   __ENTER_FUNCTION
+    using namespace pap_server_common_base;
     close(); //first disconnect
 #ifdef MUST_CLOSE_HENV_HANDLE
     SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &sql_henv_);
@@ -86,15 +94,20 @@ bool ODBCInterface::connect() {
                          SQL_NTS,
                          reinterpret_cast<SQLCHAR*>(password_),
                          SQL_NTS);
-    if (SQL_SUCCESS != result_ && SQL_SUCCESS_WITH_INFO != result_) {
-      char log_buffer[512] = {0};
-      sprintf(log_buffer, "connect name: %s", connection_name_);
-      sprintf(log_buffer, "connect user: %s", user_);
+    if (result_ != SQL_SUCCESS && result_ != SQL_SUCCESS_WITH_INFO) {
+      char log_buffer[512];
+      memset(log_buffer, '\0', sizeof(log_buffer));
+      snprintf(log_buffer, 
+               sizeof(log_buffer) - 1,
+               "connection name: %s", 
+               connection_name_); 
+      snprintf(log_buffer, sizeof(log_buffer) - 1, "connect user: %s", user_);
+      Log::save_log("odbc_interface", "[odbc] connect failed, %s", log_buffer);
       diag_state();
       return false;
     }
     result_ = SQLAllocHandle(SQL_HANDLE_STMT, sql_hdbc_, &sql_hstmt_);
-    if (SQL_SUCCESS != result_ && SQL_SUCCESS_WITH_INFO != result_) {
+    if (result_ != SQL_SUCCESS && result_ != SQL_SUCCESS_WITH_INFO) {
       sql_hstmt_ = NULL;
       return false;
     }
@@ -152,9 +165,9 @@ bool ODBCInterface::execute() {
     result_ = SQLExecDirect(sql_hstmt_, 
                             reinterpret_cast<SQLCHAR*>(query_.sql_str_), 
                             SQL_NTS);
-    if ((SQL_SUCCESS != result_) && 
-        (SQL_SUCCESS_WITH_INFO != result_) &&
-        (SQL_NO_DATA != result_)) {
+    if ((result_ != SQL_SUCCESS) && 
+        (result_ != SQL_SUCCESS_WITH_INFO) &&
+        (result_ != SQL_NO_DATA)) {
       diag_state();
       return false;
     }
@@ -209,9 +222,9 @@ bool ODBCInterface::long_execute() {
     result_ = SQLExecDirect(sql_hstmt_, 
                             reinterpret_cast<SQLCHAR*>(long_query_.sql_str_), 
                             SQL_NTS);
-    if ((SQL_SUCCESS != result_) && 
-        (SQL_SUCCESS_WITH_INFO != result_) &&
-        (SQL_NO_DATA != result_)) {
+    if ((result_ != SQL_SUCCESS) && 
+        (result_ != SQL_SUCCESS_WITH_INFO) &&
+        (result_ != SQL_NO_DATA)) {
       diag_state_ex();
       return false;
     }
@@ -274,8 +287,8 @@ void ODBCInterface::clear() {
 bool ODBCInterface::fetch() {
   __ENTER_FUNCTION
     result_ = SQLFetch(sql_hstmt_);
-    if ((SQL_SUCCESS != result_) && 
-        (SQL_SUCCESS_WITH_INFO != result_)) {
+    if ((result_ != SQL_SUCCESS) && 
+        (result_ != SQL_SUCCESS_WITH_INFO)) {
       diag_state();
       return false;
     }
@@ -299,8 +312,8 @@ bool ODBCInterface::fetch() {
 bool ODBCInterface::long_fetch() {
   __ENTER_FUNCTION
     result_ = SQLFetch(sql_hstmt_);
-    if ((SQL_SUCCESS != result_) && 
-        (SQL_SUCCESS_WITH_INFO != result_)) {
+    if ((result_ != SQL_SUCCESS) && 
+        (result_ != SQL_SUCCESS_WITH_INFO)) {
       diag_state();
       return false;
     }
