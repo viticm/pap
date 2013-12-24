@@ -58,8 +58,8 @@ int32_t main(int32_t argc, char* argv[]) {
   g_time_manager->init();
 
   bool result = false;
-  Log::save_log("share_memory", "(###)main...");
-  Log::save_log("share_memory", "sharememory start ...");
+  Log::save_log("sharememory", "(###)main...");
+  Log::save_log("sharememory", "sharememory start ...");
   result = g_sharememory.init();
   if (false == result) {
     Assert(false);
@@ -94,20 +94,20 @@ bool ShareMemory::init() {
     using namespace pap_server_common_base;
     bool result = true;
 
-    Log::save_log("share_memory", "start read config files");
+    Log::save_log("sharememory", "start read config files");
     result = g_config.init();
     Assert(result);
-    Log::save_log("share_memory", "read config files success");
+    Log::save_log("sharememory", "read config files success");
 
-    Log::save_log("share_memory", "start new static manager");
+    Log::save_log("sharememory", "start new static manager");
     result = new_staticmanager();
     Assert(result);
-    Log::save_log("share_memory", "new static manager success");
+    Log::save_log("sharememory", "new static manager success");
 
-    Log::save_log("share_memory", "start init static manager");
+    Log::save_log("sharememory", "start init static manager");
     result = init_staticmanager();
     Assert(result);
-    Log::save_log("share_memory", "init static manager success");
+    Log::save_log("sharememory", "init static manager success");
 
     return result;
   __LEAVE_FUNCTION
@@ -120,9 +120,9 @@ bool ShareMemory::loop() {
     using namespace pap_common_base;
     if (g_cmd_input) {
       g_command_thread.start();
-      Log::save_log("share_memory", "g_command_thread.start()");
+      Log::save_log("sharememory", "g_command_thread.start()");
     }
-    Log::save_log("share_memory", "loop ... start");
+    Log::save_log("sharememory", "loop ... start");
     for (;;) {
       work();
       util::sleep(1000);
@@ -224,13 +224,13 @@ bool ShareMemory::work() {
     g_command_config.state.type = kCmdUnkown;
 
     if (exitflag) {
-      Log::save_log("share_memory", "share memory need exit");
+      Log::save_log("sharememory", "share memory need exit");
       exit(0);
     }
     return true;
   }
   catch(...) {
-    Log::save_log("share_memroy", "ShareMemory::work is error");
+    Log::save_log("sharememroy", "ShareMemory::work is error");
     return false;
   }
 }
@@ -246,7 +246,7 @@ bool ShareMemory::new_staticmanager() {
     bool result = true;
     g_db_manager = new Manager();
     AssertEx(g_db_manager, "new pap_server_common_db:Manager failed");
-    Log::save_log("share_memory", "new pap_server_common_db:Manager success");
+    Log::save_log("sharememory", "new pap_server_common_db:Manager success");
     uint32_t i;
     for (i = 0; i < g_config.share_memory_info_.obj_count; ++i) {
       keydata_pool_[i].key_data = g_config.share_memory_info_.key_data[i];
@@ -258,7 +258,7 @@ bool ShareMemory::new_staticmanager() {
           keydata_pool_[i].pool = 
             new UnitPool<global_data_t>();
           Assert(keydata_pool_[i].pool);
-          Log::save_log("share_memory", 
+          Log::save_log("sharememory", 
                         "new UnitPool<Global> success");
           logicmanager_pool_[i].logic_manager = 
             new LogicManager<global_data_t>();
@@ -288,11 +288,11 @@ bool ShareMemory::init_staticmanager() {
     Assert(g_db_manager);
     result = g_db_manager->init(kCharacterDatabase); //db character
     if (!result) {
-      Log::save_log("share_memory", 
+      Log::save_log("sharememory", 
                     "g_db_manager->init(kCharacterDatabase) failed");
     }
     else {
-      Log::save_log("share_memory", 
+      Log::save_log("sharememory", 
                     "g_db_manager->init(kCharacterDatabase) success");
     }
     uint32_t i;
@@ -410,49 +410,49 @@ bool check_stop_savelogout() {
 
 void inthandler(int32_t) {
   __ENTER_FUNCTION
-    pap_common_sys::util::dumpstack("share_memory_dump", "int exception:");
+    pap_common_sys::util::dumpstack("sharememory_dump", "int exception:");
     exit(0);
   __LEAVE_FUNCTION
 }
 
 void termhandler(int32_t) {
   __ENTER_FUNCTION
-    pap_common_sys::util::dumpstack("share_memory_dump", "term exception:");
+    pap_common_sys::util::dumpstack("sharememory_dump", "term exception:");
     exit(0);
   __LEAVE_FUNCTION
 }
 
 void aborthandler(int32_t) {
   __ENTER_FUNCTION
-    pap_common_sys::util::dumpstack("share_memory_dump", "abort exception:");
+    pap_common_sys::util::dumpstack("sharememory_dump", "abort exception:");
     exit(0);
   __LEAVE_FUNCTION
 }
 
 void illhandler(int32_t) {
   __ENTER_FUNCTION
-    pap_common_sys::util::dumpstack("share_memory_dump", "ill exception:");
+    pap_common_sys::util::dumpstack("sharememory_dump", "ill exception:");
     exit(0);
   __LEAVE_FUNCTION
 }
 
 void fpehandler(int32_t) {
   __ENTER_FUNCTION
-    pap_common_sys::util::dumpstack("share_memory_dump", "fpe exception:");
+    pap_common_sys::util::dumpstack("sharememory_dump", "fpe exception:");
     exit(0);
   __LEAVE_FUNCTION
 }
 
 void segvhandler(int32_t) {
   __ENTER_FUNCTION
-    pap_common_sys::util::dumpstack("share_memory_dump", "segv exception:");
+    pap_common_sys::util::dumpstack("sharememory_dump", "segv exception:");
     exit(0);
   __LEAVE_FUNCTION
 }
 
 void xfszhandler(int32_t) {
   __ENTER_FUNCTION
-    pap_common_sys::util::dumpstack("share_memory_dump", "xfsz exception:");
+    pap_common_sys::util::dumpstack("sharememory_dump", "xfsz exception:");
     exit(0);
   __LEAVE_FUNCTION
 }

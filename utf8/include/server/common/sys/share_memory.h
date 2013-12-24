@@ -204,8 +204,8 @@ class UnitPool {
        }
        else if(!result) {
          pap_server_common_base::Log::save_log(
-             "share_memory", 
-             "[share memory][datapool](init) failed");
+             "sharememory", 
+             "[sharememory][datapool](init) failed");
          Assert(result);
          return result;
        }
