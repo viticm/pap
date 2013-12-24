@@ -353,7 +353,7 @@ EOF;
     $enum_fields = $_fields; //next i will chage it
     $enum_fields = array_map('format_enum', $enum_fields);
     $enum_fields[0] = $enum_fields[0].' = 1'; //enum first item
-    $enum_str = implode($enum_fields, ','.LF.$fourspace.$twospace).LF;
+    $enum_str = implode($enum_fields, ','.LF.$fourspace.$twospace).';'.LF;
     $sourceinfo .= LF; //save
     $sourceinfo .= 'bool '.$classname.'::save(void* source) {'.LF;
     $sourceinfo .= $twospace.$functionenter;
