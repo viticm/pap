@@ -136,7 +136,7 @@ bool ShareMemory::loop() {
 
 bool ShareMemory::selfexit() {
   __ENTER_FUNCTION
-	release_staticmanager();
+    release_staticmanager();
     exited_ = true;
     return true;
   __LEAVE_FUNCTION
@@ -244,7 +244,6 @@ bool ShareMemory::new_staticmanager() {
     using namespace pap_server_common_game::define; //the type namespace
     using namespace pap_server_common_game::db::share_memory;
     using namespace pap_server_common_db;
-	
     bool result = true;
     g_db_manager = new Manager();
     AssertEx(g_db_manager, "new Manager(db) failed");
@@ -254,7 +253,7 @@ bool ShareMemory::new_staticmanager() {
       keydata_pool_[i].key_data = g_config.share_memory_info_.key_data[i];
       type::share_memory::key_enum key_type;
       key_type = static_cast<type::share_memory::key_enum>(
-		  g_config.share_memory_info_.key_data[i].type);
+      g_config.share_memory_info_.key_data[i].type);
       switch (key_type) {
         case type::share_memory::kKeyGlobalData: {
           keydata_pool_[i].pool = 
@@ -334,16 +333,16 @@ bool ShareMemory::init_staticmanager() {
 bool ShareMemory::release_staticmanager() {
   __ENTER_FUNCTION
     using namespace pap_server_common_base;
-	using namespace pap_server_common_sys::share_memory;
+    using namespace pap_server_common_sys::share_memory;
     using namespace pap_server_common_game::define; //the define namespace
-	using namespace pap_server_common_game::db::share_memory;
+    using namespace pap_server_common_game::db::share_memory;
 
     bool result = true;
     uint32_t i;
     uint16_t obj_count = g_config.share_memory_info_.obj_count;
     for (i = 0; i < obj_count; ++i) {
-	  typedef type::share_memory::key_enum key_enum;
-	  key_enum _type;
+      typedef type::share_memory::key_enum key_enum;
+      key_enum _type;
       _type = static_cast<key_enum>(g_config.share_memory_info_.key_data[i].type);
       switch (_type) {
         case type::share_memory::kKeyGlobalData: {
