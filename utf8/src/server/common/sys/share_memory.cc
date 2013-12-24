@@ -321,18 +321,23 @@ void lock(char &flag, char type) {
     _loop:
     if (kUseFree == flag) {
       flag = type;
-      pap_common_base::util::sleep(1);
+      if (flag != type) {
+        pap_common_base::util::sleep(1);
 #if defined(__LINUX__)
-      ++lock_times;
-      printf("[share memory](lock) fail %s, %d, %s", 
-             __FILE__, 
-             __LINE__, 
-             __PRETTY_FUNCTION__);
-      if (lock_times < 100 && lock_time_enable) {
-        lock_times = 0;
-        return;
-      }
+        ++lock_times;
+        printf("[share memory](lock) fail %s, %d, %s", 
+               __FILE__, 
+               __LINE__, 
+               __PRETTY_FUNCTION__);
+        if (lock_times < 100 && lock_time_enable) {
+          lock_times = 0;
+          return;
+        }
 #endif
+        goto _loop;
+      }
+    }
+    else {
       goto _loop;
     }
   __LEAVE_FUNCTION

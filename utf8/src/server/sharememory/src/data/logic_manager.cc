@@ -60,7 +60,7 @@ bool LogicManager<global_data_t>::normal_save() {
   __ENTER_FUNCTION
     bool result = false;
     uint32_t run_time = g_time_manager->get_run_time();
-    if (run_time > run_time + last_save_time_) {
+    if (run_time > last_save_time_ + kIntervalSaveTime) {
       result = save_all();
       last_save_time_ = run_time;
     }

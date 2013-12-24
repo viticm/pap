@@ -71,7 +71,10 @@ void Log::disk_log(const char* file_name_prefix, const char* format, ...) {
     va_list argptr;
     try {
       va_start(argptr, format);
-	    vsnprintf(buffer, sizeof(kLogBufferTemp) - kLogNameTemp - 1, format, argptr);
+	    vsnprintf(buffer, 
+                sizeof(kLogBufferTemp) - kLogNameTemp - 1, 
+                format, 
+                argptr);
       va_end(argptr);
       if (g_time_manager) {
         char time_str[kLogNameTemp] ;
