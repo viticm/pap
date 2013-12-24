@@ -182,16 +182,18 @@ class Mysql {
    * (work in linux, also can work in windows but you will test it)
    * @param string $path
    * @param string $filename
+   * @param bool $instert_in_oneline
    * @return bool
    * @access public
    */
-  public function dump_db($path, $filename = '') {
+  public function dump_db($path, $filename = '', $insert_in_oneline = true) {
     if(false === $this->connect_) return false;
     $filename = '' == $filename ? $this->db_name_.'.sql' : $filename;
     $cmd .= 'mysqldump -u' .$this->user_. ' -h' .$this->host_
             . ' -p' .$this->password_;
     $cmd .= ' --default-character-set=' .$this->charset_
-            . ' --opt --extended-insert=false --single-transaction';
+            . ' --opt --single-transaction';
+    if (false === $insert_in_oneline) $cmd .= ' --extended-insert=false';
     $cmd .= ' ' .$this->db_name_. ' > ' .$path.DIRECTORY_SEPARATOR.$filename;
     return '' == exec($cmd) ? true : false; // null then is success
   }
