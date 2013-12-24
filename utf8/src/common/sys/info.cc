@@ -189,16 +189,16 @@ bool get_cpu_info(cpu_info_t& cpu_info)
 
     char cpu_name[CPU_NAME_MAX];
     int result;
-  	HKEY  h_key = NULL;
-	  DWORD type = 0;
-	  DWORD size = 0;
+    HKEY  h_key = NULL;
+    DWORD type = 0;
+    DWORD size = 0;
 
-	  result = RegOpenKeyEx(CPU_REG_KEY, CPU_REG_SUBKEY, 0, KEY_READ, &key);
-	  Assert(S_OK == result);
-	  result = RegQueryValueEx(key, CPU_NAME, NULL, &type, NULL, &size);
-	  Assert(size > 0);
-	  result = RegQueryValueEx(key, CPU_NAME, NULL, &type, static_cast<LPBYTE>(cpu_name), &size);
-	  Assert(S_OK == result);
+    result = RegOpenKeyEx(CPU_REG_KEY, CPU_REG_SUBKEY, 0, KEY_READ, &key);
+    Assert(S_OK == result);
+    result = RegQueryValueEx(key, CPU_NAME, NULL, &type, NULL, &size);
+    Assert(size > 0);
+    result = RegQueryValueEx(key, CPU_NAME, NULL, &type, static_cast<LPBYTE>(cpu_name), &size);
+    Assert(S_OK == result);
 
     return true;
 #endif
@@ -270,16 +270,16 @@ int get_cpu_info_array(std::vector<cpu_info_t>& cpu_info_array) {
 
     char cpu_name[CPU_NAME_MAX];
     int result;
-  	HKEY  h_key = NULL;
-	  DWORD type = 0;
-	  DWORD size = 0;
+    HKEY  h_key = NULL;
+    DWORD type = 0;
+    DWORD size = 0;
 
-	  result = RegOpenKeyEx(CPU_REG_KEY, CPU_REG_SUBKEY, 0, KEY_READ, &key);
-	  Assert(S_OK == result);
-	  result = RegQueryValueEx(key, CPU_NAME, NULL, &type, NULL, &size);
-	  Assert(size > 0);
-	  result = RegQueryValueEx(key, CPU_NAME, NULL, &type, static_cast<LPBYTE>(cpu_name), &size);
-	  Assert(S_OK == result);
+    result = RegOpenKeyEx(CPU_REG_KEY, CPU_REG_SUBKEY, 0, KEY_READ, &key);
+    Assert(S_OK == result);
+    result = RegQueryValueEx(key, CPU_NAME, NULL, &type, NULL, &size);
+    Assert(size > 0);
+    result = RegQueryValueEx(key, CPU_NAME, NULL, &type, static_cast<LPBYTE>(cpu_name), &size);
+    Assert(S_OK == result);
     cpu_info_array.push_back(cpu_info);
     return cpu_info_array.size();
 #endif

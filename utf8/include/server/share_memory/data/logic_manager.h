@@ -55,7 +55,7 @@ class LogicManager {
          uint32_t version = pool_pointer_->get_head_version();
          if (version == old_version_ && old_version_ > 0) {
            old_version_ = 0;
-		   g_log->fast_save_log(
+		       g_log->fast_save_log(
                kShareMemoryLogFile, 
                "[logic manager](heartbeat)" 
                "receive server crash command."); //string wrap i use like this 

@@ -22,10 +22,10 @@ struct db_query_t {
   void parse(const char* temp, ...) {
     va_list argptr;
     va_start(argptr, temp);
-    int nchars  = snprintf(static_cast<char*>(sql_str_), 
-                           sizeof(SQL_LENGTH_MAX) - 1, 
-                           temp, 
-                           argptr);
+    int nchars  = vsnprintf(sql_str_, 
+                            sizeof(sql_str_) - 1, 
+                            temp, 
+                            argptr);
     int32_t sqlstr_length = static_cast<int32_t>(sizeof(sql_str_));
     va_end(argptr);
     if (-1 == nchars || sqlstr_length - 1 < nchars) {
@@ -42,10 +42,10 @@ struct long_db_query_t {
   void parse(const char* temp, ...) {
     va_list argptr;
     va_start(argptr, temp);
-    int nchars  = snprintf(static_cast<char*>(sql_str_), 
-                           sizeof(sql_str_) - 1, 
-                           temp,
-                           argptr);
+    int nchars  = vsnprintf(sql_str_, 
+                            sizeof(sql_str_) - 1, 
+                            temp,
+                            argptr);
     va_end(argptr);
     int32_t sqlstr_length = static_cast<int32_t>(sizeof(sql_str_));
     if (-1 == nchars || sqlstr_length - 1 < nchars) {

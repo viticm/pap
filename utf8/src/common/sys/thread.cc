@@ -27,12 +27,8 @@ void Thread::start() {
 #if defined(__LINUX__)
     pthread_create(&id_, NULL, pap_thread_process, this);
 #elif defined(__WINDOWS__)
-    thread_handle_ = ::CreateThread(NULL, 
-	                                0, 
-									pap_thread_process, 
-									this, 
-									0, 
-									&id_);
+    thread_handle_ = 
+      ::CreateThread(NULL, 0, pap_thread_process, this, 0, &id_);
 #endif
   __LEAVE_FUNCTION
 }

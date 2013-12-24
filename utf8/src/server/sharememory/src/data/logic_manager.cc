@@ -46,10 +46,10 @@ bool LogicManager<global_data_t>::save_all() {
       _global_data.parse_result(&error_code);
     }
     else {
-      Log::save_log("share_memory", "global data save error.");
+      Log::save_log("sharememory", "global data save error.");
       Assert(false);
     }
-    Log::save_log("share_memory", "global data save ok.");
+    Log::save_log("sharememory", "global data save ok.");
     return true;
   __LEAVE_FUNCTION
     return false;
@@ -60,7 +60,7 @@ bool LogicManager<global_data_t>::normal_save() {
   __ENTER_FUNCTION
     bool result = false;
     uint32_t run_time = g_time_manager->get_run_time();
-    if (run_time > run_time + last_save_time_) {
+    if (run_time > last_save_time_ + kIntervalSaveTime) {
       result = save_all();
       last_save_time_ = run_time;
     }
@@ -110,7 +110,7 @@ bool LogicManager<global_data_t>::post_init() {
       Assert(false);
     }
     ready_ = true;
-    Log::save_log("share_memory", 
+    Log::save_log("sharememory", 
                   "global_data post_init from key=%"PRIu64" is success.", 
                   key);
     return true;

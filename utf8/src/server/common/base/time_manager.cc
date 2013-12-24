@@ -55,7 +55,7 @@ uint32_t TimeManager::get_current_date() {
   __ENTER_FUNCTION
     reset_time();
     uint32_t time;
-	tm _tm;
+    tm _tm;
     tm_totime(&_tm, time);
     return time;
   __LEAVE_FUNCTION
@@ -246,7 +246,7 @@ uint32_t TimeManager::diff_time(uint32_t time1, uint32_t time2) {
     time_t timefirst = 0, timeNext = 0;
     uint32_t result = static_cast<uint32_t>(
         abs(static_cast<int32_t>(
-		    difftime(timefirst, timeNext))) * 1000);
+        difftime(timefirst, timeNext))) * 1000);
     return result;
   __LEAVE_FUNCTION
     return 0;

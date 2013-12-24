@@ -280,9 +280,9 @@ bool Ini::add_data(int32_t position, const char* key, const char* value) {
     snprintf(str, sizeof(str), "%s=%s", key, value);
     length = static_cast<int32_t>(strlen(str));
     position = goto_next_line(position);
-	size_t new_datalength = static_cast<size_t>(data_length_ + length);
+    size_t new_datalength = static_cast<size_t>(data_length_ + length);
     data_info_ = static_cast<char*>(realloc(data_info_, new_datalength));
-	size_t temp_length = static_cast<size_t>(data_length_ -  position);
+    size_t temp_length = static_cast<size_t>(data_length_ -  position);
     char* temp = new char[temp_length];
     memcpy(temp, &data_info_[position], temp_length);
     memcpy(&data_info_[position + length], temp, temp_length); //the last
@@ -305,7 +305,7 @@ bool Ini::modify_data(int32_t position, const char* key, const char* value) {
     data_info_ = static_cast<char*>(realloc(data_info_, 
       static_cast<size_t>(data_length_ + new_length - old_length))); //reset memory
     size_t templength = static_cast<size_t>(data_length_ - position);
-	char* temp = new char[templength];
+    char* temp = new char[templength];
     memcpy(temp, &data_info_[position], templength);
     memcpy(&data_info_[find_position + new_length], temp, templength); //swap
     memcpy(&data_info_[find_position], temp, new_length);
@@ -710,8 +710,8 @@ bool Ini::write(const char* section, const char* key, const char* value) {
     bool result = false;
     int32_t section_index = find_section_index(section);
     int32_t line;
-	char str[64];
-	memset(str, '\0', sizeof(str));
+    char str[64];
+    memset(str, '\0', sizeof(str));
     snprintf(str, sizeof(str), "%s", value);
     if (-1 == section_index) { //add new section
       add_section(section);

@@ -155,8 +155,21 @@
         }    
 #endif
 
+//c output functions
 #if defined(__WINDOWS__)
+#ifndef snprintf
 #define snprintf _snprintf
+#endif
+#ifndef stricmp
+#define stricmp _stricmp
+#endif
+#ifndef vsnprintf
+#define vsnprintf _vsnprintf
+#endif
+#elif defined(__LINUX__)
+#ifndef stricmp
+#define stricmp strcasecmp
+#endif
 #endif
 
 // common define

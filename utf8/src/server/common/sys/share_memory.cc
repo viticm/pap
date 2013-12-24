@@ -43,8 +43,8 @@ HANDLE create(uint64_t key, uint32_t size) {
     int32_t handle;
     handle = shmget(key, size, IPC_CREAT | IPC_EXCL | 0666);
     pap_server_common_base::Log::save_log(
-        "share_memory",
-        "[share memory][api](create) handle = %d, key = %"PRIu64" ,error: %d",
+        "sharememory",
+        "[sharememory][api](create) handle = %d, key = %"PRIu64" ,error: %d",
         handle, 
         key, 
         errno);
@@ -75,8 +75,8 @@ HANDLE open(uint64_t key, uint32_t size) {
     int32_t handle;
     handle = shmget(key, size, 0);
     pap_server_common_base::Log::save_log(
-        "share_memory", 
-        "[share memory][api](open) handle = %d ,key = %"PRIu64" ,error: %d", 
+        "sharememory", 
+        "[sharememory][api](open) handle = %d ,key = %"PRIu64" ,error: %d", 
         handle, 
         key, 
         errno);
@@ -157,8 +157,8 @@ bool Base::create(uint64_t key, uint32_t size) {
     handle_ = api::create(key, size);
     if (HANDLE_INVALID == handle_) {
       pap_server_common_base::Log::save_log(
-          "share_memory", 
-          "[share memory][base](create)"
+          "sharememory", 
+          "[sharememory][base](create)"
           " create failed! handle = %d,key = %"PRIu64"",
           handle_, 
           key);
@@ -171,8 +171,8 @@ bool Base::create(uint64_t key, uint32_t size) {
       (reinterpret_cast<data_header_t*>(header_))->size = size;
       size_ = size;
       pap_server_common_base::Log::save_log(
-          "share_memory", 
-          "[share memory][base](create)"
+          "sharememory", 
+          "[sharememory][base](create)"
           " success! handle = %d ,key = %"PRIu64"",
           handle_, 
           key);
@@ -180,8 +180,8 @@ bool Base::create(uint64_t key, uint32_t size) {
     }
     else {
       pap_server_common_base::Log::save_log(
-          "share_memory", 
-          "[share memory][base](create)"
+          "sharememory", 
+          "[sharememory][base](create)"
           "map failed! handle = %d ,key = %"PRIu64"", 
           handle_, 
           key);
@@ -211,15 +211,15 @@ bool Base::attach(uint64_t key, uint32_t size) {
     if (kCmdModelClearAll == cmd_model_) {
       destory();
       pap_server_common_base::Log::save_log(
-          "share_memory",
-          "[share memory][base](attach) close memory, key = %"PRIu64"", 
+          "sharememory",
+          "[sharememory][base](attach) close memory, key = %"PRIu64"", 
           key);
       return false;
     }
     if (HANDLE_INVALID == handle_) {
       pap_server_common_base::Log::save_log(
-          "share_memory", 
-          "[share memory][base](attach) failed, key = %"PRIu64"", 
+          "sharememory", 
+          "[sharememory][base](attach) failed, key = %"PRIu64"", 
           key); 
       return false;
     }
@@ -230,15 +230,15 @@ bool Base::attach(uint64_t key, uint32_t size) {
       Assert((reinterpret_cast<data_header_t*>(header_))->size == size);
       size_ = size;
       pap_server_common_base::Log::save_log(
-          "share_memory", 
-          "[share memory][base](attach) success, key = %"PRIu64"", 
+          "sharememory", 
+          "[sharememory][base](attach) success, key = %"PRIu64"", 
           key); 
       return true;
     }
     else {
       pap_server_common_base::Log::save_log(
-          "share_memory", 
-          "[share memory][base](attach) map failed, key = %"PRIu64"", 
+          "sharememory", 
+          "[sharememory][base](attach) map failed, key = %"PRIu64"", 
           key); 
       return false;
     }
@@ -321,18 +321,23 @@ void lock(char &flag, char type) {
     _loop:
     if (kUseFree == flag) {
       flag = type;
-      pap_common_base::util::sleep(1);
+      if (flag != type) {
+        pap_common_base::util::sleep(1);
 #if defined(__LINUX__)
-      ++lock_times;
-      printf("[share memory](lock) fail %s, %d, %s", 
-             __FILE__, 
-             __LINE__, 
-             __PRETTY_FUNCTION__);
-      if (lock_times < 100 && lock_time_enable) {
-        lock_times = 0;
-        return;
-      }
+        ++lock_times;
+        printf("[sharememory](lock) fail %s, %d, %s", 
+               __FILE__, 
+               __LINE__, 
+               __PRETTY_FUNCTION__);
+        if (lock_times < 100 && lock_time_enable) {
+          lock_times = 0;
+          return;
+        }
 #endif
+        goto _loop;
+      }
+    }
+    else {
       goto _loop;
     }
   __LEAVE_FUNCTION
@@ -374,7 +379,7 @@ void unlock(char &flag, char type) {
       if (kUseFree != flag) {
         pap_common_base::util::sleep(1);
 #if defined(__LINUX__)
-        printf("[share memory](unlock)fail %s, %d, %s", 
+        printf("[sharememory](unlock)fail %s, %d, %s", 
                __FILE__, 
                __LINE__, 
                __PRETTY_FUNCTION__);
