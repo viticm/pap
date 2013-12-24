@@ -186,7 +186,7 @@ class UnitPool {
        Assert(ref_obj_pointer_);
        if (!ref_obj_pointer_) return false;
        ref_obj_pointer_->cmd_model_ = g_cmd_model;
-       bool result;
+       bool result = true;
        result = ref_obj_pointer_->attach(
            key, 
            sizeof(T) * max_count + sizeof(data_header_t));

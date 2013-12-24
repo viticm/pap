@@ -299,7 +299,7 @@ bool ShareMemory::init_staticmanager() {
     uint16_t obj_count = g_config.share_memory_info_.obj_count;
     for (i = 0; i < obj_count; ++i) {
       typedef type::share_memory::key_enum key_enum;
-	  key_enum key_type;
+      key_enum key_type;
       key_type = static_cast<key_enum>(g_config.share_memory_info_.key_data[i].type);
       switch (key_type) {
         case type::share_memory::kKeyGlobalData: {

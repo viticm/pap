@@ -228,6 +228,7 @@ bool Base::attach(uint64_t key, uint32_t size) {
       data_pointer_ = header_ + sizeof(data_header_t);
       Assert((reinterpret_cast<data_header_t*>(header_))->key == key);
       Assert((reinterpret_cast<data_header_t*>(header_))->size == size);
+      size_ = size;
       pap_server_common_base::Log::save_log(
           "share_memory", 
           "[share memory][base](attach) success, key = %"PRIu64"", 
