@@ -81,6 +81,23 @@
 #define LF "\n"
 #endif
 
+//c output functions
+#if defined(__WINDOWS__)
+#ifndef snprintf
+#define snprintf _snprintf
+#endif
+#ifndef stricmp
+#define stricmp _stricmp
+#endif
+#ifndef vsnprintf
+#define vsnprintf _vsnprintf
+#endif
+#elif defined(__LINUX__)
+#ifndef stricmp
+#define stricmp strcasecmp
+#endif
+#endif
+
 //根据指针值删除内存
 #ifndef SAFE_DELETE
 #if defined(__WINDOWS__)
@@ -125,14 +142,26 @@
 
 #if defined(__WINDOWS__) //normal functions
 // add by viticm, fast output some debug info 
-#ifndef PRINTFERROR
-#define PRINTFERROR(...) {\
-  char buffer[2048]; sprintf(buffer, __VA_ARGS__); \
-  buffer[2048] = '\0'; \
+#ifndef ERRORPRINTF
+#define ERRORPRINTF(...) {\
+  char buffer[2048]; snprintf(buffer, sizeof(buffer) - 1, __VA_ARGS__); \
   const char* start  = "[ERROR...]"; \
-  const char* end    = "[...ERROR]"LF""; \
+  const char* end = "[...ERROR]"LF""; \
   size_t format_length = sizeof(start) + sizeof(buffer) + sizeof(end); \
-  char* format_str    = new char[format_length + 1]; \
+  char* format_str = new char[format_length + 1]; \
+  strcpy(format_str, start); strcat(format_str, buffer); \
+  strcat(format_str, end);\
+  printf(format_str); \
+  delete[] format_str; \
+}
+#endif
+#ifndef WARNINGPRINTF
+#define WARNINGPRINTF(...) {\
+  char buffer[2048]; snprintf(buffer, sizeof(buffer) - 1, __VA_ARGS__); \
+  const char* start = "[WARNING...]"; \
+  const char* end = "[...WARNING]"LF""; \
+  size_t format_length = sizeof(start) + sizeof(buffer) + sizeof(end); \
+  char* format_str = new char[format_length + 1]; \
   strcpy(format_str, start); strcat(format_str, buffer); \
   strcat(format_str, end);\
   printf(format_str); \
@@ -140,10 +169,9 @@
 }
 #endif
 #elif defined(__LINUX__)    //linux
-#ifndef PRINTFERROR
-#define PRINTFERROR(...) {\
-  char buffer[2048]; sprintf(buffer, __VA_ARGS__); \
-  buffer[2047] = '\0'; \
+#ifndef ERRORPRINTF
+#define ERRORPRINTF(...) {\
+  char buffer[2048]; snprintf(buffer, sizeof(buffer) - 1, __VA_ARGS__); \
   const char* start = "\e[0;31;1m"; \
   const char* end  = "\e[0m"LF""; \
   size_t format_length = sizeof(start) + sizeof(buffer) + sizeof(end); \
@@ -154,22 +182,18 @@
   delete[] format_str; \
 }
 #endif
-#endif
-
-//c output functions
-#if defined(__WINDOWS__)
-#ifndef snprintf
-#define snprintf _snprintf
-#endif
-#ifndef stricmp
-#define stricmp _stricmp
-#endif
-#ifndef vsnprintf
-#define vsnprintf _vsnprintf
-#endif
-#elif defined(__LINUX__)
-#ifndef stricmp
-#define stricmp strcasecmp
+#ifndef WARNINGPRINTF
+#define WARNINGPRINTF(...) {\
+  char buffer[2048]; snprintf(buffer, sizeof(buffer) - 1, __VA_ARGS__); \
+  const char* start = "\e[0;33;1m"; \
+  const char* end  = "\e[0m"LF""; \
+  size_t format_length = sizeof(start) + sizeof(buffer) + sizeof(end); \
+  char* format_str = new char[format_length + 1]; \
+  strcpy(format_str, start); strcat(format_str, buffer); \
+  strcat(format_str, end); \
+  printf(format_str); \
+  delete[] format_str; \
+}
 #endif
 #endif
 
