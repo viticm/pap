@@ -43,7 +43,7 @@ void dumpstack(const char* log_fileprefix, const char* type) {
         }
         else
         {
-          LERR("[sys][util] dumpstack error, can't open: %s", logfile);
+          PRINTERROR("[sys][util] dumpstack error, can't open: %s", logfile);
         }
         free(symbols);
       }
@@ -65,7 +65,7 @@ void dumpstack(const char* log_fileprefix, const char* type) {
         fclose(f);
       }
       else {
-        LERR("[sys][util] dumpstack error, can't open: %s", logfile);
+        PRINTERROR("[sys][util] dumpstack error, can't open: %s", logfile);
       }
     }
 #endif
