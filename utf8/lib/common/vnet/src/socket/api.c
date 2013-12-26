@@ -250,9 +250,9 @@ bool socketapi_connectex(int32_t socket,
   return true;
 }
 
-bool socketapi_listen_ex (int32_t socket, uint32_t backlog) {
+bool socketapi_listenex (int32_t socket, uint32_t backlog) {
   
-  if (SOCKET_ERROR == listen(s, backlog)) {
+  if (SOCKET_ERROR == listen(socket, backlog)) {
 #if defined(__LINUX__)
     switch (errno) {
       case EBADF : 

@@ -98,36 +98,6 @@
 #endif
 #endif
 
-//根据指针值删除内存
-#ifndef SAFE_DELETE
-#if defined(__WINDOWS__)
-#define SAFE_DELETE(x)	if((x)!=NULL) { Assert(_CrtIsValidHeapPointer(x)); \
-                        delete (x); (x)=NULL; }
-#elif defined(__LINUX__)
-#define SAFE_DELETE(x)	if((x)!=NULL) { delete (x); (x)=NULL; }
-#endif
-#endif
-//根据指针值删除数组类型内存 
-//其中注意_CrtIsValidHeapPointer前的定义，在relase需要定义NDEBUG
-#ifndef SAFE_DELETE_ARRAY
-#if defined(__WINDOWS__)
-#define SAFE_DELETE_ARRAY(x) if((x)!=NULL) { \
-                             Assert(_CrtIsValidHeapPointer(x)); \
-                             delete[] (x); (x)=NULL; }
-#elif defined(__LINUX__)
-#define SAFE_DELETE_ARRAY(x) if((x)!=NULL) { delete[] (x); (x)=NULL; }
-#endif
-#endif
-
-//删除指针型数据(应尽量使用SAFE_DELETE_ARRAY)
-#ifndef DELETE_ARRAY
-#if defined(__WINDOWS__)
-#define DELETE_ARRAY(x)	if((x)!=NULL) { delete[] (x); (x)=NULL; }
-#elif defined(__LINUX__)
-#define DELETE_ARRAY(x)	if((x)!=NULL) { delete[] (x); (x)=NULL; }
-#endif
-#endif
-
 #ifndef USE_PARAM
 #define USE_PARAM(x) if (!x) {}
 #endif

@@ -14,4 +14,21 @@
 
 #include "base/type.h"
 
+typedef struct {
+  char* buffer;
+  uint32_t bufferlength;
+  uint32_t bufferlength_max;
+  uint32_t headlength;
+  uint32_t taillength;
+} packet_t;
+
+typedef struct {
+  unsigned char* in;
+  uint32_t insize;
+  unsigned char* out;
+  uint32_t outsize;
+  unsigned const* key;
+  uint32_t param[2];
+} endecode_param_t;
+
 #endif //VNET_SOCKET_CONFIG_H_
