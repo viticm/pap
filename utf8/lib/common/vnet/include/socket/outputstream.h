@@ -17,11 +17,16 @@
 #define SOCKETOUTPUT_DISCONNECT_MAXSIZE (100*1024) //if buffer more than it,
                                                   //will disconnect this socket.
 
-uint32_t socket_outputstream_write(packet_t packet, 
-                                   char* buffer, 
+uint32_t socket_outputstream_write(struct packet_t* packet, 
+                                   const char* buffer, 
                                    uint32_t length);
+uint32_t socket_outputstream_encodewrite(
+    struct packet_t* packet, 
+    const char* buffer, 
+    uint32_t length
+    struct endecode_param_t* endecode_param);
 uint32_t socket_outputstream_reallength(packet_t packet);
-bool socket_outputstream_flush(int32_t socketid, packet_t packet);
-
+int32_t socket_outputstream_flush(int32_t socketid, struct packet_t* packet);
+bool socket_outputstream_resize(struct packet_t* packet, int32_t size);
 
 #endif //VNET_SOCKET_OUTPUTSTREAM_H_

@@ -6,7 +6,7 @@ extern int32_t errno;
 #endif
 char errormessage[kErrorMessageSize];
 
-int32_t socketapi_socket_ex(int32_t domain, int32_t type, int32_t protocol) {
+int32_t socketapi_socketex(int32_t domain, int32_t type, int32_t protocol) {
   
   int32_t socket = ::socket(domain, type, protocol);
 
@@ -21,7 +21,7 @@ int32_t socketapi_socket_ex(int32_t domain, int32_t type, int32_t protocol) {
       default : {
           break;
       }
-    }//end of switch
+    }
 #elif defined(__WINDOWS__)
     int32_t error = WSAGetLastError();
     switch (error) {
@@ -71,9 +71,9 @@ int32_t socketapi_socket_ex(int32_t domain, int32_t type, int32_t protocol) {
   return socket;
 }
 
-bool socketapi_bindex (int32_t socket, 
-                       const struct sockaddr* addr, 
-                       uint32_t addrlength) {
+bool socketapi_bindex(int32_t socket, 
+                      const struct sockaddr* addr, 
+                      uint32_t addrlength) {
   
 
   if (SOCKET_ERROR == bind(socket, addr, addrlength)) {
@@ -250,7 +250,7 @@ bool socketapi_connectex(int32_t socket,
   return true;
 }
 
-bool socketapi_listenex (int32_t socket, uint32_t backlog) {
+bool socketapi_listenex(int32_t socket, uint32_t backlog) {
   
   if (SOCKET_ERROR == listen(socket, backlog)) {
 #if defined(__LINUX__)
@@ -772,12 +772,12 @@ int32_t socketapi_sendex(int32_t socket,
 }
 
 
-int32_t socketapi_sendtoex (int32_t socket, 
-                            const void* buffer, 
-                            int32_t length, 
-                            uint32_t flag, 
-                            const struct sockaddr* to, 
-                            int32_t tolength) {
+int32_t socketapi_sendtoex(int32_t socket, 
+                           const void* buffer, 
+                           int32_t length, 
+                           uint32_t flag, 
+                           const struct sockaddr* to, 
+                           int32_t tolength) {
   int32_t result = 0;
 #if defined(__LINUX__)
   result = sendto(socket, buffer, length, flag, to, tolength);
@@ -960,7 +960,7 @@ int32_t result = 0;
   return result;
 }
 
-bool socketapi_closesocket_ex (int32_t socket) {
+bool socketapi_closesocket_ex(int32_t socket) {
 
   bool result = true;
 #if defined(__LINUX__)

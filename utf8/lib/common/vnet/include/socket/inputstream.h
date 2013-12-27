@@ -34,5 +34,6 @@ bool socket_inputstream_encodeskip(struct packet_t* packet,
                                    uint32_t length
                                    struct endecode_param_t* endecode_param);
 int32_t socket_inputstream_fill(int32_t socketid, struct packet_t* packet);
+void socket_inputstream_packetinit(struct packet_t* packet);
 
 #endif //VNET_SOCKET_INPUTSTREAM_H_
