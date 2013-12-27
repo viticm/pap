@@ -13,9 +13,6 @@
 #define VNET_SOCKET_OUTPUTSTREAM_H_
 
 #include "socket/config.h"
-#define SOCKETOUTPUT_BUFFERSIZE_DEFAULT (8192) //default size
-#define SOCKETOUTPUT_DISCONNECT_MAXSIZE (100*1024) //if buffer more than it,
-                                                  //will disconnect this socket.
 
 uint32_t socket_outputstream_write(struct packet_t* packet, 
                                    const char* buffer, 

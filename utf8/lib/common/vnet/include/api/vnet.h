@@ -1,0 +1,104 @@
+/**
+ * PAP Engine ( https://github.com/viticm/pap )
+ * model vnet
+ * $Id vnet.h
+ * @link https://github.com/viticm/pap for the canonical source repository
+ * @copyright Copyright (c) 2013-2013 viticm( viticm@126.com )
+ * @license
+ * @user viticm<viticm@126.com>
+ * @date 2013-12-27 17:15:18
+ * @uses the vnet base apis
+ */
+#ifndef VNET_API_VNET_H_
+#define VNET_API_VNET_H_
+
+#include "api/vnetconf.h"
+
+#if defined(__LINUX__) /* { */
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#elif defined(__WINDOWS__) /* }{ */
+#include <winsock.h>
+#endif /* } */
+
+/*socket {*/
+
+/*base {*/
+VNET_API int32_t vnet_socketbase_create(int32_t type); //return socketid
+VNET_API bool vnet_socketbase_connect(int32_t socketid, 
+                                      const char* host, 
+                                      uint32_t port);
+VNET_API int32_t vnet_socketbase_send(int32_t socketid,
+                                      const void* buffer, 
+                                      uint32_t length, 
+                                      uint32_t flag);
+VNET_API int32_t vnet_socketbase_receive(int32_t socketid,
+                                         const void* buffer, 
+                                         uint32_t length, 
+                                         uint32_t flag);
+VNET_API uint32_t vnet_socketbase_available(int32_t socketid);
+VNET_API int32_t vnet_socketbase_accept(int32_t socketid, 
+                                        struct sockaddr* addr, 
+                                        uint32_t* addrlength);
+VNET_API bool vnet_socketbase_bind(int32_t socketid, uint32_t port);
+VNET_API bool vnet_socketbase_listen(int32_t socketid, int32_t backlog);
+VNET_API uint32_t vnet_socketbase_getlinger(int32_t socketid);
+VNET_API bool vnet_socketbase_setlinger(int32_t socketid, uint32_t lingertime);
+VNET_API bool vnet_socketbase_is_reuseaddr(int32_t socketid);
+VNET_API bool vnet_socketbase_set_reuseaddr(int32_t socketid, bool on);
+VNET_API bool vnet_socketbase_iserror(int32_t socketid);
+VNET_API bool vnet_socketbase_is_nonblocking(int32_t socketid);
+VNET_API bool vnet_socketbase_set_nonblocking(int32_t socketid, bool on);
+VENT_API uint32_t vnet_socketbase_getreceive_buffersize(int32_t socketid);
+VNET_API bool vnet_socketbase_setreceive_buffersize(int32_t socketid, 
+                                                    uint32_t size);
+/*base }*/
+
+
+/*inputstream {*/
+VNET_API uint32_t vnet_socket_inputstream_read(struct packet_t* packet, 
+                                               char* buffer, 
+                                               uint32_t length);
+VNET_API uint32_t vent_socket_inputstream_encoderead(
+    struct packet_t* packet, 
+    char* buffer, 
+    uint32_t length
+    struct endecode_param_t* endecode_param);
+VNET_API bool vent_socket_inputstream_resize(struct packet_t* packet, 
+                                             int32_t size);
+VNET_API uint32_t vnet_socket_inputstream_reallength(struct packet_t packet);
+VNET_API bool vnet_socket_inputstream_peek(struct packet_t packet,
+                                           char* buffer,
+                                           uint32_t length);
+VNET_API bool vnet_socket_inputstream_skip(struct packet_t* packet, 
+                                           uint32_t length);
+VNET_API bool vnet_socket_inputstream_encodeskip(
+    struct packet_t* packet, 
+    uint32_t length
+    struct endecode_param_t* endecode_param);
+VNET_API int32_t vnet_socket_inputstream_fill(int32_t socketid, 
+                                              struct packet_t* packet);
+VNET_API void vnet_socket_inputstream_packetinit(struct packet_t* packet);
+/*inputstream }*/
+
+/*outputstream {*/
+VNET_API uint32_t vnet_socket_outputstream_write(struct packet_t* packet, 
+                                                 const char* buffer, 
+                                                 uint32_t length);
+VNET_API uint32_t vent_socket_outputstream_encodewrite(
+    struct packet_t* packet, 
+    const char* buffer, 
+    uint32_t length
+    struct endecode_param_t* endecode_param);
+VENT_API uint32_t vnet_socket_outputstream_reallength(packet_t packet);
+VENT_API int32_t vnet_socket_outputstream_flush(int32_t socketid, 
+                                           struct packet_t* packet);
+VENT_API bool vnet_socket_outputstream_resize(struct packet_t* packet, 
+                                              int32_t size);
+/*outputstream }*/
+
+/*socket }*/
+
+#endif //VNET_API_VNET_H_

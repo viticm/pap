@@ -13,9 +13,6 @@
 #define VNET_SOCKET_INPUTSTREAM_H_
 
 #include "socket/config.h"
-#define SOCKETINPUT_BUFFERSIZE_DEFAULT (64*1024) //default size
-#define SOCKETINPUT_DISCONNECT_MAXSIZE (96*1024) //if buffer more than it,
-                                                  //will disconnect this socket.
 
 uint32_t socket_inputstream_read(struct packet_t* packet, 
                                  char* buffer, 
