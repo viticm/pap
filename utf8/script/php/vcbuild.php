@@ -83,11 +83,13 @@ function format_systempath($path, $from_ostype = OS_LINUX) {
 
 //project visual studio script file dirs
 $g_scriptdirs = array(
-"billing src/server/billing/scripts",
-"sharememory src/server/sharememory/scripts",
-"login src/server/login/scripts",
-"world src/server/world/scripts",
-"server src/server/server/scripts"
+  "billing src/server/billing/scripts",
+  "sharememory src/server/sharememory/scripts",
+  "login src/server/login/scripts",
+  "world src/server/world/scripts",
+  "server src/server/server/scripts",
+  
+  "vnet lib/common/vnet/scripts",
 ); //not use EOF, if you want it work not just use output
 
 $selfpath = str_replace('\\', '/', dirname(realpath(__FILE__)));
@@ -196,9 +198,12 @@ function rewrite_vcscript($modelname = NULL,
   if (0 == count($scriptfiles)) return false;
   foreach ($scriptfiles as $scriptfile) {
     $scriptfile_info = file_get_contents($scriptfile);
-    $match_sourcefiles = array();
-    preg_match_all('/".*\.cc"/', $scriptfile_info, $match_sourcefiles);
-    $sourcefiles = $match_sourcefiles[0];
+    $sourcefiles = array();
+    $matchcorcc_files = array();
+    $matchcpp_files = array(); 
+    preg_match_all('/".*\.cc?"/', $scriptfile_info, $matchcorcc_files);
+    preg_match_all('/".*\.cpp"/', $scriptfile_info, $matchcpp_files);
+    $sourcefiles = array_merge($matchcorcc_files[0], $matchcpp_files[0]);
     foreach ($sourcefiles as $sourcefile) {
       $scriptfile_old = $sourcefile;
       $sourcefile = substr($sourcefile, 1, strlen($sourcefile) - 2); //del '"'
@@ -252,7 +257,7 @@ $revert_fileinfo = <<<EOF
 1
 en:
   This is a flag file of visual studio script if need revert.
-  If you don't kown this, you don't delete it.
+  If you don't understand this, you don't delete it.
 cn:
     这个文件用来作为是否需要还原vcscript的标记。
     如果你不清楚该文件的用途，则不要删除它。
