@@ -23,7 +23,6 @@
 #include <winsock.h>
 #endif
 
-const uint8_t kErrorMessageSize = 256;
 const int8_t kSocketErrorWouldBlock = -100; //use in same model not use macro
 
 #if defined(__LINUX__) //macros in linux

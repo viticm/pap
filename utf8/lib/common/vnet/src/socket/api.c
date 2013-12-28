@@ -4,7 +4,7 @@
 #if defined(__LINUX__)
 extern int32_t errno;
 #endif
-char errormessage[kErrorMessageSize];
+char errormessage[FILENAME_MAX];
 
 int32_t socketapi_socketex(int32_t domain, int32_t type, int32_t protocol) {
   
