@@ -14,6 +14,12 @@
 
 #include <stdint.h>
 
+#ifndef bool
+#define bool uint8_t
+#define true 1
+#define false 0
+#endif
+
 /*
 @@ VNET_API is a mark for all core API functions.
 @@ VNETLIB_API is a mark for all auxiliary library functions.
@@ -44,22 +50,23 @@
 
 
 /* all macros and defines */
-typedef struct {
+struct packet_t {
   char* buffer;
   uint32_t bufferlength;
   uint32_t bufferlength_max;
   uint32_t headlength;
   uint32_t taillength;
-} packet_t;
+};
 
-typedef struct {
+struct endecode_param_t {
   unsigned char* in;
   uint32_t insize;
   unsigned char* out;
   uint32_t outsize;
-  unsigned const* key;
+  unsigned char const* key;
+  uint32_t keysize;
   uint32_t param[2];
-} endecode_param_t;
+};
 
 #define SOCKETINPUT_BUFFERSIZE_DEFAULT (64*1024) //default size
 #define SOCKETINPUT_DISCONNECT_MAXSIZE (96*1024) //if buffer more than it,

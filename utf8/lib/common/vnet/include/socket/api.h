@@ -12,7 +12,7 @@
 #ifndef VNET_SOCKET_API_H_
 #define VNET_SOCKET_API_H_
 
-#include "soket/config.h"
+#include "socket/config.h"
 
 #if defined(__LINUX__)
 #include <netinet/in.h>
@@ -58,11 +58,11 @@ uint32_t socketapi_getsockopt_exu(int32_t socket,
                                   void* optval, 
                                   uint32_t* optlength);
 
-bool socketapi_setsocketopt_ex(int32_t socket,
-                               int32_t level,
-                               int32_t optname,
-                               const void* optval,
-                               uint32_t* optlength);
+bool socketapi_setsockopt_ex(int32_t socket,
+                             int32_t level,
+                             int32_t optname,
+                             const void* optval,
+                             uint32_t optlength);
 
 int32_t socketapi_sendex(int32_t socket, 
                          const void* buffer, 
@@ -94,7 +94,7 @@ bool socketapi_ioctlsocket_ex(int32_t socket, int64_t cmd, uint64_t* argp);
 
 bool socketapi_get_nonblocking_ex(int32_t socket);
 
-bool socketapi_set_nonblocking_ex(int32_t socket);
+bool socketapi_set_nonblocking_ex(int32_t socket, bool on);
 
 uint32_t socketapi_availableex(int32_t socket);
 

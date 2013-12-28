@@ -35,7 +35,7 @@ VNET_API int32_t vnet_socketbase_send(int32_t socketid,
                                       uint32_t length, 
                                       uint32_t flag);
 VNET_API int32_t vnet_socketbase_receive(int32_t socketid,
-                                         const void* buffer, 
+                                         void* buffer, 
                                          uint32_t length, 
                                          uint32_t flag);
 VNET_API uint32_t vnet_socketbase_available(int32_t socketid);
@@ -51,7 +51,7 @@ VNET_API bool vnet_socketbase_set_reuseaddr(int32_t socketid, bool on);
 VNET_API bool vnet_socketbase_iserror(int32_t socketid);
 VNET_API bool vnet_socketbase_is_nonblocking(int32_t socketid);
 VNET_API bool vnet_socketbase_set_nonblocking(int32_t socketid, bool on);
-VENT_API uint32_t vnet_socketbase_getreceive_buffersize(int32_t socketid);
+VNET_API uint32_t vnet_socketbase_getreceive_buffersize(int32_t socketid);
 VNET_API bool vnet_socketbase_setreceive_buffersize(int32_t socketid, 
                                                     uint32_t size);
 /*base }*/
@@ -64,7 +64,7 @@ VNET_API uint32_t vnet_socket_inputstream_read(struct packet_t* packet,
 VNET_API uint32_t vent_socket_inputstream_encoderead(
     struct packet_t* packet, 
     char* buffer, 
-    uint32_t length
+    uint32_t length,
     struct endecode_param_t* endecode_param);
 VNET_API bool vent_socket_inputstream_resize(struct packet_t* packet, 
                                              int32_t size);
@@ -76,7 +76,7 @@ VNET_API bool vnet_socket_inputstream_skip(struct packet_t* packet,
                                            uint32_t length);
 VNET_API bool vnet_socket_inputstream_encodeskip(
     struct packet_t* packet, 
-    uint32_t length
+    uint32_t length,
     struct endecode_param_t* endecode_param);
 VNET_API int32_t vnet_socket_inputstream_fill(int32_t socketid, 
                                               struct packet_t* packet);
@@ -90,12 +90,12 @@ VNET_API uint32_t vnet_socket_outputstream_write(struct packet_t* packet,
 VNET_API uint32_t vent_socket_outputstream_encodewrite(
     struct packet_t* packet, 
     const char* buffer, 
-    uint32_t length
+    uint32_t length,
     struct endecode_param_t* endecode_param);
-VENT_API uint32_t vnet_socket_outputstream_reallength(packet_t packet);
-VENT_API int32_t vnet_socket_outputstream_flush(int32_t socketid, 
+VNET_API uint32_t vnet_socket_outputstream_reallength(packet_t packet);
+VNET_API int32_t vnet_socket_outputstream_flush(int32_t socketid, 
                                            struct packet_t* packet);
-VENT_API bool vnet_socket_outputstream_resize(struct packet_t* packet, 
+VNET_API bool vnet_socket_outputstream_resize(struct packet_t* packet, 
                                               int32_t size);
 /*outputstream }*/
 

@@ -10,7 +10,7 @@
  * @uses vnet file model api
  */
 
-#include "base/config.h"
+#include "socket/config.h"
 
 int32_t fileapi_openex(const char* filename, int32_t flag);
 int32_t fileapi_openex(const char* filename, int32_t flag, int32_t mode);
@@ -23,7 +23,7 @@ bool fileapi_get_nonblocking_ex(int32_t fd);
 bool fileapi_get_nonblocking_ex(int32_t fd, bool on);
 void fileapi_ioctlex(int32_t fd, int32_t request, void* argp);
 void fileapi_set_nonblocking_ex(int32_t fd, bool on);
-void fileapi_availableex(int32_t fd);
+uint32_t fileapi_availableex(int32_t fd);
 int32_t fileapi_dupex(int32_t fd);
 int64_t fileapi_lseekex(int32_t fd, int64_t offset, int32_t whence);
 int64_t fileapi_tellex(int32_t fd);

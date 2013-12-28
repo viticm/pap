@@ -188,6 +188,8 @@ int32_t fileapi_fcntlex(int32_t fd, int32_t cmd) {
   }
   return result;
 #elif defined(__WINDOWS__)
+  USE_PARAM(fd);
+  USE_PARAM(cmd);
   return 0 ;
 #endif
 }
@@ -212,6 +214,9 @@ int32_t fileapi_fcntlex(int32_t fd, int32_t cmd, int32_t arg) {
   }
   return result;
 #elif defined(__WINDOWS__)
+  USE_PARAM(fd);
+  USE_PARAM(cmd);
+  USE_PARAM(arg);
   return 0 ;
 #endif
 }
@@ -221,6 +226,7 @@ bool fileapi_get_nonblocking_ex(int32_t fd) {
   int32_t flag = fileapi_fcntlex(fd, F_GETFL, 0);
   return flag | O_NONBLOCK;
 #elif defined(__WINDOWS__)
+  USE_PARAM(fd);
   return false;
 #endif
 }
@@ -236,6 +242,8 @@ void fileapi_set_nonblocking_ex (int32_t fd, bool on) {
     flag &= ~O_NONBLOCK;
   fileapi_fcntlex(fd, F_SETFL, flag);
 #elif defined(__WINDOWS__)
+  USE_PARAM(fd);
+  USE_PARAM(on);
   //do nothing
 #endif
 }
@@ -254,6 +262,9 @@ void fileapi_ioctlex (int32_t fd, int32_t request, void* argp) {
     }
   }
 #elif defined(__WINDOWS__)
+  USE_PARAM(fd);
+  USE_PARAM(request);
+  USE_PARAM(argp);
   //do nothing
 #endif
 }
@@ -265,6 +276,8 @@ void fileapi_setnonblocking_ex(int32_t fd, bool on) {
   uint64_t arg = (true == on ? 1 : 0 );
   fileapi_ioctlex(fd, FIONBIO, &arg);
 #elif defined(__WINDOWS__)
+  USE_PARAM(fd);
+  USE_PARAM(on);
   //do nothing
 #endif
 }
@@ -276,6 +289,7 @@ uint32_t fileapi_availableex(int32_t fd) {
   fileaip_ioctlex(fd, FIONREAD, &arg);
   return arg;
 #elif defined(__WINDOWS__)
+  USE_PARAM(fd);
   return 0;
 #endif
 }
@@ -318,8 +332,8 @@ int64_t fileapi_lseekex(int32_t fd, uint64_t offset, int32_t whence) {
       }
     }
   }
-#elif __WINDOWS__
-  uint64_t result = _lseek(fd, offset, whence);
+#elif defined(__WINDOWS__)
+  uint64_t result = _lseek(fd, (long)offset, whence);
   if ( result < 0 ) {
   }
 #endif

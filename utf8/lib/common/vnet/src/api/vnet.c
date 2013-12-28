@@ -28,7 +28,7 @@ VNET_API int32_t vnet_socketbase_send(int32_t socketid,
 }
 
 VNET_API int32_t vnet_socketbase_receive(int32_t socketid,
-                                         const void* buffer, 
+                                         void* buffer, 
                                          uint32_t length, 
                                          uint32_t flag) {
   int32_t result = socketbase_receive(socketid, buffer, length, flag);
@@ -93,7 +93,7 @@ VNET_API bool vnet_socketbase_set_nonblocking(int32_t socketid, bool on) {
   return result;
 }
 
-VENT_API uint32_t vnet_socketbase_getreceive_buffersize(int32_t socketid) {
+VNET_API uint32_t vnet_socketbase_getreceive_buffersize(int32_t socketid) {
   uint32_t result = socketbase_getreceive_buffersize(socketid);
   return result;
 }
@@ -117,7 +117,7 @@ VNET_API uint32_t vnet_socket_inputstream_read(struct packet_t* packet,
 VNET_API uint32_t vent_socket_inputstream_encoderead(
     struct packet_t* packet, 
     char* buffer, 
-    uint32_t length
+    uint32_t length,
     struct endecode_param_t* endecode_param) {
   uint32_t result = socket_inputstream_encoderead(packet, 
                                                   buffer, 
@@ -152,9 +152,9 @@ VNET_API bool vnet_socket_inputstream_skip(struct packet_t* packet,
 
 VNET_API bool vnet_socket_inputstream_encodeskip(
     struct packet_t* packet, 
-    uint32_t length
+    uint32_t length,
     struct endecode_param_t* endecode_param) {
-  bool result = socket_inputstream_encoderead(packet, length, endecode_param);
+  bool result = socket_inputstream_encodeskip(packet, length, endecode_param);
   return result;
 }
 
@@ -180,7 +180,7 @@ VNET_API uint32_t vnet_socket_outputstream_write(struct packet_t* packet,
 VNET_API uint32_t vent_socket_outputstream_encodewrite(
     struct packet_t* packet, 
     const char* buffer, 
-    uint32_t length
+    uint32_t length,
     struct endecode_param_t* endecode_param) {
   uint32_t result = socket_outputstream_encodewrite(packet, 
                                                     buffer, 
@@ -189,18 +189,18 @@ VNET_API uint32_t vent_socket_outputstream_encodewrite(
   return result;
 }
 
-VENT_API uint32_t vent_socket_outputstream_reallength(packet_t packet) {
+VNET_API uint32_t vent_socket_outputstream_reallength(packet_t packet) {
   uint32_t result = socket_outputstream_reallength(packet);
   return result;
 }
 
-VENT_API int32_t vent_socket_outputstream_flush(int32_t socketid, 
+VNET_API int32_t vent_socket_outputstream_flush(int32_t socketid, 
                                            struct packet_t* packet) {
   int32_t result = socket_outputstream_flush(socketid, packet);
   return result;
 }
 
-VENT_API bool vnet_socket_outputstream_resize(struct packet_t* packet, 
+VNET_API bool vnet_socket_outputstream_resize(struct packet_t* packet, 
                                               int32_t size) {
   bool result = socket_outputstream_resize(packet, size);
   return result;

@@ -65,26 +65,28 @@ uint32_t socket_inputstream_read(struct packet_t* packet,
   uint32_t bufferlength = (*packet).bufferlength;
   uint32_t headlength = (*packet).headlength;
   uint32_t taillength = (*packet).taillength;
-  char* buffer = (*packet).buffer;
+  char* packetbuffer = (char*)malloc(bufferlength);
+  memcpy(packetbuffer, (*packet).buffer, bufferlength);
   if (0 == length || length > socket_inputstream_reallength(*packet)) {
     result = 0;
   }
   else {
     if (headlength < taillength) {
-      memcpy(buffer, &buffer[headlength], length);
+      memcpy(buffer, &packetbuffer[headlength], length);
     }
     else {
       uint32_t rightlength = bufferlength - headlength;
       if (length < rightlength) {
-        memcpy(buffer, &buffer[headlength], length);
+        memcpy(buffer, &packetbuffer[headlength], length);
       }
       else {
-        memcpy(buffer, &buffer[headlength], rightlength);
-        memcpy(&buffer[rightlength], buffer, length - rightlength);
+        memcpy(buffer, &packetbuffer[headlength], rightlength);
+        memcpy(&buffer[rightlength], packetbuffer, length - rightlength);
       }
     }
     packet->headlength = headlength + length % bufferlength;
   }
+  SAFE_FREE(packetbuffer);
   return result;
 }
 
@@ -146,6 +148,9 @@ int32_t socket_inputstream_fill(int32_t socketid, struct packet_t* packet) {
   uint32_t bufferlength_max = (*packet).bufferlength_max;
   uint32_t headlength = (*packet).headlength;
   uint32_t taillength = (*packet).taillength;
+  char* buffer = (char*)malloc(bufferlength);
+  memset(buffer, '\0', bufferlength);
+  memcpy(buffer, (*packet).buffer, bufferlength);
 	// head tail length=10
 	// 0123456789
 	// abcd......
@@ -163,19 +168,29 @@ int32_t socket_inputstream_fill(int32_t socketid, struct packet_t* packet) {
                                       &buffer[taillength], 
                                       freecount, 
                                       0);
-    if (kSocketErrorWouldBlock == receivecount) return 0; 
-    if (SOCKET_ERROR == receivecount) return SOCKET_ERROR - 1;
-    if (0 == receivecount) return SOCKET_ERROR - 2;
+    if (kSocketErrorWouldBlock == receivecount) {
+      SAFE_FREE(buffer);
+      return 0;
+    }
+    if (SOCKET_ERROR == receivecount) {
+      SAFE_FREE(buffer);
+      return SOCKET_ERROR - 1;
+    }
+    if (0 == receivecount) {
+      SAFE_FREE(buffer);
+      return SOCKET_ERROR - 2;
+    }
     packet->taillength += receivecount;
     fillcount += receivecount;
   }
 
-  if (receivecount == freecount) {
-    uint32_t available = socketbase_available(sockteid);
+  if (receivecount == (int32_t)freecount) {
+    uint32_t available = socketbase_available(socketid);
     if (available > 0) {
       if ((bufferlength + available + 1) > 
           bufferlength_max) {
         socket_inputstream_packetinit(packet); //reset packet
+        SAFE_FREE(buffer);
         return SOCKET_ERROR - 3;
       }
       if(!socket_inputstream_resize(packet, available + 1))
@@ -184,14 +199,24 @@ int32_t socket_inputstream_fill(int32_t socketid, struct packet_t* packet) {
                                         &buffer[taillength], 
                                         available, 
                                         0);
-      if (kSocketErrorWouldBlock == receivecount) return 0; 
-      if (SOCKET_ERROR == receivecount) return SOCKET_ERROR - 4;
-      if (0 == receivecount) return SOCKET_ERROR - 5;
+      if (kSocketErrorWouldBlock == receivecount) {
+        SAFE_FREE(buffer);
+        return 0;
+      }
+      if (SOCKET_ERROR == receivecount) {
+        SAFE_FREE(buffer);
+        return SOCKET_ERROR - 4;
+      }
+      if (0 == receivecount) {
+        SAFE_FREE(buffer);
+        return SOCKET_ERROR - 5;
+      }
 
       packet->taillength += receivecount;
       fillcount += receivecount;
     }
   }
+  SAFE_FREE(buffer);
   return fillcount;
 }
 
@@ -203,9 +228,12 @@ bool socket_inputstream_resize(packet_t* packet, int32_t size) {
   uint32_t taillength = (*packet).taillength;
   uint32_t newbuffer_length = bufferlength + size;
   uint32_t length = socket_inputstream_reallength(*packet);
+  char* buffer = (char*)malloc(bufferlength);
+  memset(buffer, '\0', bufferlength);
+  memcpy(buffer, (*packet).buffer, bufferlength);
   if (size < 0 && (newbuffer_length < 0 || newbuffer_length < length))
     return false;
-  char* newbuffer = malloc(sizeof(char) * newbuffer_length);
+  char* newbuffer = (char*)malloc(sizeof(char) * newbuffer_length);
   if (headlength < taillength) {
     memcpy(newbuffer, &buffer[headlength], taillength - headlength);
   }
@@ -221,22 +249,12 @@ bool socket_inputstream_resize(packet_t* packet, int32_t size) {
   return result;
 }
 
-bool socket_inputstream_skip(struct packet_t* packet, uint32_t length) {
-  bool result = true;
-  if (length < 0 || length > socket_inputstream_reallength(*packet))
-    return false;
-  uint32_t headlength = (*packet).headlength;
-  uint32_t bufferlength = (*packet).bufferlength;
-  packet->headlength = (headlength + length) % bufferlength;
-  return result;
-}
-
 void socket_inputstream_packetinit(struct packet_t* packet) {
   packet->headlength = 0;
   packet->taillength = 0;
   SAFE_FREE(packet->buffer);
   packet->bufferlength = SOCKETINPUT_BUFFERSIZE_DEFAULT;
   packet->bufferlength_max = SOCKETINPUT_DISCONNECT_MAXSIZE;
-  packet->buffer = (char*)malloc(sizeof(char) * (*packet).bufferlength);
-  memset(packet->buffer, '\0', sizeof(char) * (*packet).bufferlength);
+  packet->buffer = (char*)malloc((*packet).bufferlength);
+  memset(packet->buffer, '\0', (*packet).bufferlength);
 }

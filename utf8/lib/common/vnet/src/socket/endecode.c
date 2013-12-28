@@ -27,7 +27,7 @@ bool socketendecode_make(struct endecode_param_t* endecode_param) {
   }
   int32_t keyindex = (*endecode_param).param[0];
   int32_t index;
-  for(index = 0; insize > index; ++index) {
+  for(index = 0; (int32_t)insize > index; ++index) {
     out[index] = in[index] ^ key[keyindex];
     ++keyindex;
     if(keyindex >= keysize) {
@@ -48,7 +48,7 @@ bool socketendecode_skip(struct endecode_param_t* endecode_param,
   int32_t index;
   for(index = 0; index < length; ++index) {
     ++keyindex;
-    if(keyindex >= keysize) {
+    if(keyindex >= (int32_t)keysize) {
       keyindex -= keysize;
     }
   }

@@ -23,7 +23,7 @@ int32_t socketbase_send(int32_t socketid,
                         uint32_t length, 
                         uint32_t flag);
 int32_t socketbase_receive(int32_t socketid,
-                           const void* buffer, 
+                           void* buffer, 
                            uint32_t length, 
                            uint32_t flag);
 uint32_t socketbase_available(int32_t socketid);

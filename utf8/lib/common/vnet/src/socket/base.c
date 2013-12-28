@@ -2,7 +2,7 @@
 
 int32_t socketbase_create(int32_t type) {
   int32_t socketid;
-  socketid = socketapi_socketex();
+  socketid = socketapi_socketex(AF_INET, type, 0);
   return socketid;
 }
 
@@ -10,7 +10,7 @@ bool socketbase_connect(int32_t socketid, const char* host, uint32_t port) {
   bool result = true;
   sockaddr_in connect_sockaddr_in;
   connect_sockaddr_in.sin_addr.s_addr = inet_addr(host);
-  connect_sockaddr_in.sin_port = htons(port);
+  connect_sockaddr_in.sin_port = htons((uint16_t)port);
   result = socketapi_connectex(socketid, 
                                (const struct sockaddr*)&connect_sockaddr_in, 
                                sizeof(connect_sockaddr_in));
@@ -27,7 +27,7 @@ int32_t socketbase_send(int32_t socketid,
 }
 
 int32_t socketbase_receive(int32_t socketid,
-                           const void* buffer,
+                           void* buffer,
                            uint32_t length,
                            uint32_t flag) {
   int32_t result = 0;
@@ -45,7 +45,7 @@ int32_t socketbase_accept(int32_t socketid,
                           struct sockaddr* addr, 
                           uint32_t* addrlength) {
   int32_t result = 0;
-  result = socketbase_acceptex(socketid, addr, addrlength);
+  result = socketapi_acceptex(socketid, addr, addrlength);
   return result;
 }
 
@@ -53,10 +53,10 @@ bool socketbase_bind(int32_t socketid, uint32_t port) {
   bool result = true;
   sockaddr_in connect_sockaddr_in;
   connect_sockaddr_in.sin_addr.s_addr = htonl(INADDR_ANY);
-  connect_sockaddr_in.sin_port = htons(port);
+  connect_sockaddr_in.sin_port = htons((uint16_t)port);
   result = socketapi_bindex(socketid, 
                             (const struct sockaddr*)&connect_sockaddr_in, 
-                            sizof(connect_sockaddr_in));
+                            sizeof(connect_sockaddr_in));
   return result;
 }
 
@@ -83,7 +83,7 @@ bool socketbase_setlinger(int32_t socketid, uint32_t lingertime) {
   bool result = true;
   struct linger setlinger;
   setlinger.l_onoff = lingertime > 0 ? 1 : 0;
-  setlinger.l_linger = lingertime;
+  setlinger.l_linger = (uint16_t)lingertime;
   result = socketapi_setsockopt_ex(socketid, 
                                    SOL_SOCKET, 
                                    SO_LINGER, 
@@ -106,7 +106,7 @@ bool socketbase_is_reuseaddr(int32_t socketid) {
 }
 
 bool socketbase_set_reuseaddr(int32_t socketid, bool on) {
-  result = true;
+  bool result = true;
   int32_t opt = true == on ? 1 : 0;
   result = socketapi_setsockopt_ex(socketid, 
                                    SOL_SOCKET, 
@@ -155,10 +155,10 @@ uint32_t socketbase_getreceive_buffersize(int32_t socketid) {
 
 bool socketbase_setreceive_buffersize(int32_t socketid, uint32_t size) {
   bool result = true;
-  result = socketapi_setsockopt_exb(socketid, 
-                                    SOL_SOCKET, 
-                                    SO_RCVBUF, 
-                                    &size, 
-                                    sizeof(size));
+  result = socketapi_setsockopt_ex(socketid, 
+                                   SOL_SOCKET, 
+                                   SO_RCVBUF, 
+                                   &size, 
+                                   sizeof(size));
   return result;
 }
