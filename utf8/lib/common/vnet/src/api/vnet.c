@@ -189,7 +189,7 @@ VNET_API uint32_t vent_socket_outputstream_encodewrite(
   return result;
 }
 
-VNET_API uint32_t vent_socket_outputstream_reallength(packet_t packet) {
+VNET_API uint32_t vent_socket_outputstream_reallength(struct packet_t packet) {
   uint32_t result = socket_outputstream_reallength(packet);
   return result;
 }

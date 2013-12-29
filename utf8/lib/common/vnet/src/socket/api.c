@@ -151,7 +151,7 @@ bool socketapi_connectex(int32_t socket,
                          uint32_t addrlength) {
   
 
-  if (SOCKET_ERROR == connect(socket,addr,addrlen)) {
+  if (SOCKET_ERROR == connect(socket,addr,addrlength)) {
 #if defined(__LINUX__)
     switch (errno) {
       case EALREADY : 
@@ -923,7 +923,7 @@ int32_t socketapi_recvex(int32_t socket,
 }
 
 int32_t socketapi_recvfrom_ex(int32_t socket, 
-                              void* buf, 
+                              void* buffer, 
                               int32_t length, 
                               uint32_t flag, 
                               struct sockaddr* from, 
@@ -1010,7 +1010,7 @@ bool socketapi_ioctlsocket_ex(int32_t socket, int64_t cmd, uint64_t* argp) {
 #if defined(__LINUX__)
   //do nothing
 #elif defined(__WINDOWS__)
-  if (SOCKET_ERROR == ioctlsocket(s,cmd,argp)) {
+  if (SOCKET_ERROR == ioctlsocket(socket,(long)cmd,(u_long*)argp)) {
     int32_t error = WSAGetLastError();
       switch (error) {
       case WSANOTINITIALISED : {
@@ -1047,9 +1047,9 @@ bool socketapi_ioctlsocket_ex(int32_t socket, int64_t cmd, uint64_t* argp) {
 bool socketapi_get_nonblocking_ex(int32_t socket) {
   bool result = true;
 #if defined(__LINUX__)
-  result fileapi_get_nonblocking_ex(socket);
+  result = fileapi_get_nonblocking_ex(socket);
 #elif defined(__WINDOWS__)
-  result false;
+  result = false;
 #endif
   return result;
 }
@@ -1060,7 +1060,7 @@ bool socketapi_set_nonblocking_ex(int32_t socket, bool on) {
   fileapi_set_nonblocking_ex(socket, on);
 #elif defined(__WINDOWS__)
   uint64_t argp = true == on ? 1 : 0;
-  result = ioctlsocket_ex(socket, FIONBIO, &argp);
+  result = (bool)socketapi_ioctlsocket_ex(socket, FIONBIO, &argp);
 #endif
   return result;
 }
@@ -1071,7 +1071,7 @@ uint32_t socketapi_availableex(int32_t socket) {
   result = fileapi_availableex(socket);
 #elif defined(__WINDOWS__)
   uint64_t argp = 0;
-  ioctlsocket_ex(socket, FIONREAD, &argp);
+  socketapi_ioctlsocket_ex(socket, FIONREAD, &argp);
   result = (uint32_t)argp;
 #endif
   return result;

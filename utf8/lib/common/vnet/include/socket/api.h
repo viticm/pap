@@ -98,7 +98,7 @@ bool socketapi_set_nonblocking_ex(int32_t socket, bool on);
 
 uint32_t socketapi_availableex(int32_t socket);
 
-uint32_t socketapi_shutdown_ex(int32_t socket, uint32_t how);
+//uint32_t socketapi_shutdown_ex(int32_t socket, uint32_t how);
 
 int32_t socketapi_selectex(int32_t maxfdp1, 
                            fd_set* readset, 

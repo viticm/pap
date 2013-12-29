@@ -52,7 +52,7 @@ int32_t fileapi_openex(const char* filename, int32_t flag) {
   return fd;
 }
 
-int32_t fileapi_openex (const char * filename, int32_t flag, int32_t mode) {
+int32_t fileapi_openmode_ex(const char * filename, int32_t flag, int32_t mode) {
 #if defined(__LINUX__)
   int32_t fd = open(filename, flag, mode);
 #elif defined(__WINDOWS__)
@@ -194,7 +194,7 @@ int32_t fileapi_fcntlex(int32_t fd, int32_t cmd) {
 #endif
 }
 
-int32_t fileapi_fcntlex(int32_t fd, int32_t cmd, int32_t arg) {
+int32_t fileapi_fcntlarg_ex(int32_t fd, int32_t cmd, int32_t arg) {
 #if defined(__LINUX__)
   int32_t result = fcntl(fd, cmd, arg);
   if (result < 0) {
@@ -223,7 +223,7 @@ int32_t fileapi_fcntlex(int32_t fd, int32_t cmd, int32_t arg) {
 
 bool fileapi_get_nonblocking_ex(int32_t fd) {
 #if defined(__LINUX__)
-  int32_t flag = fileapi_fcntlex(fd, F_GETFL, 0);
+  int32_t flag = fileapi_fcntlarg_ex(fd, F_GETFL, 0);
   return flag | O_NONBLOCK;
 #elif defined(__WINDOWS__)
   USE_PARAM(fd);

@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{eee90801-2cb1-4377-a58a-2fca48c88316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\api">
+      <UniqueIdentifier>{08b5169a-ae58-4146-b285-9be63837a84c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\file">
+      <UniqueIdentifier>{484756ba-cd62-4d04-bf3e-c94338212229}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\socket">
+      <UniqueIdentifier>{53de7452-9afa-4f81-a5c2-99c572af21f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{117eb5e0-459c-4938-90bf-64961f41504c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\api">
+      <UniqueIdentifier>{b04475fa-7ad7-4bf6-b20b-d32b4a0dc958}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\base">
+      <UniqueIdentifier>{ab14aeaf-badf-4c69-912d-04f366b7479a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\file">
+      <UniqueIdentifier>{ff9bf83e-7663-4162-8938-816bf1924818}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\socket">
+      <UniqueIdentifier>{6c4c3736-9faf-4dda-9301-52586eaa26bc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\api\vnet.c">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\file\api.c">
+      <Filter>Source Files\file</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\socket\api.c">
+      <Filter>Source Files\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\socket\base.c">
+      <Filter>Source Files\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\socket\endecode.c">
+      <Filter>Source Files\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\socket\inputstream.c">
+      <Filter>Source Files\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\socket\outputstream.c">
+      <Filter>Source Files\socket</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\api\vnet.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\api\vnetapi.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\api\vnetconf.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\api\vnetlib.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\base\type.h">
+      <Filter>Header Files\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\file\api.h">
+      <Filter>Header Files\file</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\file\config.h">
+      <Filter>Header Files\file</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\socket\api.h">
+      <Filter>Header Files\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\socket\base.h">
+      <Filter>Header Files\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\socket\config.h">
+      <Filter>Header Files\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\socket\endecode.h">
+      <Filter>Header Files\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\socket\inputstream.h">
+      <Filter>Header Files\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\socket\outputstream.h">
+      <Filter>Header Files\socket</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

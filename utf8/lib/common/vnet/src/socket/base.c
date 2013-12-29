@@ -8,7 +8,7 @@ int32_t socketbase_create(int32_t type) {
 
 bool socketbase_connect(int32_t socketid, const char* host, uint32_t port) {
   bool result = true;
-  sockaddr_in connect_sockaddr_in;
+  struct sockaddr_in connect_sockaddr_in;
   connect_sockaddr_in.sin_addr.s_addr = inet_addr(host);
   connect_sockaddr_in.sin_port = htons((uint16_t)port);
   result = socketapi_connectex(socketid, 
@@ -51,7 +51,7 @@ int32_t socketbase_accept(int32_t socketid,
 
 bool socketbase_bind(int32_t socketid, uint32_t port) {
   bool result = true;
-  sockaddr_in connect_sockaddr_in;
+  struct sockaddr_in connect_sockaddr_in;
   connect_sockaddr_in.sin_addr.s_addr = htonl(INADDR_ANY);
   connect_sockaddr_in.sin_port = htons((uint16_t)port);
   result = socketapi_bindex(socketid, 

@@ -169,7 +169,7 @@ int32_t socket_outputstream_flush(int32_t socketid, struct packet_t* packet) {
   return flushcount;
 }
 
-bool socket_outputstream_resize(packet_t* packet, int32_t size) {
+bool socket_outputstream_resize(struct packet_t* packet, int32_t size) {
   bool result = true;
   uint32_t bufferlength = (*packet).bufferlength;
   uint32_t headlength = (*packet).headlength;
@@ -180,7 +180,7 @@ bool socket_outputstream_resize(packet_t* packet, int32_t size) {
   uint32_t length = socket_outputstream_reallength(*packet);
   if (size < 0 && (newbuffer_length < 0 || newbuffer_length < length))
     return false;
-  char* newbuffer = (char*)malloc(sizeof(char) * newbuffer_length);
+  char* newbuffer = (char*)malloc(newbuffer_length);
   if (headlength < taillength) {
     memcpy(newbuffer, &buffer[headlength], taillength - headlength);
   }

@@ -220,7 +220,7 @@ int32_t socket_inputstream_fill(int32_t socketid, struct packet_t* packet) {
   return fillcount;
 }
 
-bool socket_inputstream_resize(packet_t* packet, int32_t size) {
+bool socket_inputstream_resize(struct packet_t* packet, int32_t size) {
   bool result = true;
   size = max(size, (int32_t)((*packet).bufferlength >> 1));
   uint32_t bufferlength = (*packet).bufferlength;

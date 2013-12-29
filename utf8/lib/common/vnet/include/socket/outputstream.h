@@ -22,7 +22,7 @@ uint32_t socket_outputstream_encodewrite(
     const char* buffer, 
     uint32_t length,
     struct endecode_param_t* endecode_param);
-uint32_t socket_outputstream_reallength(packet_t packet);
+uint32_t socket_outputstream_reallength(struct packet_t packet);
 int32_t socket_outputstream_flush(int32_t socketid, struct packet_t* packet);
 bool socket_outputstream_resize(struct packet_t* packet, int32_t size);
 void socket_outputstream_packetinit(struct packet_t* packet);

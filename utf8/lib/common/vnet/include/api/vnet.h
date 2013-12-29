@@ -92,7 +92,7 @@ VNET_API uint32_t vent_socket_outputstream_encodewrite(
     const char* buffer, 
     uint32_t length,
     struct endecode_param_t* endecode_param);
-VNET_API uint32_t vnet_socket_outputstream_reallength(packet_t packet);
+VNET_API uint32_t vnet_socket_outputstream_reallength(struct packet_t packet);
 VNET_API int32_t vnet_socket_outputstream_flush(int32_t socketid, 
                                            struct packet_t* packet);
 VNET_API bool vnet_socket_outputstream_resize(struct packet_t* packet, 
