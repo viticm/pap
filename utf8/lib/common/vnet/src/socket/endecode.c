@@ -1,36 +1,45 @@
 #include "socket/endecode.h"
 
 bool socketendecode_make(struct endecode_param_t* endecode_param) {
-  unsigned char const* in = (*endecode_param).in;
+  
+  unsigned char const* in;
+  uint32_t insize;
+  unsigned char* out;
+  uint32_t outsize;
+  unsigned char const* key;
+  uint32_t keysize;
+  int32_t keyindex;
+  int32_t index;
+  in = (*endecode_param).in;
   if(NULL == in) {
     return false;
   }
-  uint32_t insize = (*endecode_param).insize;
+  insize = (*endecode_param).insize;
   if(insize <= 0) {
     return false;
   }
-  unsigned char* out = endecode_param->out;
+  out = endecode_param->out;
   if(NULL == out) {
     return false;
   }
-  uint32_t outsize = (*endecode_param).outsize;
+  outsize = (*endecode_param).outsize;
   if(outsize <= 0 || outsize < insize) {
     return false;
   }
-  unsigned char const* key = (*endecode_param).key;
+  key = (*endecode_param).key;
   if(NULL == key) {
     return false;
   }
-  int32_t keysize = (*endecode_param).keysize;
+  keysize = (*endecode_param).keysize;
   if(keysize <= 0) {
     return false;
   }
-  int32_t keyindex = (*endecode_param).param[0];
-  int32_t index;
+  keyindex = (*endecode_param).param[0];
+  index;
   for(index = 0; (int32_t)insize > index; ++index) {
     out[index] = in[index] ^ key[keyindex];
     ++keyindex;
-    if(keyindex >= keysize) {
+    if(keyindex >= (int32_t)keysize) {
       keyindex -=keyindex;
     }
   }
@@ -40,12 +49,14 @@ bool socketendecode_make(struct endecode_param_t* endecode_param) {
 
 bool socketendecode_skip(struct endecode_param_t* endecode_param, 
                          int32_t length) {
-  uint32_t keysize = (*endecode_param).keysize;
+  uint32_t keysize = 0;
+  int32_t keyindex = 0;
+  int32_t index = 0;
+  keysize = (*endecode_param).keysize;
   if(keysize == 0) {
     return false;
   }
-  int32_t keyindex = (*endecode_param).param[0];
-  int32_t index;
+  keyindex = (*endecode_param).param[0];
   for(index = 0; index < length; ++index) {
     ++keyindex;
     if(keyindex >= (int32_t)keysize) {

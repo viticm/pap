@@ -37,10 +37,11 @@ uint32_t socket_outputstream_write(struct packet_t* packet,
 }
 uint32_t socket_outputstream_encodewrite(
     struct packet_t* packet, 
-    char* buffer, 
+    const char* buffer, 
     uint32_t length,
     struct endecode_param_t* endecode_param) {
   uint32_t result = length;
+  bool endecoderesult = true;
   /**
    * tail head       head tail --length 10
    * 0123456789      0123456789
@@ -64,7 +65,6 @@ uint32_t socket_outputstream_encodewrite(
       endecode_param->insize = length;
       endecode_param->out = tempbuffer;
       endecode_param->outsize = length;
-      bool endecoderesult = true;
       endecoderesult = socketendecode_make(endecode_param);
       if (false == endecoderesult) { //endecode failed
         SAFE_FREE(tempbuffer);
@@ -105,6 +105,7 @@ int32_t socket_outputstream_flush(int32_t socketid, struct packet_t* packet) {
   uint32_t flushcount = 0;
   uint32_t sendcount = 0;
   uint32_t leftcount = 0;
+  uint32_t flag = 0;
   uint32_t bufferlength = (*packet).bufferlength;
   uint32_t bufferlength_max = (*packet).bufferlength_max;
   uint32_t headlength = (*packet).headlength;
@@ -115,7 +116,6 @@ int32_t socket_outputstream_flush(int32_t socketid, struct packet_t* packet) {
     socket_outputstream_packetinit(packet);   
     return SOCKET_ERROR - 1;
   }
-  uint32_t flag = 0;
 #if defined(__LINUX__)
   flag = MSG_NOSIGNAL;
 #elif defined(__WINDOWS__)
@@ -125,7 +125,7 @@ int32_t socket_outputstream_flush(int32_t socketid, struct packet_t* packet) {
     bufferlength - headlength;
   while (leftcount > 0) {
     sendcount = socketbase_send(socketid, &buffer[headlength], leftcount, flag);
-    if (kSocketErrorWouldBlock == sendcount) {
+    if ((uint32_t)kSocketErrorWouldBlock == sendcount) {
       SAFE_FREE(buffer);
       return 0;
     }
@@ -147,7 +147,7 @@ int32_t socket_outputstream_flush(int32_t socketid, struct packet_t* packet) {
     leftcount = taillength;
     while (leftcount > 0) {
       sendcount = socketbase_send(socketid, &buffer[headlength], leftcount, flag);
-      if (kSocketErrorWouldBlock == sendcount) {
+      if ((uint32_t)kSocketErrorWouldBlock == sendcount) {
         SAFE_FREE(buffer);
         return 0;
       }
@@ -174,13 +174,16 @@ bool socket_outputstream_resize(struct packet_t* packet, int32_t size) {
   uint32_t bufferlength = (*packet).bufferlength;
   uint32_t headlength = (*packet).headlength;
   uint32_t taillength = (*packet).taillength;
+  uint32_t newbuffer_length = 0;
+  uint32_t length =  0;
   char* buffer = (*packet).buffer;
+  char* newbuffer = NULL;
   size = max(size, (int32_t)(bufferlength >> 1));
-  uint32_t newbuffer_length = bufferlength + size;
-  uint32_t length = socket_outputstream_reallength(*packet);
+  newbuffer_length = bufferlength + size;
+  length = socket_outputstream_reallength(*packet);
   if (size < 0 && (newbuffer_length < 0 || newbuffer_length < length))
     return false;
-  char* newbuffer = (char*)malloc(newbuffer_length);
+  newbuffer = (char*)malloc(newbuffer_length);
   if (headlength < taillength) {
     memcpy(newbuffer, &buffer[headlength], taillength - headlength);
   }

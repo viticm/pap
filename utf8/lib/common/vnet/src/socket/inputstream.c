@@ -222,18 +222,25 @@ int32_t socket_inputstream_fill(int32_t socketid, struct packet_t* packet) {
 
 bool socket_inputstream_resize(struct packet_t* packet, int32_t size) {
   bool result = true;
+  uint32_t bufferlength = 0;
+  uint32_t headlength = 0;
+  uint32_t taillength = 0;
+  uint32_t newbuffer_length = 0;
+  uint32_t length = 0;
+  char* buffer = NULL;
+  char* newbuffer = NULL;
+  bufferlength = (*packet).bufferlength;
+  headlength = (*packet).headlength;
+  taillength = (*packet).taillength;
+  newbuffer_length = bufferlength + size;
+  length = socket_inputstream_reallength(*packet);
+  buffer = (char*)malloc(bufferlength);
   size = max(size, (int32_t)((*packet).bufferlength >> 1));
-  uint32_t bufferlength = (*packet).bufferlength;
-  uint32_t headlength = (*packet).headlength;
-  uint32_t taillength = (*packet).taillength;
-  uint32_t newbuffer_length = bufferlength + size;
-  uint32_t length = socket_inputstream_reallength(*packet);
-  char* buffer = (char*)malloc(bufferlength);
   memset(buffer, '\0', bufferlength);
   memcpy(buffer, (*packet).buffer, bufferlength);
   if (size < 0 && (newbuffer_length < 0 || newbuffer_length < length))
     return false;
-  char* newbuffer = (char*)malloc(sizeof(char) * newbuffer_length);
+  newbuffer = (char*)malloc(sizeof(char) * newbuffer_length);
   if (headlength < taillength) {
     memcpy(newbuffer, &buffer[headlength], taillength - headlength);
   }
