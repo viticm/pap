@@ -8,9 +8,9 @@ char errormessage[FILENAME_MAX];
 
 int32_t socketapi_socketex(int32_t domain, int32_t type, int32_t protocol) {
   
-  int32_t socket = ::socket(domain, type, protocol);
+  int32_t socketid = socket(domain, type, protocol);
 
-  if (socket == ID_INVALID) {
+  if (socketid == ID_INVALID) {
 #if defined(__LINUX__)
     switch (errno) {
       case EPROTONOSUPPORT :
@@ -68,15 +68,15 @@ int32_t socketapi_socketex(int32_t domain, int32_t type, int32_t protocol) {
     }
 #endif
   }
-  return socket;
+  return socketid;
 }
 
-bool socketapi_bindex(int32_t socket, 
+bool socketapi_bindex(int32_t socketid, 
                       const struct sockaddr* addr, 
                       uint32_t addrlength) {
   
 
-  if (SOCKET_ERROR == bind(socket, addr, addrlength)) {
+  if (SOCKET_ERROR == bind(socketid, addr, addrlength)) {
 #if defined(__LINUX__)
     switch (errno) 
     {
@@ -146,12 +146,12 @@ bool socketapi_bindex(int32_t socket,
   return true;
 }
 
-bool socketapi_connectex(int32_t socket, 
+bool socketapi_connectex(int32_t socketid, 
                          const struct sockaddr * addr, 
                          uint32_t addrlength) {
   
 
-  if (SOCKET_ERROR == connect(socket,addr,addrlength)) {
+  if (SOCKET_ERROR == connect(socketid,addr,addrlength)) {
 #if defined(__LINUX__)
     switch (errno) {
       case EALREADY : 
@@ -1044,11 +1044,12 @@ bool socketapi_ioctlsocket_ex(int32_t socket, int64_t cmd, uint64_t* argp) {
   return result;
 } 
 
-bool socketapi_get_nonblocking_ex(int32_t socket) {
+bool socketapi_get_nonblocking_ex(int32_t socketid) {
   bool result = true;
 #if defined(__LINUX__)
-  result = fileapi_get_nonblocking_ex(socket);
+  result = fileapi_get_nonblocking_ex(socketid);
 #elif defined(__WINDOWS__)
+  USE_PARAM(socketid);
   result = false;
 #endif
   return result;
