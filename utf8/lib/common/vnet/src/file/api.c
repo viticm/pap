@@ -231,7 +231,7 @@ bool fileapi_get_nonblocking_ex(int32_t fd) {
 #endif
 }
 
-void fileapi_set_nonblocking_ex (int32_t fd, bool on) {
+void fileapi_set_nonblocking_ex(int32_t fd, bool on) {
 #if defined(__LINUX__)
   int32_t flag = fileapi_fcntlex(fd, F_GETFL, 0);
   if (on)
@@ -248,7 +248,7 @@ void fileapi_set_nonblocking_ex (int32_t fd, bool on) {
 #endif
 }
 
-void fileapi_ioctlex (int32_t fd, int32_t request, void* argp) {
+void fileapi_ioctlex(int32_t fd, int32_t request, void* argp) {
 #if defined(__LINUX__)
   if (ioctl(fd,request,argp) < 0) {
     switch (errno) {
