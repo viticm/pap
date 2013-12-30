@@ -23,7 +23,7 @@
 #include <winsock.h>
 #endif
 
-const int8_t kSocketErrorWouldBlock = -100; //use in same model not use macro
+#define SOCKET_ERROR_WOULD_BLOCK -100
 
 #if defined(__LINUX__) //macros in linux
 #define SOCKET_INVALID -1
@@ -88,7 +88,7 @@ int32_t socketapi_recvfrom_ex(int32_t socket,
                               struct sockaddr* from, 
                               uint32_t* fromlength);
 
-bool socketapi_closesocket_ex(int32_t socket);
+bool socketapi_closeex(int32_t socket);
 
 bool socketapi_ioctlsocket_ex(int32_t socket, int64_t cmd, uint64_t* argp);
 

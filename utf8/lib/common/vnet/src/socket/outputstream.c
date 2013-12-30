@@ -125,7 +125,7 @@ int32_t socket_outputstream_flush(int32_t socketid, struct packet_t* packet) {
     bufferlength - headlength;
   while (leftcount > 0) {
     sendcount = socketbase_send(socketid, &buffer[headlength], leftcount, flag);
-    if ((uint32_t)kSocketErrorWouldBlock == sendcount) {
+    if (SOCKET_ERROR_WOULD_BLOCK == sendcount) {
       SAFE_FREE(buffer);
       return 0;
     }
@@ -147,7 +147,7 @@ int32_t socket_outputstream_flush(int32_t socketid, struct packet_t* packet) {
     leftcount = taillength;
     while (leftcount > 0) {
       sendcount = socketbase_send(socketid, &buffer[headlength], leftcount, flag);
-      if ((uint32_t)kSocketErrorWouldBlock == sendcount) {
+      if (SOCKET_ERROR_WOULD_BLOCK == sendcount) {
         SAFE_FREE(buffer);
         return 0;
       }

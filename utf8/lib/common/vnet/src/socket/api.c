@@ -664,7 +664,7 @@ int32_t socketapi_sendex(int32_t socket,
 #if defined(__LINUX__)
     switch (errno) {
       case EWOULDBLOCK : {
-        result = kSocketErrorWouldBlock;
+        result = SOCKET_ERROR_WOULD_BLOCK;
         break;
       }
       case ECONNRESET :
@@ -731,7 +731,7 @@ int32_t socketapi_sendex(int32_t socket,
       }
       case WSAEWOULDBLOCK : {
         //strncpy(errormessage, "WSAEWOULDBLOCK", sizeof(errormessage) - 1);
-        result = kSocketErrorWouldBlock;
+        result = SOCKET_ERROR_WOULD_BLOCK;
         break;
       }
       case WSAEMSGSIZE : {
@@ -826,7 +826,7 @@ int32_t socketapi_recvex(int32_t socket,
 #if defined(__LINUX__)
     switch (errno) {
       case EWOULDBLOCK : {
-        result = kSocketErrorWouldBlock;
+        result = SOCKET_ERROR_WOULD_BLOCK;
         break;
       }
       case ECONNRESET :
@@ -886,7 +886,7 @@ int32_t socketapi_recvex(int32_t socket,
       }
       case WSAEWOULDBLOCK : {
         //strncpy(errormessage, "WSAEWOULDBLOCK", sizeof(errormessage) - 1);
-        result = kSocketErrorWouldBlock;
+        result = SOCKET_ERROR_WOULD_BLOCK;
         break;
       }
       case WSAEMSGSIZE : {
@@ -941,7 +941,7 @@ int32_t result = 0;
 #if defined(__LINUX__)
     switch (errno) {
       case EWOULDBLOCK : 
-        result = kSocketErrorWouldBlock;
+        result = SOCKET_ERROR_WOULD_BLOCK;
       case ECONNRESET :
       case EPIPE :
       case EBADF : 
@@ -960,7 +960,7 @@ int32_t result = 0;
   return result;
 }
 
-bool socketapi_closesocket_ex(int32_t socket) {
+bool socketapi_closeex(int32_t socket) {
 
   bool result = true;
 #if defined(__LINUX__)

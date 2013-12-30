@@ -17,6 +17,7 @@
 #include "socket/api.h"
 
 int32_t socketbase_create(int32_t type);
+void socketbase_close(int32_t socketid);
 bool socketbase_connect(int32_t socketid, const char* host, uint32_t port);
 int32_t socketbase_send(int32_t socketid,
                         const void* buffer, 

@@ -140,6 +140,29 @@ bool socket_inputstream_skip(struct packet_t* packet, uint32_t length) {
   return result;
 }
 
+bool socket_inputstream_encodeskip(struct packet_t* packet, 
+                                   uint32_t length,
+                                   struct endecode_param_t* endecode_param) {
+  bool result = true;
+  if (0 == length || length > socket_inputstream_reallength(*packet)) {
+    result = false;
+  }
+  else {
+    uint32_t headlength  = (*packet).headlength;
+    uint32_t bufferlength = (*packet).bufferlength;
+    packet->headlength = (headlength + length) % bufferlength;
+  }
+  if ((*endecode_param).key != NULL && (*endecode_param).keysize > 0) {
+        endecode_param->in = NULL;
+        endecode_param->insize = 0;
+        endecode_param->out = NULL; 
+        endecode_param->outsize = 0;
+        result = socketendecode_skip(endecode_param, length);
+  }
+  return result;
+}
+
+
 int32_t socket_inputstream_fill(int32_t socketid, struct packet_t* packet) {
   int32_t fillcount = 0;
 	int32_t receivecount = 0;
@@ -168,7 +191,7 @@ int32_t socket_inputstream_fill(int32_t socketid, struct packet_t* packet) {
                                       &buffer[taillength], 
                                       freecount, 
                                       0);
-    if (kSocketErrorWouldBlock == receivecount) {
+    if (SOCKET_ERROR_WOULD_BLOCK == receivecount) {
       SAFE_FREE(buffer);
       return 0;
     }
@@ -199,7 +222,7 @@ int32_t socket_inputstream_fill(int32_t socketid, struct packet_t* packet) {
                                         &buffer[taillength], 
                                         available, 
                                         0);
-      if (kSocketErrorWouldBlock == receivecount) {
+      if (SOCKET_ERROR_WOULD_BLOCK == receivecount) {
         SAFE_FREE(buffer);
         return 0;
       }

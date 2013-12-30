@@ -6,6 +6,10 @@ int32_t socketbase_create(int32_t type) {
   return socketid;
 }
 
+void socketbase_close(int32_t socketid) {
+  if (!socketbase_iserror(socketid)) socketapi_closeex(socketid);
+}
+
 bool socketbase_connect(int32_t socketid, const char* host, uint32_t port) {
   bool result = true;
   struct sockaddr_in connect_sockaddr_in;

@@ -12,6 +12,11 @@ VNET_API int32_t vnet_socketbase_create(int32_t type) {
   return result;
 }
 
+VNET_API void vnet_socketbase_close(int32_t socketid) {
+  socketbase_close(socketid);
+}
+
+
 VNET_API bool vnet_socketbase_connect(int32_t socketid, 
                                  const char* host, 
                                  uint32_t port) {
