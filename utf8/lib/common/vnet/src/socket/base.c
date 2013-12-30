@@ -1,6 +1,12 @@
 #include "socket/base.h"
 
-int32_t socketbase_create(int32_t type) {
+int32_t socketbase_create() {
+  int32_t socketid;
+  socketid = socketapi_socketex(AF_INET, SOCK_STREAM, 0);
+  return socketid;
+}
+
+int32_t socketbase_typecreate(int32_t type) {
   int32_t socketid;
   socketid = socketapi_socketex(AF_INET, type, 0);
   return socketid;
@@ -10,11 +16,11 @@ void socketbase_close(int32_t socketid) {
   if (!socketbase_iserror(socketid)) socketapi_closeex(socketid);
 }
 
-bool socketbase_connect(int32_t socketid, const char* host, uint32_t port) {
+bool socketbase_connect(int32_t socketid, const char* host, uint16_t port) {
   bool result = true;
   struct sockaddr_in connect_sockaddr_in;
   connect_sockaddr_in.sin_addr.s_addr = inet_addr(host);
-  connect_sockaddr_in.sin_port = htons((uint16_t)port);
+  connect_sockaddr_in.sin_port = htons(port);
   result = socketapi_connectex(socketid, 
                                (const struct sockaddr*)&connect_sockaddr_in, 
                                sizeof(connect_sockaddr_in));
@@ -45,19 +51,24 @@ uint32_t socketbase_available(int32_t socketid) {
   return result;
 }
 
-int32_t socketbase_accept(int32_t socketid, 
-                          struct sockaddr* addr, 
-                          uint32_t* addrlength) {
+int32_t socketbase_accept(int32_t socketid, uint16_t port) {
   int32_t result = 0;
-  result = socketapi_acceptex(socketid, addr, addrlength);
+  uint32_t addrlength = 0;
+  struct sockaddr_in accept_sockaddr_in;
+  addrlength = sizeof(struct sockaddr_in);
+  accept_sockaddr_in.sin_addr.s_addr = htonl(INADDR_ANY);
+  accept_sockaddr_in.sin_port = htons(port);
+  result = socketapi_acceptex(socketid, 
+                              (struct sockaddr *)(&accept_sockaddr_in), 
+                              &addrlength);
   return result;
 }
 
-bool socketbase_bind(int32_t socketid, uint32_t port) {
+bool socketbase_bind(int32_t socketid, uint16_t port) {
   bool result = true;
   struct sockaddr_in connect_sockaddr_in;
   connect_sockaddr_in.sin_addr.s_addr = htonl(INADDR_ANY);
-  connect_sockaddr_in.sin_port = htons((uint16_t)port);
+  connect_sockaddr_in.sin_port = htons(port);
   result = socketapi_bindex(socketid, 
                             (const struct sockaddr*)&connect_sockaddr_in, 
                             sizeof(connect_sockaddr_in));

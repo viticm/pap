@@ -74,5 +74,12 @@ struct endecode_param_t {
 #define SOCKETOUTPUT_BUFFERSIZE_DEFAULT (8192)     //default size
 #define SOCKETOUTPUT_DISCONNECT_MAXSIZE (100*1024)//if buffer more than it,
                                                   //will disconnect this socket.
+#ifndef SOCKET_INVALID
+#define SOCKET_INVALID -1
+#endif
+
+#ifndef SOCKET_ERROR
+#define SOCKET_ERROR -1
+#endif
 
 #endif //VNET_API_VNETCONF_H_

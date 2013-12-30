@@ -16,9 +16,10 @@
 #include "socket/config.h"
 #include "socket/api.h"
 
-int32_t socketbase_create(int32_t type);
+int32_t socketbase_create();
+int32_t socketbase_typecreate(int32_t type);
 void socketbase_close(int32_t socketid);
-bool socketbase_connect(int32_t socketid, const char* host, uint32_t port);
+bool socketbase_connect(int32_t socketid, const char* host, uint16_t port);
 int32_t socketbase_send(int32_t socketid,
                         const void* buffer, 
                         uint32_t length, 
@@ -28,10 +29,13 @@ int32_t socketbase_receive(int32_t socketid,
                            uint32_t length, 
                            uint32_t flag);
 uint32_t socketbase_available(int32_t socketid);
-int32_t socketbase_accept(int32_t socketid, 
-                          struct sockaddr* addr, 
-                          uint32_t* addrlength);
-bool socketbase_bind(int32_t socketid, uint32_t port);
+
+//cn: (note) socketbase_accept
+//accept()连接请求队列中获得连接信息，创建新的套接字，
+//并返回该套接字的文件描述符。
+//新创建的套接字用于服务器与客户机的通信，而原来的套接字仍然处于监听状态
+int32_t socketbase_accept(int32_t socketid,  uint16_t port);
+bool socketbase_bind(int32_t socketid, uint16_t port);
 bool socketbase_listen(int32_t socketid, int32_t backlog);
 uint32_t socketbase_getlinger(int32_t socketid);
 bool socketbase_setlinger(int32_t socketid, uint32_t lingertime);

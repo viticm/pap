@@ -14,23 +14,16 @@
 
 #include "api/vnetconf.h"
 
-#if defined(__LINUX__) /* { */
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#elif defined(__WINDOWS__) /* }{ */
-#include <winsock.h>
-#endif /* } */
-
 /*socket {*/
 
 /*base {*/
-VNET_API int32_t vnet_socketbase_create(int32_t type); //return socketid
+VNET_API int32_t vnet_socketbase_create(); //return socketid
+//typecreate function will include header files
+VNET_API int32_t vnet_socketbase_typecreate(int32_t type);
 VNET_API void vnet_socketbase_close(int32_t socketid);
 VNET_API bool vnet_socketbase_connect(int32_t socketid, 
                                       const char* host, 
-                                      uint32_t port);
+                                      uint16_t port);
 VNET_API int32_t vnet_socketbase_send(int32_t socketid,
                                       const void* buffer, 
                                       uint32_t length, 
@@ -40,10 +33,8 @@ VNET_API int32_t vnet_socketbase_receive(int32_t socketid,
                                          uint32_t length, 
                                          uint32_t flag);
 VNET_API uint32_t vnet_socketbase_available(int32_t socketid);
-VNET_API int32_t vnet_socketbase_accept(int32_t socketid, 
-                                        struct sockaddr* addr, 
-                                        uint32_t* addrlength);
-VNET_API bool vnet_socketbase_bind(int32_t socketid, uint32_t port);
+VNET_API int32_t vnet_socketbase_accept(int32_t socketid, uint16_t port); 
+VNET_API bool vnet_socketbase_bind(int32_t socketid, uint16_t port);
 VNET_API bool vnet_socketbase_listen(int32_t socketid, int32_t backlog);
 VNET_API uint32_t vnet_socketbase_getlinger(int32_t socketid);
 VNET_API bool vnet_socketbase_setlinger(int32_t socketid, uint32_t lingertime);

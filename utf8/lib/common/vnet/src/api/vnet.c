@@ -7,8 +7,13 @@
 /*socket {*/
 
 /*base {*/
-VNET_API int32_t vnet_socketbase_create(int32_t type) {
-  int32_t result = socketbase_create(type);
+VNET_API int32_t vnet_socketbase_create() {
+  int32_t result = socketbase_create();
+  return result;
+}
+
+VNET_API int32_t vnet_socketbase_typecreate(int32_t type) {
+  int32_t result = socketbase_typecreate(type);
   return result;
 }
 
@@ -18,16 +23,16 @@ VNET_API void vnet_socketbase_close(int32_t socketid) {
 
 
 VNET_API bool vnet_socketbase_connect(int32_t socketid, 
-                                 const char* host, 
-                                 uint32_t port) {
+                                      const char* host, 
+                                      uint16_t port) {
   bool result = socketbase_connect(socketid, host, port);
   return result;
 }
 
 VNET_API int32_t vnet_socketbase_send(int32_t socketid,
-                                 const void* buffer, 
-                                 uint32_t length, 
-                                 uint32_t flag) {
+                                      const void* buffer, 
+                                      uint32_t length, 
+                                      uint32_t flag) {
   int32_t result = socketbase_send(socketid, buffer, length, flag);
   return result;
 }
@@ -46,13 +51,12 @@ VNET_API uint32_t vnet_socketbase_available(int32_t socketid) {
 }
 
 VNET_API int32_t vnet_socketbase_accept(int32_t socketid, 
-                                        struct sockaddr* addr, 
-                                        uint32_t* addrlength) {
-  int32_t result = socketbase_accept(socketid, addr, addrlength);
+                                        uint16_t port) {
+  int32_t result = socketbase_accept(socketid, port);
   return result;
 }
 
-VNET_API bool vnet_socketbase_bind(int32_t socketid, uint32_t port) {
+VNET_API bool vnet_socketbase_bind(int32_t socketid, uint16_t port) {
   bool result = socketbase_bind(socketid, port);
   return result;
 }
