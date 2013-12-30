@@ -7,7 +7,7 @@
 #include <fcntl.h>      // for fcntl()
 #include <sys/ioctl.h>  // for ioctl()
 #include <errno.h>      // for errno
-#elif defined(__WINDOWS__) /* { */
+#elif defined(__WINDOWS__) /* }{ */
 #include <io.h>         // for _open()
 #include <fcntl.h>      // for _open()/_close()/_read()/_write()...
 #endif /* } */
@@ -233,14 +233,14 @@ bool fileapi_get_nonblocking_ex(int32_t fd) {
 
 void fileapi_set_nonblocking_ex(int32_t fd, bool on) {
 #if defined(__LINUX__)
-  int32_t flag = fileapi_fcntlex(fd, F_GETFL, 0);
+  int32_t flag = fileapi_fcntlarg_ex(fd, F_GETFL, 0);
   if (on)
     // make nonblocking fd
     flag |= O_NONBLOCK;
   else
     // make blocking fd
     flag &= ~O_NONBLOCK;
-  fileapi_fcntlex(fd, F_SETFL, flag);
+  fileapi_fcntlarg_ex(fd, F_SETFL, flag);
 #elif defined(__WINDOWS__)
   USE_PARAM(fd);
   USE_PARAM(on);
@@ -286,7 +286,7 @@ void fileapi_setnonblocking_ex(int32_t fd, bool on) {
 uint32_t fileapi_availableex(int32_t fd) {
 #if defined(__LINUX__)
   uint32_t arg = 0;
-  fileaip_ioctlex(fd, FIONREAD, &arg);
+  fileapi_ioctlex(fd, FIONREAD, &arg);
   return arg;
 #elif defined(__WINDOWS__)
   USE_PARAM(fd);
@@ -341,10 +341,11 @@ int64_t fileapi_lseekex(int32_t fd, uint64_t offset, int32_t whence) {
 }
 
 int64_t fileapi_tellex(int32_t fd) {
+  int64_t result = 0;
 #if defined(__LINUX__)
-  int64_t result;
+  //do nothing
 #elif defined(__WINDOWS__)
-  int64_t result = _tell(fd);
+  result = _tell(fd);
   if (result < 0) {
   }
 #endif

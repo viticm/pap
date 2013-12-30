@@ -35,7 +35,6 @@ bool socketendecode_make(struct endecode_param_t* endecode_param) {
     return false;
   }
   keyindex = (*endecode_param).param[0];
-  index;
   for(index = 0; (int32_t)insize > index; ++index) {
     out[index] = in[index] ^ key[keyindex];
     ++keyindex;

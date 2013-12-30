@@ -235,7 +235,7 @@ bool socket_inputstream_resize(struct packet_t* packet, int32_t size) {
   newbuffer_length = bufferlength + size;
   length = socket_inputstream_reallength(*packet);
   buffer = (char*)malloc(bufferlength);
-  size = max(size, (int32_t)((*packet).bufferlength >> 1));
+  size = max(size, (int32_t)(bufferlength >> 1));
   memset(buffer, '\0', bufferlength);
   memcpy(buffer, (*packet).buffer, bufferlength);
   if (size < 0 && (newbuffer_length < 0 || newbuffer_length < length))

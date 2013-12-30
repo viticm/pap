@@ -33,7 +33,6 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include <time.h>
-#include <math.h>
 #include <stdarg.h>
 #if defined(__WINDOWS__) //diffrent system include
 #pragma warning (disable: 4786)
@@ -42,7 +41,6 @@
 #elif defined(__LINUX__)
 #include <string.h>
 #include <sys/types.h>
-#include <cmath>
 #endif
 
 #ifndef IP_SIZE
@@ -71,6 +69,14 @@
 #define bool uint8_t
 #define true 1
 #define false 0
+#endif
+
+#ifndef max
+#define max(a,b) ((a) > (b) ? (a) : (b))
+#endif
+
+#ifndef min
+#define min(a,b) ((a) < (b) ? (a) : (b))
 #endif
 
 #ifndef BYTE_MAX
