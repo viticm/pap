@@ -43,6 +43,8 @@
 #include <sys/types.h>
 #endif
 
+#include "base/io.h"
+
 #ifndef IP_SIZE
 #define IP_SIZE 24 //max ip size
 #endif
@@ -108,6 +110,14 @@
 #endif
 #endif
 
+#ifndef ERRORPRINTF
+#define ERRORPRINTF(format,...) baseio_perror(format, __VA_ARGS__)
+#endif
+
+#ifndef WARNINGPRINTF
+#define WARNINGPRINTF(format,...) baseio_pwarn(format, __VA_ARGS__)
+#endif
+
 #ifndef USE_PARAM
 #define USE_PARAM(x) if (!x) {}
 #endif
@@ -118,63 +128,6 @@
 //根据指针调用Release接口
 #ifndef SAFE_RELEASE
 #define SAFE_RELEASE(x)	if((x)!=NULL) { (x)->Release(); (x)=NULL; }
-#endif
-
-#if defined(__WINDOWS__) //normal functions
-// add by viticm, fast output some debug info 
-#ifndef ERRORPRINTF 
-#define ERRORPRINTF(...) {\
-  char buffer[2048]; snprintf(buffer, sizeof(buffer) - 1, __VA_ARGS__); \
-  const char* start  = "[ERROR...]"; \
-  const char* end = "[...ERROR]"LF""; \
-  size_t format_length = sizeof(start) + sizeof(buffer) + sizeof(end); \
-  char* format_str = (char*)malloc(sizeof(char) * (format_length + 1)); \
-  strcpy(format_str, start); strcat(format_str, buffer); \
-  strcat(format_str, end);\
-  printf(format_str); \
-  SAFE_FREE(format_str); \
-}
-#endif
-#ifndef WARNINGPRINTF
-#define WARNINGPRINTF(...) {\
-  char buffer[2048]; snprintf(buffer, sizeof(buffer) - 1, __VA_ARGS__); \
-  const char* start = "[WARNING...]"; \
-  const char* end = "[...WARNING]"LF""; \
-  size_t format_length = sizeof(start) + sizeof(buffer) + sizeof(end); \
-  char* format_str = (char*)malloc(sizeof(char) * (format_length + 1)); \
-  strcpy(format_str, start); strcat(format_str, buffer); \
-  strcat(format_str, end);\
-  printf(format_str); \
-  SAFE_FREE(format_str); \
-}
-#endif
-#elif defined(__LINUX__)    //linux
-#ifndef ERRORPRINTF
-#define ERRORPRINTF(...) {\
-  char buffer[2048]; snprintf(buffer, sizeof(buffer) - 1, __VA_ARGS__); \
-  const char* start = "\e[0;31;1m"; \
-  const char* end  = "\e[0m"LF""; \
-  size_t format_length = sizeof(start) + sizeof(buffer) + sizeof(end); \
-  char* format_str = (char*)malloc(sizeof(char) * (format_length + 1)); \
-  strcpy(format_str, start); strcat(format_str, buffer); \
-  strcat(format_str, end); \
-  printf(format_str); \
-  SAFE_FREE(format_str); \
-}
-#endif
-#ifndef WARNINGPRINTF
-#define WARNINGPRINTF(...) {\
-  char buffer[2048]; snprintf(buffer, sizeof(buffer) - 1, __VA_ARGS__); \
-  const char* start = "\e[0;33;1m"; \
-  const char* end  = "\e[0m"LF""; \
-  size_t format_length = sizeof(start) + sizeof(buffer) + sizeof(end); \
-  char* format_str = (char*)malloc(sizeof(char) * (format_length + 1)); \
-  strcpy(format_str, start); strcat(format_str, buffer); \
-  strcat(format_str, end); \
-  printf(format_str); \
-  SAFE_FREE(format_str); \
-}
-#endif
 #endif
 
 #endif //VNET_BASE_TYPE_H_

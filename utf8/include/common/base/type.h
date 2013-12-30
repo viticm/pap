@@ -53,6 +53,7 @@
 #include <sys/epoll.h>
 #endif
 #include "common/sys/assert.h"
+#include "common/base/io.h"
 //warning the namespace can't use like this, remember it
 //using namespace std;
 
@@ -154,6 +155,14 @@
 #define SAFE_RELEASE(x)	if((x)!=NULL) { (x)->Release(); (x)=NULL; }
 #endif
 
+#ifndef ERRORPRINTF
+#define ERRORPRINTF(format,...) baseio_perror(format, __VA_ARGS__)
+#endif
+
+#ifndef WARNINGPRINTF
+#define WARNINGPRINTF(format,...) baseio_pwarn(format, __VA_ARGS__)
+#endif
+
 #if defined(__WINDOWS__) //normal functions
 #if defined(NDEBUG)
   #define __ENTER_FUNCTION {try{
@@ -162,65 +171,11 @@
   #define __ENTER_FUNCTION {try{
   #define __LEAVE_FUNCTION }catch(...){AssertSpecial(false,__FUNCTION__);}}
 #endif
-// add by viticm, fast output some debug info 
-#ifndef ERRORPRINTF
-#define ERRORPRINTF(...) {\
-  char buffer[2048]; snprintf(buffer, sizeof(buffer) - 1, __VA_ARGS__); \
-  const char* start = "[ERROR...]"; \
-  const char* end = "[...ERROR]"LF""; \
-  size_t format_length = sizeof(start) + sizeof(buffer) + sizeof(end); \
-  char* format_str = new char[format_length + 1]; \
-  strcpy(format_str, start); strcat(format_str, buffer); \
-  strcat(format_str, end); \
-  printf(format_str); \
-  delete[] format_str; \
-}
-#endif
-#ifndef WARNINGPRINTF
-#define WARNINGPRINTF(...) {\
-  char buffer[2048]; snprintf(buffer, sizeof(buffer) - 1, __VA_ARGS__); \
-  const char* start = "[WARINING...]"; \
-  const char* end = "[...WARING]"LF""; \
-  size_t format_length = sizeof(start) + sizeof(buffer) + sizeof(end); \
-  char* format_str = new char[format_length + 1]; \
-  strcpy(format_str, start); strcat(format_str, buffer); \
-  strcat(format_str, end); \
-  printf(format_str); \
-  delete[] format_str; \
-}
 
-#endif
 #elif defined(__LINUX__)    //linux
 #define __ENTER_FUNCTION {try{
 #define __LEAVE_FUNCTION }catch(...) \
                          {AssertSpecial(false,__PRETTY_FUNCTION__);}}
-// add by viticm, fast output some debug info 
-#ifndef ERRORPRINTF
-#define ERRORPRINTF(...) {\
-  char buffer[2048]; snprintf(buffer, sizeof(buffer) - 1, __VA_ARGS__); \
-  const char* start = "\e[0;31;1m"; \
-  const char* end  = "\e[0m"LF""; \
-  size_t format_length = sizeof(start) + sizeof(buffer) + sizeof(end); \
-  char* format_str = new char[format_length + 1]; \
-  strcpy(format_str, start); strcat(format_str, buffer); \
-  strcat(format_str, end); \
-  printf(format_str); \
-  delete[] format_str; \
-}
-#endif
-#ifndef WARNINGPRINTF
-#define WARNINGPRINTF(...) {\
-  char buffer[2048]; sprintf(buffer, sizeof(buffer) - 1, __VA_ARGS__); \
-  const char* start = "\e[0;33;1m"; \
-  const char* end = "\e[0m"LF""; \
-  size_t format_length = sizeof(start) + sizeof(buffer) + sizeof(end); \
-  char* format_str = new char[format_length + 1]; \
-  strcpy(format_str, start); strcat(format_str, buffer); \
-  strcat(format_str, end); \
-  printf(format_str); \
-  delete[] format_str; \
-}
-#endif
 #endif
 
 #endif //PAP_COMMON_BASE_TYPE_H_
