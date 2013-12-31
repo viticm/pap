@@ -10,8 +10,8 @@ void baseio_perror(const char* format, ....) {
   const char* head = "(error)->";
   const char* end = "<-(error)\r\n";
 #endif /* } */
-  memset(buffer, '\0', sizeof(buffer));
   va_list argptr;
+  memset(buffer, '\0', sizeof(buffer));
   va_start(argptr, format);
   vsnprintf(buffer, sizeof(buffer) - 1, format, argptr);
   va_end(argptr);
@@ -27,8 +27,8 @@ void baseio_pwarn(const char* format, ...) {
   const char* head = "(warning)->";
   const char* end = "<-(warning)\r\n";
 #endif /* } */
-  memset(buffer, '\0', sizeof(buffer));
   va_list argptr;
+  memset(buffer, '\0', sizeof(buffer));
   va_start(argptr, format);
   vsnprintf(buffer, sizeof(buffer) - 1, format, argptr);
   va_end(argptr);

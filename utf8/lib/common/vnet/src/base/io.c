@@ -22,6 +22,7 @@ void baseio_perror(const char* format, ...) {
   const char* formathead = "(error)->";
   const char* formatend = "<-(error)\r\n";
 #endif /* } */
+  va_list argptr;
   memset(buffer, '\0', sizeof(buffer));
   extendlength = strlen(formathead) + strlen(formatend);
   newformat_length = strlen(format) + extendlength; 
@@ -31,7 +32,6 @@ void baseio_perror(const char* format, ...) {
   strcpy(newformat, formathead); 
   strcat(newformat, format);
   strcat(newformat, formatend);
-  va_list argptr;
   va_start(argptr, format);
   vsnprintf(buffer, sizeof(buffer) - 1, newformat, argptr);
   va_end(argptr);
@@ -54,6 +54,7 @@ void baseio_pwarn(const char* format, ...) {
   const char* formathead = "(warning)->";
   const char* formatend = "<-(warning)\r\n";
 #endif /* } */
+  va_list argptr;
   memset(buffer, '\0', sizeof(buffer));
   extendlength = strlen(formathead) + strlen(formatend);
   newformat_length = strlen(format) + extendlength; 
@@ -63,7 +64,6 @@ void baseio_pwarn(const char* format, ...) {
   strcpy(newformat, formathead); 
   strcat(newformat, format);
   strcat(newformat, formatend);
-  va_list argptr;
   va_start(argptr, format);
   vsnprintf(buffer, sizeof(buffer) - 1, newformat, argptr);
   va_end(argptr);
