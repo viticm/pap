@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include "api/vnet.h"
 
 int32_t main(int32_t argc, char* argv[]) {

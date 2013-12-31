@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "api/vnet.h"
 
 int32_t main(int32_t argc, char* argv[]) {
@@ -51,7 +52,7 @@ int32_t main(int32_t argc, char* argv[]) {
       printf("receive success: %s\n", buffer);
     }
     printf("client loop...\n");
-    sleep(10);
+    sleep(10000);
   }
   vnet_socketbase_close(socketid);
   return 0;
