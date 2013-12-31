@@ -26,7 +26,7 @@ int32_t main(int32_t argc, char* argv[]) {
 #if defined(__WINDOWS__)
   _CrtSetDbgFlag(_CrtSetDbgFlag(0) | _CRTDBG_LEAK_CHECK_DF);
   system("color 02"); //color green
-  system("mode con cols=120 lines=5000"); //cmd size
+  system("mode con cols=120"); //cmd size
 #endif
   int32_t i;
   //-- command

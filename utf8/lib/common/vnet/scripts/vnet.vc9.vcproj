@@ -67,7 +67,7 @@
 				WarningLevel="4"
 				DebugInformationFormat="4"
 				CompileAs="1"
-				DisableSpecificWarnings="4996"
+				DisableSpecificWarnings="4996;4819"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -395,6 +395,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="base"
+				>
+				<File
+					RelativePath="..\src\base\io.c"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -422,6 +430,10 @@
 			<Filter
 				Name="base"
 				>
+				<File
+					RelativePath="..\include\base\io.h"
+					>
+				</File>
 				<File
 					RelativePath="..\include\base\type.h"
 					>

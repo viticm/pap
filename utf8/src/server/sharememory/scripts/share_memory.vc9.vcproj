@@ -295,6 +295,10 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\..\common\base\io.cc"
+							>
+						</File>
+						<File
 							RelativePath="..\..\common\base\log.cc"
 							>
 						</File>
@@ -499,6 +503,10 @@
 					>
 					<File
 						RelativePath="..\..\..\..\include\common\base\config.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\include\common\base\io.h"
 						>
 					</File>
 					<File
