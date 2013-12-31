@@ -82,8 +82,10 @@ struct mytest_t {
 #define SOCKET_INVALID -1
 #endif
 
+#if defined(__LINUX__)
 #ifndef SOCKET_ERROR
 #define SOCKET_ERROR -1
+#endif
 #endif
 
 #endif //VNET_API_VNETCONF_H_
