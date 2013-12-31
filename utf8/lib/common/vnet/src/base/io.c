@@ -4,7 +4,13 @@
 #include <string.h>
 #include "base/io.h"
 
-void baseio_perror(const char* format, ....) {
+#if defined(__WINDOWS__)
+#ifndef vsnprintf
+#define vsnprintf _vsnprintf
+#endif
+#endif
+
+void baseio_perror(const char* format, ...) {
   char* newformat = NULL;
   uint32_t newformat_length = 0;
   uint32_t extendlength = 0;
@@ -14,7 +20,7 @@ void baseio_perror(const char* format, ....) {
   const char* formatend = "\e[0m\n";
 #elif defined(__WINDOWS__) /* }{ */
   const char* formathead = "(error)->";
-  const char* formatend = "<-(error)";
+  const char* formatend = "<-(error)\r\n";
 #endif /* } */
   memset(buffer, '\0', sizeof(buffer));
   extendlength = strlen(formathead) + strlen(formatend);
@@ -26,7 +32,8 @@ void baseio_perror(const char* format, ....) {
   strcat(newformat, format);
   strcat(newformat, formatend);
   va_list argptr;
-  vsnprintf(buffer, newformat_length - 1, newformat, argptr);
+  va_start(argptr, format);
+  vsnprintf(buffer, sizeof(buffer) - 1, newformat, argptr);
   va_end(argptr);
   printf(buffer);
   if (newformat != NULL) {
@@ -45,7 +52,7 @@ void baseio_pwarn(const char* format, ...) {
   const char* formatend = "\e[0m\n";
 #elif defined(__WINDOWS__) /* }{ */
   const char* formathead = "(warning)->";
-  const char* formatend = "<-(warning)";
+  const char* formatend = "<-(warning)\r\n";
 #endif /* } */
   memset(buffer, '\0', sizeof(buffer));
   extendlength = strlen(formathead) + strlen(formatend);
@@ -57,7 +64,8 @@ void baseio_pwarn(const char* format, ...) {
   strcat(newformat, format);
   strcat(newformat, formatend);
   va_list argptr;
-  vsnprintf(buffer, newformat_length - 1, newformat, argptr);
+  va_start(argptr, format);
+  vsnprintf(buffer, sizeof(buffer) - 1, newformat, argptr);
   va_end(argptr);
   printf(buffer);
   if (newformat != NULL) {

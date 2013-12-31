@@ -8,11 +8,12 @@ void baseio_perror(const char* format, ....) {
   const char* end = "\e[0m\n";
 #elif defined(__windows__) /* }{ */
   const char* head = "(error)->";
-  const char* end = "<-(error)";
+  const char* end = "<-(error)\r\n";
 #endif /* } */
   memset(buffer, '\0', sizeof(buffer));
   va_list argptr;
-  vsnprintf(buffer, sizeof(buffer) - 1, newformat, argptr);
+  va_start(argptr, format);
+  vsnprintf(buffer, sizeof(buffer) - 1, format, argptr);
   va_end(argptr);
   std::cout<<head<<buffer<<end<<std::endl;
 }
@@ -24,11 +25,12 @@ void baseio_pwarn(const char* format, ...) {
   const char* end = "\e[0m\n";
 #elif defined(__windows__) /* }{ */
   const char* head = "(warning)->";
-  const char* end = "<-(warning)";
+  const char* end = "<-(warning)\r\n";
 #endif /* } */
   memset(buffer, '\0', sizeof(buffer));
   va_list argptr;
-  vsnprintf(buffer, sizeof(buffer) - 1, newformat, argptr);
+  va_start(argptr, format);
+  vsnprintf(buffer, sizeof(buffer) - 1, format, argptr);
   va_end(argptr);
   std::cout<<head<<buffer<<end<<std::endl;
 }
