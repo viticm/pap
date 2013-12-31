@@ -19,6 +19,7 @@ void socketbase_close(int32_t socketid) {
 bool socketbase_connect(int32_t socketid, const char* host, uint16_t port) {
   bool result = true;
   struct sockaddr_in connect_sockaddr_in;
+  connect_sockaddr_in.sin_family = AF_INET;
   connect_sockaddr_in.sin_addr.s_addr = inet_addr(host);
   connect_sockaddr_in.sin_port = htons(port);
   result = socketapi_connectex(socketid, 
@@ -51,18 +52,30 @@ uint32_t socketbase_available(int32_t socketid) {
   return result;
 }
 
+int32_t socketbase_fastaccept(int32_t socketid) {
+  int32_t result = 0;
+  uint32_t addrlength = 0;
+  addrlength = sizeof(struct sockaddr_in);
+  result = socketapi_acceptex(socketid, 
+                              (struct sockaddr *)NULL, 
+                              &addrlength);
+  return result;
+}
+
 int32_t socketbase_accept(int32_t socketid, uint16_t port) {
   int32_t result = 0;
   uint32_t addrlength = 0;
   struct sockaddr_in accept_sockaddr_in;
-  addrlength = sizeof(struct sockaddr_in);
+  accept_sockaddr_in.sin_family = AF_INET;
   accept_sockaddr_in.sin_addr.s_addr = htonl(INADDR_ANY);
   accept_sockaddr_in.sin_port = htons(port);
+  addrlength = sizeof(struct sockaddr_in);
   result = socketapi_acceptex(socketid, 
-                              (struct sockaddr *)(&accept_sockaddr_in), 
+                              (struct sockaddr *)&accept_sockaddr_in,
                               &addrlength);
   return result;
 }
+
 
 bool socketbase_bind(int32_t socketid, uint16_t port) {
   bool result = true;
@@ -176,4 +189,13 @@ bool socketbase_setreceive_buffersize(int32_t socketid, uint32_t size) {
                                    &size, 
                                    sizeof(size));
   return result;
+}
+
+int32_t socketbase_getlast_errorcode() {
+  int32_t result = socketapi_getlast_errorcode();
+  return result;
+}
+
+void socketbase_getlast_errormessage(char* buffer, uint16_t length) {
+  socketapi_getlast_errormessage(buffer, length);
 }

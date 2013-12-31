@@ -50,11 +50,16 @@ VNET_API uint32_t vnet_socketbase_available(int32_t socketid) {
   return result;
 }
 
-VNET_API int32_t vnet_socketbase_accept(int32_t socketid, 
-                                        uint16_t port) {
+VNET_API int32_t vnet_socketbase_fastaccept(int32_t socketid) {
+  int32_t result = socketbase_fastaccept(socketid);
+  return result;
+}
+
+VNET_API int32_t vnet_socketbase_accept(int32_t socketid, uint16_t port) {
   int32_t result = socketbase_accept(socketid, port);
   return result;
 }
+
 
 VNET_API bool vnet_socketbase_bind(int32_t socketid, uint16_t port) {
   bool result = socketbase_bind(socketid, port);
@@ -111,6 +116,16 @@ VNET_API bool vnet_socketbase_setreceive_buffersize(int32_t socketid,
                                                     uint32_t size) {
   bool result = socketbase_setreceive_buffersize(socketid, size);
   return result;
+}
+
+VNET_API int32_t vnet_socketbase_getlast_errorcode() {
+  int32_t result = socketbase_getlast_errorcode();
+  return result;
+}
+
+VNET_API void vnet_socketbase_getlast_errormessage(char* buffer, 
+                                                   uint16_t length) {
+  socketbase_getlast_errormessage(buffer, length);
 }
 /*base }*/
 

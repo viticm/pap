@@ -101,4 +101,7 @@ int32_t socketapi_selectex(int32_t maxfdp1,
                            fd_set* exceptset, 
                            struct timeval* timeout);
 
+int32_t socketapi_getlast_errorcode();
+void socketapi_getlast_errormessage(char* buffer, uint16_t length);
+
 #endif //VNET_SOCKET_API_H_

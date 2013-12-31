@@ -234,7 +234,7 @@ tags
 #############
 ## Run Bin
 #############
-*/run/server/share_memory*
+*/run/server/sharememory*
 */run/server/billing*
 */run/server/login*
 */run/server/world*

@@ -4,7 +4,7 @@
 #if defined(__LINUX__)
 extern int32_t errno;
 #endif
-char errormessage[FILENAME_MAX];
+char errormessage[FILENAME_MAX] = {'\0'};
 
 int32_t socketapi_socketex(int32_t domain, int32_t type, int32_t protocol) {
   
@@ -150,7 +150,6 @@ bool socketapi_connectex(int32_t socketid,
                          const struct sockaddr * addr, 
                          uint32_t addrlength) {
   
-
   if (SOCKET_ERROR == connect(socketid,addr,addrlength)) {
 #if defined(__LINUX__)
     switch (errno) {
@@ -667,10 +666,7 @@ int32_t socketapi_sendex(int32_t socketid,
                          uint32_t flag) {
   int32_t result = 0;
 #if defined(__LINUX__)
-
-  ERRORPRINTF("result: %d, buffer: %s", result, buffer);
   result = send(socketid, buffer, length, flag);
-  ERRORPRINTF("result: %d", result);
 #elif defined(__WINDOWS__)
   result = send(socketid, (const char*)buffer, length, flag);
 #endif
@@ -1193,3 +1189,12 @@ int32_t socketapi_selectex(int32_t maxfdp1,
   }
   return result;
 }
+
+int32_t socketapi_getlast_errorcode() {
+  return errno;
+}
+
+void socketapi_getlast_errormessage(char* buffer, uint16_t length) {
+  snprintf(buffer, length, "%s", errormessage);
+}
+

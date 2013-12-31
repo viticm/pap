@@ -33,7 +33,8 @@ VNET_API int32_t vnet_socketbase_receive(int32_t socketid,
                                          uint32_t length, 
                                          uint32_t flag);
 VNET_API uint32_t vnet_socketbase_available(int32_t socketid);
-VNET_API int32_t vnet_socketbase_accept(int32_t socketid, uint16_t port); 
+VNET_API int32_t vnet_socketbase_fastaccept(int32_t socketid); 
+VNET_API int32_t vnet_socketbase_accept(int32_t socketid, uint16_t port);
 VNET_API bool vnet_socketbase_bind(int32_t socketid, uint16_t port);
 VNET_API bool vnet_socketbase_listen(int32_t socketid, int32_t backlog);
 VNET_API uint32_t vnet_socketbase_getlinger(int32_t socketid);
@@ -46,6 +47,9 @@ VNET_API bool vnet_socketbase_set_nonblocking(int32_t socketid, bool on);
 VNET_API uint32_t vnet_socketbase_getreceive_buffersize(int32_t socketid);
 VNET_API bool vnet_socketbase_setreceive_buffersize(int32_t socketid, 
                                                     uint32_t size);
+VNET_API int32_t vnet_socketbase_getlast_errorcode();
+VNET_API void vnet_socketbase_getlast_errormessage(char* buffer, 
+                                                   uint16_t length);
 /*base }*/
 
 

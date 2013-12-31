@@ -68,6 +68,10 @@ struct endecode_param_t {
   uint32_t param[2];
 };
 
+struct mytest_t {
+  char* buffer1;
+};
+
 #define SOCKETINPUT_BUFFERSIZE_DEFAULT (64*1024) //default size
 #define SOCKETINPUT_DISCONNECT_MAXSIZE (96*1024) //if buffer more than it,
                                                  //will disconnect this socket.
@@ -78,8 +82,10 @@ struct endecode_param_t {
 #define SOCKET_INVALID -1
 #endif
 
+#if defined(__LINUX__)
 #ifndef SOCKET_ERROR
 #define SOCKET_ERROR -1
+#endif
 #endif
 
 #endif //VNET_API_VNETCONF_H_
