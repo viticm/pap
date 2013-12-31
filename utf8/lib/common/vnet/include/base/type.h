@@ -111,11 +111,11 @@
 #endif
 
 #ifndef ERRORPRINTF
-#define ERRORPRINTF(format,...) baseio_perror(format, __VA_ARGS__)
+#define ERRORPRINTF baseio_perror
 #endif
 
 #ifndef WARNINGPRINTF
-#define WARNINGPRINTF(format,...) baseio_pwarn(format, __VA_ARGS__)
+#define WARNINGPRINTF baseio_pwarn
 #endif
 
 #ifndef USE_PARAM
