@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="share_memory"
+	Name="sharememory"
 	ProjectGUID="{D78A9474-FC59-4C87-B957-022EFD4BEC92}"
-	RootNamespace="share_memory"
+	RootNamespace="sharememory"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>

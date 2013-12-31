@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>share_memory</ProjectName>
+    <ProjectName>sharememory</ProjectName>
     <ProjectGuid>{D78A9474-FC59-4C87-B957-022EFD4BEC92}</ProjectGuid>
-    <RootNamespace>share_memory</RootNamespace>
+    <RootNamespace>sharememory</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
