@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdarg.h>
 #include "base/io.h"
 
 void baseio_perror(const char* format, ....) {
