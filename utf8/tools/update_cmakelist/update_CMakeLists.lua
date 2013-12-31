@@ -18,8 +18,9 @@ function  update_CMakeList(cmakefile, vcprog, include_path)
 end
 
 local odbc_include_path = "/usr/local/unixODBC/include"
---update_CMakeList("../../src/server/share_memory/src/CMakeLists.txt", 
---                 "../../src/server/share_memory/scripts/share_memory.vc9.vcproj")
+update_CMakeList(
+    "../../src/server/sharememory/src/CMakeLists.txt", 
+    "../../src/server/sharememory/scripts/sharememory.vc9.vcproj")
 
 update_CMakeList("../../lib/common/vnet/src/CMakeLists.txt", 
                  "../../lib/common/vnet/scripts/vnet.vc9.vcproj")

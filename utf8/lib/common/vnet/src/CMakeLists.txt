@@ -5,7 +5,7 @@ SET(LIBRARY_OUTPUT_PATH ${TF_CURRENT_BINARY_PATH_LIB})
 ##update_begin
 
 
-INCLUDE_DIRECTORIES(../include)
+INCLUDE_DIRECTORIES(../../../../include)
 
 
 SET (SOURCEFILES_API_LIST
@@ -24,6 +24,10 @@ SET (SOURCEFILES_SOCKET_LIST
 	../src/socket/outputstream.c
 )
 
+SET (SOURCEFILES_BASE_LIST
+	../src/base/io.c
+)
+
 SET (SOURCEFILES_LIST
 )
 
@@ -35,6 +39,7 @@ SET (HEADERFILES_API_LIST
 )
 
 SET (HEADERFILES_BASE_LIST
+	../include/base/io.h
 	../include/base/type.h
 )
 
@@ -61,6 +66,7 @@ if (WIN32)
 	source_group(SourceFiles\\api FILES ${SOURCEFILES_API_LIST})
 	source_group(SourceFiles\\file FILES ${SOURCEFILES_FILE_LIST})
 	source_group(SourceFiles\\socket FILES ${SOURCEFILES_SOCKET_LIST})
+	source_group(SourceFiles\\base FILES ${SOURCEFILES_BASE_LIST})
 	source_group(SourceFiles FILES ${SOURCEFILES_LIST})
 	source_group(HeaderFiles\\api FILES ${HEADERFILES_API_LIST})
 	source_group(HeaderFiles\\base FILES ${HEADERFILES_BASE_LIST})
@@ -70,10 +76,11 @@ if (WIN32)
 endif()
 
 
-ADD_LIBRARY(vnet STATIC
+ADD_EXECUTABLE(vnet
 	${SOURCEFILES_API_LIST}
 	${SOURCEFILES_FILE_LIST}
 	${SOURCEFILES_SOCKET_LIST}
+	${SOURCEFILES_BASE_LIST}
 	${SOURCEFILES_LIST}
 	${HEADERFILES_API_LIST}
 	${HEADERFILES_BASE_LIST}

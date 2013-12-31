@@ -191,8 +191,8 @@ function get_vcproj_cmake(vcprojname,include_path)
 	
 	-- print(ExeFiles[table.getn(ExeFiles)])
 	
-	local PName = string.sub(ExeFiles[#ExeFiles], 1, string.len(ExeFiles[#ExeFiles]) - 7)
-	
+  local firstpos = string.find(ExeFiles[#ExeFiles], "%.")
+  local PName = string.sub(ExeFiles[#ExeFiles], 1, firstpos - 1);
 	cmake_text = cmake_text .. "ADD_EXECUTABLE(" .. PName .. "\n"
 
 	for i = 1, #Cmake_result do

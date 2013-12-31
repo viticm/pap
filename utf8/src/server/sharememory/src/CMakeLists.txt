@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
-PROJECT (share_memory)
+PROJECT (sharememory)
 
 SET(TF_CURRENT_BINARY_PATH_BIN "../../../../run/server")
 ADD_DEFINITIONS(-D_CRT_SECURE_NO_DEPRECATE)
@@ -68,6 +68,7 @@ SET (SOURCEFILES_SERVER_COMMON_DB_LIST
 
 SET (SOURCEFILES_SERVER_COMMON_BASE_LIST
 	../../common/base/config.cc
+	../../../common/base/io.cc
 	../../common/base/log.cc
 	../../common/base/time_manager.cc
 )
@@ -160,6 +161,7 @@ SET (HEADERFILES_SERVER_LIST
 
 SET (HEADERFILES_COMMON_BASE_LIST
 	../../../../include/common/base/config.h
+	../../../../include/common/base/io.h
 	../../../../include/common/base/md5.h
 	../../../../include/common/base/string.h
 	../../../../include/common/base/type.h
@@ -182,6 +184,13 @@ SET (HEADERFILES_COMMON_GAME_LIST
 SET (HEADERFILES_COMMON_FILE_LIST
 	../../../../include/common/file/config.h
 	../../../../include/common/file/ini.h
+)
+
+SET (HEADERFILES_COMMON_LIB_ICONV_LIST
+	../../../../include/common/lib/iconv/iconv.h
+)
+
+SET (HEADERFILES_COMMON_LIB_LIST
 )
 
 SET (HEADERFILES_COMMON_LIST
@@ -228,13 +237,15 @@ if (WIN32)
 	source_group(HeaderFiles\\common\\sys FILES ${HEADERFILES_COMMON_SYS_LIST})
 	source_group(HeaderFiles\\common\\game FILES ${HEADERFILES_COMMON_GAME_LIST})
 	source_group(HeaderFiles\\common\\file FILES ${HEADERFILES_COMMON_FILE_LIST})
+	source_group(HeaderFiles\\common\\lib\\iconv FILES ${HEADERFILES_COMMON_LIB_ICONV_LIST})
+	source_group(HeaderFiles\\common\\lib FILES ${HEADERFILES_COMMON_LIB_LIST})
 	source_group(HeaderFiles\\common FILES ${HEADERFILES_COMMON_LIST})
 	source_group(HeaderFiles FILES ${HEADERFILES_LIST})
 	source_group(ResourceFiles FILES ${RESOURCEFILES_LIST})
 endif()
 
 
-ADD_EXECUTABLE(share_memory
+ADD_EXECUTABLE(sharememory
 	${SOURCEFILES_COMMON_BASE_LIST}
 	${SOURCEFILES_COMMON_SYS_LIST}
 	${SOURCEFILES_COMMON_FILE_LIST}
@@ -267,6 +278,8 @@ ADD_EXECUTABLE(share_memory
 	${HEADERFILES_COMMON_SYS_LIST}
 	${HEADERFILES_COMMON_GAME_LIST}
 	${HEADERFILES_COMMON_FILE_LIST}
+	${HEADERFILES_COMMON_LIB_ICONV_LIST}
+	${HEADERFILES_COMMON_LIB_LIST}
 	${HEADERFILES_COMMON_LIST}
 	${HEADERFILES_LIST}
 	${RESOURCEFILES_LIST}
@@ -284,9 +297,9 @@ else()
 endif(USE_32BITS)
 
 if (WIN32)
-TARGET_LINK_LIBRARIES(share_memory ws2_32.lib odbc32.lib odbccp32.lib iconv.h)
+TARGET_LINK_LIBRARIES(sharememory ws2_32.lib odbc32.lib odbccp32.lib iconv.h)
 else()
-TARGET_LINK_LIBRARIES(share_memory pthread odbc iconv)
+TARGET_LINK_LIBRARIES(sharememory pthread odbc iconv)
   if(USE_32BITS)
     SET(CMAKE_C_FLAGS "-Wall -ggdb -pipe -march=i386 -mtune=i686")
     SET(CMAKE_CXX_FLAGS "-Wall -ggdb -pipe -march=i386 -mtune=i686")
