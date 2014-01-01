@@ -57,7 +57,7 @@ class Socket {
    uint32_t getsend_buffersize() const;
    bool setsend_buffersize(uint32_t size);
    uint16_t getport() const;
-   uint64_t gethost() const;
+   uint64_t getu64host() const;
    bool isvalid() const;
    int32_t getid() const;
 

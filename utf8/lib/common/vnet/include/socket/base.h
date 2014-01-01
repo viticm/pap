@@ -47,6 +47,9 @@ bool socketbase_is_nonblocking(int32_t socketid);
 bool socketbase_set_nonblocking(int32_t socketid, bool on);
 uint32_t socketbase_getreceive_buffersize(int32_t socketid);
 bool socketbase_setreceive_buffersize(int32_t socketid, uint32_t size);
+uint32_t socketbase_getsend_buffersize(int32_t socketid);
+bool socketbase_setsend_buffersize(int32_t socketid, uint32_t size);
+uint64_t sokectbase_getu64host(const char* host);
 int32_t socketbase_getlast_errorcode();
 void socketbase_getlast_errormessage(char* buffer, uint16_t length);
 

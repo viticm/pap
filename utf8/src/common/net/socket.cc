@@ -275,10 +275,15 @@ uint16_t Socket::getport() const {
     return 0;
 }
 
-uint64_t Socket::gethost() const {
+uint64_t Socket::getu64host() const {
   __ENTER_FUNCTION
     uint64_t result = 0;
-    result = static_cast<uint64_t>(host_);
+    if (0 == strlen(host_)) {
+      result = vnet_sokectbase_getu64host(NULL);
+    }
+    else {
+      result = vnet_socketbase_getu64host(static_cast<const char*>(host_));
+    }
     return result;
   __LEAVE_FUNCTION
     return 0;

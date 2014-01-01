@@ -191,6 +191,33 @@ bool socketbase_setreceive_buffersize(int32_t socketid, uint32_t size) {
   return result;
 }
 
+uint32_t socketbase_getsend_buffersize(int32_t socketid) {
+  uint32_t receive_buffersize = 0;
+  uint32_t length = sizeof(receive_buffersize);
+  socketapi_getsockopt_exb(socketid, 
+                           SOL_SOCKET, 
+                           SO_SNDBUF, 
+                           &receive_buffersize, 
+                           &length);
+  return receive_buffersize;
+}
+
+bool socketbase_setsend_buffersize(int32_t socketid, uint32_t size) {
+  bool result = true;
+  result = socketapi_setsockopt_ex(socketid, 
+                                   SOL_SOCKET, 
+                                   SO_SNDBUF, 
+                                   &size, 
+                                   sizeof(size));
+  return result;
+}
+
+uint64_t socketbase_getu64host(const char* host) {
+  uint64_t result = 0;
+  result = NULL == host ? (uint64_t)htonl(INADDR_ANY) : (uint64_t)inet_addr(host);
+  return result;
+}
+
 int32_t socketbase_getlast_errorcode() {
   int32_t result = socketapi_getlast_errorcode();
   return result;
