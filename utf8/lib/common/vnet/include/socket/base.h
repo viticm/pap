@@ -37,7 +37,7 @@ uint32_t socketbase_available(int32_t socketid);
 int32_t socketbase_fastaccept(int32_t socketid);
 int32_t socketbase_accept(int32_t socketid, uint16_t port);
 bool socketbase_bind(int32_t socketid, uint16_t port);
-bool socketbase_listen(int32_t socketid, int32_t backlog);
+bool socketbase_listen(int32_t socketid, uint32_t backlog);
 uint32_t socketbase_getlinger(int32_t socketid);
 bool socketbase_setlinger(int32_t socketid, uint32_t lingertime);
 bool socketbase_is_reuseaddr(int32_t socketid);

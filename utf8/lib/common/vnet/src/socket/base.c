@@ -88,7 +88,7 @@ bool socketbase_bind(int32_t socketid, uint16_t port) {
   return result;
 }
 
-bool socketbase_listen(int32_t socketid, int32_t backlog) {
+bool socketbase_listen(int32_t socketid, uint32_t backlog) {
   bool result = true;
   result = socketapi_listenex(socketid, backlog);
   return result;

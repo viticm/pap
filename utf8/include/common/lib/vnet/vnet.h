@@ -36,7 +36,7 @@ VNET_API uint32_t vnet_socketbase_available(int32_t socketid);
 VNET_API int32_t vnet_socketbase_fastaccept(int32_t socketid); 
 VNET_API int32_t vnet_socketbase_accept(int32_t socketid, uint16_t port);
 VNET_API bool vnet_socketbase_bind(int32_t socketid, uint16_t port);
-VNET_API bool vnet_socketbase_listen(int32_t socketid, int32_t backlog);
+VNET_API bool vnet_socketbase_listen(int32_t socketid, uint32_t backlog);
 VNET_API uint32_t vnet_socketbase_getlinger(int32_t socketid);
 VNET_API bool vnet_socketbase_setlinger(int32_t socketid, uint32_t lingertime);
 VNET_API bool vnet_socketbase_is_reuseaddr(int32_t socketid);

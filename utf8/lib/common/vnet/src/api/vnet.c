@@ -66,7 +66,7 @@ VNET_API bool vnet_socketbase_bind(int32_t socketid, uint16_t port) {
   return result;
 }
 
-VNET_API bool vnet_socketbase_listen(int32_t socketid, int32_t backlog) {
+VNET_API bool vnet_socketbase_listen(int32_t socketid, uint32_t backlog) {
   bool result = socketbase_listen(socketid, backlog);
   return result;
 }
