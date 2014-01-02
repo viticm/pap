@@ -60,13 +60,6 @@ Connection::~Connection() {
 
 bool Connection::processinput() {
   __ENTER_FUNCTION
-    extern const char* kModelName;
-#if defined(_PAP_BILLING) /* { */
-    
-#elif defined(_PAP_LOGIN) /* }{ */
-#elif defined(_PAP_WORLD) /* }{ */
-#elif defined(_PAP_SERVER) /* }{ */
-#endif
     using namespace pap_server_common_base;
     bool result = false;
     if (isdisconnect()) return true;
@@ -79,7 +72,8 @@ bool Connection::processinput() {
             errormessage, 
             static_cast<uint16_t>(sizeof(errormessage) - 1));
         Log::save_log(g_kModelName,
-                      "[net](%d) socket_inputstream_->fill() result: %d %s",
+                      "[net](%d) Connection::processinput()"
+                      " socket_inputstream_->fill() result: %d %s",
                       g_time_manager->tm_todword(), 
                       fillresult,
                       errormessage);
@@ -99,6 +93,7 @@ bool Connection::processinput() {
 
 bool Connection::processoutput() {
   __ENTER_FUNCTION
+    using namespace pap_server_common_base;
     bool result = false;
     if (isdisconnect()) return true;
     try {
@@ -112,7 +107,8 @@ bool Connection::processoutput() {
             errormessage, 
             static_cast<uint16_t>(sizeof(errormessage) - 1));
         Log::save_log(g_kModelName,
-                      "[net](%d) socket_outputstream_->flush() result: %d %s",
+                      "[net](%d) Connection::processoutput()"
+                      " socket_outputstream_->flush() result: %d %s",
                       g_time_manager->tm_todword(), 
                       fillresult,
                       errormessage);
