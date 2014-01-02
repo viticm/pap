@@ -48,7 +48,7 @@ uint32_t SocketInputStream::read(char* buffer, uint32_t length) {
 bool SocketInputStream::readpacket(Packet* packet) {
   __ENTER_FUNCTION
     bool result = false;
-    result = skip(GET_PACKETHEADER_SIZE);
+    result = skip(PACKET_HEADERSIZE);
     if (!result) return result;
     result = packet->read(*this);
     return result;

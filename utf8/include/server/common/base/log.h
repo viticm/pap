@@ -35,13 +35,17 @@ typedef enum {
   kDebugLogFile = 1,
   kErrorLogFile = 2,
   kShareMemoryLogFile = 3,
+  kBillingLogFile = 4,
+  kLoginLogFile = 5,
+  kWorldLogFile = 6,
+  kServerLogFile = 7,
   kLogFileCount,
 } enum_log_id;
 
 
 namespace pap_server_common_base {
 
-extern const char* kBaseXLogSaveDir; //如果不要外部使用，就别使用宏
+extern const char* kBaseLogSaveDir; //如果不要外部使用，就别使用宏
 const uint32_t kLogBufferTemp = 4096;
 const uint32_t kLogNameTemp = 128;
 const uint32_t kDefaultLogCacheSize = 1024 * 1024 * 4;
@@ -76,9 +80,19 @@ class Log {
 };
 
 #if defined(__LINUX__)
-#define SaveErrorLog();(pap_server_common_base::Log::SaveLog(SERVER_ERRORFILE_PREFIX, "%s %d %s", __FILE__, __LINE__, __PRETTY_FUNCTION__))
+#define SaveErrorLog() (pap_server_common_base::Log::SaveLog( \
+    SERVER_ERRORFILE_PREFIX, \
+    "%s %d %s", \
+    __FILE__, \
+    __LINE__, \
+    __PRETTY_FUNCTION__))
 #elif defined(__WINDOWS__)
-#define SaveErrorLog();(pap_server_common_base::Log::SaveLog(SERVER_ERRORFILE_PREFIX, "%s %d %s", __FILE__, __LINE__, __FUNCTION__))
+#define SaveErrorLog() (pap_server_common_base::Log::SaveLog( \
+    SERVER_ERRORFILE_PREFIX, \
+    "%s %d %s", \
+    __FILE__, \
+    __LINE__, \
+    __FUNCTION__))
 #endif
 
 }; //namespace pap_server_common_base

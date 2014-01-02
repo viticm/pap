@@ -26,20 +26,22 @@
 //可以取得UINT数据里面的消息序列号和长度
 //通过SET_PACKETINDEX和SET_PACKETLENGTH宏，
 //可以设置UINT数据里面的消息序列号和长度
-#define GET_PACKETHEADER_SIZE (sizeof(uint16_t) + sizeof(uint32_t))
+#define PACKET_HEADERSIZE (sizeof(uint16_t) + sizeof(uint32_t))
 
 typedef enum {
-  PACKET_EXECUTESTATUS_ERROR = 0, //表示出现严重错误，当前连接需要被强制断开 
-  PACKET_EXECUTESTATUS_BREAK, //表示返回后剩下的消息将不在当前处理循环里处理
-  PACKET_EXECUTESTATUS_CONTINUE, //表示继续在当前循环里执行剩下的消息
-  PACKET_EXECUTESTATUS_NOTREMOVE, //表示继续在当前循环里执行剩下的消息,
+  kPacketExecuteStatusError = 0, //表示出现严重错误，当前连接需要被强制断开 
+  kPacketExecuteStatusBreak, //表示返回后剩下的消息将不在当前处理循环里处理
+  kPacketExecuteStatusContinue, //表示继续在当前循环里执行剩下的消息
+  kPacketExecuteStatusNotRemove, //表示继续在当前循环里执行剩下的消息,
                                   //但是不回收当前消息
-  PACKET_EXECUTESTATUS_NOTREMOVE_ERROR,
+  kPacketExecuteStatusNotRemoveError,
 } packet_executestatus_enum;
 
 namespace pap_common_net {
 
-class Connection;
+namespace pap_server_common_net {
+class Connection; //just use for server
+}; //namespace pap_server_common_net
 
 class Packet {
 
@@ -55,7 +57,7 @@ class Packet {
    virtual void cleanup();
    virtual bool read(SocketInputStream& inputstream) = 0;
    virtual bool write(SocketOutputStream& outputstream) const = 0;
-   virtual uint32_t execute(Connection* connection) = 0;
+   virtual uint32_t execute(pap_server_common_net::Connection* connection) = 0;
    virtual uint16_t getid() const = 0;
    virtual uint32_t getsize() const = 0;
    int8_t getindex() const;
