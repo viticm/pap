@@ -38,7 +38,7 @@ bool Socket::create() {
 
 void Socket::close() {
   __ENTER_FUNCTION
-    if (!isvalid() && !iserror())
+    if (isvalid() && !iserror())
       vnet_socketbase_close(socketid_);
     socketid_ = SOCKET_INVALID;
     memset(host_, '\0', sizeof(host_));
@@ -292,7 +292,7 @@ uint64_t Socket::getu64host() const {
 bool Socket::isvalid() const {
   __ENTER_FUNCTION
     bool result = true;
-    result = socketid_ == SOCKET_INVALID;
+    result = socketid_ != SOCKET_INVALID;
     return result;
   __LEAVE_FUNCTION
     return false;

@@ -833,10 +833,10 @@ void Config::load_config_info_reload() { //this params can reload again
       config_info_ini.read_uint32("World", "MaxOfflineUserCount");
     config_info_.world.speaker_pool_max = 
       config_info_ini.read_uint8("World", "SpeakerPoolMax");
-    config_info_ini.read_text("Temp", 
-                              "UserPath", 
-                              config_info_.temp.user_path, 
-                              sizeof(config_info_.temp.user_path) - 1);
+    config_info_ini.readstring("Temp", 
+                               "UserPath", 
+                               config_info_.temp.user_path, 
+                               sizeof(config_info_.temp.user_path) - 1);
     config_info_.combat.default_damage_fluctuation = 
       config_info_ini.read_uint32("Combat", "DefaultDamageFluctuation");
     config_info_.combat.h0_of_hit_calculation = 
@@ -1019,27 +1019,27 @@ void Config::load_login_info_only() {
   __ENTER_FUNCTION
     pap_common_file::Ini login_info_ini(LOGIN_INFO_FILE);
     login_info_.id = login_info_ini.read_int16("System", "ID");
-    login_info_ini.read_text("System", 
-                             "DBIP", 
-                             login_info_.db_ip, 
-                             sizeof(login_info_.db_ip) - 1);
+    login_info_ini.readstring("System", 
+                              "DBIP", 
+                              login_info_.db_ip, 
+                              sizeof(login_info_.db_ip) - 1);
     login_info_.db_port = login_info_ini.read_uint16("System", "DBPort");
-    login_info_ini.read_text("System", 
-                             "DBName", 
-                             login_info_.db_name, 
-                             sizeof(login_info_.db_name) - 1);
-    login_info_ini.read_text("System", 
-                             "DBConnectionName", 
-                             login_info_.db_connection_name, 
-                             sizeof(login_info_.db_connection_name) - 1);
-    login_info_ini.read_text("System", 
-                             "DBUser", 
-                             login_info_.db_user, 
-                             sizeof(login_info_.db_user) - 1);
-    login_info_ini.read_text("System", 
-                             "DBPassword", 
-                             login_info_.db_password, 
-                             sizeof(login_info_.db_password) - 1);
+    login_info_ini.readstring("System", 
+                              "DBName", 
+                              login_info_.db_name, 
+                              sizeof(login_info_.db_name) - 1);
+    login_info_ini.readstring("System", 
+                              "DBConnectionName", 
+                              login_info_.db_connection_name, 
+                              sizeof(login_info_.db_connection_name) - 1);
+    login_info_ini.readstring("System", 
+                              "DBUser", 
+                              login_info_.db_user, 
+                              sizeof(login_info_.db_user) - 1);
+    login_info_ini.readstring("System", 
+                              "DBPassword", 
+                              login_info_.db_password, 
+                              sizeof(login_info_.db_password) - 1);
     login_info_.odbc_switch = login_info_ini.read_bool("System", "ODBCSwitch");
     login_info_.db_type_enum = login_info_ini.read_int8("System", "DBType");
     login_info_.encrypt_password = 
@@ -1140,27 +1140,27 @@ void Config::load_billing_info_only() {
     billing_info_.clean_up();
     billing_info_.init(number);
     //db info by viticm
-    billing_info_ini.read_text("System", 
-                               "DBIP", 
-                               billing_info_.db_ip_, 
-                               sizeof(billing_info_.db_ip_) - 1);
+    billing_info_ini.readstring("System", 
+                                "DBIP", 
+                                billing_info_.db_ip_, 
+                                sizeof(billing_info_.db_ip_) - 1);
     billing_info_.db_port_ = billing_info_ini.read_uint16("System", "DBPort");
-    billing_info_ini.read_text("System", 
-                               "DBName", 
-                               billing_info_.db_name_, 
-                               sizeof(billing_info_.db_name_) - 1);
-    billing_info_ini.read_text("System", 
-                               "DBConnectionName", 
-                               billing_info_.db_connection_name_, 
-                               sizeof(billing_info_.db_connection_name_) - 1);
-    billing_info_ini.read_text("System", 
-                               "DBUser", 
-                               billing_info_.db_user_, 
-                               sizeof(billing_info_.db_user_) - 1);
-    billing_info_ini.read_text("System", 
-                               "DBPassword", 
-                               billing_info_.db_password_, 
-                               sizeof(billing_info_.db_password_) - 1);
+    billing_info_ini.readstring("System", 
+                                "DBName", 
+                                billing_info_.db_name_, 
+                                sizeof(billing_info_.db_name_) - 1);
+    billing_info_ini.readstring("System", 
+                                "DBConnectionName", 
+                                billing_info_.db_connection_name_, 
+                                sizeof(billing_info_.db_connection_name_) - 1);
+    billing_info_ini.readstring("System", 
+                                "DBUser", 
+                                billing_info_.db_user_, 
+                                sizeof(billing_info_.db_user_) - 1);
+    billing_info_ini.readstring("System", 
+                                "DBPassword", 
+                                billing_info_.db_password_, 
+                                sizeof(billing_info_.db_password_) - 1);
     billing_info_.odbc_switch_ = 
       billing_info_ini.read_bool("System", "ODBCSwitch");
     billing_info_.db_type_enum_ = 
@@ -1175,7 +1175,7 @@ void Config::load_billing_info_only() {
       memset(message, '\0', sizeof(message));
       billing_data_t* billing_data = billing_info_.next();
       snprintf(key, sizeof(key) - 1, "IP%d", i);
-      if (false == server_info_ini.read_exist_text(
+      if (false == server_info_ini.read_existstring(
             "Billing", 
             static_cast<const char*>(key), billing_data->ip, 
             sizeof(billing_data->ip) - 1)) {
@@ -1245,27 +1245,27 @@ void Config::load_share_memory_info_only() {
       share_memory_info_.key_data[i].type = 
         share_memory_info_ini.read_uint8("Key", type);
     }
-    share_memory_info_ini.read_text("System", 
-                                    "DBIP", 
-                                    share_memory_info_.db_ip, 
-                                    sizeof(share_memory_info_.db_ip) - 1);
+    share_memory_info_ini.readstring("System", 
+                                     "DBIP", 
+                                     share_memory_info_.db_ip, 
+                                     sizeof(share_memory_info_.db_ip) - 1);
     share_memory_info_.db_port = 
       share_memory_info_ini.read_uint16("System", "DBPort");
-    share_memory_info_ini.read_text("System", 
-                                    "DBName", 
-                                    share_memory_info_.db_name, 
-                                    sizeof(share_memory_info_.db_name) - 1);
-    share_memory_info_ini.read_text(
+    share_memory_info_ini.readstring("System", 
+                                     "DBName", 
+                                     share_memory_info_.db_name, 
+                                     sizeof(share_memory_info_.db_name) - 1);
+    share_memory_info_ini.readstring(
         "System", "DBConnectionName", share_memory_info_.db_connection_name, 
         sizeof(share_memory_info_.db_connection_name) - 1);
-    share_memory_info_ini.read_text("System",
-                                    "DBUser", 
-                                    share_memory_info_.db_user, 
-                                    sizeof(share_memory_info_.db_user) - 1);
-    share_memory_info_ini.read_text("System",
-                                    "DBPassword",
-                                    share_memory_info_.db_password,
-                                    sizeof(share_memory_info_.db_password) - 1);
+    share_memory_info_ini.readstring("System",
+                                     "DBUser", 
+                                     share_memory_info_.db_user, 
+                                     sizeof(share_memory_info_.db_user) - 1);
+    share_memory_info_ini.readstring("System",
+                                     "DBPassword",
+                                     share_memory_info_.db_password,
+                                     sizeof(share_memory_info_.db_password) - 1);
     share_memory_info_.odbc_switch = 
       share_memory_info_ini.read_bool("System", "ODBCSwitch");
     share_memory_info_.db_type_enum = 
@@ -1350,16 +1350,16 @@ void Config::load_server_info_only() {
         server_info_ini.read_int16(kSection, "ServerID");
       server_info_.data[i].machine_id = 
         server_info_ini.read_int16(kSection, "MachineID");
-      server_info_ini.read_text(kSection, 
-                                "IP0", 
-                                server_info_.data[i].ip0, 
-                                sizeof(server_info_.data[i].ip0) - 1);
+      server_info_ini.readstring(kSection, 
+                                 "IP0", 
+                                 server_info_.data[i].ip0, 
+                                 sizeof(server_info_.data[i].ip0) - 1);
       server_info_.data[i].port0 = 
         server_info_ini.read_uint16(kSection, "Port0");
-      server_info_ini.read_text(kSection, 
-                                "IP1", 
-                                server_info_.data[i].ip1, 
-                                sizeof(server_info_.data[i].ip1) - 1);
+      server_info_ini.readstring(kSection, 
+                                 "IP1", 
+                                 server_info_.data[i].ip1, 
+                                 sizeof(server_info_.data[i].ip1) - 1);
       server_info_.data[i].port1 = 
         server_info_ini.read_uint16(kSection, "Port1");
       server_info_.data[i].type = server_info_ini.read_int8(kSection, "Type");
@@ -1375,10 +1375,10 @@ void Config::load_server_info_only() {
       server_info_.data[i].enable_share_memory = 
         server_info_ini.read_bool(kSection, "EnableShareMemory");
     }
-    server_info_ini.read_text("World", 
-                              "IP", 
-                              server_info_.world_data.ip, 
-                              sizeof(server_info_.world_data.ip) - 1);
+    server_info_ini.readstring("World", 
+                               "IP", 
+                               server_info_.world_data.ip, 
+                               sizeof(server_info_.world_data.ip) - 1);
     server_info_.world_data.port = server_info_ini.read_uint16("World", "Port");
     for (i = 0; i < server_info_.count; ++i) {
       int16_t server_id = server_info_.data[i].id;
@@ -1424,14 +1424,14 @@ void Config::load_scene_info_only() {
         scene_info_ini.read_int16(kSection, "ThreadIndex");
       scene_info_.data[i].client_resource_index = 
         scene_info_ini.read_int16(kSection, "ClientResourceIndex");
-      scene_info_ini.read_text(kSection, 
-                               "Name", 
-                               scene_info_.data[i].name, 
-                               sizeof(scene_info_.data[i].name) - 1);
-      scene_info_ini.read_text(kSection, 
-                               "File", 
-                               scene_info_.data[i].file, 
-                               sizeof(scene_info_.data[i].file) - 1);
+      scene_info_ini.readstring(kSection, 
+                                "Name", 
+                                scene_info_.data[i].name, 
+                                sizeof(scene_info_.data[i].name) - 1);
+      scene_info_ini.readstring(kSection, 
+                                "File", 
+                                scene_info_.data[i].file, 
+                                sizeof(scene_info_.data[i].file) - 1);
       scene_info_.data[i].server_id = 
         scene_info_ini.read_int16(kSection, "ServerID");
       scene_info_.data[i].type = scene_info_ini.read_int8(kSection, "Type");
