@@ -131,7 +131,7 @@ bool Connection::processcommand(bool option) {
     bool result = false;
     char packetheader[PACKET_HEADERSIZE] = {'\0'};
     uint16_t packetid;
-    uint32_t packetinfo, packetsize, packetindex;
+    uint32_t packetcheck, packetsize, packetindex;
     pap_common_net::Packet* packet = NULL;
     if (isdisconnect()) return true;
     try {
@@ -145,9 +145,9 @@ bool Connection::processcommand(bool option) {
           break;
         }
         memcpy(&packetid, &packetheader[0], sizeof(uint16_t));
-        memcpy(&packetinfo, &pakcetheader[sizeof(uint16_t)], sizeof(uint32_t));
-        packetsize = GET_PACKETLENGTH(packetinfo);
-        packetindex = GET_PACKETINDEX(packetinfo);
+        memcpy(&packetcheck, &pakcetheader[sizeof(uint16_t)], sizeof(uint32_t));
+        packetsize = GET_PACKETLENGTH(packetcheck);
+        packetindex = GET_PACKETINDEX(packetcheck);
         if (packetid >= static_cast<uint16_t>(kPacketMax)) {
           return false;
         }
@@ -193,12 +193,20 @@ bool Connection::sendpacket(pap_common_net::Packet* packet) {
                            pakcet->getsize());
     }
     if (kPacketIdSCCharacterIdle == packet->getid()) {
-      //save heartbeat
+      //save heartbeat log
     }
 #endif
     return result;
   __LEAVE_FUNCTION
     return false;
+}
+
+bool Connection::heartbeat() {
+  return true;
+}
+
+void Connection::resetkick() {
+  //do nothing
 }
 
 } //namespace pap_server_common_net

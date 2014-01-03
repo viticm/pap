@@ -50,15 +50,15 @@ bool SocketOutputStream::writepacket(const Packet* packet) {
     bool result = false;
     uint16_t packetid = packet->getid();
     uint32_t writecount = 0;
-    uint32_t pakcetinfo;
+    uint32_t pakcetcheck; //index and size(if diffrent then have error)
     //write packetid
     writecount = write(static_cast<const char*>(&packetid), sizeof(packetid));
     uint32_t pakcetsize = packet->getsize();
     uint32_t packetindex = packet->getindex();
-    SET_PACKETINDEX(pakcetinfo, packetindex);
-    SET_PACKETLENGTH(pakcetinfo, packetsize);
-    writecount = write(static_cast<const char*>(&packetinfo), 
-                       sizeof(packetinfo));
+    SET_PACKETINDEX(pakcetcheck, packetindex);
+    SET_PACKETLENGTH(pakcetcheck, packetsize);
+    writecount = write(static_cast<const char*>(&packetcheck), 
+                       sizeof(packetcheck));
     result = packet->write(*this);
     return result;
   __LEAVE_FUNCTION

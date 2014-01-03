@@ -63,7 +63,7 @@ class ThreadLock {
 #if defined(__LINUX__)
    pthread_mutex_t mutex_;
 #elif defined(__WINDOWS__)
-    CRITICAL_SECTION lock_;
+   CRITICAL_SECTION lock_;
 #endif
    ThreadLock();
    ~ThreadLock();
