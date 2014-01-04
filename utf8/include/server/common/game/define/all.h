@@ -21,6 +21,7 @@ namespace define {
 #include "server/common/game/define/result/all.h"
 #include "server/common/game/define/status/all.h"
 #include "server/common/game/define/type/all.h"
+#include "server/common/game/define/id/all.h"
 
 }; //namespace define
 

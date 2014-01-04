@@ -13,6 +13,8 @@
 
 namespace result { //the define model namespace
 
+#include "common/game/define/result/channel.h"
+#include "common/game/define/result/login.h"
 #include "common/game/define/result/team.h"
 
 }; //namespace result

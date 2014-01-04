@@ -1,4 +1,5 @@
 #include "server/common/net/packets/login_tobilling/askauth.h"
+#include "server/common/game/define/all.h"
 
 namespace pap_server_common_net {
 
@@ -9,7 +10,7 @@ namespace login_tobilling {
 
 AskAuth::AskAuth() {
   __ENTER_FUNCTION
-    using namespace pap_common_game::define::value;
+    using namespace pap_common_game::define::size;
     memset(account_, '\0', sizeof(account_));
     memset(password_, '\0', sizeof(password_));
     memset(ip_, '\0', sizeof(ip_));
@@ -24,7 +25,7 @@ AskAuth::AskAuth() {
 
 bool AskAuth::read(pap_common_net::SocketInputStream& inputstream) {
   __ENTER_FUNCTION
-    using namespace pap_common_game::define::value;
+    using namespace pap_common_game::define::size;
     inputstream.read(account_, sizeof(account_) - 1);
     inputstream.read(password_, sizeof(password_) - 1);
     inputstream.read(static_cast<char*>(&playerid_), sizeof(playerid_));
@@ -44,7 +45,7 @@ bool AskAuth::read(pap_common_net::SocketInputStream& inputstream) {
 
 bool AskAuth::write(pap_common_net::SocketOutputStream& outputstream) {
   __ENTER_FUNCTION
-    using namespace pap_common_game::define::value;
+    using namespace pap_common_game::define::size;
     outputstream.write(account_, sizeof(account_) - 1);
     outputstream.write(password_, sizeof(password_) - 1);
     outputstream.write(static_cast<char*>(&playerid_), sizeof(playerid_));
@@ -69,6 +70,22 @@ uint32_t AskAuth::execute(Connection* connection) {
     return result;
   __LEAVE_FUNCTION
     return 0;
+}
+
+uint16_t AskAuth::get_packetid() const {
+  using namespace pap_server_common_game::define::id::packet;
+  return login_tobilling::kAskAuth;
+}
+
+uint32_t AskAuth::get_packetsize() const {
+  using namespace pap_common_game::define::size;
+  uint32_t result = sizeof(account_) - 1 +
+                    sizeof(password_) - 1 +
+                    sizeof(ip_) - 1 +
+                    sizeof(all_mibao_key) - mibao::kUnitNumber * 1 +
+                    sizeof(all_mibao_value) - mibao::kUnitNumber * 1 +
+                    sizeof(macaddress_) - 1;
+  return result;
 }
 
 void AskAuth::getaccount(char* buffer, uint8_t length) const {
@@ -143,7 +160,7 @@ void AskAuth::get_mibao_key(int32_t index,
                             char* buffer, 
                             uint8_t length) const {
   __ENTER_FUNCTION
-    using namespace pap_common_game::define::value;
+    using namespace pap_common_game::define::size;
     if (index < 0 || index >= mibao::kUnitNumber) {
       return;
     }
@@ -153,7 +170,7 @@ void AskAuth::get_mibao_key(int32_t index,
 
 void AskAuth::set_mibao_key(int32_t index, int32_t row, int32_t column) {
   __ENTER_FUNCTION
-    using namespace pap_common_game::define::value;
+    using namespace pap_common_game::define::size;
     if (index < 0 || index >= mibao::kUnitNumber) return;
     //key为"00"，通知Billing玩家没有选择“使用密保卡”的选项
     snprintf(all_mibao_key[index], 
@@ -168,19 +185,42 @@ void AskAuth::get_mibao_value(int32_t index,
                               char* buffer, 
                               uint8_t length) const {
   __ENTER_FUNCTION
-    using namespace pap_common_game::define::value;
+    using namespace pap_common_game::define::size;
     if (index < 0 || index >= mibao::kUnitNumber) return;
     snprintf(buffer, length, "%s", all_mibao_value[index]);
   __LEAVE_FUNCTION
 }
 
-void set_mibao_value(int32_t index, const char* value) {
+void AskAuth::set_mibao_value(int32_t index, const char* value) {
   __ENTER_FUNCTION
-    using namespace pap_common_game::define::value;
+    using namespace pap_common_game::define::size;
     if (index < 0 || index >= mibao::kUnitNumber) return;
     strncpy(all_mibao_value[index], value, sizeof(all_mibao_value[index]) - 1);
     all_mibao_value[index][sizeof(all_mibao_value[index])] = '\0';
   __LEAVE_FUNCTION
+}
+
+pap_common_net::Packet* AskAuthFactory::createpacket() {
+  __ENTER_FUNCTION
+    return new AskAuth();
+  __LEAVE_FUNCTION
+    return NULL;
+}
+
+uint16_t AskAuthFactory::get_packetid() const {
+  using namespace pap_server_common_game::define::id::packet;
+  return login_tobilling::kAskAuth;
+}
+
+uint32_t AskAuthFactory::get_packet_maxsize() const {
+  using namespace pap_common_game::define::size;
+  uint32_t result = sizeof(account_) +
+                    sizeof(password_) +
+                    sizeof(ip_) +
+                    sizeof(all_mibao_key) +
+                    sizeof(all_mibao_value) +
+                    sizeof(macaddress_);
+  return result;
 }
 
 } //namespace login_tobilling

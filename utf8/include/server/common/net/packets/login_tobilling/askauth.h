@@ -49,20 +49,20 @@ class AskAuth : public pap_common_net::Packet {
    char ip_[IP_SIZE + 1];
    uint16_t playerid_;
    //为了不混乱的代价似乎有点大
-   char all_mibao_key[pap_common_game::define::value::mibao::kUnitNumber]
-     [pap_common_game::define::value::mibao::kUnitNameLength + 1];
-   char all_mibao_value[pap_common_game::define::value::mibao::kUnitNumber]
-     [pap_common_game::define::value::mibao::kUnitValueLength + 1];
+   char all_mibao_key[pap_common_game::define::size::mibao::kUnitNumber]
+     [pap_common_game::define::size::mibao::kUnitNameLength + 1];
+   char all_mibao_value[pap_common_game::define::size::mibao::kUnitNumber]
+     [pap_common_game::define::size::mibao::kUnitValueLength + 1];
    char macaddress_[MD5SIZE_MAX + 1];
 
 };
 
-class AskAuthFactory : public PacketFactory {
+class AskAuthFactory : public pap_common_net::PacketFactory {
 
  public:
    pap_common_net::Packet* createpacket();
-   uint16_t get_packetid();
-   uint32_t get_packet_maxsize();
+   uint16_t get_packetid() const;
+   uint32_t get_packet_maxsize() const;
 
 };
 
