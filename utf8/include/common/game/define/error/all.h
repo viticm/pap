@@ -11,10 +11,6 @@
 #ifndef PAP_COMMON_GAME_DEFINE_ERROR_ALL_H_
 #define PAP_COMMON_GAME_DEFINE_ERROR_ALL_H_
 
-namespace pap_common_game {
-
-namespace define {
-
 namespace error {
 
 #include "common/game/define/error/attack.h"
@@ -22,9 +18,5 @@ namespace error {
 #include "common/game/define/error/team.h"
 
 }; //namespace error
-
-}; //namespace define
-
-}; //namespace pap_common_game
 
 #endif //PAP_COMMON_GAME_DEFINE_ERROR_ALL_H_

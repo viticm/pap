@@ -12,7 +12,7 @@
 #define PAP_SERVER_COMMON_BASE_LOG_H_
 
 #include "common/base/type.h"
-#include "common/game/define.h"
+#include "common/game/define/all.h"
 #include "common/sys/thread.h"
 #include "server/common/base/define.h"
 
@@ -36,9 +36,8 @@ typedef enum {
   kErrorLogFile = 2,
   kShareMemoryLogFile = 3,
   kBillingLogFile = 4,
-  kLoginLogFile = 5,
-  kWorldLogFile = 6,
-  kServerLogFile = 7,
+  kWorldLogFile = 5,
+  kServerLogFile = 6,
   kLogFileCount,
 } enum_log_id;
 

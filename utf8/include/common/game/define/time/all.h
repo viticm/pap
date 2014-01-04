@@ -11,10 +11,6 @@
 #ifndef PAP_COMMON_GAME_DEFINE_TIME_ALL_H_
 #define PAP_COMMON_GAME_DEFINE_TIME_ALL_H_
 
-namespace pap_common_game {
-
-namespace define {
-
 namespace time { //the define model namespace
 
 /* global{ */
@@ -24,10 +20,5 @@ typedef enum {
 /* global} */
 
 }; //namespace time
-
-}; //namespace define
-
-}; //namespace pap_common_game
-
 
 #endif //PAP_COMMON_GAME_DEFINE_TIME_ALL_H_

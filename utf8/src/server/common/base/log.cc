@@ -14,7 +14,10 @@ const char* g_log_file_name[] = {
   "./log/login", //kLoginLogFile
   "./log/debug", //kDebugLogFile
   "./log/error", //kErrorLogFile
-  "./log/share_memory",
+  "./log/sharememory", //kShareMemoryLogFile
+  "./log/billing", //kBillingLogFile
+  "./log/world", //kWorldLogFile
+  "./log/server", //kServerLogFile
   '\0',
 };
 
@@ -194,7 +197,7 @@ void Log::get_log_file_name(enum_log_id log_id, char* file_name) {
                "%s_%d_%d_%d.log",
                g_log_file_name[log_id],
                g_time_manager->get_year(),
-               g_time_manager->get_month(),
+               g_time_manager->get_month() + 1,
                g_time_manager->get_day());
     }
     else {
@@ -217,7 +220,7 @@ void Log::get_log_file_name(const char* file_name_prefix, char* file_name) {
                kBaseLogSaveDir,
                file_name_prefix,
                g_time_manager->get_year(),
-               g_time_manager->get_month(),
+               g_time_manager->get_month() + 1,
                g_time_manager->get_day());
     }
     else {
@@ -315,6 +318,5 @@ void Log::get_serial(char* serial, int16_t world_id, int16_t server_id) {
     //int32_t step = 100;
   __LEAVE_FUNCTION
 }
-
 
 } //namespace pap_server_common_base

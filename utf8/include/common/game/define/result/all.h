@@ -11,19 +11,10 @@
 #ifndef PAP_COMMON_GAME_DEFINE_RESULT_ALL_H_
 #define PAP_COMMON_GAME_DEFINE_RESULT_ALL_H_
 
-namespace pap_common_game {
-
-namespace define {
-
 namespace result { //the define model namespace
 
 #include "common/game/define/result/team.h"
 
 }; //namespace result
-
-}; //namespace define
-
-}; //namespace pap_common_game
-
 
 #endif //PAP_COMMON_GAME_DEFINE_RESULT_ALL_H_

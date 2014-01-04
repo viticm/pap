@@ -11,10 +11,6 @@
 #ifndef PAP_COMMON_GAME_DEFINE_ATTRIBUTE_ALL_H_
 #define PAP_COMMON_GAME_DEFINE_ATTRIBUTE_ALL_H_
 
-namespace pap_common_game {
-
-namespace define {
-
 namespace attribute { //the define model namespace
 
 #include "common/game/define/attribute/character.h"
@@ -23,10 +19,5 @@ namespace attribute { //the define model namespace
 #include "common/game/define/attribute/teammember.h"
 
 }; //namespace attribute
-
-}; //namespace define
-
-}; //namespace pap_common_game
-
 
 #endif //PAP_COMMON_GAME_DEFINE_ATTRIBUTE_ALL_H_

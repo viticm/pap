@@ -11,19 +11,12 @@
 #ifndef PAP_COMMON_GAME_DEFINE_VALUE_ALL_H_
 #define PAP_COMMON_GAME_DEFINE_VALUE_ALL_H_
 
-namespace pap_common_game {
-
-namespace define {
-
 namespace value { //the define model namespace
 
+#include "common/game/define/value/combat.h"
 #include "common/game/define/value/pk.h"
+#include "common/game/define/value/relation.h"
 
 }; //namespace value
-
-}; //namespace define
-
-}; //namespace pap_common_game
-
 
 #endif //PAP_COMMON_GAME_DEFINE_VALUE_ALL_H_

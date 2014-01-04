@@ -12,7 +12,7 @@
 #define PAP_SERVER_COMMON_BASE_CONFIG_H_
 
 #include "server/common/base/define.h"
-#include "common/game/define.h"
+#include "common/game/define/all.h"
 #include "common/base/type.h"
 
 namespace pap_server_common_base {
@@ -142,12 +142,12 @@ typedef struct {
   uint16_t found_duration; //帮会创建过程所允许的最大时间（小时为单位），超过时间没有满足条件则帮会创建失败
   uint16_t default_max_member_count; //帮会新建时默认最大帮众上限
   uint8_t response_user_count; //帮会从建立到成立需要响应的玩家数量（含帮会建立者）
-  uint16_t xianya_max_user[GUILD_LEVEL_MAX]; //一到五级县衙人口上限
-  uint32_t xianya_standard_money[GUILD_LEVEL_MAX]; //一到五级县衙标准资金
-  uint32_t xianya_max_money[GUILD_LEVEL_MAX]; //一到五级县衙资金上限
-  uint8_t xianya_max_trader[GUILD_LEVEL_MAX]; //一到五级县衙商人数量上限
-  uint32_t bank_standard_money[GUILD_LEVEL_MAX]; //一到五级钱庄标准资金
-  uint16_t wing_max_user[GUILD_LEVEL_MAX]; //一到五级厢房人口上限
+  uint16_t xianya_max_user[GUILDLEVEL_MAX]; //一到五级县衙人口上限
+  uint32_t xianya_standard_money[GUILDLEVEL_MAX]; //一到五级县衙标准资金
+  uint32_t xianya_max_money[GUILDLEVEL_MAX]; //一到五级县衙资金上限
+  uint8_t xianya_max_trader[GUILDLEVEL_MAX]; //一到五级县衙商人数量上限
+  uint32_t bank_standard_money[GUILDLEVEL_MAX]; //一到五级钱庄标准资金
+  uint16_t wing_max_user[GUILDLEVEL_MAX]; //一到五级厢房人口上限
   uint32_t create_city_money; //创建城市需要的金钱
   uint32_t leave_word_cost; //帮会留言消耗的金钱
   uint32_t battle_time; //宣战时间

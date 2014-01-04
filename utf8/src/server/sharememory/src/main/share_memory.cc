@@ -7,7 +7,7 @@
 #include "server/share_memory/data/logic_manager.h"
 #include "server/common/game/db/struct.h"
 #include "server/common/db/data/global.h"
-#include "server/common/game/define.h"
+#include "server/common/game/define/all.h"
 #include "common/sys/util.h"
 
 ShareMemory g_sharememory;
@@ -171,7 +171,8 @@ bool ShareMemory::work() {
         }
       }
       else {
-        g_log->fast_save_log(kShareMemoryLogFile, "try connect database success");
+        g_log->fast_save_log(kShareMemoryLogFile, 
+                             "try connect database success");
       }
     }
 
@@ -198,10 +199,10 @@ bool ShareMemory::work() {
     uint32_t i;
     for (i = 0; i < share_memory::kObjMax; ++i) {
       if (logicmanager_pool_[i].logic_manager) {
-        type::share_memory::key_enum key_type;
+        type::sharememory::key_enum key_type;
         key_type = logicmanager_pool_[i].key_type;
         switch (key_type) {
-          case type::share_memory::kKeyGlobalData: {
+          case type::sharememory::kKeyGlobalData: {
             LogicManager<global_data_t>* globaldata_manager =
               static_cast<LogicManager<global_data_t>*>(
                   logicmanager_pool_[i].logic_manager);
@@ -251,11 +252,11 @@ bool ShareMemory::new_staticmanager() {
     uint32_t i;
     for (i = 0; i < g_config.share_memory_info_.obj_count; ++i) {
       keydata_pool_[i].key_data = g_config.share_memory_info_.key_data[i];
-      type::share_memory::key_enum key_type;
-      key_type = static_cast<type::share_memory::key_enum>(
+      type::sharememory::key_enum key_type;
+      key_type = static_cast<type::sharememory::key_enum>(
       g_config.share_memory_info_.key_data[i].type);
       switch (key_type) {
-        case type::share_memory::kKeyGlobalData: {
+        case type::sharememory::kKeyGlobalData: {
           keydata_pool_[i].pool = 
             new UnitPool<global_data_t>();
           Assert(keydata_pool_[i].pool);
@@ -265,7 +266,7 @@ bool ShareMemory::new_staticmanager() {
             new LogicManager<global_data_t>();
           Assert(logicmanager_pool_[i].logic_manager);
           Log::save_log("sharememory", "new LogicManager<Global> success");
-          logicmanager_pool_[i].key_type = type::share_memory::kKeyGlobalData;
+          logicmanager_pool_[i].key_type = type::sharememory::kKeyGlobalData;
           break;
         }
         default: {
@@ -288,22 +289,19 @@ bool ShareMemory::init_staticmanager() {
     bool result = true;
     Assert(g_db_manager);
     result = g_db_manager->init(kCharacterDatabase); //db character
-    if (!result) {
-      Log::save_log("sharememory", 
-                    "g_db_manager->init(kCharacterDatabase) failed");
-    }
-    else {
-      Log::save_log("sharememory", 
-                    "g_db_manager->init(kCharacterDatabase) success");
-    }
-    uint32_t i;
+    Log::save_log("sharememory", 
+                  "g_db_manager->init(kCharacterDatabase) %s",
+                  result ? "success" : "failed");
+    Assert(result);
+    uint16_t i;
     uint16_t obj_count = g_config.share_memory_info_.obj_count;
     for (i = 0; i < obj_count; ++i) {
-      typedef type::share_memory::key_enum key_enum;
+      typedef type::sharememory::key_enum key_enum;
       key_enum key_type;
-      key_type = static_cast<key_enum>(g_config.share_memory_info_.key_data[i].type);
+      key_type = static_cast<key_enum>(
+          g_config.share_memory_info_.key_data[i].type);
       switch (key_type) {
-        case type::share_memory::kKeyGlobalData: {
+        case type::sharememory::kKeyGlobalData: {
           UnitPool<global_data_t>* global_pool;
           global_pool = 
             static_cast<UnitPool<global_data_t>*>(
@@ -341,11 +339,12 @@ bool ShareMemory::release_staticmanager() {
     uint32_t i;
     uint16_t obj_count = g_config.share_memory_info_.obj_count;
     for (i = 0; i < obj_count; ++i) {
-      typedef type::share_memory::key_enum key_enum;
+      typedef type::sharememory::key_enum key_enum;
       key_enum _type;
-      _type = static_cast<key_enum>(g_config.share_memory_info_.key_data[i].type);
+      _type = static_cast<key_enum>(
+          g_config.share_memory_info_.key_data[i].type);
       switch (_type) {
-        case type::share_memory::kKeyGlobalData: {
+        case type::sharememory::kKeyGlobalData: {
           UnitPool<global_data_t>* global_pool;
           global_pool = 
             static_cast<UnitPool<global_data_t>*>(

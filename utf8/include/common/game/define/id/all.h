@@ -11,21 +11,12 @@
 #ifndef PAP_COMMON_GAME_DEFINE_ID_ALL_H_
 #define PAP_COMMON_GAME_DEFINE_ID_ALL_H_
 
-namespace pap_common_game {
-
-namespace define {
-
 namespace id { //the define model namespace
 
-#include "common/game/define/attribute/ability.h"
-#include "common/game/define/attribute/impact.h"
-#include "common/game/define/attribute/skill.h"
+#include "common/game/define/id/ability.h"
+#include "common/game/define/id/impact.h"
+#include "common/game/define/id/skill.h"
 
 }; //namespace id
-
-}; //namespace define
-
-}; //namespace pap_common_game
-
 
 #endif //PAP_COMMON_GAME_DEFINE_ID_ALL_H_

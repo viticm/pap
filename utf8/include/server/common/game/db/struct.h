@@ -13,7 +13,7 @@
 
 #include "server/common/game/db/config.h"
 #include "server/common/sys/share_memory.h"
-#include "common/game/struct.h"
+#include "common/game/structs/all.h"
 
 #pragma pack(push, 1)
 

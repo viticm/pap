@@ -11,19 +11,10 @@
 #ifndef PAP_COMMON_GAME_DEFINE_GROUP_ALL_H_
 #define PAP_COMMON_GAME_DEFINE_GROUP_ALL_H_
 
-namespace pap_common_game {
-
-namespace define {
-
 namespace group { //the define model namespace
 
 #include "common/game/define/group/relation.h"
 
 }; //namespace group
-
-}; //namespace define
-
-}; //namespace pap_common_game
-
 
 #endif //PAP_COMMON_GAME_DEFINE_GROUP_ALL_H_

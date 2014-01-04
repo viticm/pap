@@ -11,17 +11,13 @@
 #ifndef PAP_COMMON_GAME_DEFINE_VALUE_RELATION_H_
 #define PAP_COMMON_GAME_DEFINE_VALUE_RELATION_H_
 
-namespace pk {
+namespace relation {
 
 typedef enum {
-  kValue1 = 1,
-  kValue2 = 20,
-  kValue3 = 40,
-  kValue4 = 60,
-  kValue5 = 80,
-  kValueMax = 1000,
+  kFriendOffset = 0, 
+  kBlackOffset = 80,
 } _enum;
 
-}; //namespace pk
+}; //namespace relation
 
 #endif //PAP_COMMON_GAME_DEFINE_VALUE_RELATION_H_

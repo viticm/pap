@@ -12,7 +12,7 @@
 #define PAP_SERVER_SHARE_MEMORY_MAIN_SHARE_MEMROY_H_
 
 #include "common/base/type.h"
-#include "server/common/game/define.h"
+#include "server/common/game/define/all.h"
 #include "server/common/base/config.h"
 #include "server/common/sys/share_memory.h"
 
@@ -32,11 +32,11 @@ class ShareMemory {
    };
    struct logicmanager_t {
      void* logic_manager;
-     pap_server_common_game::define::type::share_memory::key_enum key_type;
+     pap_server_common_game::define::type::sharememory::key_enum key_type;
      logicmanager_t() {
        logic_manager = NULL;
 	   using namespace pap_server_common_game::define;
-	   key_type = type::share_memory::kKeyInvalid;
+	   key_type = type::sharememory::kKeyInvalid;
      }
    };
 

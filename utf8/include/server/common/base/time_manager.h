@@ -15,7 +15,7 @@
 #include <sys/time.h>
 #include <sys/utsname.h>
 #endif
-#include "common/game/define.h"
+#include "common/game/define/all.h"
 #include "common/base/type.h"
 
 namespace pap_server_common_base {

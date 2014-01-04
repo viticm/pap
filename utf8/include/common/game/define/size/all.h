@@ -11,11 +11,9 @@
 #ifndef PAP_COMMON_GAME_DEFINE_SIZE_ALL_H_
 #define PAP_COMMON_GAME_DEFINE_SIZE_ALL_H_
 
-namespace pap_common_game {
-
-namespace define {
-
 namespace size { //the define model namespace
+
+#include "common/game/define/size/mibao.h"
 
 /* global{ */
 typedef enum {
@@ -24,10 +22,5 @@ typedef enum {
 /* global} */
 
 }; //namespace size
-
-}; //namespace define
-
-}; //namespace pap_common_game
-
 
 #endif //PAP_COMMON_GAME_DEFINE_ATTRIBUTE_ALL_H_

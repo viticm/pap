@@ -5,7 +5,7 @@
 #include "server/common/net/connection.h"
 #include "common/net/packet.h"
 #include "common/net/packetfactory.h"
-#include "common/game/define.h"
+#include "common/game/define/all.h"
 
 namespace pap_server_common_net {
 

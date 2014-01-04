@@ -11,10 +11,6 @@
 #ifndef PAP_COMMON_GAME_DEFINE_TYPE_ALL_H_
 #define PAP_COMMON_GAME_DEFINE_TYPE_ALL_H_
 
-namespace pap_common_game {
-
-namespace define {
-
 namespace type {
 
 #include "common/game/define/type/attack.h"
@@ -45,9 +41,5 @@ typedef enum {
 /* global } */
 
 }; //namespace type
-
-}; //namespace define
-
-}; //namespace pap_common_game
 
 #endif //PAP_COMMON_GAME_DEFINE_TYPE_ALL_H_
