@@ -677,8 +677,11 @@ EOF;
     * @return bool
     */
    public function create_codefile($directory = '') {
-     $this->createheader($directory);
-     $this->createsource($directory);
+     $result = false;
+     $headerreulst = $this->createheader($directory);
+     $sourcereslut = $this->createsource($directory);
+     $result = $headerreulst && $sourcereslut;
+     return $result;
    }
    
  }

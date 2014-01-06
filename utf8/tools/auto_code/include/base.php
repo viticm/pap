@@ -32,3 +32,17 @@ function __autoload($class_name) {
   $class_filename = str_replace('_', '', $class_name).'.php';
   require_once(SYS_CLASS_DIR.$class_path.$class_filename);  
 }
+
+/**
+ * complement full path(add the last delimiter)
+ * this function not check the path if exist
+ * @param string $path
+ * @param string $delimiter
+ * @return string
+ */
+function complementpath($path, $delimiter = '/') {
+  $result = $path;
+  $lastlimiter = substr($path, -1, 1);
+  if ($lastlimiter != $delimiter) $result .= $delimiter;
+  return $result;
+}

@@ -17,7 +17,7 @@ function createcode_fromdir($indir = NULL, $outdir = NULL) {
   $starttime = time();
   $totalfile = 0;
   $successfile = 0;
-  $formatcode_files = glob('*.txt');
+  $formatcode_files = glob($indir.'*.txt');
   $totalfile = count($formatcode_files);
   if (0 === $totalfile) return false;
   $packetcode = new PacketCode();
@@ -25,11 +25,10 @@ function createcode_fromdir($indir = NULL, $outdir = NULL) {
     $codecontent = file_get_contents($file);
     $packetcode->get_formatcode($codecontent);
     $result = $packetcode->create_codefile($outdir);
-    ++$totalfile;
     if (true === $result) ++$successfile;
   }
   $endtime = time();
-  echo 'create code completed, use time: ',$endtime - $starttime,LF;
+  echo 'create code completed, use time: ',$endtime - $starttime,'s',LF;
   echo 'toalfile: ',$totalfile,' success file: ',$successfile,LF;
   unset($packetcode);
 }
@@ -42,12 +41,12 @@ function createcode_fromdir($indir = NULL, $outdir = NULL) {
 function main() {
   $argc = $GLOBALS['argc'];
   $argv = $GLOBALS['argv'];
-  $outputdir = './';
-  $indir = './';
+  $outputdir = './packet/code';
+  $indir = './packet/txt';
   if (3 === $argc) {
     list($indir, $outputdir) = $argv;
   }
-  createcode_fromdir($indir, $outputdir);
+  createcode_fromdir(complementpath($indir), complementpath($outputdir));
 }
 
 main();
