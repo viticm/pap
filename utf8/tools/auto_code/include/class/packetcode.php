@@ -31,8 +31,8 @@
     */
    public function get_formatcode($code = NULL) {
      if (NULL == $code) return;
-     $codestr = str_replace("\r", '', $this->repalcenote($code));
-     $this->formatcode_ = $this->get_formatarray($codestr);
+     //$codestr = str_replace("\r", '', $this->repalcenote($code));
+     $this->formatcode_ = $this->get_formatarray($code);
      /**
      $this->formatcode_ = 
        preg_replace("/(\n)\\1+/","\\1", $this->formatcode_);
