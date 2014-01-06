@@ -7,22 +7,30 @@ ModelType: Server /* Server 服务器专用 Common 客户端与服务器公用 *
 ModelName: billing_tologin /* 模块名 */
 PacketName: ResultAuth /* 包名 将作为类名使用 */
 FileName: resultauth /* 文件名 */
-IncludeDefineFile: 3 /* 0 不用包含 1 服务器与公用 2 服务器 3 公用 --包括定义文件define/all.h
-                                    * 服务器为pap_server_game_common::define 公用为pap_game_common::define
-                                    */ 
+/* 0 不用包含 1 服务器与公用 2 服务器 3 公用 --包括定义文件define/all.h
+ * 服务器为pap_server_game_common::define 公用为pap_game_common::define
+ */ 
+IncludeDefineFile: 3
+
+ 
 /* 数据名称将作为变量名，数据类型可用c99所有整型以及字符和数组，不允许使用指针 
     不使用指针的原因是在32位与64位之间长度大小有区别
  */
-
 /** 
 [数据名称] [数据类型] [长度] [描述?]
-如果长度为0，对于字符和float等来说就只是单纯的字符或者float，否则为对应的数组，多维数组以逗号分开
-多维数组的示例：[account] [char] [10,20] --长度可以为数字自然可以为相应的宏或者枚举，不过你要确保它的存在
+如果长度为0，对于字符和float等来说就只是单纯的字符或者float，
+否则为对应的数组，多维数组以逗号分开。
+多维数组的示例：[account] [char] [10,20] 
+长度可以为数字自然可以为相应的宏或者枚举，不过你要确保它的存在
 描述将作为注释生成在头文件中如 uint16_t playerid_; //玩家ID，描述可以为空
-**/ 
+**/
+
+/*packet define begin {*/ 
 [account] [char] [ACCOUNTLENGTH_MAX] [账号名]
-[result] [pap_common_game::define::result::login::_enum] [0] [验证结果] /* 这里因为只用到服务器定义，
-                                                                                                                              * 所以 IncludeDefineFile定义为3*/
+/* 这里因为只用到公用定义，
+ * 所以 IncludeDefineFile定义为3
+ */
+[result] [pap_common_game::define::result::login::_enum] [0] [验证结果]
 [playerid] [uint16_t] [0] [玩家ID]
 [playerguid] [uint32_t] [0] [玩家GUID]
 [servername] [char] [SERVRENAME_MAX] [服务器名称]
@@ -34,3 +42,4 @@ IncludeDefineFile: 3 /* 0 不用包含 1 服务器与公用 2 服务器 3 公用
 [ismac_bind] [char] [0] [是否密保绑定]
 [is_realname_bind] [char] [0] [是否实名绑定]
 [is_inputname_bind] [char] [0] [是否输入实名]
+/*packet define end }*/

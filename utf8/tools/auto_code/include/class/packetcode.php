@@ -171,6 +171,8 @@
      $include_filemodel = 'SERVER' == strtoupper($modeltype) ? 'server/' : '';
      $include_definefiles = '';
      $namespaceconnetion = '';
+     $usepacket_namespace = 
+       'SERVER' == strtoupper($modeltype) ? 'pap_common_net::' : '';
      $u_nc = ''; //$use_namespaceconnetion
      if (strtoupper($modeltype) != 'SERVER') {
        $u_nc = 'pap_server_common_net::';
@@ -276,15 +278,15 @@ namespace pap{$namespace_model}_common_net {
 
 namespace packets {
 
-class {$packetname} : public pap_common_net::Packet {
+class {$packetname} : public {$usepacket_namespace}Packet {
 
  public:
    {$packetname}();
    virtual ~{$packetname}() {};
 
  public:  
-   virtual bool read(pap_common_net::SocketInputStream& inputstream);
-   virtual bool write(pap_common_net::SocketOutputStream& outputstream) const;
+   virtual bool read({$usepacket_namespace}SocketInputStream& inputstream);
+   virtual bool write({$usepacket_namespace}SocketOutputStream& outputstream) const;
    virtual uint32_t execute(Connection* connection);
    virtual uint16_t get_packetid() const;
    virtual uint32_t get_packetsize() const;
@@ -295,10 +297,10 @@ class {$packetname} : public pap_common_net::Packet {
 {$private_definevariables}
 };
 
-class {$packetname}Factory : public pap_common_net::PacketFactory {
+class {$packetname}Factory : public {$usepacket_namespace}PacketFactory {
 
  public:
-   pap_common_net::Packet* createpacket();
+   {$usepacket_namespace}Packet* createpacket();
    uint16_t get_packetid() const;
    uint32_t get_packet_maxsize() const;
 
@@ -347,6 +349,8 @@ EOF;
      $namespacemodel = 'SERVER' == strtoupper($modeltype) ? '_server' : '';
      $include_definefiles = '';
      $include_namespaceconnetion = '';
+     $usepacket_namespace =
+       'SERVER' == strtoupper($modeltype) ? 'pap_common_net::' : '';
      $u_nc = ''; //$use_namespaceconnetion
      if (strtoupper($modeltype) != 'SERVER') {
        $u_nc = 'pap_server_common_net::';
@@ -359,14 +363,32 @@ EOF;
      $constructcode .= $twospace.'__ENTER_FUNCTION'.LF;
      $readcode = '';
      $readcode .= 'bool '.$packetname
-       .'::read(pap_common_net::SocketInputStream& inputstream) {'.LF;
+       .'::read('.$usepacket_namespace.'SocketInputStream& inputstream) {'.LF;
      $readcode .= $twospace.'__ENTER_FUNCTION'.LF;
      $writecode = '';
      $writecode .= 'bool '.$packetname
-       .'::write(pap_common_net::SocketOutputStream& outputstream) {'.LF;
+       .'::write('.$usepacket_namespace.'SocketOutputStream& outputstream) {'.LF;
      $writecode .= $twospace.'__ENTER_FUNCTION'.LF;
+     /* get_pakcetsize and get_packet_maxsize{ */
+     $sizecode = '';
+     $maxsize_code = '';
+     $sizecode_head = 'uint32_t '.$packetname.'::get_packetsize() const {'.LF;
+     $sizecode_body = $twospace.'uint32_t result = ';
+     $sizecode_end = $twospace.'return result;'.LF;
+     $sizecode_end .= '}'.LF;
+     $maxsize_codehead = 'uint32_t '.$packetname
+                         .'Factory::get_packet_maxsize() const {'.LF;
+     $maxsize_codebody = $twospace.'uint32_t result = ';
+     $maxsize_codeend = $twospace.'return result;'.LF;
+     $maxsize_codeend .= '}'.LF;
+     $valuescount = count($values);
      
+     $space18 = '                  ';
+     
+     $i = 0;
+     /* get_pakcetsize and get_packet_maxsize} */
      foreach ($values as $value) {
+       ++$i;
        $variable = $value['name'];
        $type = $value['type'];
        $length = $value['length'];
@@ -383,21 +405,36 @@ EOF;
        $length_lastvalue = '';
        $length_usenamespace = '';
        $lengtharray_size = $lengtharray[0];
-       if (is_array($lengthnamespace)) {
+       if (is_array($lengthnamespace) && count($lengthnamespace) > 0) {
          list($length_fathernamespace, $length_lastnamespace,$length_lastvalue) 
            = $lengthnamespace;
          $length_usenamespace = $length_fathernamespace != '' ? 
                                 'using '.$length_fathernamespace : '';
          $lengtharray_size = $length_lastnamespace.'::'.$length_lastvalue;
        }
+       
+       //max size code
+       $maxsize_codebody .= 1 == $i ? '' : $space18.$twospace;
+       $maxsize_codebody .= 'sizeof('.$variablename.')';
+       $maxsize_codebody .= $valuescount != $i ? ' +'.LF : ');'.LF;
+       
        if ('char' == $type && $length !== '0') {
          if ($lengtharray_length == 2) {
+           
+           //size code
+           $sizecode_body .= 1 == $i ? '' : $space18.$twospace;
+           $sizecode_body .= 'sizeof('.$variablename.') - ';
+           $sizecode_body .= $lengtharray_size.' * 1';
+           $sizecode_body .= $valuescount != $i ? ' +'.LF : ');'.LF;
+           
            $sourcecode .=
              'void '.$packetname.'::get'.$gsetname
              .'(uint16_t index, char* buffer, uint16_t length) {'.LF;
            $sourcecode .= $twospace.'__ENTER_FUNCTION'.LF;
            if ($length_usenamespace != '') {
              $sourcecode .= $twospace.$length_usenamespace.';'.LF;
+             $sizecode_body = $twospace.$length_usenamespace.';'
+                              .LF.$sizecode_body;
            }
            $sourcecode .= $twospace.'if (index < 0 || index >= '
                           .$lengtharray_size.')'.LF;
@@ -426,24 +463,38 @@ EOF;
            $sourcecode .= '}'.LF;
          }
          elseif (1 == $lengtharray_length) {
-           $sourcecode .=
-             '   void get'.$gsetname.'(char* buffer, uint16_t length) {'.LF;
+           
+           
+           //size code
+           $sizecode_body .= 1 == $i ? '' : $space18.$twospace;
+           $sizecode_body .= 'sizeof('.$variablename.') - 1';
+           $sizecode_body .= $valuescount != $i ? ' +'.LF : ');'.LF;
+           
+           $sourcecode .= 'void '.$packetname.'::get'.$gsetname
+                          .'(char* buffer, uint16_t length) {'.LF;
            $sourcecode .= $twospace.'__ENTER_FUNCTION'.LF;
            $sourcecode .= $fourspace.'snprintf(buffer, length, '
-                          .variablename.');';
+                          .$variablename.');'.LF;
            $sourcecode .= $twospace.'__LEAVE_FUNCTION'.LF;
            $sourcecode .= '}'.LF;
            
            $sourcecode .= 'void '.$packetname.'::set'
-                          .$gsetname.'(const char* '.$variable.') {';
-           $sourcecode .= $fourspace.'strncpy('.$variablename
-                          .', value, sizeof('.$variablename.') - 1);'.LF;
+                          .$gsetname.'(const char* '.$variable.') {'.LF;
+           $sourcecode .= $twospace.'__ENTER_FUNCTION'.LF;
+           $sourcecode .= $fourspace.'strncpy('.$variablename.', '.$variable
+                          .', sizeof('.$variablename.') - 1);'.LF;
            $sourcecode .= $fourspace.$variablename.'[sizeof('
                           .$variablename.')] = 0;'.LF;
+           $sourcecode .= $twospace.'__LEAVE_FUNCTION'.LF;
            $sourcecode .= '}'.LF;
          }
        }
        else {
+         //size code
+         $sizecode_body .= 1 == $i ? '' : $space18.$twospace;
+         $sizecode_body .= 'sizeof('.$variablename.')';
+         $sizecode_body .= $valuescount != $i ? ' +'.LF : ');'.LF;
+    
          if($length !== '0' && 1 == $lengtharray_length) {
            $sourcecode .=
              '   '.$type.' get'.$gsetname.'(uint16_t index) {'.LF;
@@ -506,7 +557,21 @@ EOF;
                            .', sizeof('.$variablename.') - 1);'.LF;
            }
            elseif (2 == $length) {
-             
+             if ($length_usenamespace != '') 
+               $readcode .= $fourspace.$length_usenamespace.';'.LF;
+               $readcode .= $fourspace.'for (uint8_t i = 0; i < '
+                            .$lengtharray_size.'; ++i) {'.LF;
+               $readcode .= $twospace.$fourspace.'inputstream.read('
+                            .$variablename.'[i], sizeof('
+                            .$variablename.'[i]) - 1);';
+               $readcode .= $fourspace.'}'.LF;
+               $writecode .= $fourspace.$length_usenamespace.';'.LF;
+               $writecode .= $fourspace.'for (uint8_t i = 0; i < '
+                             .$lengtharray_size.'; ++i) {'.LF;
+               $writecode .= $twospace.$fourspace.'outputstream.write('
+                             .$variablename.'[i], sizeof('
+                             .$variablename.'[i]) - 1);';
+               $writecode .= $fourspace.'}'.LF;
            }
          }
          else {
@@ -519,7 +584,22 @@ EOF;
        else {
          if ($length != '0') {
            if (1 == $lengtharray_length) {
-              
+             $readcode .= $fourspace.$length_usenamespace.';'.LF;
+             $readcode .= $fourspace.'for (uint8_t i = 0; i < '
+                          .$lengtharray_size.'; ++i) {'.LF;
+             $readcode .= $twospace.$fourspace
+                          .'inputstream.read(static_cast<char*>(&'
+                          .$variablename.'[i]), sizeof('
+                          .$variablename.'[i]) - 1);';
+             $readcode .= $fourspace.'}'.LF;
+             $writecode .= $fourspace.$length_usenamespace.';'.LF;
+             $writecode .= $fourspace.'for (uint8_t i = 0; i < '
+                           .$lengtharray_size.'; ++i) {'.LF;
+             $writecode .= $twospace.$fourspace
+                           .'outputstream.write(static_cast<char*>(&'
+                           .$variablename.'[i]), sizeof('
+                           .$variablename.'[i]) - 1);';
+             $writecode .= $fourspace.'}'.LF;
            }
          }
          else {
@@ -541,7 +621,8 @@ EOF;
      $writecode .= $twospace.'__LEAVE_FUNCTION'.LF;
      $writecode .= '}'.LF;
      
-     $sourcecode .= $constructcode.$readcode.$writecode.$sourcecode;
+     $sizecode .= $sizecode_head.$sizecode_body.$sizecode_end;
+     $maxsize_code .= $maxsize_codehead.$maxsize_codebody.$maxsize_codeend;
      
      $sourceinfo = <<<EOF
 #include "{$include_filemodel}common/net/packets/{$modelname}/{$filename}.h"
@@ -549,7 +630,38 @@ EOF;
 namespace pap{$namespacemodel}_common_net {
 
 namespace packets {
+{$constructcode}
+{$readcode}
+{$writecode}
+uint32_t {$packetname}::execute(Connection* connection) {
+  __ENTER_FUNCTION
+    uint32_t result = 0;
+    result = {$packetname}Handler::execute(this, connection);
+    return result;
+  __LEAVE_FUNCTION
+    return 0;
+}
+
+uint16_t {$packetname}::get_packetid() const {
+  using namespace pap{$namespacemodel}_common_game::define::id::packet;
+  return {$modelname}::k{$packetname};
+}
+
+{$sizecode}
 {$sourcecode}
+{$usepacket_namespace}Packet* AskAuthFactory::createpacket() {
+  __ENTER_FUNCTION
+    return new {$packetname}();
+  __LEAVE_FUNCTION
+    return NULL;
+}
+
+uint16_t {$packetname}Factory::get_packetid() const {
+  using namespace pap{$namespacemodel}_common_game::define::id::packet;
+  return {$modelname}::k{$packetname};
+}
+
+{$maxsize_code}
 } //namespace packets
 
 } //namespace pap{$namespacemodel}_common_net
@@ -561,12 +673,12 @@ EOF;
    
    /**
     * create code file
-    * @param void
+    * @param string $directory
     * @return bool
     */
-   public function create_codefile() {
-//      $this->createheader();
-     print_r($this->get_namespaceinfo('name::name1::name2::test'));
+   public function create_codefile($directory = '') {
+     $this->createheader($directory);
+     $this->createsource($directory);
    }
    
  }
