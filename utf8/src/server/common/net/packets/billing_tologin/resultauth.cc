@@ -3,10 +3,13 @@
 namespace pap_server_common_net {
 
 namespace packets {
+
+namespace billing_tologin {
+
 ResultAuth::ResultAuth() {
   __ENTER_FUNCTION
-    memset(account_, 0, sizeof(account_);
-    memset(servername_, 0, sizeof(servername_);
+    memset(account_, 0, sizeof(account_));
+    memset(servername_, 0, sizeof(servername_));
   __LEAVE_FUNCTION
 }
 
@@ -73,7 +76,7 @@ uint32_t ResultAuth::get_packetsize() const {
                     sizeof(ismibao_bind_) +
                     sizeof(ismac_bind_) +
                     sizeof(is_realname_bind_) +
-                    sizeof(is_inputname_bind_));
+                    sizeof(is_inputname_bind_);
   return result;
 }
 
@@ -194,6 +197,8 @@ uint32_t ResultAuthFactory::get_packet_maxsize() const {
                     sizeof(is_inputname_bind_);
   return result;
 }
+
+} //namespace billing_tologin
 
 } //namespace packets
 

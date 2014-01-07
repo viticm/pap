@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2013-2013 viticm( viticm@126.com )
  * @license
  * @user viticm<viticm@126.com>
- * @date 2014-01-06 15:12:07
+ * @date 2014-01-07 23:56:12
  * @uses packet ResultAuth class
  */
 #ifndef PAP_SERVER_COMMON_NET_PACKETS_BILLING_TOLOGIN_RESULTAUTH_H_
@@ -21,6 +21,8 @@
 namespace pap_server_common_net {
 
 namespace packets {
+
+namespace billing_tologin {
 
 class ResultAuth : public pap_common_net::Packet {
 
@@ -95,6 +97,8 @@ class ResultAuthHandler {
    static uint32_t execute(ResultAuth* packet, Connection* connection);
 
 };
+
+}; //namespace billing_tologin
 
 }; //namespace packets
 

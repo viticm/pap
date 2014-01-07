@@ -472,7 +472,7 @@ EOF;
            //size code
            $sizecode_body .= 1 == $i ? '' : $space18.$twospace;
            $sizecode_body .= 'sizeof('.$variablename.') - 1';
-           $sizecode_body .= $valuescount != $i ? ' +'.LF : ');'.LF;
+           $sizecode_body .= $valuescount != $i ? ' +'.LF : ';'.LF;
            
            $sourcecode .= 'void '.$packetname.'::get'.$gsetname
                           .'(char* buffer, uint16_t length) {'.LF;
@@ -497,7 +497,7 @@ EOF;
          //size code
          $sizecode_body .= 1 == $i ? '' : $space18.$twospace;
          $sizecode_body .= 'sizeof('.$variablename.')';
-         $sizecode_body .= $valuescount != $i ? ' +'.LF : ');'.LF;
+         $sizecode_body .= $valuescount != $i ? ' +'.LF : ';'.LF;
     
          if($length !== '0' && 1 == $lengtharray_length) {
            $sourcecode .=
