@@ -31,8 +31,8 @@
     */
    public function get_formatcode($code = NULL) {
      if (NULL == $code) return;
-     //$codestr = str_replace("\r", '', $this->repalcenote($code));
-     $this->formatcode_ = $this->get_formatarray($code);
+     $codestr = str_replace("\r", '', $this->repalcenote($code));
+     $this->formatcode_ = $this->get_formatarray($codestr);
      /**
      $this->formatcode_ = 
        preg_replace("/(\n)\\1+/","\\1", $this->formatcode_);
@@ -278,6 +278,8 @@ namespace pap{$namespace_model}_common_net {
 
 namespace packets {
 
+namespace {$modelname} {
+
 class {$packetname} : public {$usepacket_namespace}Packet {
 
  public:
@@ -312,6 +314,8 @@ class {$packetname}Handler {
    static uint32_t execute({$packetname}* packet, {$u_nc}Connection* connection);
 
 };
+
+}; //namespace {$modelname}
 
 }; //namespace packets
 
@@ -536,13 +540,13 @@ EOF;
          }
          if (1 == $lengtharray_length) {
            $constructcode .= $fourspace.'memset('.$variablename.', 0, '
-                             .'sizeof('.$variablename.');'.LF;
+                             .'sizeof('.$variablename.'));'.LF;
          }
          elseif (2 == $lengtharray_length) {
            $constructcode .= $fourspace.'for (uint8_t i = 0; i < '
                              .$lengtharray_size.'; ++i) {'.LF;
            $constructcode .= $twospace.$fourspace.'memset('.$variablename
-                             .'[i], 0, sizeof('.$variablename.'[i]);'.LF;
+                             .'[i], 0, sizeof('.$variablename.'[i]));'.LF;
            $constructcode .= $fourspace.'}'.LF;
          }
        }
@@ -630,6 +634,9 @@ EOF;
 namespace pap{$namespacemodel}_common_net {
 
 namespace packets {
+
+namespace {$modelname} {
+
 {$constructcode}
 {$readcode}
 {$writecode}
@@ -662,6 +669,8 @@ uint16_t {$packetname}Factory::get_packetid() const {
 }
 
 {$maxsize_code}
+} //namespace {$modelname}
+
 } //namespace packets
 
 } //namespace pap{$namespacemodel}_common_net
