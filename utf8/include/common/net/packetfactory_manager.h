@@ -38,15 +38,22 @@ class PacketFactoryManager {
    void unlock();
 
  private:
-   PacketFactory** packetfactorys_;
+   PacketFactory** factories_;
    uint16_t size_;
    pap_common_sys::ThreadLock lock_;
 
  private:
    void addfactory(PacketFactory* factory);
+   void addfactory_for_billinglogin();
+   void addfactory_for_clientlogin();
+   void addfactory_for_loginworld();
+   void addfactory_for_serverworld();
+   void addfactory_for_clientserver();
 
 };
 
 }; //namespace pap_common_net
+
+extern pap_common_net::PacketFactoryManager* g_packetfactory_manager;
 
 #endif //COMMON_NET_PACKETFACTORY_H_

@@ -13,12 +13,12 @@
 
 #include "common/game/define/macros.h" //must include this
 
-static const uint8_t kBillingLoginNumber = 10; //公用ID个数
-
 namespace billinglogin { //登陆服务器与验证服务器公用
 
 typedef enum {
-  kMax = BILLINGLOGIN_PACKETID_MIN + kBillingLoginNumber;
+  kFirst = BILLINGLOGIN_PACKETID_MIN, //起始ID
+  kLast, /* the last packetid */
+  kMax = BILLINGLOGIN_PACKETID_MAX,
  } packetid_enum;
 
 }; //namespace billinglogin
@@ -26,8 +26,10 @@ typedef enum {
 namespace billing_tologin { //验证服务器发送给登陆服务器
 
 typedef enum {
-  kResultAuth = BILLINGLOGIN_PACKETID_MIN + kBillingLoginNumber, /*begin {*/
-  kMax = (BILLINGLOGIN_PACKETID_MAX + kBillingLoginNumber) / 2, /*end }*/
+  kFirst = BILLING_TOLOGIN_PACKETID_MIN,
+  kResultAuth, /*begin {*/
+  kLast, /* the last packetid */
+  kMax = BILLING_TOLOGIN_PACKETID_MAX, /*end }*/
 } packetid_enum;
 
 }; //namespace billing_tologin
@@ -36,8 +38,9 @@ namespace login_tobilling { //登陆服务器发送给验证服务器
 
 typedef enum {
   /*begin {*/
-  kAskAuth = (BILLINGLOGIN_PACKETID_MAX + kBillingLoginNumber) / 2, 
-  kMax = BILLINGLOGIN_PACKETID_MAX, 
+  kAskAuth = LOGIN_TOBILLING_PACKETID_MIN, 
+  kLast, /* the last packetid */
+  kMax = LOGIN_TOBILLING_PACKETID_MAX,
   /*end }*/
 } packetid_enum;
 

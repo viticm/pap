@@ -191,7 +191,7 @@ uint32_t ResultAuthFactory::get_packet_maxsize() const {
                     sizeof(ismibao_bind_) +
                     sizeof(ismac_bind_) +
                     sizeof(is_realname_bind_) +
-                    sizeof(is_inputname_bind_));
+                    sizeof(is_inputname_bind_);
   return result;
 }
 
