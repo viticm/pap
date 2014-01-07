@@ -1,12 +1,10 @@
 #include "common/net/packetfactory_manager.h"
 #include "server/common/game/define/all.h"
 
-#if defined(_PAP_NET_BILLING) || defined(_PAP_NET_LOGIN)
-
+#if defined(_PAP_NET_BILLING) || defined(_PAP_NET_LOGIN) /* { */
 #include "server/common/net/packets/login_tobilling/askauth.h"
 #include "server/common/net/packets/billing_tologin/resultauth.h"
-
-#endif
+#endif /* } */
 
 pap_common_net::PacketFactoryManager* g_packetfactory_manager = NULL;
 
@@ -112,11 +110,11 @@ void PacketFactoryManager::removepacket(Packet* packet) {
 }
 
 void PacketFactoryManager::lock() {
-
+  lock_.lock();
 }
 
 void PacketFactoryManager::unlock() {
-
+  lock_.unlock();
 }
 
 void PacketFactoryManager::addfactory(PacketFactory* factory) {
@@ -129,22 +127,31 @@ void PacketFactoryManager::addfactory(PacketFactory* factory) {
   __LEAVE_FUNCTION
 }
 
-void PacketFactoryManager::addfactory_for_billinglogin() {
+void PacketFactoryManager::addfactories_for_billinglogin() {
+#if defined(_PAP_NET_BILLING) || defined(_PAP_NET_LOGIN) /* { */
+  __ENTER_FUNCTION
+    using namespace pap_server_common_net::packets;
+    addfactory(new login_tobilling::AskAuth());
+    addfactory(new billing_tologin::ResultAuth());
+  __LEAVE_FUNCTION
+#endif /* } */
+}
+
+void PacketFactoryManager::addfactories_for_clientlogin() {
+#if defined()
+
+#endif
+}
+
+void PacketFactoryManager::addfactories_for_loginworld() {
 
 }
 
-void PacketFactoryManager::addfactory_for_clientlogin() {
+void PacketFactoryManager::addfactories_for_serverworld() {
 
 }
 
-void PacketFactoryManager::addfactory_for_loginworld() {
-
-}
-
-void PacketFactoryManager::addfactory_for_serverworld() {
-
-}
-void PacketFactoryManager::addfactory_for_clientserver() {
+void PacketFactoryManager::addfactories_for_clientserver() {
 
 }
 

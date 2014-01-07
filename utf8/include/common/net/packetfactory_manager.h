@@ -44,11 +44,11 @@ class PacketFactoryManager {
 
  private:
    void addfactory(PacketFactory* factory);
-   void addfactory_for_billinglogin();
-   void addfactory_for_clientlogin();
-   void addfactory_for_loginworld();
-   void addfactory_for_serverworld();
-   void addfactory_for_clientserver();
+   void addfactories_for_billinglogin();
+   void addfactories_for_clientlogin();
+   void addfactories_for_loginworld();
+   void addfactories_for_serverworld();
+   void addfactories_for_clientserver();
 
 };
 
