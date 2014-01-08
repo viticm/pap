@@ -36,6 +36,7 @@ class PacketFactoryManager {
    void removepacket(Packet* packet);
    void lock();
    void unlock();
+   static bool isvalid_packetid(uint16_t id); //packetid is valid
 
  private:
    PacketFactory** factories_;

@@ -12,7 +12,7 @@ namespace pap_common_net {
 
 PacketFactoryManager::PacketFactoryManager() {
   __ENTER_FUNCTION
-    using namespace pap_server_common_game::define::packet; //every need it
+    using namespace pap_server_common_game::define::id::packet; //every need it
     factories_ = NULL;
     size_ = 0;
 #if defined(_PAP_NET_BILLING) || defined(_PAP_NET_LOGIN)
@@ -45,7 +45,11 @@ PacketFactoryManager::~PacketFactoryManager() {
 }
 bool PacketFactoryManager::init() {
   __ENTER_FUNCTION
-
+    addfactories_for_billinglogin();
+    addfactories_for_loginworld();
+    addfactories_for_clientlogin();
+    addfactories_for_serverworld();
+    addfactories_for_clientserver();
     return true;
   __LEAVE_FUNCTION
     return false;
@@ -138,21 +142,52 @@ void PacketFactoryManager::addfactories_for_billinglogin() {
 }
 
 void PacketFactoryManager::addfactories_for_clientlogin() {
-#if defined()
+#if defined(_PAP_NET_LOGIN) || defined(_PAP_NET_CLIENT)
 
 #endif
 }
 
 void PacketFactoryManager::addfactories_for_loginworld() {
+#if defined(_PAP_NET_LOGIN) || defined(_PAP_NET_WORLD)
 
+#endif
 }
 
 void PacketFactoryManager::addfactories_for_serverworld() {
+#if defined(_PAP_NET_SERVER) || defined(_PAP_NET_WORLD)
 
+#endif
 }
 
 void PacketFactoryManager::addfactories_for_clientserver() {
+#if defined(_PAP_NET_CLIENT) || defined(_PAP_NET_SERVER)
 
+#endif
+}
+
+bool PacketFactoryManager::isvalid_packetid(uint16_t id) {
+  using namespace pap_server_common_game::define::id::packet;
+#if defined(_PAP_NET_LOGIN) || defined(_PAP_NET_SERVER) || \
+defined(_PAP_NET_CLIENT)
+  using namespace pap_common_game::define::id::packet;
+#endif 
+  bool result = false;
+  __ENTER_FUNCTION
+#if defined(_PAP_NET_BILLING) /* { */
+    result = (billinglogin::kFirst < id && id < billinglogin::kLast) ||
+             (billing_tologin::kFirst < id && id < billing_tologin::kLast) || 
+             (login_tobilling::kFirst < id && id < login_tobilling::kLast);
+#elif defined(_PAP_NET_LOGIN) /* }{ */
+
+#elif defined(_PAP_NET_WORLD) /* }{ */
+
+#elif defined(_PAP_NET_SERVER) /* }{ */
+
+#elif defined(_PAP_NET_CLIENT) /* }{ */
+
+#endif /* } */
+  __LEAVE_FUNCTION
+    return result;
 }
 
 } //namespace pap_common_net

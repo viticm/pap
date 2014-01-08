@@ -13,6 +13,7 @@
 
 namespace status {
 
+#include "server/common/game/define/status/connection.h"
 #include "server/common/game/define/status/sharememory.h"
 
 }; //namespace status

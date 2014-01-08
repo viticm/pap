@@ -1,6 +1,7 @@
 #include "server/common/net/connection.h"
 #include "server/common/base/log.h"
 #include "server/common/base/time_manager.h"
+#include "common/net/packetfactory_manager.h"
 
 namespace pap_server_common_net {
 
@@ -84,7 +85,7 @@ bool Connection::processinput() {
       }
     }
     catch(...) {
-      SaveCodeLog();
+      SaveErrorLog();
     }
     return result;
   __LEAVE_FUNCTION
@@ -119,7 +120,7 @@ bool Connection::processoutput() {
       }
     }
     catch {
-      SaveCodeLog();
+      SaveErrorLog();
     }
     return result;
   __LEAVE_FUNCTION
@@ -128,16 +129,17 @@ bool Connection::processoutput() {
 
 bool Connection::processcommand(bool option) {
   __ENTER_FUNCTION
+    using namespace pap_common_net;
     bool result = false;
     char packetheader[PACKET_HEADERSIZE] = {'\0'};
     uint16_t packetid;
     uint32_t packetcheck, packetsize, packetindex;
-    pap_common_net::Packet* packet = NULL;
+    Packet* packet = NULL;
     if (isdisconnect()) return true;
     try {
       if (option) { //执行选项操作
       }
-      const uint8_t kExecuteCountPreTick = 12;
+      const uint8_t kExecuteCountPreTick = 12; //每帧可以执行的消息数量上限
       uint32_t i;
       for (i = 0; i < kExecuteCountPreTick; ++i) {
         if (!socket_inputstream_->peek(&pakcetheader[0], PACKET_HEADERSIZE)) {
@@ -148,27 +150,90 @@ bool Connection::processcommand(bool option) {
         memcpy(&packetcheck, &pakcetheader[sizeof(uint16_t)], sizeof(uint32_t));
         packetsize = GET_PACKETLENGTH(packetcheck);
         packetindex = GET_PACKETINDEX(packetcheck);
-        if (packetid >= static_cast<uint16_t>(kPacketMax)) {
+        if (!PacketFactoryManager::isvalid_packetid(packetid)) {
           return false;
         }
         try {
+          //check packet length
           if (socket_inputstream_->reallength() < 
               PACKET_HEADERSIZE + packetsize) {
             //message not receive full
             break;
           }
-
-          //
+          //check packet size
+          if (packetsize > 
+              g_packetfactory_manager->get_packet_maxsize(packetid)) {
+            char temp[FILENAME_MAX] = {0};
+            snprintf(temp, 
+                     sizeof(temp) - 1, 
+                     "packet size error, packetid = %d", 
+                     packetid);
+            AssertEx(temp, packetid);
+            return false;
+          }
+          //create packet
+          packet = g_packetfactory_manager->createpacket(packetid);
+          if (NULL == packet) return false;
+          packet->set_packetindex(packetindex);
+          
+          //read packet
+          result = socket_inputstream_->read(packet);
+          if (false == result) {
+            g_packetfactory_manager->removepacket(packet);
+            return result;
+          }
+          bool needremove = true;
+          bool exception = false;
+          uint32_t executestatus = 0;
+          try {
+            resetkick();
+            try {
+              executestatus = packet->execute(this);
+            }
+            catch(...) {
+              SaveErrorLog();
+              executestatus = kPacketExecuteStatusError;
+            }
+            if (kPacketExecuteStatusError == executestatus) {
+              if (packet) g_packetfactory_manager->removepacket(packet);
+              return false;
+            }
+            else if (kPacketExecuteStatusBreak == executestatus) {
+              if (packet) g_packetfactory_manager->removepacket(packet);
+              break;
+            }
+            else if (kPacketExecuteStatusContinue == executestatus) {
+              //continue read last packet
+            }
+            else if (kPacketExecuteStatusNotRemove == executestatus) {
+              needremove = false;
+            }
+            else if (kPacketExecuteStatusNotRemoveError == executestatus) {
+              return false;
+            }
+            else {
+              //unknown status
+            }
+          }
+          catch(...) {
+            SaveErrorLog();
+            exception = true;
+          }
+          if (packet && needremove) 
+            g_packetfactory_manager->removepacket(packet);
+          if (exception) return false;
         }
         catch(...) {
-          SaveCodeLog();
+          SaveErrorLog();
+          return false;
         }
       }
     }
     catch(...) {
-      SaveCodeLog();
+      SaveErrorLog();
+      return false;
     }
-    return result;
+    return true;
   __LEAVE_FUNCTION
     return false;
 }
