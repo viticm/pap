@@ -1,9 +1,11 @@
-#include "common/net/socket.h"
+#include "common/net/socket/base.h"
 #include "common/lib/vnet/vnet.hpp"
 
 namespace pap_common_net {
 
-Socket::Socket() {
+namespace socket {
+
+Base::Base() {
   __ENTER_FUNCTION
     socketid_ = SOCKET_INVALID;
     memset(host_, '\0', sizeof(host_));
@@ -11,7 +13,7 @@ Socket::Socket() {
   __LEAVE_FUNCTION
 }
 
-Socket::Socket(const char* host, uint16_t port) {
+Base::Base(const char* host, uint16_t port) {
   __ENTER_FUNCTION
     memset(host_, '\0', sizeof(host_));
     snprintf(host_, sizeof(host_) - 1, "%s", host);
@@ -20,13 +22,13 @@ Socket::Socket(const char* host, uint16_t port) {
   __LEAVE_FUNCTION
 }
 
-Socket::~Socket() {
+Base::~Base() {
   __ENTER_FUNCTION
     close()
   __LEAVE_FUNCTION
 }
 
-bool Socket::create() {
+bool Base::create() {
   __ENTER_FUNCTION
     bool result = true;
     socketid_ = vnet_socketbase_create();
@@ -36,7 +38,7 @@ bool Socket::create() {
     return false;
 }
 
-void Socket::close() {
+void Base::close() {
   __ENTER_FUNCTION
     if (isvalid() && !iserror())
       vnet_socketbase_close(socketid_);
@@ -46,7 +48,7 @@ void Socket::close() {
   __LEAVE_FUNCTION
 }
 
-bool Socket::connect() {
+bool Base::connect() {
   __ENTER_FUNCTION
     bool result = true;
     result = vnet_socketbase_connect(socketid_, host_, port_);
@@ -55,7 +57,7 @@ bool Socket::connect() {
     return false;
 }
 
-bool Socket::connect(const char* host, uint16_t port) {
+bool Base::connect(const char* host, uint16_t port) {
   __ENTER_FUNCTION
     bool result = true;
     snprintf(host_, sizeof(host_) - 1, "%s", host);
@@ -66,7 +68,7 @@ bool Socket::connect(const char* host, uint16_t port) {
     return false;
 }
 
-bool Socket::reconnect(const char* host, uint16_t port) {
+bool Base::reconnect(const char* host, uint16_t port) {
   __ENTER_FUNCTION
     bool result = true;
     close();
@@ -79,7 +81,7 @@ bool Socket::reconnect(const char* host, uint16_t port) {
     return false;
 }
 
-uint32_t Socket::send(const void* buffer, uint32_t length, uint32_t flag) {
+uint32_t Base::send(const void* buffer, uint32_t length, uint32_t flag) {
   __ENTER_FUNCTION
     uint32_t result = 0;
     result = vnet_socketbase_send(socketid_, buffer, length, flag);
@@ -88,7 +90,7 @@ uint32_t Socket::send(const void* buffer, uint32_t length, uint32_t flag) {
     return 0;
 }
 
-uint32_t Socket::receive(void* buffer, uint32_t length, uint32_t flag) {
+uint32_t Base::receive(void* buffer, uint32_t length, uint32_t flag) {
   __ENTER_FUNCTION
     uint32_t result = 0;
     result = vnet_socketbase_receive(socketid_, buffer, length, flag);
@@ -97,7 +99,7 @@ uint32_t Socket::receive(void* buffer, uint32_t length, uint32_t flag) {
     return 0;
 }
 
-uint32_t Socket::available() const {
+uint32_t Base::available() const {
   __ENTER_FUNCTION
     uint32_t result = 0;
     result = vnet_socketbase_available(socketid_);
@@ -106,7 +108,7 @@ uint32_t Socket::available() const {
     return 0;
 }
 
-int32_t Socket::accept(uint16_t port) {
+int32_t Base::accept(uint16_t port) {
   __ENTER_FUNCTION
     int32_t result = SOCKET_ERROR;
     result = vnet_socketbase_accept(socketid_, port);
@@ -115,7 +117,7 @@ int32_t Socket::accept(uint16_t port) {
     return SOCKET_ERROR;
 }
 
-int32_t Socket::fastaccept() {
+int32_t Base::fastaccept() {
   __ENTER_FUNCTION
     int32_t result = SOCKET_ERROR;
     result = vnet_socketbase_fastaccept(socketid_);
@@ -124,7 +126,7 @@ int32_t Socket::fastaccept() {
     return SOCKET_ERROR;
 }
 
-bool Socket::bind() {
+bool Base::bind() {
   __ENTER_FUNCTION
     bool result = true;
     result = vnet_socketbase_bind(socketid_, port_);
@@ -133,7 +135,7 @@ bool Socket::bind() {
     return false;
 }
 
-bool Socket::bind(uint16_t port) {
+bool Base::bind(uint16_t port) {
   __ENTER_FUNCTION
     bool result = true;
     port_ = port;
@@ -143,7 +145,7 @@ bool Socket::bind(uint16_t port) {
     return false;
 }
 
-bool Socket::listen(uint32_t backlog) {
+bool Base::listen(uint32_t backlog) {
   __ENTER_FUNCTION
     bool result = true;
     result = vnet_socketbase_listen(socketid_, backlog);
@@ -152,7 +154,7 @@ bool Socket::listen(uint32_t backlog) {
     return false;
 }
 
-uint32_t Socket::getlinger() const {
+uint32_t Base::getlinger() const {
   __ENTER_FUNCTION
     uint32_t result = 0;
     result = vnet_socketbase_getlinger(socketid_);
@@ -161,7 +163,7 @@ uint32_t Socket::getlinger() const {
     return 0;
 }
 
-bool Socket::setlinger(uint32_t lingertime) {
+bool Base::setlinger(uint32_t lingertime) {
   __ENTER_FUNCTION
     bool result = true;
     result = vnet_socketbase_setlinger(socketid_, lingertime);
@@ -170,7 +172,7 @@ bool Socket::setlinger(uint32_t lingertime) {
     return false;
 }
 
-bool Socket::is_reuseaddr() const {
+bool Base::is_reuseaddr() const {
   __ENTER_FUNCTION
     bool result = true;
     result = vnet_socketbase_is_reuseaddr(socketid_);
@@ -179,7 +181,7 @@ bool Socket::is_reuseaddr() const {
     return false;
 }
 
-bool Socket::set_reuseaddr(bool on) {
+bool Base::set_reuseaddr(bool on) {
   __ENTER_FUNCTION
     bool result = true;
     result = vnet_socketbase_set_reuseaddr(socketid_, on);
@@ -188,7 +190,7 @@ bool Socket::set_reuseaddr(bool on) {
     return false;
 }
 
-uint32_t Socket::getlast_errorcode() const {
+uint32_t Base::getlast_errorcode() const {
   __ENTER_FUNCTION
     uint32_t result = 0;
     result = vnet_socketbase_getlast_errorcode();
@@ -197,13 +199,13 @@ uint32_t Socket::getlast_errorcode() const {
     return 0;
 }
 
-void Socket::getlast_errormessage(char* buffer, uint16_t length) const {
+void Base::getlast_errormessage(char* buffer, uint16_t length) const {
   __ENTER_FUNCTION
     vnet_socketbase_getlast_errormessage(buffer, length);
   __LEAVE_FUNCTION
 }
 
-bool Socket::iserror() const {
+bool Base::iserror() const {
   __ENTER_FUNCTION
     bool result = true;
     result = vnet_socketbase_iserror(socketid_);
@@ -212,7 +214,7 @@ bool Socket::iserror() const {
     return true;
 }
 
-bool Socket::is_nonblocking() const {
+bool Base::is_nonblocking() const {
   __ENTER_FUNCTION
     bool result = true;
     result = vnet_socketbase_is_nonblocking(socketid_);
@@ -221,7 +223,7 @@ bool Socket::is_nonblocking() const {
     return false;
 }
 
-bool Socket::set_nonblocking(bool on) {
+bool Base::set_nonblocking(bool on) {
   __ENTER_FUNCTION
     bool result = true;
     result = vnet_socketbase_set_nonblocking(on);
@@ -230,7 +232,7 @@ bool Socket::set_nonblocking(bool on) {
     return false;
 }
 
-uint32_t Socket::getreceive_buffersize() const {
+uint32_t Base::getreceive_buffersize() const {
   __ENTER_FUNCTION
     uint32_t result = 0;
     result = vnet_socketbase_getreceive_buffersize(socketid_);
@@ -239,7 +241,7 @@ uint32_t Socket::getreceive_buffersize() const {
     return 0;
 }
 
-bool Socket::setreceive_buffersize(uint32_t size) {
+bool Base::setreceive_buffersize(uint32_t size) {
   __ENTER_FUNCTION
     bool result = true;
     result = vnet_socketbase_setreceive_buffersize(socketid_, size);
@@ -248,7 +250,7 @@ bool Socket::setreceive_buffersize(uint32_t size) {
     return false;
 }
 
-uint32_t Socket::getsend_buffersize() const {
+uint32_t Base::getsend_buffersize() const {
   __ENTER_FUNCTION
     uint32_t result = 0;
     result = vnet_socketbase_getsend_buffersize(socketid_);
@@ -257,7 +259,7 @@ uint32_t Socket::getsend_buffersize() const {
     return 0;
 }
 
-bool Socket::setsend_buffersize(uint32_t size) {
+bool Base::setsend_buffersize(uint32_t size) {
   __ENTER_FUNCTION
     bool result = true;
     result = vnet_socketbase_setsend_buffersize(socketid_, size);
@@ -266,7 +268,7 @@ bool Socket::setsend_buffersize(uint32_t size) {
     return false;
 }
 
-uint16_t Socket::getport() const {
+uint16_t Base::getport() const {
   __ENTER_FUNCTION
     uint16_t result = 0;
     result = port_;
@@ -275,7 +277,7 @@ uint16_t Socket::getport() const {
     return 0;
 }
 
-uint64_t Socket::getu64host() const {
+uint64_t Base::getu64host() const {
   __ENTER_FUNCTION
     uint64_t result = 0;
     if (0 == strlen(host_)) {
@@ -289,7 +291,7 @@ uint64_t Socket::getu64host() const {
     return 0;
 }
 
-bool Socket::isvalid() const {
+bool Base::isvalid() const {
   __ENTER_FUNCTION
     bool result = true;
     result = socketid_ != SOCKET_INVALID;
@@ -298,7 +300,7 @@ bool Socket::isvalid() const {
     return false;
 }
 
-int32_t Socket::getid() const {
+int32_t Base::getid() const {
   __ENTER_FUNCTION
     int32_t result = SOCKET_INVALID;
     result = socketid_;
@@ -306,5 +308,7 @@ int32_t Socket::getid() const {
   __LEAVE_FUNCTION
     return SOCKET_INVALID;
 }
+
+} //namespace socket
 
 } //namespace pap_common_net

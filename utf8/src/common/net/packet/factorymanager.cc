@@ -1,4 +1,4 @@
-#include "common/net/packetfactory_manager.h"
+#include "common/net/packet/factorymanager.h"
 #include "server/common/game/define/all.h"
 
 #if defined(_PAP_NET_BILLING) || defined(_PAP_NET_LOGIN) /* { */
@@ -6,11 +6,13 @@
 #include "server/common/net/packets/billing_tologin/resultauth.h"
 #endif /* } */
 
-pap_common_net::PacketFactoryManager* g_packetfactory_manager = NULL;
+pap_common_net::packet::FactoryManager* g_packetfactory_manager = NULL;
 
 namespace pap_common_net {
 
-PacketFactoryManager::PacketFactoryManager() {
+namespace packet {
+
+FactoryManager::FactoryManager() {
   __ENTER_FUNCTION
     using namespace pap_server_common_game::define::id::packet; //every need it
     factories_ = NULL;
@@ -21,7 +23,7 @@ PacketFactoryManager::PacketFactoryManager() {
     size_ += login_tobilling::kLast - billing_tologin::kFirst - 1;
 #endif
     Assert(size_ > 0);
-    factories_ = new PacketFactory * [size_];
+    factories_ = new Factory * [size_];
     Assert(factories_);
     packet_alloccount_ = new uint32_t[size_];
     Assert(packet_alloccount_);
@@ -33,7 +35,7 @@ PacketFactoryManager::PacketFactoryManager() {
   __LEAVE_FUNCTION
 }
 
-PacketFactoryManager::~PacketFactoryManager() {
+FactoryManager::~FactoryManager() {
   __ENTER_FUNCTION
     Assert(factories_ != NULL);
     uint16_t i;
@@ -43,7 +45,7 @@ PacketFactoryManager::~PacketFactoryManager() {
     SAFE_DELETE(packet_alloccount_);
   __LEAVE_FUNCTION
 }
-bool PacketFactoryManager::init() {
+bool FactoryManager::init() {
   __ENTER_FUNCTION
     addfactories_for_billinglogin();
     addfactories_for_loginworld();
@@ -55,13 +57,13 @@ bool PacketFactoryManager::init() {
     return false;
 }
 
-Packet* PacketFactoryManager::createpacket(uint16_t pakcetid) {
+Base* FactoryManager::createpacket(uint16_t pakcetid) {
   __ENTER_FUNCTION
     if (NULL == factories_[packetid]) {
       Assert(false);
       return NULL;
     }
-    Packet* packet = NULL;
+    * packet = NULL;
     lock();
     try {
       packet = factories_[packetid]->createpacket();
@@ -76,7 +78,7 @@ Packet* PacketFactoryManager::createpacket(uint16_t pakcetid) {
     return NULL;
 }
 
-uint32_t PacketFactoryManager::getpacket_maxsize(uint16_t packetid) {
+uint32_t FactoryManager::getpacket_maxsize(uint16_t packetid) {
   __ENTER_FUNCTION
     uint32_t result = 0;
     if (NULL == factories_[packetid]) {
@@ -96,7 +98,7 @@ uint32_t PacketFactoryManager::getpacket_maxsize(uint16_t packetid) {
     return 0;
 }
 
-void PacketFactoryManager::removepacket(Packet* packet) {
+void FactoryManager::removepacket(* packet) {
   __ENTER_FUNCTION
     if (NULL == packet) {
       Assert(false);
@@ -113,15 +115,15 @@ void PacketFactoryManager::removepacket(Packet* packet) {
   __LEAVE_FUNCTION
 }
 
-void PacketFactoryManager::lock() {
+void FactoryManager::lock() {
   lock_.lock();
 }
 
-void PacketFactoryManager::unlock() {
+void FactoryManager::unlock() {
   lock_.unlock();
 }
 
-void PacketFactoryManager::addfactory(PacketFactory* factory) {
+void FactoryManager::addfactory(Factory* factory) {
   __ENTER_FUNCTION
     if (factories_[factory->get_packetid()] != NULL) {
       Assert(false);
@@ -131,7 +133,7 @@ void PacketFactoryManager::addfactory(PacketFactory* factory) {
   __LEAVE_FUNCTION
 }
 
-void PacketFactoryManager::addfactories_for_billinglogin() {
+void FactoryManager::addfactories_for_billinglogin() {
 #if defined(_PAP_NET_BILLING) || defined(_PAP_NET_LOGIN) /* { */
   __ENTER_FUNCTION
     using namespace pap_server_common_net::packets;
@@ -141,31 +143,31 @@ void PacketFactoryManager::addfactories_for_billinglogin() {
 #endif /* } */
 }
 
-void PacketFactoryManager::addfactories_for_clientlogin() {
+void FactoryManager::addfactories_for_clientlogin() {
 #if defined(_PAP_NET_LOGIN) || defined(_PAP_NET_CLIENT)
 
 #endif
 }
 
-void PacketFactoryManager::addfactories_for_loginworld() {
+void FactoryManager::addfactories_for_loginworld() {
 #if defined(_PAP_NET_LOGIN) || defined(_PAP_NET_WORLD)
 
 #endif
 }
 
-void PacketFactoryManager::addfactories_for_serverworld() {
+void FactoryManager::addfactories_for_serverworld() {
 #if defined(_PAP_NET_SERVER) || defined(_PAP_NET_WORLD)
 
 #endif
 }
 
-void PacketFactoryManager::addfactories_for_clientserver() {
+void FactoryManager::addfactories_for_clientserver() {
 #if defined(_PAP_NET_CLIENT) || defined(_PAP_NET_SERVER)
 
 #endif
 }
 
-bool PacketFactoryManager::isvalid_packetid(uint16_t id) {
+bool FactoryManager::isvalid_packetid(uint16_t id) {
   using namespace pap_server_common_game::define::id::packet;
 #if defined(_PAP_NET_LOGIN) || defined(_PAP_NET_SERVER) || \
 defined(_PAP_NET_CLIENT)
@@ -189,5 +191,7 @@ defined(_PAP_NET_CLIENT)
   __LEAVE_FUNCTION
     return result;
 }
+
+} //namespace packet
 
 } //namespace pap_common_net

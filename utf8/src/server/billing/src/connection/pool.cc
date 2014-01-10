@@ -16,8 +16,7 @@ Pool::~Pool() {
 
 bool Pool::init() {
   __ENTER_FUNCTION
-    using namespace pap_server_common_net;
-    connection_ = new ServerConnection[kPoolSizeMax];
+    connection_ = new pap_server_common_net::connection::Server[kPoolSizeMax];
     Assert(connection_);
     uint16_t i;
     for(i = 0; i < kPoolSizeMax; ++i) {
@@ -33,7 +32,7 @@ bool Pool::init() {
 
 pap_server_common_net::ServerConnection* Billing::get(uint16_t id) {
   __ENTER_FUNCTION
-    pap_server_common_net::ServerConnection* connection = NULL;
+    pap_server_common_net::connection::Server* connection = NULL;
     if (connectionid > kPoolSizeMax) return NULL;
     connection = &(connection_[id]);
     return connection;
@@ -43,7 +42,7 @@ pap_server_common_net::ServerConnection* Billing::get(uint16_t id) {
 
 pap_server_common_net::ServerConnection* Billing::create() {
   __ENTER_FUNCTION
-    pap_server_common_net::ServerConnection* connection = NULL;
+    pap_server_common_net::connection::Server* connection = NULL;
     lock();
     uint16_t result = 0, i;
     for (i = 0; i < kPoolSizeMax; ++i) {

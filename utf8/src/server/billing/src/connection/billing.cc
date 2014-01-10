@@ -3,7 +3,8 @@
 
 namespace connection {
 
-Billing::Billing(bool isserver) : pap_server_common_net::Connection(isserver) {
+Billing::Billing(bool isserver) : 
+  pap_server_common_net::connection::Base(isserver) {
   using namespace pap_server_common_game::define;
   status_ = status::connection::kBillingEmpty;
   last_keeplive_time_ = 0;
@@ -17,7 +18,7 @@ Billing::~Billing() {
 bool Billing::processinput() {
   __ENTER_FUNCTION
     bool result = false;
-    result = pap_server_common_net::Connection::processinput();
+    result = pap_server_common_net::connection::Base::processinput();
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -26,7 +27,7 @@ bool Billing::processinput() {
 bool Billing::processoutput() {
   __ENTER_FUNCTION
     bool result = false;
-    result = pap_server_common_net::Connection::processoutput();
+    result = pap_server_common_net::connection::Base::processoutput();
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -147,13 +148,13 @@ void Billing::cleanup() {
   status_ = status::connection::kBillingEmpty;
   last_keeplive_time_ = 0;
   keeplive_sendnumber_ = 0;
-  pap_server_common_net::Connection::cleanup();
+  pap_server_common_net::connection::Base::cleanup();
 }
 
 bool Billing::heartbeat(uint32_t time) {
   __ENTER_FUNCTION
     bool result = false;
-    result = pap_server_common_net::Connection::heartbeat(time);
+    result = pap_server_common_net::connection::Base::heartbeat(time);
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -189,14 +190,14 @@ void Billing::clear_keeplive_sendnumber() {
 
 bool Billing::isvalid() {
   bool result = false;
-  result = pap_server_common_net::Connection::isvalid();
+  result = pap_server_common_net::connection::Base::isvalid();
   return result;
 }
 
 bool sendpacket(pap_common_net::Packet* packet) {
   __ENTER_FUNCTION  
     bool result = false;
-    result = pap_server_common_net::Connection::sendpacket(packet);
+    result = pap_server_common_net::connection::Base::sendpacket(packet);
     return result;
   __LEAVE_FUNCTION
     return false;

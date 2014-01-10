@@ -1,9 +1,11 @@
-#include "server/common/net/connection.h"
+#include "server/common/net/connection/base.h"
 #include "server/common/base/log.h"
 #include "server/common/base/time_manager.h"
-#include "common/net/packetfactory_manager.h"
+#include "common/net/packet/factorymanager.h"
 
 namespace pap_server_common_net {
+
+namespace connection {
 
 #if defined(_PAP_BILLING) /* { */
 const char* g_kModelName = "billing";    
@@ -19,7 +21,7 @@ const char* g_kModelName = "server";
 const uint8_t g_kModelSaveLogId = kServerLogFile;
 #endif /* } */
 
-Connection::Connection(bool flag_isserver) {
+Base::Base(bool flag_isserver) {
   __ENTER_FUNCTION
     id_ = ID_INVALID;
     userid_ = ID_INVALID;
@@ -27,13 +29,13 @@ Connection::Connection(bool flag_isserver) {
     socket_ = new pap_common_net::Socket();
     Assert(socket_);
     if (!flag_isserver) {
-      socket_inputstream_ = new pap_common_net::SocketInputStream(socket_);
+      socket_inputstream_ = new pap_common_net::socket::InputStream(socket_);
       Assert(socket_inputstream_);
-      socket_outputstream_ = new pap_common_net::SocketOutputStream(socket_);
+      socket_outputstream_ = new pap_common_net::socket::OutputStream(socket_);
       Assert(socket_outputstream_);
     }
     else {
-      socket_inputstream_ = new pap_common_net::SocketInputStream(
+      socket_inputstream_ = new pap_common_net::socket::InputStream(
           socket_,
           SOCKETINPUT_BUFFERSIZE_DEFAULT,
           64 * 1024 * 1024
@@ -51,7 +53,7 @@ Connection::Connection(bool flag_isserver) {
   __LEAVE_FUNCTION
 }
 
-Connection::~Connection() {
+Base::~Base() {
   __ENTER_FUNCTION
     SAFE_DELETE(socket_outputstream_);
     SAFE_DELETE(socket_inputstream_);
@@ -59,7 +61,7 @@ Connection::~Connection() {
   __LEAVE_FUNCTION
 }
 
-bool Connection::processinput() {
+bool Base::processinput() {
   __ENTER_FUNCTION
     using namespace pap_server_common_base;
     bool result = false;
@@ -73,7 +75,7 @@ bool Connection::processinput() {
             errormessage, 
             static_cast<uint16_t>(sizeof(errormessage) - 1));
         Log::save_log(g_kModelName,
-                      "[net](%d) Connection::processinput()"
+                      "[net](%d) Base::processinput()"
                       " socket_inputstream_->fill() result: %d %s",
                       g_time_manager->tm_todword(), 
                       fillresult,
@@ -92,7 +94,7 @@ bool Connection::processinput() {
     return false;
 }
 
-bool Connection::processoutput() {
+bool Base::processoutput() {
   __ENTER_FUNCTION
     using namespace pap_server_common_base;
     bool result = false;
@@ -108,7 +110,7 @@ bool Connection::processoutput() {
             errormessage, 
             static_cast<uint16_t>(sizeof(errormessage) - 1));
         Log::save_log(g_kModelName,
-                      "[net](%d) Connection::processoutput()"
+                      "[net](%d) Base::processoutput()"
                       " socket_outputstream_->flush() result: %d %s",
                       g_time_manager->tm_todword(), 
                       fillresult,
@@ -127,7 +129,7 @@ bool Connection::processoutput() {
     return false;
 }
 
-bool Connection::processcommand(bool option) {
+bool Base::processcommand(bool option) {
   __ENTER_FUNCTION
     using namespace pap_common_net;
     bool result = false;
@@ -238,7 +240,7 @@ bool Connection::processcommand(bool option) {
     return false;
 }
 
-bool Connection::sendpacket(pap_common_net::Packet* packet) {
+bool Base::sendpacket(pap_common_net::Packet* packet) {
   __ENTER_FUNCTION
     bool result = false;
     if (isdisconnect()) return true;
@@ -251,7 +253,7 @@ bool Connection::sendpacket(pap_common_net::Packet* packet) {
     uint32_t after_writesize = socket_outputstream_->reallength();
     if (packet->getsize() != after_writesize - before_writesize - 6) {
       g_log->fast_save_log(g_kModelSaveLogId,
-                           "[net] Connection::sendpacket() size error"
+                           "[net] Base::sendpacket() size error"
                            "id = %d(write: %d, should: %d)",
                            pakcet->getid(),
                            after_writesize - before_writesize - 6,
@@ -266,12 +268,14 @@ bool Connection::sendpacket(pap_common_net::Packet* packet) {
     return false;
 }
 
-bool Connection::heartbeat() {
+bool Base::heartbeat() {
   return true;
 }
 
-void Connection::resetkick() {
+void Base::resetkick() {
   //do nothing
 }
+
+} //namespace connection
 
 } //namespace pap_server_common_net

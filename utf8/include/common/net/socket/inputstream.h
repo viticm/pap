@@ -3,19 +3,21 @@
 
 #include "common/net/config.h"
 #include "common/lib/vnet/vnet.hpp"
-#include "common/net/socket.h"
-#include "common/net/packet.h"
+#include "common/net/socket/base.h"
+#include "common/net/packet/base.h"
 
 namespace pap_common_net {
 
-class SocketInputStream {
+namespace socket {
+
+class InputStream {
 
  public: //construct and destruct
-   SocketInputStream(
-       Socket* socket, 
+   InputStream(
+       Base* socket, 
        uint32_t bufferlength = SOCKETINPUT_BUFFERSIZE_DEFAULT, 
        uint32_t bufferlength_max = SOCKETINPUT_DISCONNECT_MAXSIZE);
-   virtual ~SocketInputStream();
+   virtual ~InputStream();
    
  public:
    uint32_t read(char* buffer, uint32_t length);
@@ -38,6 +40,8 @@ class SocketInputStream {
 
 };
 
-};
+}; //namespace socket
+
+}; //namespace pap_common_net
 
 #endif //PAP_COMMON_NET_SOCKET_INPUTSTREAM_H_

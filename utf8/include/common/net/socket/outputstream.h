@@ -8,14 +8,14 @@
 
 namespace pap_common_net {
 
-class SocketOutputStream {
+class OutputStream {
 
  public:
-   SocketOutputStream(
-       Socket* socket, 
+   OutputStream(
+       Base* socket, 
        uint32_t bufferlength = SOCKETOUTPUT_BUFFERSIZE_DEFAULT,
        uint32_t bufferlength_max = SOCKETOUTPUT_DISCONNECT_MAXSIZE);
-   ~SocketOutputStream();
+   ~OutputStream();
 
  public:
    uint32_t write(const char* buffer, uint32_t length);
@@ -31,7 +31,7 @@ class SocketOutputStream {
    void getbuffer(char* buffer, uint32_t length);
 
  private:
-   Socket* socket_;
+   Base* socket_;
    struct packet_t* packet_;
    struct endecode_param_t* endecode_param_;
 

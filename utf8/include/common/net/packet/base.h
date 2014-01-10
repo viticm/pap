@@ -8,12 +8,12 @@
  * @date 2014-1-2 11:36:54
  * @uses server and client net pakcet class
  */
-#ifndef PAP_COMMON_NET_PACKET_H_
-#define PAP_COMMON_NET_PACKET_H_
+#ifndef PAP_COMMON_NET_PACKET_BASE_H_
+#define PAP_COMMON_NET_PACKET_BASE_H_
 
 #include "common/net/config.h"
-#include "common/net/socket_inputstream.h"
-#include "common/net/socket_outputstream.h"
+#include "common/net/socket/inputstream.h"
+#include "common/net/socket/outputstream.h"
 
 #define GET_PACKETINDEX(a) ((a) >> 24)
 #define SET_PACKETINDEX(a,index) ((a) = (((a) & 0xffffff) + ((index) << 24)))
@@ -55,9 +55,10 @@ class Packet {
 
  public:
    virtual void cleanup();
-   virtual bool read(SocketInputStream& inputstream) = 0;
-   virtual bool write(SocketOutputStream& outputstream) const = 0;
-   virtual uint32_t execute(pap_server_common_net::Connection* connection) = 0;
+   virtual bool read(socket::InputStream& inputstream) = 0;
+   virtual bool write(socket::OutputStream& outputstream) const = 0;
+   virtual uint32_t execute(
+       pap_server_common_net::connection::Base* connection) = 0;
    virtual uint16_t getid() const = 0;
    virtual uint32_t getsize() const = 0;
    int8_t getindex() const;
@@ -69,4 +70,4 @@ class Packet {
 
 }; //namespace pap_common_net
 
-#endif //PAP_COMMON_NET_PACKET_H_
+#endif //PAP_COMMON_NET_PACKET_BASE_H_

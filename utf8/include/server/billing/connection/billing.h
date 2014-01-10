@@ -8,14 +8,14 @@
  * @date 2014-1-2 11:17:20
  * @uses billing connection class
  */
-#ifndef PAP_SERVER_COMMON_NET_CONNECTION_H_
-#define PAP_SERVER_COMMON_NET_CONNECTION_H_
+#ifndef PAP_SERVER_BILLING_CONNECTION_BILLING_H_
+#define PAP_SERVER_BILLING_CONNECTION_BILLING_H_
 
-#include "server/common/net/connection.h"
+#include "server/common/net/connection/base.h"
 
 namespace connection {
 
-class Billing : public pap_server_common_net::Connection {
+class Billing : public pap_server_common_net::connection::Base {
 
  public:
    Billing(bool isserver = true);
@@ -47,3 +47,5 @@ class Billing : public pap_server_common_net::Connection {
 };
 
 }; //namespace connection
+
+#endif //PAP_SERVER_BILLING_CONNECTION_BILLING_H_

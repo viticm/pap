@@ -11,7 +11,7 @@
 #ifndef PAP_SERVER_COMMON_NET_SOCKET_H_
 #define PAP_SERVER_COMMON_NET_SOCKET_H_
 
-#include "common/net/socket.h"
+#include "common/net/socket/base.h"
 
 namespace pap_server_common_net {
 
@@ -23,7 +23,7 @@ class Socket {
 
  public:
    void close();
-   bool accept(pap_common_net::Socket* socket);
+   bool accept(pap_common_net::socket::Base* socket);
    uint32_t getlinger() const;
    bool setlinger(uint32_t lingertime);
    bool is_nonblocking() const;

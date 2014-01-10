@@ -5,7 +5,7 @@ namespace pap_server_common_net {
 Socket::Socket(uint16_t port, uint32_t backlog) {
   __ENTER_FUNCTION
     bool result = false;
-    socket_ = new pap_common_net::Socket;
+    socket_ = new pap_common_net::socket::Base;
     NULL == socket_ && throw 1;
     result = socket_->create();
     false == result && throw 1;
@@ -31,7 +31,7 @@ void Socket::close() {
   socket_ != NULL && socket_->close();
 }
 
-bool Socket::accept(pap_common_net::Socket* socket) {
+bool Socket::accept(pap_common_net::socket::Base* socket) {
   __ENTER_FUNCTION
     if (NULL == socket) return false;
     int32_t result = SOCKET_INVALID;

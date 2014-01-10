@@ -8,18 +8,20 @@
  * @date 2013-12-31 17:34:43
  * @uses server and client net model socket class
  */
-#ifndef PAP_COMMON_NET_SOCKET_H_
-#define PAP_COMMON_NET_SOCKET_H_
+#ifndef PAP_COMMON_NET_SOCKET_BASE_H_
+#define PAP_COMMON_NET_SOCKET_BASE_H_
 
 #include "common/net/config.h"
 
 namespace pap_common_net {
 
-class Socket {
+namespace socket {
+
+class Base {
  
  public:
-   Socket();
-   Socket(const char* host, uint16_t port);
+   Base();
+   Base(const char* host, uint16_t port);
    virtual ~Socket();
 
  public:
@@ -63,6 +65,8 @@ class Socket {
 
 };
 
+}; //namespace socket
+
 }; //namespace pap_common_net
 
-#endif //PAP_COMMON_NET_SOCKET_H_
+#endif //PAP_COMMON_NET_SOCKET_BASE_H_

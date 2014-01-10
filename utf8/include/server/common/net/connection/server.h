@@ -10,19 +10,21 @@
  *       cn: 服务器连接模块，用于服务器之间的连接，因为各个服务器都会用到，
  *           所以挪到此处
  */
-#ifndef PAP_SERVER_COMMON_NET_SERVERCONNECTION_H_
-#define PAP_SERVER_COMMON_NET_SERVERCONNECTION_H_
+#ifndef PAP_SERVER_COMMON_NET_CONNECTION_SERVER_H_
+#define PAP_SERVER_COMMON_NET_CONNECTION_SERVER_H_
 
 #include "server/common/net/config.h"
-#include "server/common/net/connection.h"
+#include "server/common/net/connection/base.h"
 
 namespace pap_server_common_net {
 
-class ServerConnection : public Connection {
+namespace connection {
+
+class Server : public Base {
 
  public:
-   ServerConnection(bool isserver = true);
-   ~ServerConnection();
+   Server(bool isserver = true);
+   ~Server();
 
  public:
    virtual bool processinput();
@@ -45,6 +47,8 @@ class ServerConnection : public Connection {
 
 };
 
+}; //namespace connection
+
 }; //namespace pap_server_common_net
 
-#endif //PAP_SERVER_COMMON_NET_SERVERCONNECTION_H_
+#endif //PAP_SERVER_COMMON_NET_CONNECTION_SERVER_H_

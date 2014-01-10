@@ -1,8 +1,12 @@
-#include "common/net/socket_inputstream.h"
+#include "common/net/socket/inputstream.h"
 
-SocketInputStream::SocketOutputStream(Socket* socket, 
-                                      uint32_t bufferlength,
-                                      uint32_t bufferlength_max) {
+namespace pap_common_net {
+
+namespace socket {
+
+InputStream::SocketOutputStream(Base* socket, 
+                                uint32_t bufferlength,
+                                uint32_t bufferlength_max) {
   __ENTER_FUNCTION
     socket_ = socket;
     //struct packet_t and endecode_param_t in c, so need init memory to it
@@ -20,7 +24,7 @@ SocketInputStream::SocketOutputStream(Socket* socket,
   __LEAVE_FUNCTION
 }
 
-SocketInputStream::~SocketInputStream() {
+InputStream::~InputStream() {
   __ENTER_FUNCTION
     SAFE_FREE(packet_->buffer);
     SAFE_FREE(packet_);
@@ -28,7 +32,7 @@ SocketInputStream::~SocketInputStream() {
   __LEAVE_FUNCTION
 }
 
-uint32_t SocketInputStream::read(char* buffer, uint32_t length) {
+uint32_t InputStream::read(char* buffer, uint32_t length) {
   __ENTER_FUNCTION
     uint32_t result = 0;
     if (endecode_param_ != NULL && (*endecode_param_).keysize > 0) {
@@ -45,7 +49,7 @@ uint32_t SocketInputStream::read(char* buffer, uint32_t length) {
     return 0;
 }
 
-bool SocketInputStream::readpacket(Packet* packet) {
+bool InputStream::readpacket(Packet* packet) {
   __ENTER_FUNCTION
     bool result = false;
     result = skip(PACKET_HEADERSIZE);
@@ -56,7 +60,7 @@ bool SocketInputStream::readpacket(Packet* packet) {
     return false;
 }
 
-bool SocketInputStream::peek(char* buffer, uint32_t length) {
+bool InputStream::peek(char* buffer, uint32_t length) {
   __ENTER_FUNCTION
     bool result = false;
     result = vnet_socket_inputstream_peek(*packet_, buffer, length);
@@ -65,7 +69,7 @@ bool SocketInputStream::peek(char* buffer, uint32_t length) {
     return false;
 }
 
-bool SocketInputStream::skip(uint32_t length) {
+bool InputStream::skip(uint32_t length) {
   __ENTER_FUNCTION
     bool result = false;
     if (endecode_param_ != NULL && (*endecode_param_).keysize > 0) {
@@ -81,7 +85,7 @@ bool SocketInputStream::skip(uint32_t length) {
     return false;
 }
 
-uint32_t SocketInputStream::fill() {
+uint32_t InputStream::fill() {
   __ENTER_FUNCTION
     uint32_t result = 0;
     if (!socket_->isvalid()) return result;
@@ -92,13 +96,13 @@ uint32_t SocketInputStream::fill() {
     return 0;
 }
 
-void SocketInputStream::init() {
+void InputStream::init() {
   __ENTER_FUNCTION
     vnet_socket_inputstream_packetinit(pakcet_);
   __LEAVE_FUNCTION
 }
 
-bool SocketInputStream::resize(int32_t size) {
+bool InputStream::resize(int32_t size) {
   __ENTER_FUNCTION
     bool result = false;
     result = vnet_socket_inputstream_resize(packet_, size);
@@ -107,7 +111,7 @@ bool SocketInputStream::resize(int32_t size) {
     return false;
 }
 
-uint32_t SocketInputStream::reallength() {
+uint32_t InputStream::reallength() {
   __ENTER_FUNCTION
     uint32_t length = 0;
     length = vnet_socket_inputstream_reallength(*packet_);
@@ -116,18 +120,18 @@ uint32_t SocketInputStream::reallength() {
     return 0;
 }
 
-bool SocketInputStream::isempty() {
+bool InputStream::isempty() {
   return (*packet_).headlength == (*packet_).taillength;
 }
 
-void SocketInputStream::cleanup() {
+void InputStream::cleanup() {
   __ENTER_FUNCTION
     vnet_socket_inputstream_packetinit(packet_);
     endecode_param_ = NULL;
   __LEAVE_FUNCTION
 }
 
-void SocketInputStream::setkey(unsigned char const* key) {
+void InputStream::setkey(unsigned char const* key) {
   __ENTER_FUNCTION
     SAFE_FREE(endecode_param_); //free last
     endecode_param_ = //malloc for it, construct not get memory 
@@ -137,7 +141,11 @@ void SocketInputStream::setkey(unsigned char const* key) {
   __LEAVE_FUNCTION
 }
 
-int32_t SocketInputStream::get_keylength() {
+int32_t InputStream::get_keylength() {
   int32_t result = (*endecode_param_).keysize;
   return result;
 }
+
+} //namespace socket
+
+} //namespace pap_common_net

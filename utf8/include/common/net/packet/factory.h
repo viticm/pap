@@ -8,23 +8,27 @@
  * @date 2014-1-3 10:11:38
  * @uses server and client net packet factory class interface
  */
-#ifndef PAP_COMMON_NET_PACKETFACTORY_H_
-#define PAP_COMMON_NET_PACKETFACTORY_H_
+#ifndef PAP_COMMON_NET_PACKET_FACTORY_H_
+#define PAP_COMMON_NET_PACKET_FACTORY_H_
 
 #include "common/net/config.h"
 
 namespace pap_common_net {
 
-class PacketFactory {
+namespace packet {
+
+class Factory {
 
  public:
-   virtual ~PacketFactory() {};
-   virtual Packet* createpacket() = 0;
+   virtual ~Factory() {};
+   virtual Base* createpacket() = 0;
    virtual uint16_t getpacketid() const = 0;
    virtual uint32_t getpacket_maxsize() const = 0;
 
 };
 
+}; //namespace packet
+
 }; //namespace pap_common_net
 
-#endif //COMMON_NET_PACKETFACTORY_H_
+#endif //COMMON_NET_PACKET_FACTORY_H_

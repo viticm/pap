@@ -2,15 +2,17 @@
 
 namespace pap_server_common_net {
 
-ServerConnection::ServerConnection(bool isserver) : Connection(isserver) {
+namespace connection {
+
+Server::Server(bool isserver) : Base(isserver) {
   status_ = 0;
 }
 
-ServerConnection::~ServerConnection() {
+Server::~Server() {
   //do nothing
 }
 
-bool ServerConnection::processinput() {
+bool Server::processinput() {
   __ENTER_FUNCTION
     bool result = false;
     result = Connection::processinput();
@@ -19,7 +21,7 @@ bool ServerConnection::processinput() {
     return false;
 }
 
-bool ServerConnection::processoutput() {
+bool Server::processoutput() {
   __ENTER_FUNCTION
     bool result = false;
     result = Connection::processoutput();
@@ -28,7 +30,7 @@ bool ServerConnection::processoutput() {
     return false;
 }
 
-bool ServerConnection::processcommand(bool option) {
+bool Server::processcommand(bool option) {
   __ENTER_FUNCTION
     bool result = false;
     result = Connection::processcommand(option);
@@ -37,13 +39,13 @@ bool ServerConnection::processcommand(bool option) {
     return false;
 }
 
-void ServerConnection::cleanup() {
+void Server::cleanup() {
   __ENTER_FUNCTION
     Connection::cleanup();
   __LEAVE_FUNCTION
 }
 
-bool ServerConnection::heartbeat(uint32_t time) {
+bool Server::heartbeat(uint32_t time) {
   __ENTER_FUNCTION
     bool reslut = false;
     reslut = Connection::heartbeat(time);
@@ -52,27 +54,27 @@ bool ServerConnection::heartbeat(uint32_t time) {
     return false;
 }
 
-bool ServerConnection::isserver() {
+bool Server::isserver() {
   return true;
 }
 
-bool ServerConnection::isplayer() {
+bool Server::isplayer() {
   return false;
 }
 
-bool ServerConnection::isbilling() {
+bool Server::isbilling() {
   return false;
 }
 
-bool ServerConnection::islogin() {
+bool Server::islogin() {
   return false;
 }
 
-void ServerConnection::setstatus(uint32_t status) {
+void Server::setstatus(uint32_t status) {
   status_ = status;
 }
 
-bool ServerConnection::isvalid() {
+bool Server::isvalid() {
   __ENTER_FUNCTION
     bool result = false;
     result = Connection::isvalid();
@@ -81,7 +83,7 @@ bool ServerConnection::isvalid() {
     return false;
 }
 
-bool ServerConnection::sendpacket(pap_common_net::Packet* packet) {
+bool Server::sendpacket(pap_common_net::Packet* packet) {
   __ENTER_FUNCTION
     bool result = false;
     result = Connection::sendpacket(packet);
@@ -89,5 +91,7 @@ bool ServerConnection::sendpacket(pap_common_net::Packet* packet) {
   __LEAVE_FUNCTION
     return false;
 }
+
+} //namespace connection
 
 } //namespace pap_server_common_net

@@ -8,8 +8,8 @@
  * @date 2014-1-2 11:17:20
  * @uses server net connect information
  */
-#ifndef PAP_SERVER_COMMON_NET_CONNECTION_H_
-#define PAP_SERVER_COMMON_NET_CONNECTION_H_
+#ifndef PAP_SERVER_COMMON_NET_CONNECTION_BASE_H_
+#define PAP_SERVER_COMMON_NET_CONNECTION_BASE_H_
 
 #include "server/common/net/config.h"
 #include "common/net/packet.h"
@@ -36,10 +36,12 @@ struct packet_async_t {
 
 namespace pap_server_common_net {
 
+namespace connection {
+
 extern const char* g_kModelName;
 extern const uint8_t g_kModelSaveLogId;
 
-class Connection {
+class Base {
 
  public:
    Connection(bool flag_isserver = false);
@@ -97,6 +99,8 @@ class Connection {
 
 };
 
+}; //namespace connection
+
 }; //namespace pap_common_net
 
-#endif //PAP_SERVER_COMMON_NET_CONNECTION_H_
+#endif //PAP_SERVER_COMMON_NET_CONNECTION_BASE_H_
