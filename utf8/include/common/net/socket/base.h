@@ -43,7 +43,12 @@ class Base {
    bool bind();
    bool bind(uint16_t port);
    bool listen(uint32_t backlog);
- 
+   int32_t select(int32_t maxfdp, 
+                  void* readset, 
+                  void* writeset, 
+                  void* exceptset,
+                  void* timeout);
+
  public: //socket check and set functions
    uint32_t getlinger() const;
    bool setlinger(uint32_t lingertime);

@@ -153,6 +153,18 @@ bool Base::listen(uint32_t backlog) {
   __LEAVE_FUNCTION
     return false;
 }
+int32_t Base::select(int32_t maxfdp, 
+                     void* readset, 
+                     void* writeset, 
+                     void* exceptset,
+                     void* timeout) {
+  __ENTER_FUNCTION
+    int32_t result = SOCKET_ERROR;
+    result = vnet_socketbase_select(maxfdp, readset, writeset, exceptset, timeout);
+    return result;
+  __LEAVE_FUNCTION
+    return SOCKET_ERROR;
+}
 
 uint32_t Base::getlinger() const {
   __ENTER_FUNCTION

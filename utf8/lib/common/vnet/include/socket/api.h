@@ -95,7 +95,7 @@ uint32_t socketapi_availableex(int32_t socketid);
 
 bool socketapi_shutdown_ex(int32_t socketid, uint32_t how);
 
-int32_t socketapi_selectex(int32_t maxfdp1, 
+int32_t socketapi_selectex(int32_t maxfdp, 
                            fd_set* readset, 
                            fd_set* writeset, 
                            fd_set* exceptset, 

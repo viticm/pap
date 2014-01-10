@@ -1139,13 +1139,13 @@ bool socketapi_shutdown_ex (int32_t socketid, uint32_t how) {
   return result;
 }
 
-int32_t socketapi_selectex(int32_t maxfdp1, 
+int32_t socketapi_selectex(int32_t maxfdp, 
                            fd_set* readset, 
                            fd_set* writeset, 
                            fd_set* exceptset, 
                            struct timeval* timeout) {
   int32_t result = 0;
-  result = select(maxfdp1, readset, writeset, exceptset, timeout);
+  result = select(maxfdp, readset, writeset, exceptset, timeout);
   if(SOCKET_ERROR == result) {
 #if defined(__LINUX__)
 

@@ -13,9 +13,10 @@
 
 #include "common/base/type.h"
 
-#define CONNECT_CACHESIZE_MAX 1024
-#define CONNECT_KICKTIME 6000000 //超过该时间则断开连接
-#define CONNECT_INCOME_KICKTIME 60000
+#define CONNECTION_MAX 1024
+#define CONNECTION_CACHESIZE_MAX 1024
+#define CONNECTION_KICKTIME 6000000 //超过该时间则断开连接
+#define CONNECTION_INCOME_KICKTIME 60000
 
 typedef enum {
   kPacketFlagNone = 0,

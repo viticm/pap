@@ -127,6 +127,17 @@ VNET_API void vnet_socketbase_getlast_errormessage(char* buffer,
                                                    uint16_t length) {
   socketbase_getlast_errormessage(buffer, length);
 }
+
+VNET_API int32_t vnet_socketbase_select(int32_t maxfdp, 
+                                        void* readset, 
+                                        void* writeset, 
+                                        void* exceptset, 
+                                        void* timeout) {
+  int32_t result = SOCKET_INVALID;
+  result = socketbase_select(maxfdp, readset, writeset, exceptset, timeout);
+  return result;
+}
+
 /*base }*/
 
 

@@ -54,6 +54,12 @@ VNET_API uint64_t vnet_sokectbase_getu64host(const char* host);
 VNET_API int32_t vnet_socketbase_getlast_errorcode();
 VNET_API void vnet_socketbase_getlast_errormessage(char* buffer, 
                                                    uint16_t length);
+VNET_API int32_t vnet_socketbase_select(int32_t maxfdp, 
+                                        void* readset, 
+                                        void* writeset, 
+                                        void* exceptset, 
+                                        void* timeout);
+
 /*base }*/
 
 

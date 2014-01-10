@@ -226,3 +226,14 @@ int32_t socketbase_getlast_errorcode() {
 void socketbase_getlast_errormessage(char* buffer, uint16_t length) {
   socketapi_getlast_errormessage(buffer, length);
 }
+
+int32_t socketbase_select(int32_t maxfdp, 
+                          fd_set* readset, 
+                          fd_set* writeset, 
+                          fd_set* exceptset, 
+                          struct timeval* timeout) {
+  int32_t result = SOCKET_INVALID;
+  result = socketapi_selectex(maxfdp, readset, writeset, exceptset, timeout);
+  return result;
+}
+

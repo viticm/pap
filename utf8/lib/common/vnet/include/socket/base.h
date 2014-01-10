@@ -10,8 +10,8 @@
  * @uses vnet socket base extend functions
  */
 
-#ifndef VNET_SOCKET_BASE_TYPE_H_
-#define VNET_SOCKET_BASE_TYPE_H_
+#ifndef VNET_SOCKET_BASE_H_
+#define VNET_SOCKET_BASE_H_
 
 #include "socket/config.h"
 #include "socket/api.h"
@@ -52,5 +52,10 @@ bool socketbase_setsend_buffersize(int32_t socketid, uint32_t size);
 uint64_t sokectbase_getu64host(const char* host);
 int32_t socketbase_getlast_errorcode();
 void socketbase_getlast_errormessage(char* buffer, uint16_t length);
+int32_t socketbase_select(int32_t maxfdp, 
+                          fd_set* readset, 
+                          fd_set* writeset, 
+                          fd_set* exceptset, 
+                          struct timeval* timeout);
 
-#endif //VNET_SOCKET_BASE_TYPE_H_
+#endif //VNET_SOCKET_BASE_H_
