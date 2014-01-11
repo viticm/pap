@@ -272,6 +272,78 @@ bool Base::heartbeat() {
   return true;
 }
 
+int16_t Base::getid() {
+  return id_;
+}
+
+void Base::setid(int16_t id) {
+  id_ = id;
+}
+
+int16_t Base::get_userid() {
+  return userid_;
+}
+
+void Base::set_userid(int16_t id) {
+  userid_ = id;
+}
+
+int16_t Base::get_managerid() {
+  return managerid_;
+}
+
+void Base::set_managerid(int16_t id) {
+  managerid_ = id;
+}
+
+pap_common_net::socket::Base* Base::getsocket() {
+  return socket_;
+}
+
+void Base::disconnect() {
+  __ENTER_FUNCTION
+    socket_->close();
+  __LEAVE_FUNCTION
+}
+
+bool Base::isvalid() {
+  __ENTER_FUNCTION
+    NULL == socket_ && return false;
+    bool result = false;
+    result = socket_->isvalid();
+    return result;
+  __LEAVE_FUNCTION
+    return false;
+}
+
+void Base::cleanup() {
+  __ENTER_FUNCTION
+    socket_->close();
+    socket_inputstream_->cleanup();
+    socket_outputstream_->cleanup();
+    set_managerid(ID_INVALID);
+    set_userid(ID_INVALID);
+    packetindex_ = 0;
+    setdisconnect(false);
+  __LEAVE_FUNCTION
+}
+
+bool Base::isempty() {
+  return isempty_;
+}
+
+void Base::setempty(bool status) {
+  isempty_ = status;
+}
+
+bool Base::isdisconnect() {
+  return isdisconnect_;
+}
+
+void setdisconnect(bool status) {
+  isdisconnect_ = status;
+}
+
 void Base::resetkick() {
   //do nothing
 }
