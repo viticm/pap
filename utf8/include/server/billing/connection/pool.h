@@ -26,9 +26,9 @@ class Pool {
 
  public:
    bool init();
-   pap_server_common_net::connection::Server* get(int16_t id);
+   pap_server_common_net::connection::Server* get(uint16_t id);
    pap_server_common_net::connection::Server* create(); //new
-   void remove(int16_t id); //delete
+   void remove(uint16_t id); //delete
    void lock();
    void unlock();
 

@@ -33,7 +33,7 @@ bool Manager::add(pap_server_common_net::connection::Base* connection) {
     return false;
 }
 
-bool Manager::add(int16_t id) {
+bool Manager::add(uint16_t id) {
   __ENTER_FUNCTION
     bool result = false;
     result = pap_server_common_net::connection::Manager::add(id);
@@ -42,7 +42,7 @@ bool Manager::add(int16_t id) {
     return false;
 }
 
-void Manager::remove(int16_t id) {
+void Manager::remove(uint16_t id) {
   __ENTER_FUNCTION
     Assert(count_ > 0);
     pap_server_common_net::connection::Base* connection = NULL;
@@ -51,9 +51,35 @@ void Manager::remove(int16_t id) {
       Assert(false);
       return;
     }
-    int16_t managerid = connection->get_managerid();
-
+    uint16_t managerid = connection->get_managerid();
+    if (managerid >= sizeof(connectionids_)) {
+      Assert(false);
+      return;
+    }
+    connection = g_connectionpool->get(connectionids_[count_ - 1]);
+    if (NULL == connection) {
+      Assert(false);
+      return;
+    }
+    connectionids_[managerid] = connectionids_[count_ - 1];
+    connectionids_[count_ - 1] = 0;
+    connection->set_managerid(managerid);
+    --count_;
+    Assert(count_ >= 0);
   __LEAVE_FUNCTION
+}
+
+uint16_t* Manager::get_allid() {
+  return connectionids_;
+}
+
+uint16_t Manager::getcount() {
+  return count_;
+}
+
+bool Manager::hash() {
+  bool result = static_cast<bool>(count_);
+  return result;
 }
 
 } //namespace connection

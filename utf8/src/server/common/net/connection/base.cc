@@ -26,7 +26,7 @@ Base::Base(bool flag_isserver) {
     id_ = ID_INVALID;
     userid_ = ID_INVALID;
     managerid_ = ID_INVALID;
-    socket_ = new pap_common_net::Socket();
+    socket_ = new pap_common_net::socket::Base();
     Assert(socket_);
     if (!flag_isserver) {
       socket_inputstream_ = new pap_common_net::socket::InputStream(socket_);
@@ -136,7 +136,7 @@ bool Base::processcommand(bool option) {
     char packetheader[PACKET_HEADERSIZE] = {'\0'};
     uint16_t packetid;
     uint32_t packetcheck, packetsize, packetindex;
-    Packet* packet = NULL;
+    packet::Base* packet = NULL;
     if (isdisconnect()) return true;
     try {
       if (option) { //执行选项操作
@@ -240,7 +240,7 @@ bool Base::processcommand(bool option) {
     return false;
 }
 
-bool Base::sendpacket(pap_common_net::Packet* packet) {
+bool Base::sendpacket(pap_common_net::packet::Base* packet) {
   __ENTER_FUNCTION
     bool result = false;
     if (isdisconnect()) return true;
@@ -272,27 +272,27 @@ bool Base::heartbeat() {
   return true;
 }
 
-int16_t Base::getid() {
+uint16_t Base::getid() {
   return id_;
 }
 
-void Base::setid(int16_t id) {
+void Base::setid(uint16_t id) {
   id_ = id;
 }
 
-int16_t Base::get_userid() {
+uint16_t Base::get_userid() {
   return userid_;
 }
 
-void Base::set_userid(int16_t id) {
+void Base::set_userid(uint16_t id) {
   userid_ = id;
 }
 
-int16_t Base::get_managerid() {
+uint16_t Base::get_managerid() {
   return managerid_;
 }
 
-void Base::set_managerid(int16_t id) {
+void Base::set_managerid(uint16_t id) {
   managerid_ = id;
 }
 
