@@ -17,7 +17,7 @@
 
 namespace pap_server_common_net {
 
-namespace connect {
+namespace connection {
 
 class Manager {
 
@@ -30,13 +30,13 @@ class Manager {
    virtual bool heartbeat(uint32_t time = 0);
    bool add(Base* connection);
    bool add(int32_t id);
-   void remove(int32_t id);
-   int32_t* getall();
+   virtual void remove(int32_t id);
+   int32_t* get_allid();
    uint32_t getcount();
    bool hash();
 
  protected:
-   int16_t connection_[CONNECTION_MAX];
+   int16_t connectionids_[CONNECTION_MAX];
    uint32_t count_;
 
 };

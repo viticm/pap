@@ -30,7 +30,7 @@ bool Pool::init() {
     return false;
 }
 
-pap_server_common_net::ServerConnection* Billing::get(uint16_t id) {
+pap_server_common_net::ServerConnection* Pool::get(uint16_t id) {
   __ENTER_FUNCTION
     pap_server_common_net::connection::Server* connection = NULL;
     if (connectionid > kPoolSizeMax) return NULL;
@@ -40,7 +40,7 @@ pap_server_common_net::ServerConnection* Billing::get(uint16_t id) {
     return NULL;
 }
 
-pap_server_common_net::ServerConnection* Billing::create() {
+pap_server_common_net::ServerConnection* Pool::create() {
   __ENTER_FUNCTION
     pap_server_common_net::connection::Server* connection = NULL;
     lock();
@@ -65,7 +65,7 @@ pap_server_common_net::ServerConnection* Billing::create() {
     return NULL;
 }
 
-void Billing::remove(uint16_t id) {
+void Pool::remove(uint16_t id) {
   __ENTER_FUNCTION
     lock();
     if (id > kPoolSizeMax) {
@@ -80,11 +80,11 @@ void Billing::remove(uint16_t id) {
     unlock();
 }
 
-void Billing::lock() {
+void Pool::lock() {
   lock_.lock();
 }
 
-void Billing::unlock() {
+void Pool::unlock() {
   lock_.unlock();
 }
 
