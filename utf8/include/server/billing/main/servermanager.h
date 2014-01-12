@@ -22,14 +22,14 @@
 #endif
 /*system include }*/
 
-#include "server/common/net/connection/manager.h"
+#include "server/billing/connection/manager.h"
 #include "server/common/net/connection/server.h"
 #include "server/common/net/socket.h"
 #include "server/common/base/define.h"
 #include "common/sys/thread.h"
 
 
-class ServerManager : public pap_server_common_net::connection::Manager {
+class ServerManager : public connection::Manager {
 
  public:
    ServerManager();

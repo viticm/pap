@@ -32,6 +32,7 @@ class Socket {
    bool setreceive_buffersize(uint32_t size);
    uint32_t getsend_buffersize() const;
    bool setsend_buffersize(uint32_t size);
+   int32_t getid() const();
 
  protected:
    pap_common_net::Socket* socket_;

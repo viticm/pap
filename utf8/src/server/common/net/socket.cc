@@ -99,4 +99,13 @@ bool Socket::setreceive_buffersize(uint32_t size) {
     return false;
 }
 
+int32_t Socket::getid() const {
+  __ENTER_FUNCTION
+    int32_t result = SOCKET_INVALID;
+    result = socket_->getid();
+    return result;
+  __LEAVE_FUNCTION
+    return SOCKET_INVALID;
+}
+
 } //namespace pap_server_common_net
