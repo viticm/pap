@@ -12,7 +12,7 @@
 #define PAP_SERVER_BILLING_CONNECTION_POOL_H_
 
 #include "common/sys/thread.h"
-#include "common/net/connection/server.h"
+#include "server/billing/connection/server.h"
 
 namespace connection {
 
@@ -26,14 +26,14 @@ class Pool {
 
  public:
    bool init();
-   pap_server_common_net::connection::Server* get(uint16_t id);
-   pap_server_common_net::connection::Server* create(); //new
-   void remove(uint16_t id); //delete
+   Server* get(int16_t id);
+   Server* create(); //new
+   void remove(int16_t id); //delete
    void lock();
    void unlock();
 
  private:
-   pap_server_common_net::connection::Server* connection_;
+   Server* connection_;
    uint32_t position_;
    pap_common_sys::ThreadLock lock_;
    uint32_t count_;

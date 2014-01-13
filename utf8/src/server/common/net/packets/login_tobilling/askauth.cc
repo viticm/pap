@@ -63,7 +63,7 @@ bool AskAuth::write(pap_common_net::SocketOutputStream& outputstream) {
     return false;
 }
 
-uint32_t AskAuth::execute(Connection* connection) {
+uint32_t AskAuth::execute(connection::Base* connection) {
   __ENTER_FUNCTION
     uint32_t result = 0;
     result = AskAuthHandler::execute(this, connection);

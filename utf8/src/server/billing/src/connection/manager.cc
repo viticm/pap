@@ -18,7 +18,7 @@ void Manager::cleanup() {
 bool Manager::heartbeat(uint32_t time) {
   __ENTER_FUNCTION
     bool result = false;
-    result = pap_server_common_net::connection::heartbeat(time);
+    result = pap_server_common_net::connection::Manager::heartbeat(time);
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -33,7 +33,7 @@ bool Manager::add(pap_server_common_net::connection::Base* connection) {
     return false;
 }
 
-bool Manager::add(uint16_t id) {
+bool Manager::add(int16_t id) {
   __ENTER_FUNCTION
     bool result = false;
     result = pap_server_common_net::connection::Manager::add(id);
@@ -42,7 +42,7 @@ bool Manager::add(uint16_t id) {
     return false;
 }
 
-void Manager::remove(uint16_t id) {
+void Manager::remove(int16_t id) {
   __ENTER_FUNCTION
     Assert(count_ > 0);
     pap_server_common_net::connection::Base* connection = NULL;
@@ -51,7 +51,7 @@ void Manager::remove(uint16_t id) {
       Assert(false);
       return;
     }
-    uint16_t managerid = connection->get_managerid();
+    int16_t managerid = connection->get_managerid();
     if (managerid >= sizeof(connectionids_)) {
       Assert(false);
       return;
@@ -69,7 +69,7 @@ void Manager::remove(uint16_t id) {
   __LEAVE_FUNCTION
 }
 
-uint16_t* Manager::get_allid() {
+int16_t* Manager::get_allid() {
   return connectionids_;
 }
 

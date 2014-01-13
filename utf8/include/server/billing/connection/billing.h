@@ -37,7 +37,7 @@ class Billing : public pap_server_common_net::connection::Base {
    uint32_t getstatus();
    void clear_keeplive_sendnumber();
    virtual bool isvalid();
-   virtual bool sendpacket(pap_common_net::Packet* packet);
+   virtual bool sendpacket(pap_common_net::packet::Base* packet);
 
  private:
    uint32_t status_;

@@ -28,14 +28,14 @@ class Manager : public pap_server_common_net::connection::Manager {
    void cleanup();
    virtual bool heartbeat(uint32_t time = 0);
    bool add(pap_server_common_net::connection::Base* connection);
-   bool add(uint16_t id);
-   void remove(uint16_t id);
-   uint16_t* get_allid();
+   bool add(int16_t id);
+   void remove(int16_t id);
+   int16_t* get_allid();
    uint16_t getcount();
    bool hash();
 
  protected:
-   uint16_t connectionids_[CONNECTION_MAX];
+   int16_t connectionids_[CONNECTION_MAX];
    uint16_t count_;
 
 };

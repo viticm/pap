@@ -12,9 +12,9 @@
 #define PAP_SERVER_COMMON_NET_PACKETS_BILLING_TOLOGIN_RESULTAUTH_H_
 
 #include "server/common/net/config.h"
-#include "server/common/net/connection.h"
-#include "common/net/packet.h"
-#include "common/net/packetfactory.h"
+#include "server/common/net/connection/base.h"
+#include "common/net/packet/base.h"
+#include "common/net/packet/factory.h"
 #include "common/game/define/all.h"
 
 
@@ -33,7 +33,7 @@ class ResultAuth : public pap_common_net::Packet {
  public:  
    virtual bool read(pap_common_net::SocketInputStream& inputstream);
    virtual bool write(pap_common_net::SocketOutputStream& outputstream) const;
-   virtual uint32_t execute(Connection* connection);
+   virtual uint32_t execute(connection::Base* connection);
    virtual uint16_t get_packetid() const;
    virtual uint32_t get_packetsize() const;
    
@@ -94,7 +94,7 @@ class ResultAuthFactory : public pap_common_net::PacketFactory {
 class ResultAuthHandler {
 
  public:
-   static uint32_t execute(ResultAuth* packet, Connection* connection);
+   static uint32_t execute(ResultAuth* packet, connection::Base* connection);
 
 };
 

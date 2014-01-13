@@ -26,7 +26,6 @@ namespace define {
 #include "common/game/define/result/all.h"
 #include "common/game/define/size/all.h"
 #include "common/game/define/status/all.h"
-#include "common/game/define/status/all.h"
 #include "common/game/define/time/all.h"
 #include "common/game/define/type/all.h"
 #include "common/game/define/value/all.h"

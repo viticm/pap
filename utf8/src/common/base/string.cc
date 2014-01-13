@@ -103,12 +103,21 @@ bool string_toint32(const char* source,
 }
 
 
-bool string_toint(const char* source, int32_t& result, uint8_t converted_length, bool ignored_zero) {
+bool string_toint(const char* source, 
+                  int32_t& result, 
+                  uint8_t converted_length, 
+                  bool ignored_zero) {
   __ENTER_FUNCTION
     if (NULL == source) return false;
 
     long value;
-    if (!fast_string_toint<long>(source, value, sizeof("-2147483648")-1, converted_length, ignored_zero)) return false;
+    if (!fast_string_toint<long>(
+          source, 
+          value, 
+          sizeof("-2147483648") - 1, 
+          converted_length, 
+          ignored_zero)) 
+      return false;
 #undef max
 #undef min
     int32_t _max = std::numeric_limits<int32_t>::max();
@@ -126,7 +135,8 @@ bool string_toint(const char* source,
                   bool ignored_zero) {
   __ENTER_FUNCTION
     int32_t value = 0;
-    if (!string_toint32(source, value, converted_length, ignored_zero)) return false;
+    if (!string_toint32(source, value, converted_length, ignored_zero)) 
+      return false;
     if (value < std::numeric_limits<int16_t>::min() ||
         value > std::numeric_limits<int16_t>::max()) return false;
     result = static_cast<int16_t>(value);
@@ -134,6 +144,65 @@ bool string_toint(const char* source,
   __LEAVE_FUNCTION
     return false;
 }
+
+uint32_t crc(const char* str) {
+  (NULL == str|| 0 == str[0]) && return 0;
+  uint32_t crc32 = 0xFFFFFFFF;
+  int32_t size = static_cast<int32_t>(strlen(str));
+  uint16_t i;
+  for (i = 0; i < size; ++i) {
+    crc32 = crc * 33 + static_cast<unsigned char>str[i];
+  }
+  return crc32;
+}
+
+/*string table {*/
+Table::Table() {
+  __ENTER_FUNCTION
+    item_ = NULL;
+    count_ = 0;
+    size_ = 0;
+  __LEAVE_FUNCTION
+}
+
+Table::~Table() {
+  __ENTER_FUNCTION
+    SAFE_DELETE_ARRAY(item_);
+    count_ = 0;
+    size_ = 0;
+  __LEAVE_FUNCTION
+}
+
+void Table::init(uint32_t itemmax, uint32_t size) {
+  __ENTER_FUNCTION
+    count_ = itemmax;
+    size_ = size;
+    SAFE_DELETE_ARRAY(item_);
+    item_ = new tableitem_t[count_];
+    Assert(item_);
+    uint16_t i;
+    for (i = 0; i < count_; ++i) {
+      item_[i].str = new char[size_];
+      memset(item_[i].str, 0, sizeof(char) * size_);
+      item_[i].pointer = NULL;
+      item_[i].status = kEmpty;
+    }
+  __LEAVE_FUNCTION
+}
+
+bool Table::add(const char* str, void pointer) {
+  __ENTER_FUNCTION
+    uint32_t id = crc(str);
+    uint32_t count = (id / 4) % count_;
+    uint16_t i;
+    for (i = 0; i < count_; ++i) {
+
+    }
+  __LEAVE_FUNCTION
+    return false;
+}
+
+/*string table }*/
 
 } //namespace string
 

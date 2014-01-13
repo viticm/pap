@@ -49,7 +49,7 @@ bool ResultAuth::write(pap_common_net::SocketOutputStream& outputstream) {
   __LEAVE_FUNCTION
 }
 
-uint32_t ResultAuth::execute(Connection* connection) {
+uint32_t ResultAuth::execute(connection::Base* connection) {
   __ENTER_FUNCTION
     uint32_t result = 0;
     result = ResultAuthHandler::execute(this, connection);

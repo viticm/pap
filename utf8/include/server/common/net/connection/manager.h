@@ -29,15 +29,15 @@ class Manager {
    void cleanup();
    virtual bool heartbeat(uint32_t time = 0);
    bool add(Base* connection);
-   bool add(int32_t id);
-   virtual void remove(int32_t id);
-   int32_t* get_allid();
-   uint32_t getcount();
+   bool add(int16_t id);
+   virtual void remove(int16_t id);
+   int16_t* get_allid();
+   uint16_t getcount();
    bool hash();
 
  protected:
    int16_t connectionids_[CONNECTION_MAX];
-   uint32_t count_;
+   uint16_t count_;
 
 };
 

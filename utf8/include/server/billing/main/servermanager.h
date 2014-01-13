@@ -57,13 +57,13 @@ class ServerManager : public connection::Manager {
    bool removeconnection(pap_server_common_net::connection::Base* connection);
    void remove_allconnection();
    //获得服务器连接指针
-   pap_server_common_net::connection::Server* get_serverconnection(uint16_t id);
+   Server* get_serverconnection(uint16_t id);
    //服务器广播
    void broadcast(pap_server_common_net::packet::Base* packet);
 
  public:
    uint64_t threadid_;
-   uint16_t serverhash_[OVER_SERVER_MAX];
+   int16_t serverhash_[OVER_SERVER_MAX];
 
  private:
    //用于侦听的服务器Socket
@@ -78,7 +78,7 @@ class ServerManager : public connection::Manager {
    };
    fd_set readfds_[kSelectMax];
    fd_set writefds_[kSelectMax];
-   fd_set execptfds_[kSelectMax];
+   fd_set exceptfds_[kSelectMax];
    timeval timeout_[kSelectMax];
    int32_t maxfd_;
    int32_t minfd_;

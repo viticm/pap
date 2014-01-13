@@ -194,7 +194,7 @@ bool Billing::isvalid() {
   return result;
 }
 
-bool sendpacket(pap_common_net::Packet* packet) {
+bool sendpacket(pap_common_net::packet::Base* packet) {
   __ENTER_FUNCTION  
     bool result = false;
     result = pap_server_common_net::connection::Base::sendpacket(packet);

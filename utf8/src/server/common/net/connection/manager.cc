@@ -37,7 +37,7 @@ bool Manager::heartbeat(uint32_t time) {
 bool Manager::add(Base* connection) {
   __ENTER_FUNCTION
     Assert(connection);
-    if (ID_INVALID == connectionids_[count_]) {
+    if (0 == connectionids_[count_]) {
       connectionids_[count_] = connection->getid();
       connection->set_managerid(connectionids_);
       ++count_;
@@ -51,7 +51,7 @@ bool Manager::add(Base* connection) {
     return false;
 }
 
-bool Manager::add(int32_t id) {
+bool Manager::add(int16_t id) {
   __ENTER_FUNCTION
     USE_PARAM(id);
     //not used
@@ -60,7 +60,7 @@ bool Manager::add(int32_t id) {
     return false;
 }
 
-void Manager::remove(int32_t id) {
+void Manager::remove(int16_t id) {
   __ENTER_FUNCTION
     //remember this function will completed in child
     Assert(count_ > 0);
@@ -68,11 +68,11 @@ void Manager::remove(int32_t id) {
   __LEAVE_FUNCTION
 }
 
-int32_t* Manager::get_allid() {
+int16_t* Manager::get_allid() {
   return connectionids_;
 }
 
-uint32_t Manager::getcount() {
+int16_t Manager::getcount() {
   return count_;
 }
 

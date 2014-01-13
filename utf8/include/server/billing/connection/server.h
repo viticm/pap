@@ -6,21 +6,17 @@
  * @license
  * @user viticm<viticm@126.com>
  * @date 2013-12-31 17:34:43
- * @uses server net server connection class
- *       cn: 服务器连接模块，用于服务器之间的连接，因为各个服务器都会用到，
- *           所以挪到此处，消费服务器与世界服务器需重写
+ * @uses billing net server connection class
  */
-#ifndef PAP_SERVER_COMMON_NET_CONNECTION_SERVER_H_
-#define PAP_SERVER_COMMON_NET_CONNECTION_SERVER_H_
+#ifndef PAP_SERVER_BILLING_CONNECTION_SERVER_H_
+#define PAP_SERVER_BILLING_CONNECTION_SERVER_H_
 
-#include "server/common/net/config.h"
-#include "server/common/net/connection/base.h"
-
-namespace pap_server_common_net {
+#include "server/billing/connection/billing.h"
+#include "server/common/base/config.h"
 
 namespace connection {
 
-class Server : public Base {
+class Server : public Billing {
 
  public:
    Server(bool isserver = true);
@@ -41,14 +37,15 @@ class Server : public Base {
    void setstatus(uint32_t status);
    virtual bool isvalid();
    virtual bool sendpacket(pap_common_net::packet::Base* packet);
+   pap_server_common_base::server_data_t* get_serverdata();
+   void set_serverdata(pap_server_common_base::server_data_t* data);
+   void freeown();
 
  private:
    uint32_t status_;
-
+   pap_server_common_base::server_data_t* serverdata_;
 };
 
 }; //namespace connection
 
-}; //namespace pap_server_common_net
-
-#endif //PAP_SERVER_COMMON_NET_CONNECTION_SERVER_H_
+#endif //PAP_SERVER_BILLING_CONNECTION_SERVER_H_

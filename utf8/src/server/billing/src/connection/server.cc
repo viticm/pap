@@ -1,10 +1,8 @@
-#include "server/common/net/connection/server.h"
-
-namespace pap_server_common_net {
+#include "server/billing/connection/server.h"
 
 namespace connection {
 
-Server::Server(bool isserver) : Base(isserver) {
+Server::Server(bool isserver) : Billing(isserver) {
   status_ = 0;
 }
 
@@ -15,7 +13,7 @@ Server::~Server() {
 bool Server::processinput() {
   __ENTER_FUNCTION
     bool result = false;
-    result = Base::processinput();
+    result = Billing::processinput();
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -24,7 +22,7 @@ bool Server::processinput() {
 bool Server::processoutput() {
   __ENTER_FUNCTION
     bool result = false;
-    result = Base::processoutput();
+    result = Billing::processoutput();
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -33,7 +31,7 @@ bool Server::processoutput() {
 bool Server::processcommand(bool option) {
   __ENTER_FUNCTION
     bool result = false;
-    result = Base::processcommand(option);
+    result = Billing::processcommand(option);
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -41,14 +39,14 @@ bool Server::processcommand(bool option) {
 
 void Server::cleanup() {
   __ENTER_FUNCTION
-    Base::cleanup();
+    Billing::cleanup();
   __LEAVE_FUNCTION
 }
 
 bool Server::heartbeat(uint32_t time) {
   __ENTER_FUNCTION
     bool reslut = false;
-    reslut = Base::heartbeat(time);
+    reslut = Billing::heartbeat(time);
     return reslut;
   __LEAVE_FUNCTION
     return false;
@@ -77,7 +75,7 @@ void Server::setstatus(uint32_t status) {
 bool Server::isvalid() {
   __ENTER_FUNCTION
     bool result = false;
-    result = Base::isvalid();
+    result = Billing::isvalid();
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -86,12 +84,22 @@ bool Server::isvalid() {
 bool Server::sendpacket(pap_common_net::Packet* packet) {
   __ENTER_FUNCTION
     bool result = false;
-    result = Base::sendpacket(packet);
+    result = Billing::sendpacket(packet);
     return result;
   __LEAVE_FUNCTION
     return false;
 }
 
-} //namespace connection
+pap_server_common_base::server_data_t* Server::get_serverdata() {
+  return serverdata_;
+}
 
-} //namespace pap_server_common_net
+void Server::set_serverdata(pap_server_common_base::server_data_t* data) {
+  serverdata_ = data;
+}
+
+void Server::freeown() {
+  //nothing
+}
+
+} //namespace connection

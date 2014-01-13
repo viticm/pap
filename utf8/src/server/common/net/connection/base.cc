@@ -272,27 +272,27 @@ bool Base::heartbeat() {
   return true;
 }
 
-uint16_t Base::getid() {
+int16_t Base::getid() {
   return id_;
 }
 
-void Base::setid(uint16_t id) {
+void Base::setid(int16_t id) {
   id_ = id;
 }
 
-uint16_t Base::get_userid() {
+int16_t Base::get_userid() {
   return userid_;
 }
 
-void Base::set_userid(uint16_t id) {
+void Base::set_userid(int16_t id) {
   userid_ = id;
 }
 
-uint16_t Base::get_managerid() {
+int16_t Base::get_managerid() {
   return managerid_;
 }
 
-void Base::set_managerid(uint16_t id) {
+void Base::set_managerid(int16_t id) {
   managerid_ = id;
 }
 

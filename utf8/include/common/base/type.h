@@ -46,7 +46,6 @@
 #include <sys/types.h>
 #include <pthread.h>
 #include <execinfo.h>
-#include <cmath>
 #include <signal.h>
 #include <exception>
 #include <setjmp.h>
@@ -60,6 +59,8 @@
 //基本数据类型定义
 //typedef unsigned char ubyte; //0~255 --use uint8_t
 //typedef char byte; //-128~127 --use int8_t
+typedef int16_t connectionid_t;
+
 
 #define IP_SIZE 24 //max ip size
 #if defined(__LINUX__)
