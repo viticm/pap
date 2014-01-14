@@ -12,13 +12,32 @@
 #define PAP_SERVER_BILLING_MAIN_ACCOUNTTABLE_H_
 
 #include "common/base/type.h"
+#include "common/base/string.h"
+#include "common/game/define/macros.h"
 
 class AccountTable {
 
  public:
+   AccountTable() {};
+   ~AccountTable() {};
 
+ public:
+   struct password_t {
+     char str[PASSWORDMAX];
+   };
+
+ public:
+   bool init();
+   bool check(const char* username, const char* password);
+
+ private:
+   pap_common_base::string::Table strtable_;
+   password_t* password_;
+   int32_t count_;
 
 };
+
+extern AccountTable g_accounttable;
 
 #endif //PAP_SERVER_BILLING_MAIN_ACCOUNTTABLE_H_
 

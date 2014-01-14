@@ -1,4 +1,5 @@
 #include "server/billing/main/billing.h"
+#include "server/billing/main/accounttable.h"
 #include "server/billing/connection/pool.h"
 #include "server/billing/main/servermanager.h"
 #include "server/common/base/time_manager.h"
@@ -89,17 +90,17 @@ bool Billing::init() {
     g_log->save_log("billing", "start read config files ...");
     result = g_config.init();
     Assert(result);
-    g_log->save_log("billing", "read config files success!");
+    g_log->save_log("billing", "read config files...success!");
 
     g_log->save_log("billing", "start new managers ...");
     result = new_staticmanager();
     Assert(result);
-    g_log->save_log("billing", "new managers success!");
+    g_log->save_log("billing", "new managers...success!");
 
     g_log->save_log("billing", "start init managers ...");
     result = init_staticmanager();
     Assert(result);
-    g_log->save_log("billing", "init managers success!");
+    g_log->save_log("billing", "init managers...success!");
 
     return result;
   __LEAVE_FUNCTION
@@ -131,16 +132,16 @@ bool Billing::new_staticmanager() {
   __ENTER_FUNCTION
     g_servermanager = new ServerManager();
     Assert(g_servermanager);
-    g_log->save_log("billing", "new ServerManager() success!");
+    g_log->save_log("billing", "new ServerManager()...success!");
 
     g_connectionpool = new connection::Pool();
     Assert(g_connectionpool);
-    g_log->save_log("billing", "new connection::Pool() success!");
+    g_log->save_log("billing", "new connection::Pool()...success!");
 
     g_packetfactory_manager = new pap_common_net::packet::factorymanager();
     Assert(g_packetfactory_manager);
     g_log->save_log("billing", 
-                    "new pap_common_net::packet::factorymanager() success!");
+                    "new pap_common_net::packet::factorymanager()...success!");
     
     return true;
   __LEAVE_FUNCTION
@@ -150,7 +151,46 @@ bool Billing::new_staticmanager() {
 bool Billing::init_staticmanager() {
   __ENTER_FUNCTION
     bool result = false;
+    result = g_accounttable.init();
+    Assert(result);
+    g_log->save_log("billing", "g_accounttable.init()...success!");
     
+    result = g_servermanager->init();
+    Assert(result);
+    g_log->save_log("billing", "g_servermanager->init()...success!");
+
+    result = g_connectionpool->init();
+    Assert(result);
+    g_log->save_log("billing", "g_connectionpool->init()...success!");
+
+    result = g_packetfactory_manager->init();
+    Assert(result);
+    g_log->save_log("billing", "g_packetfactory_manager->init()...success!");
+
+    return result;
+  __LEAVE_FUNCTION
+    return false;
+}
+
+bool Billing::release_staticmanager() {
+  __ENTER_FUNCTION
+    using namespace pap_server_common_base;
+
+    SAFE_DELETE(g_log);
+    Log::save_log("billing", "g_log release...success!");
+
+    SAFE_DELETE(g_time_manager);
+    Log::save_log("billing", "g_time_manager release...success!");
+    
+    SAFE_DELETE(g_packetfactory_manager);
+    Log::save_log("billing", "g_packetfactory_manager release...success!");
+
+    SAFE_DELETE(g_connectionpool);
+    Log::save_log("billing", "g_connectionpool release...success!");
+
+    SAFE_DELETE(g_servermanager);
+    Log::save_log("billing", "g_servermanager release...success!");
+    return true;
   __LEAVE_FUNCTION
     return false;
 }

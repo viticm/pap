@@ -27,6 +27,7 @@
 #define BASE_BAGPOS 185
 #define GUILDLEVEL_MAX 5 //公会最大等级
 #define CHARACTER_ABILITYMAX 8 //角色最多的生活技能数量
+#define PASSWORDMAX 12
 
 #define SERVRENAME_MAX 32
 

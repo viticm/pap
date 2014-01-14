@@ -56,10 +56,15 @@ class Database {
 
  public:
    bool open_from_txt(const char* filename);
-   bool open_from_memory(const char* memory, const char* end, const char* filename);
+   bool open_from_memory(const char* memory, 
+                         const char* end, 
+                         const char* filename);
    virtual const field_data* search_index_equal(int32_t index) const;
-   virtual const field_data* search_position(int32_t line, int32_t column) const;
-   virtual const field_data* search_first_column_equal(int32_t column, const field_data &value) const;
+   virtual const field_data* search_position(int32_t line, 
+                                             int32_t column) const;
+   virtual const field_data* search_first_column_equal(
+       int32_t column, 
+       const field_data &value) const;
    uint32_t get_id() const; //获得ID
    int32_t get_field_number() const;
    int32_t get_record_number() const;
@@ -71,7 +76,10 @@ class Database {
                                           const char* key,
                                           bool one_key,
                                           bool ignore_empty);
-   static const char* get_line_from_memory(char* str, int32_t size, const char* memory, const char* end);
+   static const char* get_line_from_memory(char* str, 
+                                           int32_t size, 
+                                           const char* memory,
+                                           const char* end);
    template<field_type_enum TYPE>
    static bool field_equal(const field_data &a, const field_data &b); 
 
@@ -94,8 +102,12 @@ class Database {
    int32_t index_column_;
 
  protected:
-   bool open_from_memory_text(const char* memory, const char* end, const char* filename = 0);
-   bool open_from_memory_binary(const char* memory, const char* end, const char* filename = 0);
+   bool open_from_memory_text(const char* memory, 
+                              const char* end, 
+                              const char* filename = 0);
+   bool open_from_memory_binary(const char* memory, 
+                                const char* end, 
+                                const char* filename = 0);
 
 };
 

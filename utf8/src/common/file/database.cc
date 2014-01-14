@@ -39,9 +39,12 @@ bool Database::open_from_txt(const char* filename) {
   __LEAVE_FUNCTION
 }
 
-bool Database::open_from_memory(const char* memory, const char* end, const char* filename) {
+bool Database::open_from_memory(const char* memory, 
+                                const char* end, 
+                                const char* filename) {
   __ENTER_FUNCTION
-    if (end - memory >= sizeof(file_head_t) && *(static_cast<uint32_t>(memory)) == 0XDDBBCC0) {
+    if (end - memory >= sizeof(file_head_t) && 
+        *(static_cast<uint32_t>(memory)) == 0XDDBBCC0) {
       return open_from_memory_binary(memory, end, filename);
     }
     else {
@@ -59,7 +62,8 @@ const Database::field_data* Database::search_index_equal(int32_t index) const {
     return NULL;
 }
 
-const Database::field_data* Database::search_position(int32_t line, int32_t column) const {
+const Database::field_data* Database::search_position(int32_t line, 
+                                                      int32_t column) const {
   __ENTER_FUNCTION
     field_data* result = NULL;
     int32_t position = line * get_field_number() + column;
@@ -68,7 +72,8 @@ const Database::field_data* Database::search_position(int32_t line, int32_t colu
       memset(temp, '\0', sizeof(temp));
       snprintf(temp, 
                sizeof(temp) - 1, 
-               "pap_common_file::Database::search_position is failed, position out for range[line:%d, column:%d] position:%d"
+               "pap_common_file::Database::search_position is failed,"
+               " position out for range[line:%d, column:%d] position:%d"
                line,
                column,
                position);
@@ -85,13 +90,16 @@ const Database::field_data* Database::search_position(int32_t line, int32_t colu
     return NULL;
 }
 
-const Database::field_data* Database::search_first_column_equal(int32_t column, const field_data &value) const {
+const Database::field_data* Database::search_first_column_equal(
+    int32_t column, 
+    const field_data &value) const {
   __ENTER_FUNCTION
     if (column < 0 || column > field_number_) return NULL;
     field_type_enum type = type_[column];
     register uint32_t i;
     for (i = 0; i < record_number_; ++i) {
-      const field_data &_field_data = data_buffer_[(field_number_ * i) + column];
+      const field_data &_field_data = 
+        data_buffer_[(field_number_ * i) + column];
       bool result;
       if (kTypeInt == type) {
         result = field_equal<kTypeInt>(_field_data, value);
@@ -144,7 +152,12 @@ void Database::create_index(int32_t column = 0, const char* filename = 0) {
       if (it_find != hash_index.end()) {
         char temp[256];
         memset(temp, '\0', sizeof(temp));
-        snprintf(temp, sizeof(temp) - 1, "[%s]multi index at line: %d(smae value: %d)", filename, i + 1, _field_data->value);
+        snprintf(temp, 
+                 sizeof(temp) - 1, 
+                 "[%s]multi index at line: %d(smae value: %d)", 
+                 filename, 
+                 i + 1, 
+                 _field_data->value);
 #if defined(_PAP_CLINET)
         throw std::string(temp);
 #else
@@ -194,7 +207,10 @@ int32_t Database::convert_string_tovector(const char* source,
     return 0;
 }
 
-const char* Database::get_line_from_memory(char* str, int32_t size, const char* memory, const char* end) {
+const char* Database::get_line_from_memory(char* str, 
+                                           int32_t size, 
+                                           const char* memory, 
+                                           const char* end) {
   __ENTER_FUNCTION
     register const char* _memory = memory;
     if (_memory >= end || 0 == *_memory) return NULL;
@@ -206,7 +222,9 @@ const char* Database::get_line_from_memory(char* str, int32_t size, const char* 
       *(str++) = *(_memory++);
     }
     *str = 0;
-    while (_memory < end && *_memory != && (*_memory != '\r' || *_memory != '\n')) *_memory++;
+    while (_memory < end && 
+           *_memory != 0 && 
+           (*_memory != '\r' || *_memory != '\n')) ++(*_memory);
     return _memory;
   __LEAVE_FUNCTION
     return NULL;
@@ -235,7 +253,9 @@ bool Database::field_equal(const field_data &a, const field_data &b) {
     return false;
 }
 
-bool Database::open_from_memory_text(const char* memory, const char* end, const char* filename) {
+bool Database::open_from_memory_text(const char* memory, 
+                                     const char* end, 
+                                     const char* filename) {
   __ENTER_FUNCTION
     char line[(1024 * 10) + 1]; //long string
     memset(line, '\0', sizeof(line));
@@ -278,7 +298,8 @@ bool Database::open_from_memory_text(const char* memory, const char* end, const 
       convert_string_tovector(line, result, '\t', true, false);
       if (result.empty()) continue; //空行
       if (result.size() != field_number) { //列数不对
-        int32_t left_number = field_number - static_cast<int32_t>(result.size());
+        int32_t left_number = 
+          field_number - static_cast<int32_t>(result.size());
         for (i = 0; i < left_number; ++i) {
           result.push("");
         }
@@ -299,25 +320,33 @@ bool Database::open_from_memory_text(const char* memory, const char* end, const 
           }
           case kTypeString: {
             const char* value = result[i].c_str();
+#if defined(UTF8)
             //convert charset
             char convert_str[513];
             memset(convert_str, '\0', sizeof(convert_str));
-            int32_t convert_result = pap_common_base::util::charset_convert("GBK",
-                                                                            "UTF-8",
-                                                                            convert_str,
-                                                                            sizeof(convert_str) - 1,
-                                                                            value,
-                                                                            strlen(value));
+            int32_t convert_result = 
+              pap_common_base::util::charset_convert("GBK",
+                                                     "UTF-8",
+                                                     convert_str,
+                                                     sizeof(convert_str) - 1,
+                                                     value,
+                                                     strlen(value));
             if (convert_result > 0) {
               value = static_cast<const char*>(convert_str);
               result[i] = static_cast<std::string>(convert_str);
             }
-            std::map<std::string, INT>::iterator it = map_string_buffer.find(result[i]);
+#endif
+            std::map<std::string, INT>::iterator it = 
+              map_string_buffer.find(result[i]);
             if (it == map_string_buffer.end()) {
-              string_buffer.push_back(std::mk_pair(result[i], string_buffer_size));
-              map_string_buffer.insert(std::mk_pair(result[i], static_cast<int32_t>(string_buffer.size()) - 1));
+              string_buffer.push_back(
+                  std::mk_pair(result[i], string_buffer_size));
+              map_string_buffer.insert(
+                  std::mk_pair(result[i], 
+                  static_cast<int32_t>(string_buffer.size()) - 1));
               _field_data.int_value = string_buffer_size + 1;
-              string_buffer_size += static_cast<int32_t>(strlen(result[i].c_str())) + 1;
+              string_buffer_size += 
+                static_cast<int32_t>(strlen(result[i].c_str())) + 1;
             }
             else {
               _field_data.int_value = string_buffer[it->second].second + 1;
@@ -343,7 +372,9 @@ bool Database::open_from_memory_text(const char* memory, const char* end, const 
     
     register char* temp = string_buffer_ + 1;
     for (i = 0; i < static_cast<int32_t>(string_buffer.size()); ++i) {
-      memcpy(temp, string_buffer[i].first.c_str(), string_buffer[i].first.size());
+      memcpy(temp, 
+             string_buffer[i].first.c_str(), 
+             string_buffer[i].first.size());
       temp += string_buffer[i].first.size();
       *(temp++) = '\0';
     }
@@ -362,7 +393,9 @@ bool Database::open_from_memory_text(const char* memory, const char* end, const 
     return false;
 }
 
-bool open_from_memory_binary(const char* memory, const char* end, const char* filename) {
+bool open_from_memory_binary(const char* memory, 
+                             const char* end, 
+                             const char* filename) {
   __ENTER_FUNCTION
     register const char* _memory = memory;
     file_head_t file_head;
@@ -413,7 +446,9 @@ bool open_from_memory_binary(const char* memory, const char* end, const char* fi
 
     //read all field
     data_buffer_.resize(field_number_ * record_number_);
-    memcpy(&(data_buffer_[0]), _memory, sizeof(field_data) * field_number_ * record_number_);
+    memcpy(&(data_buffer_[0]), 
+           _memory, 
+           sizeof(field_data) * field_number_ * record_number_);
     _memory += sizeof(field_data) * field_number_ * record_number_;
     memcpy(string_buffer_, _memory, string_buffer_size_);
     string_buffer_[string_buffer_size_ - 1] = '\0';
@@ -426,7 +461,8 @@ bool open_from_memory_binary(const char* memory, const char* end, const char* fi
       uint32_t j;
       for (j = 0; j < record_number_; ++j) {
         _field_number = get_field_number();
-        data_buffer_[i + field_number_ + j].string_value = reinterpret_cast<uint64_t>(string_buffer_); 
+        data_buffer_[i + field_number_ + j].string_value = 
+          reinterpret_cast<uint64_t>(string_buffer_); 
       }
     }
     create_index(0, filename);
