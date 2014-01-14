@@ -1,4 +1,5 @@
 #include "common/net/packet/factorymanager.h"
+#include "common/net/packet/base.h"
 #include "server/common/game/define/all.h"
 
 #if defined(_PAP_NET_BILLING) || defined(_PAP_NET_LOGIN) /* { */
@@ -57,13 +58,13 @@ bool FactoryManager::init() {
     return false;
 }
 
-Base* FactoryManager::createpacket(uint16_t pakcetid) {
+Base* FactoryManager::createpacket(uint16_t packetid) {
   __ENTER_FUNCTION
     if (NULL == factories_[packetid]) {
       Assert(false);
       return NULL;
     }
-    * packet = NULL;
+    Base* packet = NULL;
     lock();
     try {
       packet = factories_[packetid]->createpacket();
@@ -98,7 +99,7 @@ uint32_t FactoryManager::getpacket_maxsize(uint16_t packetid) {
     return 0;
 }
 
-void FactoryManager::removepacket(* packet) {
+void FactoryManager::removepacket(Base* packet) {
   __ENTER_FUNCTION
     if (NULL == packet) {
       Assert(false);
@@ -107,7 +108,7 @@ void FactoryManager::removepacket(* packet) {
     lock();
     try {
       SAFE_DELETE(packet);
-      --(packet_alloccount_[packet->get_packetid()]);
+      --(packet_alloccount_[packet->getid()]);
     }
     catch(...) {
       
@@ -137,8 +138,8 @@ void FactoryManager::addfactories_for_billinglogin() {
 #if defined(_PAP_NET_BILLING) || defined(_PAP_NET_LOGIN) /* { */
   __ENTER_FUNCTION
     using namespace pap_server_common_net::packets;
-    addfactory(new login_tobilling::AskAuth());
-    addfactory(new billing_tologin::ResultAuth());
+    addfactory(new login_tobilling::AskAuthFactory());
+    addfactory(new billing_tologin::ResultAuthFactory());
   __LEAVE_FUNCTION
 #endif /* } */
 }

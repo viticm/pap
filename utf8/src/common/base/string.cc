@@ -146,12 +146,12 @@ bool string_toint(const char* source,
 }
 
 uint32_t crc(const char* str) {
-  (NULL == str|| 0 == str[0]) && return 0;
+  if (NULL == str|| 0 == str[0]) return 0;
   uint32_t crc32 = 0xFFFFFFFF;
   int32_t size = static_cast<int32_t>(strlen(str));
   uint16_t i;
   for (i = 0; i < size; ++i) {
-    crc32 = crc * 33 + static_cast<unsigned char>str[i];
+    crc32 = crc32 * 33 + static_cast<unsigned char>(str[i]);
   }
   return crc32;
 }
@@ -190,7 +190,7 @@ void Table::init(uint32_t itemmax, uint32_t size) {
   __LEAVE_FUNCTION
 }
 
-bool Table::add(const char* str, void pointer) {
+bool Table::add(const char* str, void* pointer) {
   __ENTER_FUNCTION
     uint32_t id = crc(str);
     uint32_t count = (id / 4) % count_;
@@ -198,7 +198,7 @@ bool Table::add(const char* str, void pointer) {
     for (i = 0; i < count_; ++i) {
       if (kUse == item_[count].status) {
         ++count;
-        count > count_ && count = 0;
+        if (count > count_) count = 0;
         continue;
       }
       if (NULL == item_[count].str) {
@@ -217,18 +217,18 @@ bool Table::add(const char* str, void pointer) {
 
 void* Table::get(const char* str) {
   __ENTER_FUNCTION
-    (NULL == str || 0 == str[0]) && return NULL;
+    if(NULL == str || 0 == str[0]) return NULL;
     uint32_t id = crc(str);
     uint32_t count = (id / 4) % count_;
     uint32_t i;
     for (i = 0; i < count_; ++i) {
-      kEmpty == item_[count].status && return NULL;
+      if(kEmpty == item_[count].status) return NULL;
       if (kUse == item_[count].status) {
         ++count;
-        count > count_ && count = 0;
+        if (count > count_) count = 0;
         continue;
       }
-      0 == strcmp(item_[count].str, str) && return item_[count].pointer;
+      if(0 == strcmp(item_[count].str, str)) return item_[count].pointer;
     }
   __LEAVE_FUNCTION
     return NULL;
@@ -240,27 +240,27 @@ void Table::remove(const char* str) {
     uint32_t count = (id / 4) % count_;
     uint32_t i;
     for (i = 0; i < count_; ++i) {
-      kEmpty == item_[count].status && return;
+      if(kEmpty == item_[count].status) return;
       if (kUse == item_[count].status) {
         ++count;
-        count > count_ && count = 0;
+        if (count > count_ ) count = 0;
         continue;
       }
       if (0 == strcmp(item_[count].str, str)) {
-        memset(str, 0, sizeof(char) * size_);
+        memset(item_[count].str, 0, sizeof(char) * size_);
         item_[count].pointer = NULL;
         item_[count].status = kUse;
         return;
       }
       ++count;
-      count > count_ && count = 0;
+      if (count > count_) count = 0;
     }
   __LEAVE_FUNCTION
 }
 
 void Table::cleanup() {
   __ENTER_FUNCTION
-    NULL == item_ && return;
+    if(NULL == item_) return;
     uint32_t i;
     for (i = 0; i < count_; ++i) {
       memset(item_[i].str, 0, sizeof(char) * size_);
@@ -272,8 +272,8 @@ void Table::cleanup() {
 
 void* Table::get_byposition(uint32_t position) {
   __ENTER_FUNCTION
-    position > count_ && return NULL;
-    item_[position].status != kSet && return NULL;
+    if (position > count_) return NULL;
+    if (item_[position].status != kSet) return NULL;
     return item_[position].pointer;
   __LEAVE_FUNCTION
     return NULL;
@@ -281,8 +281,8 @@ void* Table::get_byposition(uint32_t position) {
 
 void Table::remove_byposition(uint32_t position) {
   __ENTER_FUNCTION
-    position > count_ && return;
-    memset(item_[count].str, 0, sizeof(char) * size_);
+    if (position > count_) return;
+    memset(item_[position].str, 0, sizeof(char) * size_);
     item_[position].pointer = NULL;
     item_[position].status = kUse;
   __LEAVE_FUNCTION

@@ -21,7 +21,7 @@ class InputStream {
    
  public:
    uint32_t read(char* buffer, uint32_t length);
-   bool readpacket(Packet* packet);
+   bool readpacket(packet::Base* packet);
    bool peek(char* buffer, uint32_t length);
    bool skip(uint32_t length);
    uint32_t fill();
@@ -34,7 +34,7 @@ class InputStream {
    int32_t get_keylength();
 
  private:
-   Socket* socket_;
+   socket::Base* socket_;
    struct packet_t* packet_;
    struct endecode_param_t* endecode_param_;
 

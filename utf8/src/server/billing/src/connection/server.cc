@@ -1,6 +1,6 @@
 #include "server/billing/connection/server.h"
 
-namespace connection {
+namespace billingconnection {
 
 Server::Server(bool isserver) : Billing(isserver) {
   status_ = 0;
@@ -81,7 +81,7 @@ bool Server::isvalid() {
     return false;
 }
 
-bool Server::sendpacket(pap_common_net::Packet* packet) {
+bool Server::sendpacket(pap_common_net::packet::Base* packet) {
   __ENTER_FUNCTION
     bool result = false;
     result = Billing::sendpacket(packet);

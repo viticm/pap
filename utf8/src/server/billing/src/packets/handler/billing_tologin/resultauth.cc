@@ -9,6 +9,8 @@ namespace billing_tologin {
 uint32_t ResultAuthHandler::execute(ResultAuth* packet, 
                                     connection::Base* connection) {
   __ENTER_FUNCTION
+    USE_PARAM(packet);
+    USE_PARAM(connection);
     return kPacketExecuteStatusContinue;
   __LEAVE_FUNCTION
     return kPacketExecuteStatusError;

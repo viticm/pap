@@ -13,15 +13,15 @@ namespace packets {
 
 namespace login_tobilling {
 
-class AskAuth : public pap_common_net::Packet {
+  class AskAuth : public pap_common_net::packet::Base {
  
  public:
    AskAuth();
    virtual ~AskAuth(){};
 
  public:
-   virtual bool read(pap_common_net::SocketInputStream& inputstream);
-   virtual bool write(pap_common_net::SocketOutputStream& outputstream) const;
+   virtual bool read(pap_common_net::socket::InputStream& inputstream);
+   virtual bool write(pap_common_net::socket::OutputStream& outputstream) const;
    virtual uint32_t execute(connection::Base* connection);
    virtual uint16_t get_packetid() const;
    virtual uint32_t get_packetsize() const;
@@ -57,10 +57,10 @@ class AskAuth : public pap_common_net::Packet {
 
 };
 
-class AskAuthFactory : public pap_common_net::PacketFactory {
+  class AskAuthFactory : public pap_common_net::packet::Factory {
 
  public:
-   pap_common_net::Packet* createpacket();
+   pap_common_net::packet::Base* createpacket();
    uint16_t get_packetid() const;
    uint32_t get_packet_maxsize() const;
 

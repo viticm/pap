@@ -1,8 +1,8 @@
 #include "server/billing/connection/pool.h"
 
-connection::Pool* g_connectionpool;
+billingconnection::Pool* g_connectionpool;
 
-namespace connection {
+namespace billingconnection {
 
 Pool::Pool() {
   connection_ = NULL;
@@ -30,33 +30,33 @@ bool Pool::init() {
     return false;
 }
 
-pap_server_common_net::ServerConnection* Pool::get(uint16_t id) {
+Server* Pool::get(int16_t id) {
   __ENTER_FUNCTION
     Server* connection = NULL;
-    if (connectionid > kPoolSizeMax) return NULL;
+    if (id > kPoolSizeMax) return NULL;
     connection = &(connection_[id]);
     return connection;
   __LEAVE_FUNCTION
     return NULL;
 }
 
-pap_server_common_net::ServerConnection* Pool::create() {
+Server* Pool::create() {
   __ENTER_FUNCTION
     Server* connection = NULL;
     lock();
     uint16_t result = 0, i;
     for (i = 0; i < kPoolSizeMax; ++i) {
       if (connection_[position_].isempty()) { //找出空闲位置
-        result = position_;
+        result = static_cast<uint16_t>(position_);
         connection_[position_].setempty(false);
         ++position_;
-        position_ >= kPoolSizeMax && position_ = 0;
+        if (position_ >= kPoolSizeMax) position_ = 0;
         --count_;
         connection = &(connection_[result]);
         break;
       }
       ++position_;
-      position_ >= kPoolSizeMax && position_ = 0;
+      if (position_ >= kPoolSizeMax) position_ = 0;
     }
     unlock();
     return connection;

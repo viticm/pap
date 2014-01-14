@@ -1,20 +1,21 @@
 #include "server/common/net/socket.h"
+#include "common/lib/vnet/vnet.hpp"
 
 namespace pap_server_common_net {
 
 Socket::Socket(uint16_t port, uint32_t backlog) {
   __ENTER_FUNCTION
     bool result = false;
-    socket_ = new pap_common_net::socket::Base;
-    NULL == socket_ && throw 1;
+    socket_ = new pap_common_net::socket::Base();
+    if (NULL == socket_) throw 1;
     result = socket_->create();
-    false == result && throw 1;
+    if (false == result) throw 1;
     result = socket_->set_reuseaddr();
-    false == result && throw 1;
+    if (false == result) throw 1;
     result = socket_->bind(port);
-    false == result && throw 1;
+    if (false == result) throw 1;
     result = socket_->listen(backlog);
-    false == result && throw 1;
+    if (false == result) throw 1;
   __LEAVE_FUNCTION
 }
 
@@ -28,7 +29,7 @@ Socket::~Socket() {
 }
 
 void Socket::close() {
-  socket_ != NULL && socket_->close();
+  if (socket_ != NULL) socket_->close();
 }
 
 bool Socket::accept(pap_common_net::socket::Base* socket) {
@@ -42,7 +43,7 @@ bool Socket::accept(pap_common_net::socket::Base* socket) {
     else {
       result = socket->accept(socket->port_);
     }
-    SOCKET_INVALID == result && return false;
+    if (SOCKET_INVALID == result) return false;
     return true;
   __LEAVE_FUNCTION
     return false;
@@ -75,10 +76,11 @@ bool Socket::is_nonblocking() const {
     return false;
 }
 
-void Socket::set_nonblocking(bool on) {
+bool Socket::set_nonblocking(bool on) {
   __ENTER_FUNCTION
-    socket_->set_nonblocking(on);
+    return socket_->set_nonblocking(on);
   __LEAVE_FUNCTION
+    return false;
 }
 
 uint32_t Socket::getreceive_buffersize() const {

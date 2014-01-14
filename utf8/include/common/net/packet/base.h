@@ -37,24 +37,23 @@ typedef enum {
   kPacketExecuteStatusNotRemoveError,
 } packet_executestatus_enum;
 
+
 namespace pap_common_net {
 
-namespace pap_server_common_net {
-class Connection; //just use for server
-}; //namespace pap_server_common_net
+namespace packet {
 
-class Packet {
+class Base {
 
  public:
-   Packet();
-   virtual ~Packet();
+   Base();
+   virtual ~Base();
  
  public:
    int8_t status;
    int8_t index;
 
  public:
-   virtual void cleanup();
+   virtual void cleanup() {};
    virtual bool read(socket::InputStream& inputstream) = 0;
    virtual bool write(socket::OutputStream& outputstream) const = 0;
    virtual uint32_t execute(
@@ -67,6 +66,8 @@ class Packet {
    void setstatus(uint8_t status);
 
 };
+
+}; //namespace packet
 
 }; //namespace pap_common_net
 

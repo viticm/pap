@@ -12,11 +12,14 @@ uint32_t AskAuthHandler::execute(AskAuth* packet,
                                  connection::Base* connection) {
   __ENTER_FUNCTION
     using namespace pap_common_game::define::result;
+    using namespace connection;
     Assert(packet);
     Assert(connection);
     //return success
     billing_tologin::ResultAuth message;
-    message.set_account(packet->get_account);
+    char account[ACCOUNTLENGTH_MAX + 1] = {0};
+    packet->getaccount(account, sizeof(account) - 1);
+    message.set_account(account);
     message.set_result(login::kSuccess);
     message.set_playerid(packet->get_playerid());
     message.set_isfatigue(0);
@@ -27,8 +30,8 @@ uint32_t AskAuthHandler::execute(AskAuth* packet,
     message.set_ismac_bind(0);
     message.set_is_realname_bind(0);
     message.set_is_inputname_bind(0);
-    connection::Server* serverconnection = NULL;
-    serverconnection = dynamic_cast<connection::Server*>(connection);
+    billingconnection::Server* serverconnection = NULL;
+    serverconnection = dynamic_cast<billingconnection::Server*>(connection);
     Assert(serverconnection);
     serverconnection->sendpacket(&message);
     return kPacketExecuteStatusContinue;

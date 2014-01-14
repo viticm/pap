@@ -1,7 +1,7 @@
 #include "server/billing/connection/manager.h"
 #include "server/billing/connection/pool.h"
 
-namespace connection {
+namespace billingconnection {
 
 Manager::Manager() : pap_server_common_net::connection::Manager() {
   //do nothing
@@ -78,7 +78,7 @@ uint16_t Manager::getcount() {
 }
 
 bool Manager::hash() {
-  bool result = static_cast<bool>(count_);
+  bool result = count_ > 0;
   return result;
 }
 

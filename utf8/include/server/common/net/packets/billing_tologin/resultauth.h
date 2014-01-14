@@ -24,18 +24,18 @@ namespace packets {
 
 namespace billing_tologin {
 
-class ResultAuth : public pap_common_net::Packet {
+  class ResultAuth : public pap_common_net::packet::Base {
 
  public:
    ResultAuth();
    virtual ~ResultAuth() {};
 
  public:  
-   virtual bool read(pap_common_net::SocketInputStream& inputstream);
-   virtual bool write(pap_common_net::SocketOutputStream& outputstream) const;
+   virtual bool read(pap_common_net::socket::InputStream& inputstream);
+   virtual bool write(pap_common_net::socket::OutputStream& outputstream) const;
    virtual uint32_t execute(connection::Base* connection);
-   virtual uint16_t get_packetid() const;
-   virtual uint32_t get_packetsize() const;
+   virtual uint16_t getid() const;
+   virtual uint32_t getsize() const;
    
  public: 
    void get_account(char* buffer, uint16_t length);
@@ -82,10 +82,10 @@ class ResultAuth : public pap_common_net::Packet {
 
 };
 
-class ResultAuthFactory : public pap_common_net::PacketFactory {
+  class ResultAuthFactory : public pap_common_net::packet::Factory {
 
  public:
-   pap_common_net::Packet* createpacket();
+   pap_common_net::packet::Base* createpacket();
    uint16_t get_packetid() const;
    uint32_t get_packet_maxsize() const;
 

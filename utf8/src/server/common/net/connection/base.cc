@@ -268,7 +268,9 @@ bool Base::sendpacket(pap_common_net::packet::Base* packet) {
     return false;
 }
 
-bool Base::heartbeat() {
+bool Base::heartbeat(uint32_t time, uint32_t flag) {
+  USE_PARAM(time);
+  USE_PARAM(flag);
   return true;
 }
 

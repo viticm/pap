@@ -19,7 +19,7 @@
 
 struct packet_async_t {
   pap_common_net::packet::Base* packet;
-  uint16_t pakcetid;
+  uint16_t packetid;
   uint32_t flag;
   packet_async_t() {
     packet = NULL;
@@ -44,15 +44,15 @@ extern const uint8_t g_kModelSaveLogId;
 class Base {
 
  public:
-   Connection(bool flag_isserver = false);
-   ~Connection();
+   Base(bool flag_isserver = false);
+   ~Base();
 
  public:
    virtual bool processinput();
    virtual bool processoutput();
    virtual bool processcommand(bool option = true);
-   virtual bool heartbeat(uint32_t time = 0, uint32_t flag);
-   virtual bool sendpacket(pap_common_net::Packet* packet);
+   virtual bool heartbeat(uint32_t time = 0, uint32_t flag = 0);
+   virtual bool sendpacket(pap_common_net::packet::Base* packet);
 
  public:
    virtual bool isserver() = 0;

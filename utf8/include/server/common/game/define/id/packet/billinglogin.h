@@ -8,8 +8,8 @@
  * @date 2014-1-4 14:37:21
  * @uses 验证（消费服务器）与登录服务器之间用到的包ID
  */
-#ifndef PAP_SERVER_COMMON_GAME_DEFINE_ID_PACKET_ALL_H_
-#define PAP_SERVER_COMMON_GAME_DEFINE_ID_PACKET_ALL_H_
+#ifndef PAP_SERVER_COMMON_GAME_DEFINE_ID_PACKET_BILLINGLOGIN_H_
+#define PAP_SERVER_COMMON_GAME_DEFINE_ID_PACKET_BILLINGLOGIN_H_
 
 #include "common/game/define/macros.h" //must include this
 
@@ -38,7 +38,8 @@ namespace login_tobilling { //登陆服务器发送给验证服务器
 
 typedef enum {
   /*begin {*/
-  kAskAuth = LOGIN_TOBILLING_PACKETID_MIN, 
+  kFirst = LOGIN_TOBILLING_PACKETID_MIN,
+  kAskAuth,
   kLast, /* the last packetid */
   kMax = LOGIN_TOBILLING_PACKETID_MAX,
   /*end }*/
@@ -46,4 +47,4 @@ typedef enum {
 
 }; //namespace login_tobilling
 
-#endif //PAP_SERVER_COMMON_GAME_DEFINE_ID_PACKET_ALL_H_
+#endif //PAP_SERVER_COMMON_GAME_DEFINE_ID_PACKET_BILLINGLOGIN_H_

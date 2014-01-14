@@ -6,10 +6,10 @@
 
 void baseio_perror(const char* format, ...) {
   char buffer[2048];
-#if defined(__linux__) /* { */
+#if defined(__LINUX__) /* { */
   const char* head = "\e[0;31;1m";
   const char* end = "\e[0m\n";
-#elif defined(__windows__) /* }{ */
+#elif defined(__WINDOWS__) /* }{ */
   const char* head = "(error)->";
   const char* end = "<-(error)\r\n";
 #endif /* } */
@@ -23,10 +23,10 @@ void baseio_perror(const char* format, ...) {
 
 void baseio_pwarn(const char* format, ...) {
   char buffer[2048];
-#if defined(__linux__) /* { */
+#if defined(__LINUX__) /* { */
   const char* head = "\e[0;33;1m";
   const char* end = "\e[0m\n";
-#elif defined(__windows__) /* }{ */
+#elif defined(__WINDOWS__) /* }{ */
   const char* head = "(warning)->";
   const char* end = "<-(warning)\r\n";
 #endif /* } */

@@ -1,7 +1,9 @@
 #include "server/billing/connection/billing.h"
 #include "server/common/game/define/all.h"
+#include "server/common/base/log.h"
+#include "common/net/packet/factorymanager.h"
 
-namespace connection {
+namespace billingconnection {
 
 Billing::Billing(bool isserver) : 
   pap_server_common_net::connection::Base(isserver) {
@@ -40,22 +42,22 @@ bool Billing::processcommand(bool option) {
     char packetheader[PACKET_HEADERSIZE] = {'\0'};
     uint16_t packetid;
     uint32_t packetcheck, packetsize, packetindex;
-    Packet* packet = NULL;
+    packet::Base* packet = NULL;
     if (isdisconnect()) return true;
     try {
       if (option) { //执行选项操作
       }
       for (;;) { //消费服务器需要及时处理所有消息
-        if (!socket_inputstream_->peek(&pakcetheader[0], PACKET_HEADERSIZE)) {
+        if (!socket_inputstream_->peek(&packetheader[0], PACKET_HEADERSIZE)) {
           //数据不能填充消息头
           break;
         }
         memcpy(&packetid, &packetheader[0], sizeof(uint16_t));
-        g_log->fast_save_log(kBillingLogFile, "packtid = %d", packtid);
-        memcpy(&packetcheck, &pakcetheader[sizeof(uint16_t)], sizeof(uint32_t));
+        g_log->fast_save_log(kBillingLogFile, "packtid = %d", packetid);
+        memcpy(&packetcheck, &packetheader[sizeof(uint16_t)], sizeof(uint32_t));
         packetsize = GET_PACKETLENGTH(packetcheck);
         packetindex = GET_PACKETINDEX(packetcheck);
-        if (!PacketFactoryManager::isvalid_packetid(packetid)) {
+        if (!packet::FactoryManager::isvalid_packetid(packetid)) {
           return false;
         }
         try {
@@ -67,7 +69,7 @@ bool Billing::processcommand(bool option) {
           }
           //check packet size
           if (packetsize > 
-              g_packetfactory_manager->get_packet_maxsize(packetid)) {
+              g_packetfactory_manager->getpacket_maxsize(packetid)) {
             char temp[FILENAME_MAX] = {0};
             snprintf(temp, 
                      sizeof(temp) - 1, 
@@ -79,10 +81,10 @@ bool Billing::processcommand(bool option) {
           //create packet
           packet = g_packetfactory_manager->createpacket(packetid);
           if (NULL == packet) return false;
-          packet->set_packetindex(packetindex);
+          packet->setindex(static_cast<int8_t>(packetindex));
           
           //read packet
-          result = socket_inputstream_->read(packet);
+          result = socket_inputstream_->readpacket(packet);
           if (false == result) {
             g_packetfactory_manager->removepacket(packet);
             return result;
@@ -194,10 +196,10 @@ bool Billing::isvalid() {
   return result;
 }
 
-bool sendpacket(pap_common_net::packet::Base* packet) {
+bool Billing::sendpacket(pap_common_net::packet::Base* packet) {
   __ENTER_FUNCTION  
     bool result = false;
-    result = pap_server_common_net::connection::Base::sendpacket(packet);
+    result = sendpacket(packet);
     return result;
   __LEAVE_FUNCTION
     return false;

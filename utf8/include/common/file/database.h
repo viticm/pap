@@ -12,9 +12,9 @@
 #define PAP_COMMON_FILE_DATABASE_H_
 
 #if defined(__LINUX__)
-#include <hash_map>
-#elif defined(__WINDOWS__)
 #include <ext/hash_map>
+#elif defined(__WINDOWS__)
+#include <hash_map>
 #endif
 #include "common/file/config.h"
 
@@ -36,7 +36,7 @@ class Database {
      kTypeString = 2,
    } field_type_enum;
 
-   typedef vector<field_type_enum> field_type;
+   typedef std::vector<field_type_enum> field_type;
    
    union field_data {
      float float_value;
@@ -48,10 +48,10 @@ class Database {
      field_data(const char* value) {string_value = value;}
    };
 
-   typedef vector<field_data> data_buffer;
+   typedef std::vector<field_data> data_buffer;
 
  public:
-   Database();
+   Database(uint32_t id);
    virtual ~Database();
 
  public:
@@ -71,8 +71,8 @@ class Database {
    void create_index(int32_t column = 0, const char* filename = 0);
 
  public:
-   static int32_t convert_string_tovector(const char* source
-                                          vector<std::string> &result,
+   static int32_t convert_string_tovector(const char* source,
+                                          std::vector<std::string> &result,
                                           const char* key,
                                           bool one_key,
                                           bool ignore_empty);
@@ -80,8 +80,7 @@ class Database {
                                            int32_t size, 
                                            const char* memory,
                                            const char* end);
-   template<field_type_enum TYPE>
-   static bool field_equal(const field_data &a, const field_data &b); 
+   static bool field_equal(field_type_enum type, const field_data &a, const field_data &b);
 
  protected:
 #if defined(__SGI_STL_PORT)
@@ -92,7 +91,7 @@ class Database {
    typedef __gnu_cxx::<int32_t, field_data*> field_hashmap;
 #endif
    uint32_t id_;
-   field_type_enum type_;
+   field_type type_;
    int32_t record_number_;
    int32_t field_number_;
    data_buffer data_buffer_;

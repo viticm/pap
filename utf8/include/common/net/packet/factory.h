@@ -22,8 +22,8 @@ class Factory {
  public:
    virtual ~Factory() {};
    virtual Base* createpacket() = 0;
-   virtual uint16_t getpacketid() const = 0;
-   virtual uint32_t getpacket_maxsize() const = 0;
+   virtual uint16_t get_packetid() const = 0;
+   virtual uint32_t get_packet_maxsize() const = 0;
 
 };
 

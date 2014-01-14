@@ -3,23 +3,25 @@
 
 #include "common/net/config.h"
 #include "common/lib/vnet/vnet.hpp"
-#include "common/net/socket.h"
-#include "common/net/packet.h"
+#include "common/net/socket/base.h"
+#include "common/net/packet/base.h"
 
 namespace pap_common_net {
+
+namespace socket {
 
 class OutputStream {
 
  public:
    OutputStream(
-       Base* socket, 
+     socket::Base* socket, 
        uint32_t bufferlength = SOCKETOUTPUT_BUFFERSIZE_DEFAULT,
        uint32_t bufferlength_max = SOCKETOUTPUT_DISCONNECT_MAXSIZE);
    ~OutputStream();
 
  public:
    uint32_t write(const char* buffer, uint32_t length);
-   uint32_t writepacket(const Packet* packet);
+   uint32_t writepacket(const packet::Base* packet);
    uint32_t flush();
    void init();
    bool resize(int32_t size);
@@ -36,6 +38,8 @@ class OutputStream {
    struct endecode_param_t* endecode_param_;
 
 };
+
+}; //namespace socket
 
 }; //namespace pap_common_net
 

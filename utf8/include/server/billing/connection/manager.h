@@ -16,7 +16,7 @@
 #include "server/common/net/connection/base.h"
 #include "server/common/net/connection/manager.h"
 
-namespace connection {
+namespace billingconnection {
 
 class Manager : public pap_server_common_net::connection::Manager {
 

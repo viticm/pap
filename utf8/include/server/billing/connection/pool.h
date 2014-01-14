@@ -14,7 +14,7 @@
 #include "common/sys/thread.h"
 #include "server/billing/connection/server.h"
 
-namespace connection {
+namespace billingconnection {
 
 const uint16_t kPoolSizeMax = 1280;
 
@@ -42,6 +42,6 @@ class Pool {
 
 }; //namespace connection
 
-extern connection::Pool* g_connectionpool;
+extern billingconnection::Pool* g_connectionpool;
 
 #endif //PAP_SERVER_BILLING_CONNECTION_POOL_H_

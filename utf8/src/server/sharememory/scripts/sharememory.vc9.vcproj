@@ -428,14 +428,6 @@
 							RelativePath="..\..\..\..\include\server\common\game\config.h"
 							>
 						</File>
-						<File
-							RelativePath="..\..\..\..\include\server\common\game\define.h"
-							>
-						</File>
-						<File
-							RelativePath="..\..\..\..\include\server\common\game\struct.h"
-							>
-						</File>
 						<Filter
 							Name="db"
 							>
@@ -451,6 +443,66 @@
 								RelativePath="..\..\..\..\include\server\common\game\db\struct.h"
 								>
 							</File>
+						</Filter>
+						<Filter
+							Name="define"
+							>
+							<File
+								RelativePath="..\..\..\..\include\server\common\game\define\all.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\..\..\include\server\common\game\define\enum.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\..\..\include\server\common\game\define\macros.h"
+								>
+							</File>
+							<Filter
+								Name="result"
+								>
+								<File
+									RelativePath="..\..\..\..\include\server\common\game\define\result\all.h"
+									>
+								</File>
+								<File
+									RelativePath="..\..\..\..\include\server\common\game\define\result\userdata.h"
+									>
+								</File>
+							</Filter>
+							<Filter
+								Name="status"
+								>
+								<File
+									RelativePath="..\..\..\..\include\server\common\game\define\status\all.h"
+									>
+								</File>
+								<File
+									RelativePath="..\..\..\..\include\server\common\game\define\status\connection.h"
+									>
+								</File>
+								<File
+									RelativePath="..\..\..\..\include\server\common\game\define\status\sharememory.h"
+									>
+								</File>
+							</Filter>
+							<Filter
+								Name="type"
+								>
+								<File
+									RelativePath="..\..\..\..\include\server\common\game\define\type\all.h"
+									>
+								</File>
+								<File
+									RelativePath="..\..\..\..\include\server\common\game\define\type\server.h"
+									>
+								</File>
+								<File
+									RelativePath="..\..\..\..\include\server\common\game\define\type\sharememory.h"
+									>
+								</File>
+							</Filter>
 						</Filter>
 					</Filter>
 					<Filter
@@ -553,14 +605,22 @@
 						RelativePath="..\..\..\..\include\common\game\config.h"
 						>
 					</File>
-					<File
-						RelativePath="..\..\..\..\include\common\game\define.h"
+					<Filter
+						Name="define"
 						>
-					</File>
-					<File
-						RelativePath="..\..\..\..\include\common\game\struct.h"
-						>
-					</File>
+						<File
+							RelativePath="..\..\..\..\include\common\game\define\all.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\common\game\define\enum.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\common\game\define\macros.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 				<Filter
 					Name="file"

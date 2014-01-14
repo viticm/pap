@@ -22,7 +22,7 @@ class Base {
  public:
    Base();
    Base(const char* host, uint16_t port);
-   virtual ~Socket();
+   virtual ~Base();
 
  public:
    int32_t socketid_;

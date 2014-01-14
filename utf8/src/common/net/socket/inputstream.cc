@@ -1,12 +1,13 @@
 #include "common/net/socket/inputstream.h"
+#include "common/base/util.h"
 
 namespace pap_common_net {
 
 namespace socket {
 
-InputStream::SocketOutputStream(Base* socket, 
-                                uint32_t bufferlength,
-                                uint32_t bufferlength_max) {
+InputStream::InputStream(Base* socket, 
+                         uint32_t bufferlength,
+                         uint32_t bufferlength_max) {
   __ENTER_FUNCTION
     socket_ = socket;
     //struct packet_t and endecode_param_t in c, so need init memory to it
@@ -17,10 +18,10 @@ InputStream::SocketOutputStream(Base* socket,
       (struct endecode_param_t*)malloc(sizeof(struct endecode_param_t));
     **/
     packet_->bufferlength = bufferlength;
-    pakcet_->bufferlength_max = bufferlength_max;
+    packet_->bufferlength_max = bufferlength_max;
     packet_->headlength = 0;
-    pakcet_->taillength = 0;
-    pakcet_->buffer = (char*)malloc(sizeof(char) * bufferlength);
+    packet_->taillength = 0;
+    packet_->buffer = (char*)malloc(sizeof(char) * bufferlength);
   __LEAVE_FUNCTION
 }
 
@@ -36,20 +37,20 @@ uint32_t InputStream::read(char* buffer, uint32_t length) {
   __ENTER_FUNCTION
     uint32_t result = 0;
     if (endecode_param_ != NULL && (*endecode_param_).keysize > 0) {
-      result = vnet_socket_inputstream_encoderead(pakcet_, 
+      result = vnet_socket_inputstream_encoderead(packet_, 
                                                   buffer, 
                                                   length, 
                                                   endecode_param_);
     }
     else {
-      result = vnet_socket_inputstream_read(pakcet_, buffer, length);
+      result = vnet_socket_inputstream_read(packet_, buffer, length);
     }
     return result;
   __LEAVE_FUNCTION
     return 0;
 }
 
-bool InputStream::readpacket(Packet* packet) {
+bool InputStream::readpacket(packet::Base* packet) {
   __ENTER_FUNCTION
     bool result = false;
     result = skip(PACKET_HEADERSIZE);
@@ -63,7 +64,7 @@ bool InputStream::readpacket(Packet* packet) {
 bool InputStream::peek(char* buffer, uint32_t length) {
   __ENTER_FUNCTION
     bool result = false;
-    result = vnet_socket_inputstream_peek(*packet_, buffer, length);
+    result = 1 == vnet_socket_inputstream_peek(*packet_, buffer, length);
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -73,12 +74,12 @@ bool InputStream::skip(uint32_t length) {
   __ENTER_FUNCTION
     bool result = false;
     if (endecode_param_ != NULL && (*endecode_param_).keysize > 0) {
-      result = vnet_socket_inputstream_encodeskip(packet_,
+      result = 1 == vnet_socket_inputstream_encodeskip(packet_,
                                                   length,
                                                   endecode_param_);
     }
     else {
-      result = vnet_socket_inputstream_skip(packet_, length);
+      result = 1 == vnet_socket_inputstream_skip(packet_, length);
     }
     return result;
   __LEAVE_FUNCTION
@@ -90,7 +91,7 @@ uint32_t InputStream::fill() {
     uint32_t result = 0;
     if (!socket_->isvalid()) return result;
     int32_t socketid = socket_->getid();
-    result = vnet_socket_inputstream_fill(socketid, pakcet_);
+    result = vnet_socket_inputstream_fill(socketid, packet_);
     return result;
   __LEAVE_FUNCTION
     return 0;
@@ -98,14 +99,14 @@ uint32_t InputStream::fill() {
 
 void InputStream::init() {
   __ENTER_FUNCTION
-    vnet_socket_inputstream_packetinit(pakcet_);
+    vnet_socket_inputstream_packetinit(packet_);
   __LEAVE_FUNCTION
 }
 
 bool InputStream::resize(int32_t size) {
   __ENTER_FUNCTION
     bool result = false;
-    result = vnet_socket_inputstream_resize(packet_, size);
+    result = 1 == vnet_socket_inputstream_resize(packet_, size);
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -137,7 +138,7 @@ void InputStream::setkey(unsigned char const* key) {
     endecode_param_ = //malloc for it, construct not get memory 
       (struct endecode_param_t*)malloc(sizeof(struct endecode_param_t));
     endecode_param_->key = key;
-    endecode_param_->keysize = strlen(key);
+    endecode_param_->keysize = strlen(reinterpret_cast<const char*>(key));
   __LEAVE_FUNCTION
 }
 

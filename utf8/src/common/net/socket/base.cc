@@ -24,7 +24,7 @@ Base::Base(const char* host, uint16_t port) {
 
 Base::~Base() {
   __ENTER_FUNCTION
-    close()
+    close();
   __LEAVE_FUNCTION
 }
 
@@ -51,7 +51,7 @@ void Base::close() {
 bool Base::connect() {
   __ENTER_FUNCTION
     bool result = true;
-    result = vnet_socketbase_connect(socketid_, host_, port_);
+    result = 1 == vnet_socketbase_connect(socketid_, host_, port_);
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -129,7 +129,7 @@ int32_t Base::fastaccept() {
 bool Base::bind() {
   __ENTER_FUNCTION
     bool result = true;
-    result = vnet_socketbase_bind(socketid_, port_);
+    result = 1 == vnet_socketbase_bind(socketid_, port_);
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -139,7 +139,7 @@ bool Base::bind(uint16_t port) {
   __ENTER_FUNCTION
     bool result = true;
     port_ = port;
-    result = vnet_socketbase_bind(socketid_, port_);
+    result = 1 == vnet_socketbase_bind(socketid_, port_);
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -148,7 +148,7 @@ bool Base::bind(uint16_t port) {
 bool Base::listen(uint32_t backlog) {
   __ENTER_FUNCTION
     bool result = true;
-    result = vnet_socketbase_listen(socketid_, backlog);
+    result = 1 == vnet_socketbase_listen(socketid_, backlog);
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -178,7 +178,7 @@ uint32_t Base::getlinger() const {
 bool Base::setlinger(uint32_t lingertime) {
   __ENTER_FUNCTION
     bool result = true;
-    result = vnet_socketbase_setlinger(socketid_, lingertime);
+    result = 1 == vnet_socketbase_setlinger(socketid_, lingertime);
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -187,7 +187,7 @@ bool Base::setlinger(uint32_t lingertime) {
 bool Base::is_reuseaddr() const {
   __ENTER_FUNCTION
     bool result = true;
-    result = vnet_socketbase_is_reuseaddr(socketid_);
+    result = 1 == vnet_socketbase_is_reuseaddr(socketid_);
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -196,7 +196,7 @@ bool Base::is_reuseaddr() const {
 bool Base::set_reuseaddr(bool on) {
   __ENTER_FUNCTION
     bool result = true;
-    result = vnet_socketbase_set_reuseaddr(socketid_, on);
+    result = 1 == vnet_socketbase_set_reuseaddr(socketid_, on);
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -220,7 +220,7 @@ void Base::getlast_errormessage(char* buffer, uint16_t length) const {
 bool Base::iserror() const {
   __ENTER_FUNCTION
     bool result = true;
-    result = vnet_socketbase_iserror(socketid_);
+    result = 1 == vnet_socketbase_iserror(socketid_);
     return result;
   __LEAVE_FUNCTION
     return true;
@@ -229,7 +229,7 @@ bool Base::iserror() const {
 bool Base::is_nonblocking() const {
   __ENTER_FUNCTION
     bool result = true;
-    result = vnet_socketbase_is_nonblocking(socketid_);
+    result = 1 == vnet_socketbase_is_nonblocking(socketid_);
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -238,7 +238,7 @@ bool Base::is_nonblocking() const {
 bool Base::set_nonblocking(bool on) {
   __ENTER_FUNCTION
     bool result = true;
-    result = vnet_socketbase_set_nonblocking(on);
+    result = 1 == vnet_socketbase_set_nonblocking(socketid_, on);
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -256,7 +256,7 @@ uint32_t Base::getreceive_buffersize() const {
 bool Base::setreceive_buffersize(uint32_t size) {
   __ENTER_FUNCTION
     bool result = true;
-    result = vnet_socketbase_setreceive_buffersize(socketid_, size);
+    result = 1 == vnet_socketbase_setreceive_buffersize(socketid_, size);
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -274,7 +274,7 @@ uint32_t Base::getsend_buffersize() const {
 bool Base::setsend_buffersize(uint32_t size) {
   __ENTER_FUNCTION
     bool result = true;
-    result = vnet_socketbase_setsend_buffersize(socketid_, size);
+    result = 1 == vnet_socketbase_setsend_buffersize(socketid_, size);
     return result;
   __LEAVE_FUNCTION
     return false;
@@ -296,7 +296,7 @@ uint64_t Base::getu64host() const {
       result = vnet_sokectbase_getu64host(NULL);
     }
     else {
-      result = vnet_socketbase_getu64host(static_cast<const char*>(host_));
+      result = vnet_sokectbase_getu64host(static_cast<const char*>(host_));
     }
     return result;
   __LEAVE_FUNCTION

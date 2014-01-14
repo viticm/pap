@@ -79,15 +79,15 @@ class Log {
 };
 
 #if defined(__LINUX__)
-#define SaveErrorLog() (pap_server_common_base::Log::SaveLog( \
-    SERVER_ERRORFILE_PREFIX, \
+#define SaveErrorLog() (pap_server_common_base::Log::save_log( \
+    "error", \
     "%s %d %s", \
     __FILE__, \
     __LINE__, \
     __PRETTY_FUNCTION__))
 #elif defined(__WINDOWS__)
-#define SaveErrorLog() (pap_server_common_base::Log::SaveLog( \
-    SERVER_ERRORFILE_PREFIX, \
+#define SaveErrorLog() (pap_server_common_base::Log::save_log( \
+    "error", \
     "%s %d %s", \
     __FILE__, \
     __LINE__, \

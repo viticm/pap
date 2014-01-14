@@ -13,7 +13,7 @@
 
 #include "server/common/net/connection/base.h"
 
-namespace connection {
+namespace billingconnection {
 
 class Billing : public pap_server_common_net::connection::Base {
 

@@ -13,4 +13,36 @@
 
 #include "common/base/type.h"
 
+namespace pap_common_net {
+
+namespace packet {
+
+class Base;
+class Factory;
+class FactoryManager;
+
+}; //namespace packet
+
+namespace socket {
+
+class Base;
+class InputStream;
+class OutputStream;
+
+}; //namespace socket
+
+}; //namespace pap_common_net
+
+
+//server connection
+namespace pap_server_common_net {
+
+namespace connection {
+
+class Base;
+
+}; //namespace connection
+
+}; //namespace pap_server_common_net
+
 #endif //PAP_COMMON_NET_CONFIG_H_
