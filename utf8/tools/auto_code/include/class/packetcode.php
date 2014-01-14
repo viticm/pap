@@ -270,8 +270,8 @@ EOF;
 
 #include "{$include_filemodel}common/net/config.h"
 #include "{$include_filemodel}common/net/connection.h"
-#include "common/net/packet.h"
-#include "common/net/packetfactory.h"
+#include "common/net/packet/base.h"
+#include "common/net/packet/factory.h"
 {$include_definefiles}
 {$namespaceconnetion}
 namespace pap{$namespace_model}_common_net {
@@ -287,11 +287,11 @@ class {$packetname} : public {$usepacket_namespace}Packet {
    virtual ~{$packetname}() {};
 
  public:  
-   virtual bool read({$usepacket_namespace}SocketInputStream& inputstream);
-   virtual bool write({$usepacket_namespace}SocketOutputStream& outputstream) const;
-   virtual uint32_t execute(Connection* connection);
-   virtual uint16_t get_packetid() const;
-   virtual uint32_t get_packetsize() const;
+   virtual bool read({$usepacket_namespace}socket::InputStream& inputstream);
+   virtual bool write({$usepacket_namespace}socket::OutputStream& outputstream) const;
+   virtual uint32_t execute(connection::Base* connection);
+   virtual uint16_t getid() const;
+   virtual uint32_t getsize() const;
    
  public: 
 {$public_definefunctions}
@@ -302,7 +302,7 @@ class {$packetname} : public {$usepacket_namespace}Packet {
 class {$packetname}Factory : public {$usepacket_namespace}PacketFactory {
 
  public:
-   {$usepacket_namespace}Packet* createpacket();
+   {$usepacket_namespace}packet::Base* createpacket();
    uint16_t get_packetid() const;
    uint32_t get_packet_maxsize() const;
 
@@ -367,16 +367,16 @@ EOF;
      $constructcode .= $twospace.'__ENTER_FUNCTION'.LF;
      $readcode = '';
      $readcode .= 'bool '.$packetname
-       .'::read('.$usepacket_namespace.'SocketInputStream& inputstream) {'.LF;
+       .'::read('.$usepacket_namespace.'socket::InputStream& inputstream) {'.LF;
      $readcode .= $twospace.'__ENTER_FUNCTION'.LF;
      $writecode = '';
      $writecode .= 'bool '.$packetname
-       .'::write('.$usepacket_namespace.'SocketOutputStream& outputstream) {'.LF;
+       .'::write('.$usepacket_namespace.'socket::OutputStream& outputstream) {'.LF;
      $writecode .= $twospace.'__ENTER_FUNCTION'.LF;
      /* get_pakcetsize and get_packet_maxsize{ */
      $sizecode = '';
      $maxsize_code = '';
-     $sizecode_head = 'uint32_t '.$packetname.'::get_packetsize() const {'.LF;
+     $sizecode_head = 'uint32_t '.$packetname.'::getsize() const {'.LF;
      $sizecode_body = $twospace.'uint32_t result = ';
      $sizecode_end = $twospace.'return result;'.LF;
      $sizecode_end .= '}'.LF;
@@ -640,7 +640,7 @@ namespace {$modelname} {
 {$constructcode}
 {$readcode}
 {$writecode}
-uint32_t {$packetname}::execute(Connection* connection) {
+uint32_t {$packetname}::execute(connection::Base* connection) {
   __ENTER_FUNCTION
     uint32_t result = 0;
     result = {$packetname}Handler::execute(this, connection);
@@ -649,14 +649,14 @@ uint32_t {$packetname}::execute(Connection* connection) {
     return 0;
 }
 
-uint16_t {$packetname}::get_packetid() const {
+uint16_t {$packetname}::getid() const {
   using namespace pap{$namespacemodel}_common_game::define::id::packet;
   return {$modelname}::k{$packetname};
 }
 
 {$sizecode}
 {$sourcecode}
-{$usepacket_namespace}Packet* AskAuthFactory::createpacket() {
+{$usepacket_namespace}packet::Base* AskAuthFactory::createpacket() {
   __ENTER_FUNCTION
     return new {$packetname}();
   __LEAVE_FUNCTION
