@@ -624,9 +624,11 @@ EOF;
      $constructcode .= '}'.LF;
      
      $readcode .= $twospace.'__LEAVE_FUNCTION'.LF;
+     $readcode .= $fourspace.'return false;'.LF;
      $readcode .= '}'.LF;
      
      $writecode .= $twospace.'__LEAVE_FUNCTION'.LF;
+     $writecode .= $fourspace.'return false;'.LF;
      $writecode .= '}'.LF;
      
      $sizecode .= $sizecode_head.$sizecode_body.$sizecode_end;
