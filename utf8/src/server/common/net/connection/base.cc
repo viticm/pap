@@ -170,7 +170,7 @@ bool Base::processcommand(bool option) {
                      sizeof(temp) - 1, 
                      "packet size error, packetid = %d", 
                      packetid);
-            AssertEx(temp, packetid);
+            AssertEx(false, temp);
             return false;
           }
           //create packet
@@ -310,7 +310,7 @@ void Base::disconnect() {
 
 bool Base::isvalid() {
   __ENTER_FUNCTION
-    if (NULL == socket) return false;
+    if (NULL == socket_) return false;
     bool result = false;
     result = socket_->isvalid();
     return result;

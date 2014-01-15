@@ -6,7 +6,13 @@
 #include "server/common/game/define/all.h"
 #include "common/base/util.h"
 
+#if defined(__WINDOWS__)
 #pragma warning(disable : 4127) //why use it? for FD_* functions
+#endif
+#undef max
+#undef min
+#define max(a,b) ((a) > (b) ? (a) : (b))
+#define min(a,b) ((a) < (b) ? (a) : (b))
 
 const uint8_t kOneStepAccept = 50;
 

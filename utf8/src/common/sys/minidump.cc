@@ -65,9 +65,8 @@ LONG WINAPI unhandled_exceptionfilter(
 	}
 	return EXCEPTION_EXECUTE_HANDLER;
 }
+#endif 
 
 } //namespace minidump
 
 } //namespace pap_common_sys
-
-#endif

@@ -22,5 +22,10 @@ update_CMakeList(
     "../../src/server/sharememory/src/CMakeLists.txt", 
     "../../src/server/sharememory/scripts/sharememory.vc9.vcproj")
 
+update_CMakeList(
+    "../../src/server/billing/src/CMakeLists.txt", 
+    "../../src/server/billing/scripts/billing.vc9.vcproj")
+--[[
 update_CMakeList("../../lib/common/vnet/src/CMakeLists.txt", 
                  "../../lib/common/vnet/scripts/vnet.vc9.vcproj")
+]]--

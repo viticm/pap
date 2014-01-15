@@ -6,6 +6,8 @@ INCLUDE_DIRECTORIES(../include)
 ##update_begin
 
 
+INCLUDE_DIRECTORIES(../../../../include)
+
 
 SET (SOURCEFILES_API_LIST
 	../src/api/vnet.c
@@ -75,7 +77,7 @@ if (WIN32)
 endif()
 
 
-ADD_LIBRARY(vnet STATIC
+ADD_LIBRARY(vnet
 	${SOURCEFILES_API_LIST}
 	${SOURCEFILES_FILE_LIST}
 	${SOURCEFILES_SOCKET_LIST}

@@ -129,10 +129,31 @@ SET (HEADERFILES_SERVER_COMMON_GAME_DB_LIST
 	../../../../include/server/common/game/db/struct.h
 )
 
+SET (HEADERFILES_SERVER_COMMON_GAME_DEFINE_RESULT_LIST
+	../../../../include/server/common/game/define/result/all.h
+	../../../../include/server/common/game/define/result/userdata.h
+)
+
+SET (HEADERFILES_SERVER_COMMON_GAME_DEFINE_STATUS_LIST
+	../../../../include/server/common/game/define/status/all.h
+	../../../../include/server/common/game/define/status/connection.h
+	../../../../include/server/common/game/define/status/sharememory.h
+)
+
+SET (HEADERFILES_SERVER_COMMON_GAME_DEFINE_TYPE_LIST
+	../../../../include/server/common/game/define/type/all.h
+	../../../../include/server/common/game/define/type/server.h
+	../../../../include/server/common/game/define/type/sharememory.h
+)
+
+SET (HEADERFILES_SERVER_COMMON_GAME_DEFINE_LIST
+	../../../../include/server/common/game/define/all.h
+	../../../../include/server/common/game/define/enum.h
+	../../../../include/server/common/game/define/macros.h
+)
+
 SET (HEADERFILES_SERVER_COMMON_GAME_LIST
 	../../../../include/server/common/game/config.h
-	../../../../include/server/common/game/define.h
-	../../../../include/server/common/game/struct.h
 )
 
 SET (HEADERFILES_SERVER_COMMON_SYS_LIST
@@ -175,10 +196,14 @@ SET (HEADERFILES_COMMON_SYS_LIST
 	../../../../include/common/sys/util.h
 )
 
+SET (HEADERFILES_COMMON_GAME_DEFINE_LIST
+	../../../../include/common/game/define/all.h
+	../../../../include/common/game/define/enum.h
+	../../../../include/common/game/define/macros.h
+)
+
 SET (HEADERFILES_COMMON_GAME_LIST
 	../../../../include/common/game/config.h
-	../../../../include/common/game/define.h
-	../../../../include/common/game/struct.h
 )
 
 SET (HEADERFILES_COMMON_FILE_LIST
@@ -226,6 +251,10 @@ if (WIN32)
 	source_group(HeaderFiles\\server\\common\\db\\data FILES ${HEADERFILES_SERVER_COMMON_DB_DATA_LIST})
 	source_group(HeaderFiles\\server\\common\\db FILES ${HEADERFILES_SERVER_COMMON_DB_LIST})
 	source_group(HeaderFiles\\server\\common\\game\\db FILES ${HEADERFILES_SERVER_COMMON_GAME_DB_LIST})
+	source_group(HeaderFiles\\server\\common\\game\\define\\result FILES ${HEADERFILES_SERVER_COMMON_GAME_DEFINE_RESULT_LIST})
+	source_group(HeaderFiles\\server\\common\\game\\define\\status FILES ${HEADERFILES_SERVER_COMMON_GAME_DEFINE_STATUS_LIST})
+	source_group(HeaderFiles\\server\\common\\game\\define\\type FILES ${HEADERFILES_SERVER_COMMON_GAME_DEFINE_TYPE_LIST})
+	source_group(HeaderFiles\\server\\common\\game\\define FILES ${HEADERFILES_SERVER_COMMON_GAME_DEFINE_LIST})
 	source_group(HeaderFiles\\server\\common\\game FILES ${HEADERFILES_SERVER_COMMON_GAME_LIST})
 	source_group(HeaderFiles\\server\\common\\sys FILES ${HEADERFILES_SERVER_COMMON_SYS_LIST})
 	source_group(HeaderFiles\\server\\common FILES ${HEADERFILES_SERVER_COMMON_LIST})
@@ -235,6 +264,7 @@ if (WIN32)
 	source_group(HeaderFiles\\server FILES ${HEADERFILES_SERVER_LIST})
 	source_group(HeaderFiles\\common\\base FILES ${HEADERFILES_COMMON_BASE_LIST})
 	source_group(HeaderFiles\\common\\sys FILES ${HEADERFILES_COMMON_SYS_LIST})
+	source_group(HeaderFiles\\common\\game\\define FILES ${HEADERFILES_COMMON_GAME_DEFINE_LIST})
 	source_group(HeaderFiles\\common\\game FILES ${HEADERFILES_COMMON_GAME_LIST})
 	source_group(HeaderFiles\\common\\file FILES ${HEADERFILES_COMMON_FILE_LIST})
 	source_group(HeaderFiles\\common\\lib\\iconv FILES ${HEADERFILES_COMMON_LIB_ICONV_LIST})
@@ -267,6 +297,10 @@ ADD_EXECUTABLE(sharememory
 	${HEADERFILES_SERVER_COMMON_DB_DATA_LIST}
 	${HEADERFILES_SERVER_COMMON_DB_LIST}
 	${HEADERFILES_SERVER_COMMON_GAME_DB_LIST}
+	${HEADERFILES_SERVER_COMMON_GAME_DEFINE_RESULT_LIST}
+	${HEADERFILES_SERVER_COMMON_GAME_DEFINE_STATUS_LIST}
+	${HEADERFILES_SERVER_COMMON_GAME_DEFINE_TYPE_LIST}
+	${HEADERFILES_SERVER_COMMON_GAME_DEFINE_LIST}
 	${HEADERFILES_SERVER_COMMON_GAME_LIST}
 	${HEADERFILES_SERVER_COMMON_SYS_LIST}
 	${HEADERFILES_SERVER_COMMON_LIST}
@@ -276,6 +310,7 @@ ADD_EXECUTABLE(sharememory
 	${HEADERFILES_SERVER_LIST}
 	${HEADERFILES_COMMON_BASE_LIST}
 	${HEADERFILES_COMMON_SYS_LIST}
+	${HEADERFILES_COMMON_GAME_DEFINE_LIST}
 	${HEADERFILES_COMMON_GAME_LIST}
 	${HEADERFILES_COMMON_FILE_LIST}
 	${HEADERFILES_COMMON_LIB_ICONV_LIST}

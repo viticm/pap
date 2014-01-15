@@ -44,7 +44,7 @@ bool Database::open_from_memory(const char* memory,
                                 const char* end, 
                                 const char* filename) {
   __ENTER_FUNCTION
-    if (end - memory >= sizeof(file_head_t) && 
+    if (end - memory >= static_cast<int32_t>(sizeof(file_head_t)) && 
         *((uint32_t*)memory) == 0XDDBBCC0) {
       return open_from_memory_binary(memory, end, filename);
     }
@@ -284,7 +284,7 @@ bool Database::open_from_memory_text(const char* memory,
     //init
     int32_t record_number = 0;
     int32_t field_number = static_cast<int32_t>(_field_type.size());
-    std::vector<std::pair<std::string, int32_t>> string_buffer;
+    std::vector<std::pair<std::string, int32_t> > string_buffer;
     std::map<std::string, int32_t> map_string_buffer;
     _memory = get_line_from_memory(line, sizeof(line) - 1, _memory, end);
     if (!_memory) return false;
@@ -335,7 +335,7 @@ bool Database::open_from_memory_text(const char* memory,
               result[i] = static_cast<std::string>(convert_str);
             }
 #endif
-            std::map<std::string, INT>::iterator it = 
+            std::map<std::string, int32_t>::iterator it = 
               map_string_buffer.find(result[i]);
             if (it == map_string_buffer.end()) {
               string_buffer.push_back(

@@ -75,7 +75,7 @@ bool Billing::processcommand(bool option) {
                      sizeof(temp) - 1, 
                      "packet size error, packetid = %d", 
                      packetid);
-            AssertEx(temp, packetid);
+            AssertEx(false, temp);
             return false;
           }
           //create packet
