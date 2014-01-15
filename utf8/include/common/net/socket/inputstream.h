@@ -32,9 +32,10 @@ class InputStream {
    void cleanup();
    void setkey(unsigned char const* key);
    int32_t get_keylength();
+   Base* getsocket();
 
  private:
-   socket::Base* socket_;
+   Base* socket_;
    struct packet_t* packet_;
    struct endecode_param_t* endecode_param_;
 

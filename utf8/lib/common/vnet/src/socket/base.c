@@ -212,7 +212,7 @@ bool socketbase_setsend_buffersize(int32_t socketid, uint32_t size) {
   return result;
 }
 
-uint64_t socketbase_getu64host(const char* host) {
+uint64_t sokectbase_getu64host(const char* host) {
   uint64_t result = 0;
   result = NULL == host ? (uint64_t)htonl(INADDR_ANY) : (uint64_t)inet_addr(host);
   return result;

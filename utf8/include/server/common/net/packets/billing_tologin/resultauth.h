@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2013-2013 viticm( viticm@126.com )
  * @license
  * @user viticm<viticm@126.com>
- * @date 2014-01-07 23:56:12
+ * @date 2014-01-15 14:16:45
  * @uses packet ResultAuth class
  */
 #ifndef PAP_SERVER_COMMON_NET_PACKETS_BILLING_TOLOGIN_RESULTAUTH_H_
@@ -16,6 +16,7 @@
 #include "common/net/packet/base.h"
 #include "common/net/packet/factory.h"
 #include "common/game/define/all.h"
+#include "server/common/game/define/all.h"
 
 
 namespace pap_server_common_net {
@@ -24,7 +25,7 @@ namespace packets {
 
 namespace billing_tologin {
 
-  class ResultAuth : public pap_common_net::packet::Base {
+class ResultAuth : public pap_common_net::packet::Base {
 
  public:
    ResultAuth();
@@ -82,7 +83,7 @@ namespace billing_tologin {
 
 };
 
-  class ResultAuthFactory : public pap_common_net::packet::Factory {
+class ResultAuthFactory : public pap_common_net::packet::Factory {
 
  public:
    pap_common_net::packet::Base* createpacket();
@@ -94,7 +95,8 @@ namespace billing_tologin {
 class ResultAuthHandler {
 
  public:
-   static uint32_t execute(ResultAuth* packet, connection::Base* connection);
+   static uint32_t execute(ResultAuth* packet, 
+                           connection::Base* connection);
 
 };
 

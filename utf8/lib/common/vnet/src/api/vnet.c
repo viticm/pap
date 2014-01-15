@@ -118,6 +118,22 @@ VNET_API bool vnet_socketbase_setreceive_buffersize(int32_t socketid,
   return result;
 }
 
+VNET_API uint32_t vnet_socketbase_getsend_buffersize(int32_t socketid) {
+  uint32_t result = socketbase_getsend_buffersize(socketid);
+  return result;
+}
+
+VNET_API bool vnet_socketbase_setsend_buffersize(int32_t socketid, 
+                                                 uint32_t size) {
+  bool result = socketbase_setsend_buffersize(socketid, size);
+  return result;
+}
+
+VNET_API uint64_t vnet_socketbase_getu64host(const char* host) {
+  uint64_t result = sokectbase_getu64host(host);
+  return result;
+}
+
 VNET_API int32_t vnet_socketbase_getlast_errorcode() {
   int32_t result = socketbase_getlast_errorcode();
   return result;

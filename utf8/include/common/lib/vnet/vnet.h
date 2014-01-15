@@ -50,7 +50,7 @@ VNET_API bool vnet_socketbase_setreceive_buffersize(int32_t socketid,
 VNET_API uint32_t vnet_socketbase_getsend_buffersize(int32_t socketid);
 VNET_API bool vnet_socketbase_setsend_buffersize(int32_t socketid, 
                                                  uint32_t size);
-VNET_API uint64_t vnet_sokectbase_getu64host(const char* host);
+VNET_API uint64_t vnet_socketbase_getu64host(const char* host);
 VNET_API int32_t vnet_socketbase_getlast_errorcode();
 VNET_API void vnet_socketbase_getlast_errormessage(char* buffer, 
                                                    uint16_t length);

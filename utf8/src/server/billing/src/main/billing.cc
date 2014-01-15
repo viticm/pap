@@ -17,9 +17,16 @@ Billing g_billing;
 int32_t main(int32_t argc, char* argv[]) {
   using namespace pap_server_common_base;
 #if defined(__WINDOWS__)
+  //如果想用这个调试，请在GBK环境下，而且需要去掉对iconv的调用
+  //1去掉库libiconv.lib
+  //2注释掉common/base/util.cc的charset_convert方法
+  /**
   SetUnhandledExceptionFilter(
       pap_common_sys::minidump::unhandled_exceptionfilter);
+  **/ 
   _CrtSetDbgFlag(_CrtSetDbgFlag(0) | _CRTDBG_LEAK_CHECK_DF);
+  system("color 02"); //color green
+  system("mode con cols=120"); //cmd size
 #endif
   __ENTER_FUNCTION
     if (argc > 1) {

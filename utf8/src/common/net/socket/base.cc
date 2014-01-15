@@ -293,10 +293,10 @@ uint64_t Base::getu64host() const {
   __ENTER_FUNCTION
     uint64_t result = 0;
     if (0 == strlen(host_)) {
-      result = vnet_sokectbase_getu64host(NULL);
+      result = vnet_socketbase_getu64host(NULL);
     }
     else {
-      result = vnet_sokectbase_getu64host(static_cast<const char*>(host_));
+      result = vnet_socketbase_getu64host(static_cast<const char*>(host_));
     }
     return result;
   __LEAVE_FUNCTION

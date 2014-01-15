@@ -82,7 +82,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\$(ProjectName).lib"
+				OutputFile="$(OutDir)\lib$(ProjectName)d.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -150,7 +150,7 @@
 				ProgramDataBaseFileName="$(IntDir)\$(ProjectName).pdb"
 				WarningLevel="4"
 				CompileAs="1"
-				DisableSpecificWarnings="4996"
+				DisableSpecificWarnings="4996;4819"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -165,7 +165,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\$(ProjectName).lib"
+				OutputFile="$(OutDir)\lib$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

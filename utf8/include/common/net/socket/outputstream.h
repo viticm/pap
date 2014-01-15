@@ -31,6 +31,7 @@ class OutputStream {
    void setkey(unsigned char const* key);
    int32_t get_keylength();
    void getbuffer(char* buffer, uint32_t length);
+   Base* getsocket();
 
  private:
    Base* socket_;
