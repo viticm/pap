@@ -143,7 +143,7 @@ bool Billing::new_staticmanager() {
 
     g_connectionpool = new billingconnection::Pool();
     Assert(g_connectionpool);
-    g_log->save_log("billing", "new connection::Pool()...success!");
+    g_log->save_log("billing", "new billingconnection::Pool()...success!");
 
     g_packetfactory_manager = new pap_common_net::packet::FactoryManager;
     Assert(g_packetfactory_manager);
