@@ -423,7 +423,7 @@ EOF;
        $maxsize_codebody .= 1 == $i ? '' : $space18.$twospace;
        $maxsize_codebody .= 'sizeof('.$type.')';
        $maxsize_codebody .= 
-         $length !== '0' ?  '* '.implode(' * ', $lengtharray) : '';
+         $length !== '0' ?  ' * '.implode(' * ', $lengtharray) : '';
        $maxsize_codebody .= $valuescount != $i ? ' +'.LF : ';'.LF;
        
        if ('char' == $type && $length !== '0') {
