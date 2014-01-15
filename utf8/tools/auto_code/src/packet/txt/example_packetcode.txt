@@ -10,7 +10,7 @@ FileName: resultauth /* 文件名 */
 /* 0 不用包含 1 服务器与公用 2 服务器 3 公用 --包括定义文件define/all.h
  * 服务器为pap_server_game_common::define 公用为pap_game_common::define
  */ 
-IncludeDefineFile: 3
+IncludeDefineFile: 1
 
  
 /* 数据名称将作为变量名，数据类型可用c99所有整型以及字符和数组，不允许使用指针 
