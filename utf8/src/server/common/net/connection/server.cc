@@ -12,6 +12,15 @@ Server::~Server() {
   //do nothing
 }
 
+bool Server::init() {
+  __ENTER_FUNCTION
+    Base::setdisconnect(false);
+    Base::resetkick();
+    return true;
+  __LEAVE_FUNCTION
+    return false;
+}
+
 bool Server::processinput() {
   __ENTER_FUNCTION
     bool result = false;
@@ -83,7 +92,7 @@ bool Server::isvalid() {
     return false;
 }
 
-bool Server::sendpacket(pap_common_net::Packet* packet) {
+bool Server::sendpacket(pap_common_net::packet::Base* packet) {
   __ENTER_FUNCTION
     bool result = false;
     result = Base::sendpacket(packet);

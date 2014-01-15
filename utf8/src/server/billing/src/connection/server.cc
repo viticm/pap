@@ -10,6 +10,15 @@ Server::~Server() {
   //do nothing
 }
 
+bool Server::init() {
+  __ENTER_FUNCTION
+    pap_server_common_net::connection::Base::setdisconnect(false);
+    pap_server_common_net::connection::Base::resetkick();
+    return true;
+  __LEAVE_FUNCTION
+    return false;
+}
+
 bool Server::processinput() {
   __ENTER_FUNCTION
     bool result = false;

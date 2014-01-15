@@ -15,22 +15,22 @@ const char* g_dump_exename = "billing";
 Billing g_billing;
 
 int32_t main(int32_t argc, char* argv[]) {
+  using namespace pap_server_common_base;
 #if defined(__WINDOWS__)
   SetUnhandledExceptionFilter(
-      pap_common_sys::minidump::unhandled_exceptionfilter());
+      pap_common_sys::minidump::unhandled_exceptionfilter);
   _CrtSetDbgFlag(_CrtSetDbgFlag(0) | _CRTDBG_LEAK_CHECK_DF);
 #endif
   __ENTER_FUNCTION
     if (argc > 1) {
       uint16_t i;
       for (i = 1; i < argc; ++i) {
-        0 == strcmp(argv[i],"-ignoreassert") && g_command_assert = 1;
-        0 == strcmp(argv[i],"-retryassert") && g_command_assert = 2;
-        0 == strcmp(argv[i],"-ignoremessagebox") && 
+        if (0 == strcmp(argv[i],"-ignoreassert")) g_command_assert = 1;
+        if (0 == strcmp(argv[i],"-retryassert")) g_command_assert = 2;
+        if (0 == strcmp(argv[i],"-ignoremessagebox")) 
           g_command_ignore_message_box = true;
       }
     }
-    using pap_server_common_base;
     bool result = false;
     
     g_time_manager = new TimeManager();
@@ -134,11 +134,11 @@ bool Billing::new_staticmanager() {
     Assert(g_servermanager);
     g_log->save_log("billing", "new ServerManager()...success!");
 
-    g_connectionpool = new connection::Pool();
+    g_connectionpool = new billingconnection::Pool();
     Assert(g_connectionpool);
     g_log->save_log("billing", "new connection::Pool()...success!");
 
-    g_packetfactory_manager = new pap_common_net::packet::factorymanager();
+    g_packetfactory_manager = new pap_common_net::packet::FactoryManager;
     Assert(g_packetfactory_manager);
     g_log->save_log("billing", 
                     "new pap_common_net::packet::factorymanager()...success!");

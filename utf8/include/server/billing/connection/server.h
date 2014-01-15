@@ -23,6 +23,7 @@ class Server : public Billing {
    ~Server();
 
  public:
+   bool init();
    virtual bool processinput();
    virtual bool processoutput();
    virtual bool processcommand(bool option = true);

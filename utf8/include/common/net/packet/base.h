@@ -49,8 +49,8 @@ class Base {
    virtual ~Base();
  
  public:
-   int8_t status;
-   int8_t index;
+   int8_t status_;
+   int8_t index_;
 
  public:
    virtual void cleanup() {};

@@ -6,12 +6,12 @@ AccountTable g_accounttable;
 bool AccountTable::init() {
   __ENTER_FUNCTION
     bool result = false;
-    pap_common_file::Database account_dbfile;
+    pap_common_file::Database account_dbfile(0);
     result = account_dbfile.open_from_txt("./config/account.txt");
-    !result && return false;
+    if (!result) return false;
     int32_t tablecount = account_dbfile.get_record_number();
-    int32_t tablecolumn = account_dbfile.get_field_number();
-    tablecount <= 0 && return false;
+    //int32_t tablecolumn = account_dbfile.get_field_number();
+    if (tablecount <= 0) return false;
     password_ = new password_t[tablecount];
     strtable_.init(tablecount, ACCOUNTLENGTH_MAX);
     int32_t i;
@@ -32,7 +32,7 @@ bool AccountTable::check(const char* username, const char* password) {
     bool result = false;
     Assert(username);
     char* rightpassword = static_cast<char*>(strtable_.get(username));
-    NULL == rightpassword && return false;
+    if (NULL == rightpassword) return false;
     Assert(password);
     result = 0 == strcmp(password, rightpassword);
     return result;

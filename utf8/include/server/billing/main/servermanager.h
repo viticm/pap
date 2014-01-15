@@ -23,13 +23,13 @@
 /*system include }*/
 
 #include "server/billing/connection/manager.h"
-#include "server/common/net/connection/server.h"
+#include "server/billing/connection/server.h"
 #include "server/common/net/socket.h"
 #include "server/common/base/define.h"
 #include "common/sys/thread.h"
 
 
-class ServerManager : public connection::Manager {
+class ServerManager : public billingconnection::Manager {
 
  public:
    ServerManager();
@@ -40,7 +40,7 @@ class ServerManager : public connection::Manager {
    bool select(); //网络侦测
    bool processinput(); //数据接受接口
    bool processoutput(); //数据发送接口
-   bool processexeption(); //异常连接处理
+   bool processexception(); //异常连接处理
    bool processcommand(); //消息执行
    bool accept_newconnection(); //新连接接收处理
    virtual bool heartbeat();
@@ -57,9 +57,9 @@ class ServerManager : public connection::Manager {
    bool removeconnection(pap_server_common_net::connection::Base* connection);
    void remove_allconnection();
    //获得服务器连接指针
-   Server* get_serverconnection(uint16_t id);
+   billingconnection::Server* get_serverconnection(uint16_t id);
    //服务器广播
-   void broadcast(pap_server_common_net::packet::Base* packet);
+   void broadcast(pap_common_net::packet::Base* packet);
 
  public:
    uint64_t threadid_;

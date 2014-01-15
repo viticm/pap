@@ -21,13 +21,14 @@ Manager::~Manager() {
 void Manager::cleanup() {
   count_ = 0;
   uint16_t i;
-  for (i = 0; i < sizeof(connectionid_); ++i) {
+  for (i = 0; i < sizeof(connectionids_); ++i) {
     connectionids_[i] = ID_INVALID;
   }
 }
 
 bool Manager::heartbeat(uint32_t time) {
   __ENTER_FUNCTION
+    USE_PARAM(time);
     bool result = true;
     return result;
   __LEAVE_FUNCTION
@@ -39,7 +40,7 @@ bool Manager::add(Base* connection) {
     Assert(connection);
     if (0 == connectionids_[count_]) {
       connectionids_[count_] = connection->getid();
-      connection->set_managerid(connectionids_);
+      connection->set_managerid(count_);
       ++count_;
       Assert(count_ < CONNECTION_MAX);
     }
@@ -72,12 +73,12 @@ int16_t* Manager::get_allid() {
   return connectionids_;
 }
 
-int16_t Manager::getcount() {
+uint16_t Manager::getcount() {
   return count_;
 }
 
 bool Manager::hash() {
-  bool result = static_cast<bool>(connectionids_);
+  bool result = connectionids_[0] != ID_INVALID;
   return result;
 }
 

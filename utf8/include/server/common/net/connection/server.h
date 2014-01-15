@@ -27,6 +27,7 @@ class Server : public Base {
    ~Server();
 
  public:
+   bool init();
    virtual bool processinput();
    virtual bool processoutput();
    virtual bool processcommand(bool option = true);
@@ -34,10 +35,10 @@ class Server : public Base {
    virtual bool heartbeat(uint32_t time = 0);
 
  public:
-   virtual isserver();
-   virtual isplayer();
-   virtual islogin();
-   virtual isbilling();
+   virtual bool isserver();
+   virtual bool isplayer();
+   virtual bool islogin();
+   virtual bool isbilling();
    void setstatus(uint32_t status);
    virtual bool isvalid();
    virtual bool sendpacket(pap_common_net::packet::Base* packet);

@@ -151,7 +151,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/FORCE:MULTIPLE"
-				AdditionalDependencies="ws2_32.lib ../../../../lib/common/iconv/link/libiconv.lib"
+				AdditionalDependencies="ws2_32.lib ../../../../lib/common/iconv/link/libiconv.lib ../../../../lib/common/vnet/static/libvnet.lib"
 				LinkIncremental="1"
 				IgnoreDefaultLibraryNames="libc.lib;libcd.lib"
 				GenerateDebugInformation="true"

@@ -1,4 +1,5 @@
 #include "server/common/net/packets/billing_tologin/resultauth.h"
+#include "server/common/game/define/all.h"
 
 namespace pap_server_common_net {
 
@@ -13,7 +14,7 @@ ResultAuth::ResultAuth() {
   __LEAVE_FUNCTION
 }
 
-bool ResultAuth::read(pap_common_net::SocketInputStream& inputstream) {
+bool ResultAuth::read(pap_common_net::socket::InputStream& inputstream) {
   __ENTER_FUNCTION
     inputstream.read(account_, sizeof(account_) - 1);
     inputstream.read(static_cast<char*>(&result_), sizeof(result_));
@@ -31,7 +32,7 @@ bool ResultAuth::read(pap_common_net::SocketInputStream& inputstream) {
   __LEAVE_FUNCTION
 }
 
-bool ResultAuth::write(pap_common_net::SocketOutputStream& outputstream) {
+bool ResultAuth::write(pap_common_net::socket::OutputStream& outputstream) {
   __ENTER_FUNCTION
     outputstream.write(account_, sizeof(account_) - 1);
     outputstream.write(static_cast<char*>(&result_), sizeof(result_));
@@ -59,11 +60,11 @@ uint32_t ResultAuth::execute(connection::Base* connection) {
 }
 
 uint16_t ResultAuth::get_packetid() const {
-  using namespace pap_server_common_game::define::id::packet;
-  return billing_tologin::kResultAuth;
+  using namespace pap_server_common_game::define;
+  return id::packet::billing_tologin::kResultAuth;
 }
 
-uint32_t ResultAuth::get_packetsize() const {
+uint32_t ResultAuth::getsize() const {
   uint32_t result = sizeof(account_) - 1 +
                     sizeof(result_) +
                     sizeof(playerid_) +

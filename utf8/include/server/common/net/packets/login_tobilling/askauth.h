@@ -23,8 +23,8 @@ namespace login_tobilling {
    virtual bool read(pap_common_net::socket::InputStream& inputstream);
    virtual bool write(pap_common_net::socket::OutputStream& outputstream) const;
    virtual uint32_t execute(connection::Base* connection);
-   virtual uint16_t get_packetid() const;
-   virtual uint32_t get_packetsize() const;
+   virtual uint16_t getid() const;
+   virtual uint32_t getsize() const;
 
  public:
    void getaccount(char* buffer, uint8_t length) const;
