@@ -280,7 +280,7 @@ namespace packets {
 
 namespace {$modelname} {
 
-class {$packetname} : public {$usepacket_namespace}Packet {
+class {$packetname} : public {$usepacket_namespace}packet::Base {
 
  public:
    {$packetname}();
@@ -299,7 +299,7 @@ class {$packetname} : public {$usepacket_namespace}Packet {
 {$private_definevariables}
 };
 
-class {$packetname}Factory : public {$usepacket_namespace}PacketFactory {
+class {$packetname}Factory : public {$usepacket_namespace}packet::Factory {
 
  public:
    {$usepacket_namespace}packet::Base* createpacket();
@@ -311,7 +311,8 @@ class {$packetname}Factory : public {$usepacket_namespace}PacketFactory {
 class {$packetname}Handler {
 
  public:
-   static uint32_t execute({$packetname}* packet, {$u_nc}Connection* connection);
+   static uint32_t execute({$packetname}* packet, 
+                           {$u_nc}connection::Base* connection);
 
 };
 
@@ -371,7 +372,8 @@ EOF;
      $readcode .= $twospace.'__ENTER_FUNCTION'.LF;
      $writecode = '';
      $writecode .= 'bool '.$packetname
-       .'::write('.$usepacket_namespace.'socket::OutputStream& outputstream) {'.LF;
+       .'::write('.$usepacket_namespace
+       .'socket::OutputStream& outputstream) const {'.LF;
      $writecode .= $twospace.'__ENTER_FUNCTION'.LF;
      /* get_pakcetsize and get_packet_maxsize{ */
      $sizecode = '';
@@ -594,7 +596,7 @@ EOF;
              $readcode .= $fourspace.'for (uint8_t i = 0; i < '
                           .$lengtharray_size.'; ++i) {'.LF;
              $readcode .= $twospace.$fourspace
-                          .'inputstream.read(static_cast<char*>(&'
+                          .'inputstream.read((char*)(&'
                           .$variablename.'[i]), sizeof('
                           .$variablename.'[i]) - 1);';
              $readcode .= $fourspace.'}'.LF;
@@ -602,17 +604,17 @@ EOF;
              $writecode .= $fourspace.'for (uint8_t i = 0; i < '
                            .$lengtharray_size.'; ++i) {'.LF;
              $writecode .= $twospace.$fourspace
-                           .'outputstream.write(static_cast<char*>(&'
+                           .'outputstream.write((char*)(&'
                            .$variablename.'[i]), sizeof('
                            .$variablename.'[i]) - 1);';
              $writecode .= $fourspace.'}'.LF;
            }
          }
          else {
-           $readcode .= $fourspace.'inputstream.read(static_cast<char*>(&'
+           $readcode .= $fourspace.'inputstream.read((char*)(&'
                         .$variablename.')'
                         .', sizeof('.$variablename.'));'.LF;
-           $writecode .= $fourspace.'outputstream.write(static_cast<char*>(&'
+           $writecode .= $fourspace.'outputstream.write((char*)(&'
                          .$variablename.')'
                          .', sizeof('.$variablename.'));'.LF;
          }
@@ -652,8 +654,8 @@ uint32_t {$packetname}::execute(connection::Base* connection) {
 }
 
 uint16_t {$packetname}::getid() const {
-  using namespace pap{$namespacemodel}_common_game::define::id::packet;
-  return {$modelname}::k{$packetname};
+  using namespace pap{$namespacemodel}_common_game::define;
+  return id::packet::{$modelname}::k{$packetname};
 }
 
 {$sizecode}
@@ -666,8 +668,8 @@ uint16_t {$packetname}::getid() const {
 }
 
 uint16_t {$packetname}Factory::get_packetid() const {
-  using namespace pap{$namespacemodel}_common_game::define::id::packet;
-  return {$modelname}::k{$packetname};
+  using namespace pap{$namespacemodel}_common_game::define;
+  return id::packet::{$modelname}::k{$packetname};
 }
 
 {$maxsize_code}
