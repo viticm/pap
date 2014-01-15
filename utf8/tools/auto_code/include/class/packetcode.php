@@ -585,7 +585,7 @@ EOF;
          else {
            $readcode .= $fourspace.'inputstream.read('.$variablename
                         .', sizeof('.$variablename.') - 1);'.LF;
-           $writecode .= $fourspace.'outputstream.write('.$variablename
+           $writecode .= $fourspace.'outputstream.write((char*)&'.$variablename
                          .', sizeof('.$variablename.') - 1);'.LF;
          }
        }
