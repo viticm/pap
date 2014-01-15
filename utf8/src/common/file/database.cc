@@ -185,12 +185,16 @@ int32_t Database::convert_string_tovector(const char* source,
     else {
       right = str.find(key);
     }
+
     if (std::string::npos == right) right = str.length();
     for(;;) {
       std::string item = str.substr(left, right - left);
+
       if (item.length() > 0 || !ignore_empty) result.push_back(item);
+      if (right == str.length()) break;
       left = right + (one_key ? 1 : strlen(key));
       if (one_key) {
+
         std::string temp = str.substr(left);
         right = temp.find_first_of(key);
         if (right != std::string::npos) right += left;
@@ -389,6 +393,7 @@ bool Database::open_from_memory_text(const char* memory,
       }
     }
     create_index(0, filename);
+    return true;
   __LEAVE_FUNCTION
     return false;
 }
