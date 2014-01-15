@@ -5,17 +5,17 @@
  * @copyright Copyright (c) 2013-2013 viticm( viticm@126.com )
  * @license
  * @user viticm<viticm@126.com>
- * @date 2014-01-07 23:56:12
+ * @date 2014-01-15 13:29:38
  * @uses packet ResultAuth class
  */
 #ifndef PAP_SERVER_COMMON_NET_PACKETS_BILLING_TOLOGIN_RESULTAUTH_H_
 #define PAP_SERVER_COMMON_NET_PACKETS_BILLING_TOLOGIN_RESULTAUTH_H_
 
 #include "server/common/net/config.h"
-#include "server/common/net/connection.h"
-#include "common/net/packet.h"
-#include "common/net/packetfactory.h"
-#include "common/game/define/all.h"
+#include "server/common/net/connection/base.h"
+#include "common/net/packet/base.h"
+#include "common/net/packet/factory.h"
+#include "server/common/game/define/all.h"
 
 
 namespace pap_server_common_net {
@@ -31,11 +31,11 @@ class ResultAuth : public pap_common_net::Packet {
    virtual ~ResultAuth() {};
 
  public:  
-   virtual bool read(pap_common_net::SocketInputStream& inputstream);
-   virtual bool write(pap_common_net::SocketOutputStream& outputstream) const;
-   virtual uint32_t execute(Connection* connection);
-   virtual uint16_t get_packetid() const;
-   virtual uint32_t get_packetsize() const;
+   virtual bool read(pap_common_net::socket::InputStream& inputstream);
+   virtual bool write(pap_common_net::socket::OutputStream& outputstream) const;
+   virtual uint32_t execute(connection::Base* connection);
+   virtual uint16_t getid() const;
+   virtual uint32_t getsize() const;
    
  public: 
    void get_account(char* buffer, uint16_t length);
@@ -85,7 +85,7 @@ class ResultAuth : public pap_common_net::Packet {
 class ResultAuthFactory : public pap_common_net::PacketFactory {
 
  public:
-   pap_common_net::Packet* createpacket();
+   pap_common_net::packet::Base* createpacket();
    uint16_t get_packetid() const;
    uint32_t get_packet_maxsize() const;
 

@@ -269,7 +269,7 @@ EOF;
 #define PAP{$hmd}_COMMON_NET_PACKETS{$hmnd}{$hfd}_H_
 
 #include "{$include_filemodel}common/net/config.h"
-#include "{$include_filemodel}common/net/connection.h"
+#include "{$include_filemodel}common/net/connection/base.h"
 #include "common/net/packet/base.h"
 #include "common/net/packet/factory.h"
 {$include_definefiles}
@@ -419,8 +419,10 @@ EOF;
        
        //max size code
        $maxsize_codebody .= 1 == $i ? '' : $space18.$twospace;
-       $maxsize_codebody .= 'sizeof('.$variablename.')';
-       $maxsize_codebody .= $valuescount != $i ? ' +'.LF : ');'.LF;
+       $maxsize_codebody .= 'sizeof('.$type.')';
+       $maxsize_codebody .= 
+         $length !== '0' ?  '* '.implode(' * ', $lengtharray) : '';
+       $maxsize_codebody .= $valuescount != $i ? ' +'.LF : ';'.LF;
        
        if ('char' == $type && $length !== '0') {
          if ($lengtharray_length == 2) {
@@ -530,7 +532,7 @@ EOF;
            
            $sourcecode .= 'void '.$packetname.'::set'.$gsetname
                           .'('.$type.' '.$variable.') {'.LF;
-           $sourcecode .= $twospace.$variablename.' = '.$variable.LF;
+           $sourcecode .= $twospace.$variablename.' = '.$variable.';'.LF;
            $sourcecode .= '}'.LF;
          }
        }
@@ -656,7 +658,7 @@ uint16_t {$packetname}::getid() const {
 
 {$sizecode}
 {$sourcecode}
-{$usepacket_namespace}packet::Base* AskAuthFactory::createpacket() {
+{$usepacket_namespace}packet::Base* {$packetname}Factory::createpacket() {
   __ENTER_FUNCTION
     return new {$packetname}();
   __LEAVE_FUNCTION
