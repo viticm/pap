@@ -317,6 +317,14 @@
 									>
 								</File>
 							</Filter>
+							<Filter
+								Name="serverserver"
+								>
+								<File
+									RelativePath="..\..\common\net\packets\serverserver\connect.cc"
+									>
+								</File>
+							</Filter>
 						</Filter>
 						<Filter
 							Name="connection"
@@ -339,11 +347,11 @@
 						Name="base"
 						>
 						<File
-							RelativePath="..\..\..\common\base\io.cc"
+							RelativePath="..\..\common\base\config.cc"
 							>
 						</File>
 						<File
-							RelativePath="..\..\common\base\config.cc"
+							RelativePath="..\..\..\common\base\io.cc"
 							>
 						</File>
 						<File
@@ -515,6 +523,14 @@
 									>
 								</File>
 							</Filter>
+							<Filter
+								Name="serverserver"
+								>
+								<File
+									RelativePath="..\..\..\..\include\server\common\net\packets\serverserver\connect.h"
+									>
+								</File>
+							</Filter>
 						</Filter>
 					</Filter>
 					<Filter
@@ -567,6 +583,10 @@
 									</File>
 									<File
 										RelativePath="..\..\..\..\include\server\common\game\define\id\packet\billinglogin.h"
+										>
+									</File>
+									<File
+										RelativePath="..\..\..\..\include\server\common\game\define\id\packet\serverserver.h"
 										>
 									</File>
 								</Filter>

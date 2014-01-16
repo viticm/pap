@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2013-2013 viticm( viticm@126.com )
  * @license
  * @user viticm<viticm@126.com>
- * @date 2014-01-15 14:43:41
+ * @date 2014-01-16 10:41:55
  * @uses packet ResultAuth class
  */
 #ifndef PAP_SERVER_COMMON_NET_PACKETS_BILLING_TOLOGIN_RESULTAUTH_H_
