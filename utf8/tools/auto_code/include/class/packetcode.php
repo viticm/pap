@@ -623,10 +623,12 @@ EOF;
      $constructcode .= $twospace.'__LEAVE_FUNCTION'.LF;
      $constructcode .= '}'.LF;
      
+     $readcode .= $fourspace.'return true;'.LF;
      $readcode .= $twospace.'__LEAVE_FUNCTION'.LF;
      $readcode .= $fourspace.'return false;'.LF;
      $readcode .= '}'.LF;
      
+     $writecode .= $fourspace.'return true;'.LF;
      $writecode .= $twospace.'__LEAVE_FUNCTION'.LF;
      $writecode .= $fourspace.'return false;'.LF;
      $writecode .= '}'.LF;
