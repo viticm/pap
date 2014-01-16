@@ -432,6 +432,14 @@
 										>
 									</File>
 								</Filter>
+								<Filter
+									Name="serverserver"
+									>
+									<File
+										RelativePath="..\src\packets\handler\serverserver\connect.cc"
+										>
+									</File>
+								</Filter>
 							</Filter>
 						</Filter>
 					</Filter>
