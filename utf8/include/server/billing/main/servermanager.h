@@ -60,6 +60,7 @@ class ServerManager : public billingconnection::Manager {
    billingconnection::Server* get_serverconnection(uint16_t id);
    //服务器广播
    void broadcast(pap_common_net::packet::Base* packet);
+   bool connectserver(); //just test
 
  public:
    uint64_t threadid_;
@@ -84,6 +85,7 @@ class ServerManager : public billingconnection::Manager {
    int32_t minfd_;
    int32_t fdsize_;
    bool active_;
+   billingconnection::Server billing_serverconnection_;
 
 };
 

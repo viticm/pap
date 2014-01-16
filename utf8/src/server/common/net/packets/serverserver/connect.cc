@@ -16,6 +16,7 @@ bool Connect::read(pap_common_net::socket::InputStream& inputstream) {
     inputstream.read((char*)(&serverid_), sizeof(serverid_));
     inputstream.read((char*)(&worldid_), sizeof(worldid_));
     inputstream.read((char*)(&zoneid_), sizeof(zoneid_));
+    return true;
   __LEAVE_FUNCTION
     return false;
 }
@@ -25,6 +26,7 @@ bool Connect::write(pap_common_net::socket::OutputStream& outputstream) const {
     outputstream.write((char*)(&serverid_), sizeof(serverid_));
     outputstream.write((char*)(&worldid_), sizeof(worldid_));
     outputstream.write((char*)(&zoneid_), sizeof(zoneid_));
+    return true;
   __LEAVE_FUNCTION
     return false;
 }

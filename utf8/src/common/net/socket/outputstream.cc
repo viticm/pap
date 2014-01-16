@@ -49,7 +49,7 @@ uint32_t OutputStream::write(const char* buffer, uint32_t length) {
     return 0;
 }
 
-uint32_t OutputStream::writepacket(const packet::Base* packet) {
+bool OutputStream::writepacket(const packet::Base* packet) {
   __ENTER_FUNCTION
     bool result = false;
     uint16_t packetid = packet->getid();

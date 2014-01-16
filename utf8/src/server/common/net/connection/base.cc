@@ -75,7 +75,7 @@ bool Base::processinput() {
             errormessage, 
             static_cast<uint16_t>(sizeof(errormessage) - 1));
         Log::save_log(g_kModelName,
-                      "[net](%d) Base::processinput()"
+                      "[net](%d) connection::Base::processinput()"
                       " socket_inputstream_->fill() result: %d %s",
                       g_time_manager->tm_todword(), 
                       fillresult,
@@ -244,10 +244,11 @@ bool Base::sendpacket(pap_common_net::packet::Base* packet) {
   __ENTER_FUNCTION
     bool result = false;
     if (isdisconnect()) return true;
+    ERRORPRINTF("Base::sendpacket()");
 #if defined(_PAP_SERVER)
     uint32_t before_writesize = socket_outputstream_->reallength();
 #endif
-    result = socket_outputstream_->writepacket(packet) > 0;
+    result = socket_outputstream_->writepacket(packet);
     Assert(result);
 #if defined(_PAP_SERVER)
     uint32_t after_writesize = socket_outputstream_->reallength();

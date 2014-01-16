@@ -148,6 +148,7 @@ uint32_t TimeManager::tm_todword() {
     result += get_hour();
     result *= 100;
     result += get_minute();
+    return result;
   __LEAVE_FUNCTION
     return 0;
 }

@@ -5,6 +5,8 @@
 #include "server/common/base/time_manager.h"
 #include "server/common/game/define/all.h"
 #include "common/base/util.h"
+#include "common/net/packet/factorymanager.h"
+#include "server/common/net/packets/serverserver/connect.h"
 
 #if defined(__WINDOWS__)
 #pragma warning(disable : 4127) //why use it? for FD_* functions
@@ -26,6 +28,7 @@ ServerManager::ServerManager() {
     maxfd_ = minfd_ = SOCKET_INVALID;
     fdsize_ = 0;
     setactive(true);
+    billing_serverconnection_.setid(0);
   __LEAVE_FUNCTION
 }
 
@@ -45,7 +48,7 @@ bool ServerManager::init() {
     Assert(socketid_ != SOCKET_INVALID);
     FD_SET(socketid_, &readfds_[kSelectFull]);
     FD_SET(socketid_, &exceptfds_[kSelectFull]);
-    minfd_ = minfd_ = socketid_;
+    minfd_ = maxfd_ = socketid_;
     timeout_[kSelectFull].tv_sec = 0;
     timeout_[kSelectFull].tv_usec = 0;
     threadid_ = pap_common_sys::get_current_thread_id();
@@ -104,7 +107,7 @@ bool ServerManager::processinput() {
       Assert(serverconnection);
       int32_t socketid = serverconnection->getsocket()->getid();
       if (socketid_ == socketid) continue;
-      if (FD_ISSET(socketid, &readfds_[kSelectUse])) {
+      if (FD_ISSET(socketid, &readfds_[kSelectUse])) { //read information
         if (serverconnection->getsocket()->iserror()) {
           removeconnection(serverconnection);
         }
@@ -143,7 +146,7 @@ bool ServerManager::processoutput() {
         }
         else {
           try {
-            if (!serverconnection->processcommand(false)) 
+            if (!serverconnection->processoutput()) 
               removeconnection(serverconnection);
           }
           catch(...) {
@@ -192,21 +195,20 @@ bool ServerManager::processcommand() {
       if (ID_INVALID == connectionids_[i]) continue;
       billingconnection::Server* serverconnection = NULL;
       serverconnection = g_connectionpool->get(connectionids_[i]);
+      //serverconnection = &billing_serverconnection_;
       Assert(serverconnection);
       int32_t socketid = serverconnection->getsocket()->getid();
       if (socketid_ == socketid) continue;
-      if (FD_ISSET(socketid, &writefds_[kSelectUse])) {
-        if (serverconnection->getsocket()->iserror()) {
-          removeconnection(serverconnection);
-        }
-        else {
-          try {
-            if (!serverconnection->processoutput()) 
-              removeconnection(serverconnection);
-          }
-          catch(...) {
+      if (serverconnection->getsocket()->iserror()) {
+        removeconnection(serverconnection);
+      }
+      else { //connection is ok
+        try {
+          if (!serverconnection->processcommand(false)) 
             removeconnection(serverconnection);
-          }
+        }
+        catch(...) {
+          removeconnection(serverconnection);
         }
       }
     }
@@ -325,12 +327,16 @@ void ServerManager::loop() {
       try {
         result = select();
         Assert(result);
+        //ERRORPRINTF("select");
         result = processexception();
         Assert(result);
+        //ERRORPRINTF("processexception");
         result = processinput();
         Assert(result);
+        //ERRORPRINTF("processinput");
         result = processoutput();
         Assert(result); 
+        //ERRORPRINTF("processoutput");
       }
       catch(...) {
         
@@ -338,6 +344,7 @@ void ServerManager::loop() {
       try {
         result = processcommand();
         Assert(result);
+        //ERRORPRINTF("processcommand");
       }
       catch(...) {
         
@@ -519,4 +526,82 @@ void ServerManager::broadcast(pap_common_net::packet::Base* packet) {
       connection->sendpacket(packet);
     }
   __LEAVE_FUNCTION
+}
+
+bool ServerManager::connectserver() {
+  uint8_t step = 0;
+  __ENTER_FUNCTION
+    bool result = false;
+    pap_server_common_net::packets::serverserver::Connect* connectpacket = NULL;
+    pap_common_net::socket::Base* billingsocket = NULL;
+    billingsocket = billing_serverconnection_.getsocket();
+    try {
+      result = billingsocket->create();
+      if (!result) {
+        step = 1;
+        Assert(false);
+      }
+      result = billingsocket->connect(
+          g_config.billing_info_.ip_,
+          12680);
+
+      if (!result) {
+        step = 2;
+        printf("exception 2");
+        goto EXCEPTION;
+        Assert(false);
+      }
+      result = billingsocket->set_nonblocking();
+      if (!result) {
+        step = 3;
+        printf("exception 3");
+        Assert(false);
+      }
+
+      result = billingsocket->setlinger(0);
+      if (!result) {
+        step = 4;
+        printf("exception 4");
+        Assert(false);
+      }
+      g_log->fast_save_log(kBillingLogFile,
+                           "ServerManager::connectserver()"
+                           " ip:%s, port: %d, success",
+                           g_config.billing_info_.ip_,
+                           g_config.billing_info_.port_);
+    }
+    catch(...) {
+      step = 5;
+      Assert(false);
+    }
+    result = addconnection(
+        (pap_server_common_net::connection::Base*)&billing_serverconnection_);
+    if (!result) {
+      step = 6;
+      Assert(false);
+    }
+    connectpacket = new pap_server_common_net::packets::serverserver::Connect();
+    connectpacket->set_serverid(0);
+    connectpacket->set_worldid(0);
+    connectpacket->set_zoneid(0);
+    result = billing_serverconnection_.sendpacket(connectpacket);
+    SAFE_DELETE(connectpacket);
+    if (!result) {
+      step = 7;
+      Assert(false);
+    }
+    g_log->fast_save_log(kBillingLogFile, 
+                         "ServerManager::connectserver() is success!");
+    return true;
+EXCEPTION:
+    g_log->fast_save_log(
+        kBillingLogFile, 
+        "ServerManager::connectserver() have error, ip: %s, port: %d, step: %d",
+        g_config.billing_info_.ip_,
+        g_config.billing_info_.port_,
+        step);
+    billing_serverconnection_.cleanup();
+    return false;
+  __LEAVE_FUNCTION
+    return false;
 }

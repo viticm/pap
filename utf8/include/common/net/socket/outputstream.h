@@ -21,7 +21,7 @@ class OutputStream {
 
  public:
    uint32_t write(const char* buffer, uint32_t length);
-   uint32_t writepacket(const packet::Base* packet);
+   bool writepacket(const packet::Base* packet);
    uint32_t flush();
    void init();
    bool resize(int32_t size);

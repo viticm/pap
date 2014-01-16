@@ -493,7 +493,7 @@ void BillingInfo::begin_use() {
     if (info_pool_) {
       billing_data_t* current = info_pool_[current_billing_no_];
       port_ = current->port;
-      snprintf(ip_, strlen(current->ip),"%s", current->ip);
+      snprintf(ip_, sizeof(ip_) - 1, "%s", current->ip);
     }
   __LEAVE_FUNCTION
 }

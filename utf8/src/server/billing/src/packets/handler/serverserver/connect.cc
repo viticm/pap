@@ -1,5 +1,6 @@
 #include "server/common/net/packets/serverserver/connect.h"
 #include "server/billing/connection/server.h"
+#include "server/common/base/log.h"
 
 namespace pap_server_common_net {
 
@@ -7,7 +8,7 @@ namespace packets {
 
 namespace serverserver { 
 
-uint32_t AskAuthHandler::execute(Connect* packet, 
+uint32_t ConnectHandler::execute(Connect* packet, 
                                  connection::Base* connection) {
   __ENTER_FUNCTION
     g_log->fast_save_log(kBillingLogFile, 

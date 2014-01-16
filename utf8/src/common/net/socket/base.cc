@@ -160,7 +160,11 @@ int32_t Base::select(int32_t maxfdp,
                      void* timeout) {
   __ENTER_FUNCTION
     int32_t result = SOCKET_ERROR;
-    result = vnet_socketbase_select(maxfdp, readset, writeset, exceptset, timeout);
+    result = vnet_socketbase_select(maxfdp, 
+                                    readset, 
+                                    writeset, 
+                                    exceptset, 
+                                    timeout);
     return result;
   __LEAVE_FUNCTION
     return SOCKET_ERROR;

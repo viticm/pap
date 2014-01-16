@@ -48,6 +48,7 @@ class FactoryManager {
  private:
    void addfactory(Factory* factory);
    void addfactories_for_billinglogin();
+   void addfactories_for_serverserver();
    void addfactories_for_clientlogin();
    void addfactories_for_loginworld();
    void addfactories_for_serverworld();

@@ -43,6 +43,7 @@ bool Billing::processcommand(bool option) {
     uint16_t packetid;
     uint32_t packetcheck, packetsize, packetindex;
     packet::Base* packet = NULL;
+
     if (isdisconnect()) return true;
     try {
       if (option) { //执行选项操作
@@ -199,7 +200,7 @@ bool Billing::isvalid() {
 bool Billing::sendpacket(pap_common_net::packet::Base* packet) {
   __ENTER_FUNCTION  
     bool result = false;
-    result = sendpacket(packet);
+    result = pap_server_common_net::connection::Base::sendpacket(packet);
     return result;
   __LEAVE_FUNCTION
     return false;

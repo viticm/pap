@@ -34,10 +34,6 @@ class Manager : public pap_server_common_net::connection::Manager {
    uint16_t getcount();
    bool hash();
 
- protected:
-   int16_t connectionids_[CONNECTION_MAX];
-   uint16_t count_;
-
 };
 
 }; //namespace connection

@@ -241,3 +241,4 @@ tags
 */run/server/server*
 */run/server/*.dll
 */run/server/*.so
+*/run/server/test/*

@@ -35,15 +35,14 @@ void Socket::close() {
 bool Socket::accept(pap_common_net::socket::Base* socket) {
   __ENTER_FUNCTION
     if (NULL == socket) return false;
-    int32_t result = SOCKET_INVALID;
     socket->close();
     if (0 == socket->port_) {
-      result = socket->fastaccept();
+      socket->socketid_ = socket_->fastaccept();
     }
     else {
-      result = socket->accept(socket->port_);
+      socket->socketid_ = socket_->accept(socket->port_);
     }
-    if (SOCKET_INVALID == result) return false;
+    if (SOCKET_INVALID == socket->socketid_) return false;
     return true;
   __LEAVE_FUNCTION
     return false;
