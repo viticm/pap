@@ -538,33 +538,24 @@ EOF;
            $sourcecode .= '}'.LF;
          }
        }
-       if ($length !== '0') {
-         if ($length_usenamespace != '') {
-           $constructcode = $fourspace.$length_usenamespace.';'.LF;
-         }
-         if (1 == $lengtharray_length) {
-           $constructcode .= $fourspace.'memset('.$variablename.', 0, '
-                             .'sizeof('.$variablename.'));'.LF;
-         }
-         elseif (2 == $lengtharray_length) {
-           $constructcode .= $fourspace.'for (uint8_t i = 0; i < '
-                             .$lengtharray_size.'; ++i) {'.LF;
-           $constructcode .= $twospace.$fourspace.'memset('.$variablename
-                             .'[i], 0, sizeof('.$variablename.'[i]));'.LF;
-           $constructcode .= $fourspace.'}'.LF;
-         }
-       }
        
        //read and write code
        if ('char' == $type) {
          if ($length !== '0') {
            if (1 == $lengtharray_length) {
+             $constructcode .= $fourspace.'memset('.$variablename.', 0, '
+                               .'sizeof('.$variablename.'));'.LF;
              $readcode .= $fourspace.'inputstream.read('.$variablename
                           .', sizeof('.$variablename.') - 1);'.LF;
              $writecode .= $fourspace.'outputstream.write('.$variablename
                            .', sizeof('.$variablename.') - 1);'.LF;
            }
            elseif (2 == $length) {
+             $constructcode .= $fourspace.'for (uint8_t i = 0; i < '
+                               .$lengtharray_size.'; ++i) {'.LF;
+             $constructcode .= $twospace.$fourspace.'memset('.$variablename
+                               .'[i], 0, sizeof('.$variablename.'[i]));'.LF;
+             $constructcode .= $fourspace.'}'.LF;
              if ($length_usenamespace != '') 
                $readcode .= $fourspace.$length_usenamespace.';'.LF;
                $readcode .= $fourspace.'for (uint8_t i = 0; i < '
@@ -592,6 +583,11 @@ EOF;
        else {
          if ($length != '0') {
            if (1 == $lengtharray_length) {
+             $constructcode .= $fourspace.'uint16_t i;'.LF;
+             $constructcode .= $fourspace.'for (i = 0; i < '
+                               .$lengtharray[0].'; ++i)'.LF;
+             $constructcode .= $fourspace.$twospace.$variablename.'[i] = 0;'.LF;
+             $constructcode .= $fourspace.'}'.LF;
              $readcode .= $fourspace.$length_usenamespace.';'.LF;
              $readcode .= $fourspace.'for (uint8_t i = 0; i < '
                           .$lengtharray_size.'; ++i) {'.LF;
