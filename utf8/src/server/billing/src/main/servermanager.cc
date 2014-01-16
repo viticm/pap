@@ -6,7 +6,13 @@
 #include "server/common/game/define/all.h"
 #include "common/base/util.h"
 
+#if defined(__WINDOWS__)
 #pragma warning(disable : 4127) //why use it? for FD_* functions
+#endif
+#undef max
+#undef min
+#define max(a,b) ((a) > (b) ? (a) : (b))
+#define min(a,b) ((a) < (b) ? (a) : (b))
 
 const uint8_t kOneStepAccept = 50;
 
@@ -31,7 +37,8 @@ ServerManager::~ServerManager() {
 
 bool ServerManager::init() {
   __ENTER_FUNCTION
-    serversocket_ = new pap_server_common_net::Socket(g_config.billing_info_.port_);
+    serversocket_ = 
+      new pap_server_common_net::Socket(g_config.billing_info_.port_);
     Assert(serversocket_);
     serversocket_->set_nonblocking();
     socketid_ = serversocket_->getid();
@@ -46,6 +53,7 @@ bool ServerManager::init() {
     for (i = 0; i < OVER_SERVER_MAX; ++i) {
       serverhash_[i] = ID_INVALID;
     }
+    return true;
   __LEAVE_FUNCTION
     return false;
 }

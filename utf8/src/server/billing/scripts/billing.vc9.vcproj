@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ws2_32.lib ../../../../lib/common/iconv/link/libiconv.lib"
+				AdditionalDependencies="ws2_32.lib ../../../../lib/common/iconv/link/libiconv.lib ../../../../lib/common/vnet/link/libvnet.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -151,7 +151,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/FORCE:MULTIPLE"
-				AdditionalDependencies="ws2_32.lib ../../../../lib/common/iconv/link/libiconv.lib ../../../../lib/common/vnet/static/libvnet.lib"
+				AdditionalDependencies="ws2_32.lib ../../../../lib/common/iconv/link/libiconv.lib ../../../../lib/common/vnet/link/libvnet.lib"
 				LinkIncremental="1"
 				IgnoreDefaultLibraryNames="libc.lib;libcd.lib"
 				GenerateDebugInformation="true"
@@ -221,6 +221,10 @@
 					>
 					<File
 						RelativePath="..\..\..\common\sys\assert.cc"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\common\sys\minidump.cc"
 						>
 					</File>
 					<File
@@ -310,6 +314,14 @@
 								>
 								<File
 									RelativePath="..\..\common\net\packets\login_tobilling\askauth.cc"
+									>
+								</File>
+							</Filter>
+							<Filter
+								Name="serverserver"
+								>
+								<File
+									RelativePath="..\..\common\net\packets\serverserver\connect.cc"
 									>
 								</File>
 							</Filter>
@@ -420,6 +432,14 @@
 										>
 									</File>
 								</Filter>
+								<Filter
+									Name="serverserver"
+									>
+									<File
+										RelativePath="..\src\packets\handler\serverserver\connect.cc"
+										>
+									</File>
+								</Filter>
 							</Filter>
 						</Filter>
 					</Filter>
@@ -511,6 +531,14 @@
 									>
 								</File>
 							</Filter>
+							<Filter
+								Name="serverserver"
+								>
+								<File
+									RelativePath="..\..\..\..\include\server\common\net\packets\serverserver\connect.h"
+									>
+								</File>
+							</Filter>
 						</Filter>
 					</Filter>
 					<Filter
@@ -563,6 +591,10 @@
 									</File>
 									<File
 										RelativePath="..\..\..\..\include\server\common\game\define\id\packet\billinglogin.h"
+										>
+									</File>
+									<File
+										RelativePath="..\..\..\..\include\server\common\game\define\id\packet\serverserver.h"
 										>
 									</File>
 								</Filter>
@@ -687,6 +719,10 @@
 					</File>
 					<File
 						RelativePath="..\..\..\..\include\common\sys\config.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\include\common\sys\minidump.h"
 						>
 					</File>
 					<File

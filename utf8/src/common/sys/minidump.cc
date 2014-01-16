@@ -17,7 +17,7 @@ namespace pap_common_sys {
 namespace minidump {
 
 #if defined(__WINDOWS__)
-int64_t WINAPI unhandled_exceptionfilter(
+LONG WINAPI unhandled_exceptionfilter(
     struct _EXCEPTION_POINTERS* exceptioninfo)
 {
 	char hostname[FILENAME_MAX] = {0};
@@ -47,7 +47,7 @@ int64_t WINAPI unhandled_exceptionfilter(
 	{
 		MINIDUMP_EXCEPTION_INFORMATION _exceptioninfo;
 		_exceptioninfo.ExceptionPointers = exceptioninfo;
-		_exceptioninfo.ThreadId = get_current_thread_id();
+		_exceptioninfo.ThreadId = static_cast<DWORD>(get_current_thread_id());
 		_exceptioninfo.ClientPointers = true;
 		MiniDumpWriteDump(GetCurrentProcess(), 
                       GetCurrentProcessId(),
@@ -65,9 +65,8 @@ int64_t WINAPI unhandled_exceptionfilter(
 	}
 	return EXCEPTION_EXECUTE_HANDLER;
 }
+#endif 
 
 } //namespace minidump
 
 } //namespace pap_common_sys
-
-#endif

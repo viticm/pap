@@ -131,6 +131,10 @@ int32_t OutputStream::get_keylength() {
   return result;
 }
 
+Base* OutputStream::getsocket() {
+  return socket_;
+}
+
 } //namespace socket
 
 } //namespace pap_common_net

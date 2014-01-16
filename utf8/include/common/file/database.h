@@ -88,7 +88,7 @@ class Database {
 #elif defined(__WINDOWS__)
    typedef stdext::hash_map<int32_t, field_data*> field_hashmap;
 #elif defined(__LINUX__)
-   typedef __gnu_cxx::<int32_t, field_data*> field_hashmap;
+   typedef __gnu_cxx::hash_map<int32_t, field_data*> field_hashmap;
 #endif
    uint32_t id_;
    field_type type_;

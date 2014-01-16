@@ -44,7 +44,7 @@ bool Database::open_from_memory(const char* memory,
                                 const char* end, 
                                 const char* filename) {
   __ENTER_FUNCTION
-    if (end - memory >= sizeof(file_head_t) && 
+    if (end - memory >= static_cast<int32_t>(sizeof(file_head_t)) && 
         *((uint32_t*)memory) == 0XDDBBCC0) {
       return open_from_memory_binary(memory, end, filename);
     }
@@ -185,12 +185,16 @@ int32_t Database::convert_string_tovector(const char* source,
     else {
       right = str.find(key);
     }
+
     if (std::string::npos == right) right = str.length();
     for(;;) {
       std::string item = str.substr(left, right - left);
+
       if (item.length() > 0 || !ignore_empty) result.push_back(item);
+      if (right == str.length()) break;
       left = right + (one_key ? 1 : strlen(key));
       if (one_key) {
+
         std::string temp = str.substr(left);
         right = temp.find_first_of(key);
         if (right != std::string::npos) right += left;
@@ -284,7 +288,7 @@ bool Database::open_from_memory_text(const char* memory,
     //init
     int32_t record_number = 0;
     int32_t field_number = static_cast<int32_t>(_field_type.size());
-    std::vector<std::pair<std::string, int32_t>> string_buffer;
+    std::vector<std::pair<std::string, int32_t> > string_buffer;
     std::map<std::string, int32_t> map_string_buffer;
     _memory = get_line_from_memory(line, sizeof(line) - 1, _memory, end);
     if (!_memory) return false;
@@ -335,7 +339,7 @@ bool Database::open_from_memory_text(const char* memory,
               result[i] = static_cast<std::string>(convert_str);
             }
 #endif
-            std::map<std::string, INT>::iterator it = 
+            std::map<std::string, int32_t>::iterator it = 
               map_string_buffer.find(result[i]);
             if (it == map_string_buffer.end()) {
               string_buffer.push_back(
@@ -389,6 +393,7 @@ bool Database::open_from_memory_text(const char* memory,
       }
     }
     create_index(0, filename);
+    return true;
   __LEAVE_FUNCTION
     return false;
 }

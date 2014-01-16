@@ -16,6 +16,7 @@
 namespace packet {
 
 #include "server/common/game/define/id/packet/billinglogin.h"
+#include "server/common/game/define/id/packet/serverserver.h"
 
 }; //namespace packet
 

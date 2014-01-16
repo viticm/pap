@@ -52,7 +52,7 @@ void Manager::remove(int16_t id) {
       return;
     }
     int16_t managerid = connection->get_managerid();
-    if (managerid >= sizeof(connectionids_)) {
+    if (managerid >= static_cast<int16_t>(sizeof(connectionids_))) {
       Assert(false);
       return;
     }

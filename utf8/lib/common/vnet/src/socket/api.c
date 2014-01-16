@@ -1072,7 +1072,7 @@ bool socketapi_set_nonblocking_ex(int32_t socketid, bool on) {
   fileapi_set_nonblocking_ex(socketid, on);
 #elif defined(__WINDOWS__)
   uint64_t argp = true == on ? 1 : 0;
-  result = (bool)socketapi_ioctlsocket_ex(socketid, FIONBIO, &argp);
+  result = socketapi_ioctlex(socketid, FIONBIO, &argp);
 #endif
   return result;
 }
@@ -1083,7 +1083,7 @@ uint32_t socketapi_availableex(int32_t socketid) {
   result = fileapi_availableex(socketid);
 #elif defined(__WINDOWS__)
   uint64_t argp = 0;
-  socketapi_ioctlsocket_ex(socketid, FIONREAD, &argp);
+  socketapi_ioctlex(socketid, FIONREAD, &argp);
   result = (uint32_t)argp;
 #endif
   return result;

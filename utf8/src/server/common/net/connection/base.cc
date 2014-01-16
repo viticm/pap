@@ -41,7 +41,7 @@ Base::Base(bool flag_isserver) {
           64 * 1024 * 1024
           );
       Assert(socket_inputstream_);
-      socket_outputstream_ = new pap_common_net::SocketOutputStream(
+      socket_outputstream_ = new pap_common_net::socket::OutputStream(
           socket_,
           SOCKETOUTPUT_BUFFERSIZE_DEFAULT,
           64 * 1024 * 1024);
@@ -71,7 +71,7 @@ bool Base::processinput() {
       if (static_cast<int32_t>(fillresult) <= SOCKET_ERROR) {
         char errormessage[FILENAME_MAX];
         memset(errormessage, '\0', sizeof(errormessage));
-        socket_inputstream_->getlast_errormessage(
+        socket_inputstream_->getsocket()->getlast_errormessage(
             errormessage, 
             static_cast<uint16_t>(sizeof(errormessage) - 1));
         Log::save_log(g_kModelName,
@@ -106,14 +106,14 @@ bool Base::processoutput() {
       if (static_cast<int32_t>(flushresult) <= SOCKET_ERROR) {
         char errormessage[FILENAME_MAX];
         memset(errormessage, '\0', sizeof(errormessage));
-        socket_inputstream_->getlast_errormessage(
+        socket_inputstream_->getsocket()->getlast_errormessage(
             errormessage, 
             static_cast<uint16_t>(sizeof(errormessage) - 1));
         Log::save_log(g_kModelName,
                       "[net](%d) Base::processoutput()"
                       " socket_outputstream_->flush() result: %d %s",
                       g_time_manager->tm_todword(), 
-                      fillresult,
+                      flushresult,
                       errormessage);
         result = false;
       }
@@ -121,7 +121,7 @@ bool Base::processoutput() {
         result = true;
       }
     }
-    catch {
+    catch(...) {
       SaveErrorLog();
     }
     return result;
@@ -144,15 +144,15 @@ bool Base::processcommand(bool option) {
       const uint8_t kExecuteCountPreTick = 12; //每帧可以执行的消息数量上限
       uint32_t i;
       for (i = 0; i < kExecuteCountPreTick; ++i) {
-        if (!socket_inputstream_->peek(&pakcetheader[0], PACKET_HEADERSIZE)) {
+        if (!socket_inputstream_->peek(&packetheader[0], PACKET_HEADERSIZE)) {
           //数据不能填充消息头
           break;
         }
         memcpy(&packetid, &packetheader[0], sizeof(uint16_t));
-        memcpy(&packetcheck, &pakcetheader[sizeof(uint16_t)], sizeof(uint32_t));
+        memcpy(&packetcheck, &packetheader[sizeof(uint16_t)], sizeof(uint32_t));
         packetsize = GET_PACKETLENGTH(packetcheck);
         packetindex = GET_PACKETINDEX(packetcheck);
-        if (!PacketFactoryManager::isvalid_packetid(packetid)) {
+        if (!packet::FactoryManager::isvalid_packetid(packetid)) {
           return false;
         }
         try {
@@ -164,22 +164,22 @@ bool Base::processcommand(bool option) {
           }
           //check packet size
           if (packetsize > 
-              g_packetfactory_manager->get_packet_maxsize(packetid)) {
+              g_packetfactory_manager->getpacket_maxsize(packetid)) {
             char temp[FILENAME_MAX] = {0};
             snprintf(temp, 
                      sizeof(temp) - 1, 
                      "packet size error, packetid = %d", 
                      packetid);
-            AssertEx(temp, packetid);
+            AssertEx(false, temp);
             return false;
           }
           //create packet
           packet = g_packetfactory_manager->createpacket(packetid);
           if (NULL == packet) return false;
-          packet->set_packetindex(packetindex);
+          packet->setindex(static_cast<int8_t>(packetindex));
           
           //read packet
-          result = socket_inputstream_->read(packet);
+          result = socket_inputstream_->readpacket(packet);
           if (false == result) {
             g_packetfactory_manager->removepacket(packet);
             return result;
@@ -247,7 +247,7 @@ bool Base::sendpacket(pap_common_net::packet::Base* packet) {
 #if defined(_PAP_SERVER)
     uint32_t before_writesize = socket_outputstream_->reallength();
 #endif
-    result = socket_outputstream_->writepacket(packet);
+    result = socket_outputstream_->writepacket(packet) > 0;
     Assert(result);
 #if defined(_PAP_SERVER)
     uint32_t after_writesize = socket_outputstream_->reallength();
@@ -310,7 +310,7 @@ void Base::disconnect() {
 
 bool Base::isvalid() {
   __ENTER_FUNCTION
-    NULL == socket_ && return false;
+    if (NULL == socket_) return false;
     bool result = false;
     result = socket_->isvalid();
     return result;
@@ -342,7 +342,7 @@ bool Base::isdisconnect() {
   return isdisconnect_;
 }
 
-void setdisconnect(bool status) {
+void Base::setdisconnect(bool status) {
   isdisconnect_ = status;
 }
 

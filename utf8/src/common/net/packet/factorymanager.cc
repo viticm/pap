@@ -2,6 +2,8 @@
 #include "common/net/packet/base.h"
 #include "server/common/game/define/all.h"
 
+#include "server/common/net/packets/serverserver/connect.h"
+
 #if defined(_PAP_NET_BILLING) || defined(_PAP_NET_LOGIN) /* { */
 #include "server/common/net/packets/login_tobilling/askauth.h"
 #include "server/common/net/packets/billing_tologin/resultauth.h"
@@ -18,6 +20,7 @@ FactoryManager::FactoryManager() {
     using namespace pap_server_common_game::define::id::packet; //every need it
     factories_ = NULL;
     size_ = 0;
+    size_ = serverserver::kLast - serverserver::kFirst; //common for server
 #if defined(_PAP_NET_BILLING) || defined(_PAP_NET_LOGIN)
     size_ += billinglogin::kLast - billinglogin::kFirst - 1;
     size_ += billing_tologin::kLast - billing_tologin::kFirst - 1;
@@ -168,6 +171,13 @@ void FactoryManager::addfactories_for_clientserver() {
 #endif
 }
 
+void FactoryManager::addfactories_for_serverserver() {
+  __ENTER_FUNCTION
+    using namespace pap_server_common_net::packets;
+    addfactory(new serverserver::ConnectFactory());
+  __LEAVE_FUNCTION
+}
+
 bool FactoryManager::isvalid_packetid(uint16_t id) {
   using namespace pap_server_common_game::define::id::packet;
 #if defined(_PAP_NET_LOGIN) || defined(_PAP_NET_SERVER) || \
@@ -177,7 +187,8 @@ defined(_PAP_NET_CLIENT)
   bool result = false;
   __ENTER_FUNCTION
 #if defined(_PAP_NET_BILLING) /* { */
-    result = (billinglogin::kFirst < id && id < billinglogin::kLast) ||
+    result = (serverserver::kFirst < id && id < serverserver::kLast) ||  
+             (billinglogin::kFirst < id && id < billinglogin::kLast) ||
              (billing_tologin::kFirst < id && id < billing_tologin::kLast) || 
              (login_tobilling::kFirst < id && id < login_tobilling::kLast);
 #elif defined(_PAP_NET_LOGIN) /* }{ */

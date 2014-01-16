@@ -1083,7 +1083,7 @@ void Config::load_world_info() {
 }
 
 void Config::load_world_info_only() {
-#if defined(_PAP_WORLD)
+//#if defined(_PAP_WORLD)
   __ENTER_FUNCTION
     pap_common_file::Ini world_info_ini(WORLD_INFO_FILE);
     world_info_.id = world_info_ini.read_int16("System", "ID");
@@ -1106,15 +1106,15 @@ void Config::load_world_info_only() {
       world_info_ini.read_bool("System", "EnableShareMemory");
     Log::save_log("config", "load %s only ... ok!", WORLD_INFO_FILE);
   __LEAVE_FUNCTION
-#endif
+//#endif
 }
 
 void Config::load_world_info_reload() {
-#if defined(_PAP_WORLD)
+//#if defined(_PAP_WORLD)
   __ENTER_FUNCTION
     Log::save_log("config", "load %s reload ... ok!", WORLD_INFO_FILE);
   __LEAVE_FUNCTION
-#endif
+//#endif
 }
 
 void Config::load_billing_info() {
