@@ -62,7 +62,7 @@ void Manager::remove(int16_t id) {
       return;
     }
     connectionids_[managerid] = connectionids_[count_ - 1];
-    connectionids_[count_ - 1] = 0;
+    connectionids_[count_ - 1] = ID_INVALID;
     connection->set_managerid(managerid);
     --count_;
     Assert(count_ >= 0);
