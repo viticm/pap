@@ -148,7 +148,7 @@ bool Billing::new_staticmanager() {
     g_packetfactory_manager = new pap_common_net::packet::FactoryManager;
     Assert(g_packetfactory_manager);
     g_log->save_log("billing", 
-                    "new pap_common_net::packet::factorymanager()...success!");
+                    "new pap_common_net::packet::FactoryManager...success!");
     
     return true;
   __LEAVE_FUNCTION

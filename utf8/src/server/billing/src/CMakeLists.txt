@@ -77,6 +77,10 @@ SET (SOURCEFILES_SERVER_COMMON_NET_PACKETS_LOGIN_TOBILLING_LIST
 	../../common/net/packets/login_tobilling/askauth.cc
 )
 
+SET (SOURCEFILES_SERVER_COMMON_NET_PACKETS_SERVERSERVER_LIST
+	../../common/net/packets/serverserver/connect.cc
+)
+
 SET (SOURCEFILES_SERVER_COMMON_NET_PACKETS_LIST
 )
 
@@ -91,8 +95,8 @@ SET (SOURCEFILES_SERVER_COMMON_NET_LIST
 )
 
 SET (SOURCEFILES_SERVER_COMMON_BASE_LIST
-	../../../common/base/io.cc
 	../../common/base/config.cc
+	../../../common/base/io.cc
 	../../common/base/log.cc
 	../../common/base/time_manager.cc
 )
@@ -165,6 +169,10 @@ SET (HEADERFILES_SERVER_COMMON_NET_PACKETS_LOGIN_TOBILLING_LIST
 	../../../../include/server/common/net/packets/login_tobilling/askauth.h
 )
 
+SET (HEADERFILES_SERVER_COMMON_NET_PACKETS_SERVERSERVER_LIST
+	../../../../include/server/common/net/packets/serverserver/connect.h
+)
+
 SET (HEADERFILES_SERVER_COMMON_NET_PACKETS_LIST
 )
 
@@ -182,6 +190,7 @@ SET (HEADERFILES_SERVER_COMMON_GAME_DEFINE_TYPE_LIST
 SET (HEADERFILES_SERVER_COMMON_GAME_DEFINE_ID_PACKET_LIST
 	../../../../include/server/common/game/define/id/packet/all.h
 	../../../../include/server/common/game/define/id/packet/billinglogin.h
+	../../../../include/server/common/game/define/id/packet/serverserver.h
 )
 
 SET (HEADERFILES_SERVER_COMMON_GAME_DEFINE_ID_LIST
@@ -406,6 +415,7 @@ if (WIN32)
 	source_group(SourceFiles\\server\\common\\game FILES ${SOURCEFILES_SERVER_COMMON_GAME_LIST})
 	source_group(SourceFiles\\server\\common\\net\\packets\\billing\\tologin FILES ${SOURCEFILES_SERVER_COMMON_NET_PACKETS_BILLING_TOLOGIN_LIST})
 	source_group(SourceFiles\\server\\common\\net\\packets\\login\\tobilling FILES ${SOURCEFILES_SERVER_COMMON_NET_PACKETS_LOGIN_TOBILLING_LIST})
+	source_group(SourceFiles\\server\\common\\net\\packets\\serverserver FILES ${SOURCEFILES_SERVER_COMMON_NET_PACKETS_SERVERSERVER_LIST})
 	source_group(SourceFiles\\server\\common\\net\\packets FILES ${SOURCEFILES_SERVER_COMMON_NET_PACKETS_LIST})
 	source_group(SourceFiles\\server\\common\\net\\connection FILES ${SOURCEFILES_SERVER_COMMON_NET_CONNECTION_LIST})
 	source_group(SourceFiles\\server\\common\\net FILES ${SOURCEFILES_SERVER_COMMON_NET_LIST})
@@ -426,6 +436,7 @@ if (WIN32)
 	source_group(HeaderFiles\\server\\common\\net\\connection FILES ${HEADERFILES_SERVER_COMMON_NET_CONNECTION_LIST})
 	source_group(HeaderFiles\\server\\common\\net\\packets\\billing\\tologin FILES ${HEADERFILES_SERVER_COMMON_NET_PACKETS_BILLING_TOLOGIN_LIST})
 	source_group(HeaderFiles\\server\\common\\net\\packets\\login\\tobilling FILES ${HEADERFILES_SERVER_COMMON_NET_PACKETS_LOGIN_TOBILLING_LIST})
+	source_group(HeaderFiles\\server\\common\\net\\packets\\serverserver FILES ${HEADERFILES_SERVER_COMMON_NET_PACKETS_SERVERSERVER_LIST})
 	source_group(HeaderFiles\\server\\common\\net\\packets FILES ${HEADERFILES_SERVER_COMMON_NET_PACKETS_LIST})
 	source_group(HeaderFiles\\server\\common\\net FILES ${HEADERFILES_SERVER_COMMON_NET_LIST})
 	source_group(HeaderFiles\\server\\common\\game\\define\\type FILES ${HEADERFILES_SERVER_COMMON_GAME_DEFINE_TYPE_LIST})
@@ -482,6 +493,7 @@ ADD_EXECUTABLE(billing
 	${SOURCEFILES_SERVER_COMMON_GAME_LIST}
 	${SOURCEFILES_SERVER_COMMON_NET_PACKETS_BILLING_TOLOGIN_LIST}
 	${SOURCEFILES_SERVER_COMMON_NET_PACKETS_LOGIN_TOBILLING_LIST}
+	${SOURCEFILES_SERVER_COMMON_NET_PACKETS_SERVERSERVER_LIST}
 	${SOURCEFILES_SERVER_COMMON_NET_PACKETS_LIST}
 	${SOURCEFILES_SERVER_COMMON_NET_CONNECTION_LIST}
 	${SOURCEFILES_SERVER_COMMON_NET_LIST}
@@ -502,6 +514,7 @@ ADD_EXECUTABLE(billing
 	${HEADERFILES_SERVER_COMMON_NET_CONNECTION_LIST}
 	${HEADERFILES_SERVER_COMMON_NET_PACKETS_BILLING_TOLOGIN_LIST}
 	${HEADERFILES_SERVER_COMMON_NET_PACKETS_LOGIN_TOBILLING_LIST}
+	${HEADERFILES_SERVER_COMMON_NET_PACKETS_SERVERSERVER_LIST}
 	${HEADERFILES_SERVER_COMMON_NET_PACKETS_LIST}
 	${HEADERFILES_SERVER_COMMON_NET_LIST}
 	${HEADERFILES_SERVER_COMMON_GAME_DEFINE_TYPE_LIST}
