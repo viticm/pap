@@ -12,7 +12,7 @@ uint32_t ConnectHandler::execute(Connect* packet,
                                  connection::Base* connection) {
   __ENTER_FUNCTION
     g_log->fast_save_log(kBillingLogFile, 
-                         "AskAuthHandler::execute(...) serverid: %d ...success", 
+                         "ConnectHandler::execute(...) serverid: %d ...success", 
                          packet->get_serverid());
     return kPacketExecuteStatusContinue;
   __LEAVE_FUNCTION

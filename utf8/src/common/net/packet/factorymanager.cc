@@ -51,6 +51,7 @@ FactoryManager::~FactoryManager() {
 }
 bool FactoryManager::init() {
   __ENTER_FUNCTION
+    addfactories_for_serverserver();
     addfactories_for_billinglogin();
     addfactories_for_loginworld();
     addfactories_for_clientlogin();
@@ -108,14 +109,16 @@ void FactoryManager::removepacket(Base* packet) {
       Assert(false);
       return;
     }
+    uint16_t packetid = packet->getid();
     lock();
     try {
       SAFE_DELETE(packet);
-      --(packet_alloccount_[packet->getid()]);
+      --(packet_alloccount_[packetid]);
     }
     catch(...) {
-      
+      unlock();
     }
+    unlock();
   __LEAVE_FUNCTION
 }
 

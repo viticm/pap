@@ -49,6 +49,7 @@ bool Billing::processcommand(bool option) {
       if (option) { //执行选项操作
       }
       for (;;) { //消费服务器需要及时处理所有消息
+
         if (!socket_inputstream_->peek(&packetheader[0], PACKET_HEADERSIZE)) {
           //数据不能填充消息头
           break;
