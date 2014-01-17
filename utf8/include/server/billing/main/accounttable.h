@@ -22,17 +22,11 @@ class AccountTable {
    ~AccountTable() {};
 
  public:
-   struct password_t {
-     char str[PASSWORDMAX];
-   };
-
- public:
    bool init();
    bool check(const char* username, const char* password);
 
  private:
-   pap_common_base::string::Table strtable_;
-   password_t* password_;
+   pap_common_base::string::map strmap_;
    int32_t count_;
 
 };

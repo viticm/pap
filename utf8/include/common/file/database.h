@@ -80,7 +80,9 @@ class Database {
                                            int32_t size, 
                                            const char* memory,
                                            const char* end);
-   static bool field_equal(field_type_enum type, const field_data &a, const field_data &b);
+   static bool field_equal(field_type_enum type, 
+                           const field_data &a, 
+                           const field_data &b);
 
  protected:
 #if defined(__SGI_STL_PORT)
