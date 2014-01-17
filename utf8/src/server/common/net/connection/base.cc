@@ -244,26 +244,28 @@ bool Base::sendpacket(pap_common_net::packet::Base* packet) {
   __ENTER_FUNCTION
     bool result = false;
     if (isdisconnect()) return true;
-    ERRORPRINTF("Base::sendpacket()");
+    if (socket_outputstream_ != NULL) {
+      packet->setindex(++packetindex_);
 #if defined(_PAP_SERVER)
-    uint32_t before_writesize = socket_outputstream_->reallength();
+      uint32_t before_writesize = socket_outputstream_->reallength();
 #endif
-    result = socket_outputstream_->writepacket(packet);
-    Assert(result);
+      result = socket_outputstream_->writepacket(packet);
+      Assert(result);
 #if defined(_PAP_SERVER)
-    uint32_t after_writesize = socket_outputstream_->reallength();
-    if (packet->getsize() != after_writesize - before_writesize - 6) {
-      g_log->fast_save_log(g_kModelSaveLogId,
-                           "[net] Base::sendpacket() size error"
-                           "id = %d(write: %d, should: %d)",
-                           pakcet->getid(),
-                           after_writesize - before_writesize - 6,
-                           pakcet->getsize());
-    }
-    if (kPacketIdSCCharacterIdle == packet->getid()) {
-      //save heartbeat log
-    }
+      uint32_t after_writesize = socket_outputstream_->reallength();
+      if (packet->getsize() != after_writesize - before_writesize - 6) {
+        g_log->fast_save_log(g_kModelSaveLogId,
+                             "[net] Base::sendpacket() size error"
+                             "id = %d(write: %d, should: %d)",
+                             pakcet->getid(),
+                             after_writesize - before_writesize - 6,
+                             pakcet->getsize());
+      }
+      if (kPacketIdSCCharacterIdle == packet->getid()) {
+        //save heartbeat log
+      }
 #endif
+    }
     return result;
   __LEAVE_FUNCTION
     return false;
