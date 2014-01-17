@@ -98,7 +98,7 @@ bool OutputStream::resize(int32_t size) {
 uint32_t OutputStream::reallength() {
   __ENTER_FUNCTION
     uint32_t length = 0;
-    length = 1 == vnet_socket_outputstream_reallength(*packet_);
+    length = vnet_socket_outputstream_reallength(*packet_);
     return length;
   __LEAVE_FUNCTION
     return 0;

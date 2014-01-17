@@ -7,15 +7,37 @@ Socket::Socket(uint16_t port, uint32_t backlog) {
   __ENTER_FUNCTION
     bool result = false;
     socket_ = new pap_common_net::socket::Base();
-    if (NULL == socket_) throw 1;
+    if (NULL == socket_) { //memory not enough
+      ERRORPRINTF("pap_server_common_net::Socket::Socket"
+                  "new pap_common_net::socket::Base() failed");
+      throw 1;
+    }
     result = socket_->create();
-    if (false == result) throw 1;
+    if (false == result) {
+      ERRORPRINTF("pap_server_common_net::Socket::Socket"
+                  " socket_->create() failed"); 
+      throw 1;
+    }
     result = socket_->set_reuseaddr();
-    if (false == result) throw 1;
+    if (false == result) {
+      ERRORPRINTF("pap_server_common_net::Socket::Socket"
+                  " socket_->set_reuseaddr() failed");
+      throw 1;
+    }
     result = socket_->bind(port);
-    if (false == result) throw 1;
+    if (false == result) {
+      ERRORPRINTF("pap_server_common_net::Socket::Socket"
+                  " socket_->bind(%d) failed", 
+                  port);
+      throw 1;
+    }
     result = socket_->listen(backlog);
-    if (false == result) throw 1;
+    if (false == result) {
+      ERRORPRINTF("pap_server_common_net::Socket::Socket"
+                  " socket_->listen(%d) failed",
+                  backlog);
+      throw 1;
+    }
   __LEAVE_FUNCTION
 }
 
