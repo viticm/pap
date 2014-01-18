@@ -56,6 +56,8 @@ documentation and/or software.
 #define S43 15
 #define S44 21
 
+namespace pap_common_base {
+
 ///////////////////////////////////////////////
 // F, G, H and I are basic MD5 functions.
 inline MD5::uint4 MD5::F(uint4 x, uint4 y, uint4 z) {
@@ -357,3 +359,5 @@ std::ostream& operator<<(std::ostream& out, MD5 md5)
   return out << md5.hexdigest();
 }
 //////////////////////////////
+
+} //namespace pap_common_base
