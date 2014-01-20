@@ -367,6 +367,22 @@
 						Name="sys"
 						>
 					</Filter>
+					<Filter
+						Name="db"
+						>
+						<File
+							RelativePath="..\..\common\db\manager.cc"
+							>
+						</File>
+						<File
+							RelativePath="..\..\common\db\odbc_interface.cc"
+							>
+						</File>
+						<File
+							RelativePath="..\..\common\db\system.cc"
+							>
+						</File>
+					</Filter>
 				</Filter>
 				<Filter
 					Name="billing"
@@ -646,6 +662,26 @@
 						>
 						<File
 							RelativePath="..\..\..\..\include\server\common\sys\config.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="db"
+						>
+						<File
+							RelativePath="..\..\..\..\include\server\common\db\config.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\server\common\db\manager.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\server\common\db\odbc_interface.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\..\include\server\common\db\system.h"
 							>
 						</File>
 					</Filter>
