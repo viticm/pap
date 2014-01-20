@@ -49,8 +49,8 @@ bool adduser(const char* name,
   __ENTER_FUNCTION
     char encryptpassword[36] = {0};
     char encryptpassword2[36] = {0};
-    passwordencrypt(password, encryptpassword);
-    passwordencrypt(password2, encryptpassword2);
+    passwordencrypt(password, encryptpassword, sizeof(encryptpassword) - 1);
+    passwordencrypt(password2, encryptpassword2, sizeof(encryptpassword2) - 1);
     snprintf(sqlstr_, 
              sizeof(sqlstr_) - 1,
              "call adduser('%s', '%s', '%s', '%s', '%s', '%s', '%s', "
@@ -85,7 +85,7 @@ bool adduser(const char* name,
 bool Manager::changepassword(const char* username, const char* password) {
   __ENTER_FUNCTION
     char encryptpassword[36] = {0};
-    passwordencrypt(password, encryptpassword);
+    passwordencrypt(password, encryptpassword, sizeof(encryptpassword) - 1);
     snprintf(sqlstr_, 
              sizeof(sqlstr_) - 1,
              "call changepassword('%s', '%s')", 
@@ -131,9 +131,44 @@ uint32_t Manager::get_usercount() {
 bool Manager::is_haveuser(const char* username) {
   __ENTER_FUNCTION
     bool result = false;
+    snprintf(sqlstr_,
+             sizeof(sqlstr_) - 1,
+             "SELECT `name` FROM `users` WHERE `name` = '%s'",
+             username);
+    user_odbcinterface_->clear();
+    if (user_odbcinterface_->execute()) {
+      user_odbcinterface_->fetch();
+      if (user_odbcinterface_->column_[0][0] != NULL) result = true;
+    }
     return result;
   __LEAVE_FUNCTION
     return false;
+}
+bool Manager::is_realuser(const char* username, const char* password) {
+  __ENTER_FUNCTION
+    bool result = false;
+    snprintf(sqlstr_,
+             sizeof(sqlstr_) - 1,
+             "SELECT `name` FROM `users`"
+             " WHERE `name` = '%s' AND `password` = '%s'",
+             username,
+             password);
+    user_odbcinterface_->clear();
+    if (user_odbcinterface_->execute()) {
+      user_odbcinterface_->fetch();
+      if (user_odbcinterface_->column_[0][0] != NULL) result = true;
+    }
+    return result;
+  __LEAVE_FUNCTION
+    return false;
+}
+
+void passwordencrypt(const char* in, char* out, uint8_t length) {
+  __ENTER_FUNCTION
+    const char* prefix = "0x";
+    pap_common_base::MD5 MD5ofpassword(in);
+    snprintf(out, length, "%s%s", prefix, MD5ofpassword.md5().c_str());
+  __LEAVE_FUNCTION
 }
 
 } //namespace user
