@@ -102,8 +102,8 @@ bool Manager::init(db_type_enum db_type) {
               g_config.billing_info_.db_user_, 
               sizeof(g_config.billing_info_.db_user_) - 1);
       strncpy(password, 
-              g_config.billing_info_.db_password, 
-              sizeof(g_config.billing_info_.db_password) - 1);
+              g_config.billing_info_.db_password_, 
+              sizeof(g_config.billing_info_.db_password_) - 1);
 #endif
 
       Assert(user_interface_); //safe code

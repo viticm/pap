@@ -104,6 +104,12 @@ SET (SOURCEFILES_SERVER_COMMON_BASE_LIST
 SET (SOURCEFILES_SERVER_COMMON_SYS_LIST
 )
 
+SET (SOURCEFILES_SERVER_COMMON_DB_LIST
+	../../common/db/manager.cc
+	../../common/db/odbc_interface.cc
+	../../common/db/system.cc
+)
+
 SET (SOURCEFILES_SERVER_COMMON_LIST
 )
 
@@ -230,6 +236,13 @@ SET (HEADERFILES_SERVER_COMMON_GAME_LIST
 
 SET (HEADERFILES_SERVER_COMMON_SYS_LIST
 	../../../../include/server/common/sys/config.h
+)
+
+SET (HEADERFILES_SERVER_COMMON_DB_LIST
+	../../../../include/server/common/db/config.h
+	../../../../include/server/common/db/manager.h
+	../../../../include/server/common/db/odbc_interface.h
+	../../../../include/server/common/db/system.h
 )
 
 SET (HEADERFILES_SERVER_COMMON_LIST
@@ -439,6 +452,7 @@ if (WIN32)
 	source_group(SourceFiles\\server\\common\\net FILES ${SOURCEFILES_SERVER_COMMON_NET_LIST})
 	source_group(SourceFiles\\server\\common\\base FILES ${SOURCEFILES_SERVER_COMMON_BASE_LIST})
 	source_group(SourceFiles\\server\\common\\sys FILES ${SOURCEFILES_SERVER_COMMON_SYS_LIST})
+	source_group(SourceFiles\\server\\common\\db FILES ${SOURCEFILES_SERVER_COMMON_DB_LIST})
 	source_group(SourceFiles\\server\\common FILES ${SOURCEFILES_SERVER_COMMON_LIST})
 	source_group(SourceFiles\\server\\billing\\src\\main FILES ${SOURCEFILES_SERVER_BILLING_SRC_MAIN_LIST})
 	source_group(SourceFiles\\server\\billing\\src\\connection FILES ${SOURCEFILES_SERVER_BILLING_SRC_CONNECTION_LIST})
@@ -468,6 +482,7 @@ if (WIN32)
 	source_group(HeaderFiles\\server\\common\\game\\define FILES ${HEADERFILES_SERVER_COMMON_GAME_DEFINE_LIST})
 	source_group(HeaderFiles\\server\\common\\game FILES ${HEADERFILES_SERVER_COMMON_GAME_LIST})
 	source_group(HeaderFiles\\server\\common\\sys FILES ${HEADERFILES_SERVER_COMMON_SYS_LIST})
+	source_group(HeaderFiles\\server\\common\\db FILES ${HEADERFILES_SERVER_COMMON_DB_LIST})
 	source_group(HeaderFiles\\server\\common FILES ${HEADERFILES_SERVER_COMMON_LIST})
 	source_group(HeaderFiles\\server\\billing\\main FILES ${HEADERFILES_SERVER_BILLING_MAIN_LIST})
 	source_group(HeaderFiles\\server\\billing\\connection FILES ${HEADERFILES_SERVER_BILLING_CONNECTION_LIST})
@@ -522,6 +537,7 @@ ADD_EXECUTABLE(billing
 	${SOURCEFILES_SERVER_COMMON_NET_LIST}
 	${SOURCEFILES_SERVER_COMMON_BASE_LIST}
 	${SOURCEFILES_SERVER_COMMON_SYS_LIST}
+	${SOURCEFILES_SERVER_COMMON_DB_LIST}
 	${SOURCEFILES_SERVER_COMMON_LIST}
 	${SOURCEFILES_SERVER_BILLING_SRC_MAIN_LIST}
 	${SOURCEFILES_SERVER_BILLING_SRC_CONNECTION_LIST}
@@ -551,6 +567,7 @@ ADD_EXECUTABLE(billing
 	${HEADERFILES_SERVER_COMMON_GAME_DEFINE_LIST}
 	${HEADERFILES_SERVER_COMMON_GAME_LIST}
 	${HEADERFILES_SERVER_COMMON_SYS_LIST}
+	${HEADERFILES_SERVER_COMMON_DB_LIST}
 	${HEADERFILES_SERVER_COMMON_LIST}
 	${HEADERFILES_SERVER_BILLING_MAIN_LIST}
 	${HEADERFILES_SERVER_BILLING_CONNECTION_LIST}

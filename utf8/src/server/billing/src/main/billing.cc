@@ -2,6 +2,7 @@
 #include "server/billing/main/accounttable.h"
 #include "server/billing/connection/pool.h"
 #include "server/billing/main/servermanager.h"
+#include "server/billing/db/user/manager.h"
 #include "server/common/base/time_manager.h"
 #include "server/common/base/log.h"
 #include "server/common/base/config.h"
@@ -20,6 +21,7 @@ int32_t main(int32_t argc, char* argv[]) {
   //如果想用这个调试，请在GBK环境下，而且需要去掉对iconv的调用
   //1去掉库libiconv.lib
   //2注释掉common/base/util.cc的charset_convert方法
+  //或者将iconv的库编译为静态库即可
   /**
   SetUnhandledExceptionFilter(
       pap_common_sys::minidump::unhandled_exceptionfilter);
@@ -137,6 +139,10 @@ bool Billing::exit() {
 
 bool Billing::new_staticmanager() {
   __ENTER_FUNCTION
+    g_user_dbmanager = new db::user::Manager();
+    Assert(g_user_dbmanager);
+    g_log->save_log("billing", "new db::user::Manager()...success!");
+
     g_servermanager = new ServerManager();
     Assert(g_servermanager);
     g_log->save_log("billing", "new ServerManager()...success!");
@@ -158,6 +164,11 @@ bool Billing::new_staticmanager() {
 bool Billing::init_staticmanager() {
   __ENTER_FUNCTION
     bool result = false;
+
+    result = g_user_dbmanager->init();
+    Assert(result);
+    g_log->save_log("billing", "g_user_dbmanager->init()...success!");
+    
     result = g_accounttable.init();
     Assert(result);
     g_log->save_log("billing", "g_accounttable.init()...success!");
@@ -197,6 +208,10 @@ bool Billing::release_staticmanager() {
 
     SAFE_DELETE(g_servermanager);
     Log::save_log("billing", "g_servermanager release...success!");
+
+    SAFE_DELETE(g_user_dbmanager);
+    Log::save_log("billing", "g_user_dbmanager release...success!");
+
     return true;
   __LEAVE_FUNCTION
     return false;

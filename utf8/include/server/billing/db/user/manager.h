@@ -51,7 +51,7 @@ class Manager {
    uint32_t get_usercount();
    bool is_haveuser(const char* username);
    bool is_realuser(const char* username, const char* password);
-   void passwordencrypt(const char* in, char* out);
+   void passwordencrypt(const char* in, char* out, uint8_t length);
 
  private:
    pap_server_common_db::ODBCInterface* user_odbcinterface_;
@@ -61,5 +61,7 @@ class Manager {
 }; //namespace user
 
 }; //namespace db
+
+extern db::user::Manager* g_user_dbmanager;
 
 #endif //PAP_SERVER_BILLING_DB_USER_MANAGER_H_
