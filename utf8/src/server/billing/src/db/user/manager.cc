@@ -21,31 +21,31 @@ bool Manager::init() {
     if (!dbmanager_->init()) return false;
     user_odbcinterface_ = dbmanager_->get_interface(kUserDatabase);
     snprintf(sqlstr_, sizeof(sqlstr_) - 1, "USE userdb");
-    strncpy(user_odbcinterface_->query_.sql_str_, sqlstr_);
+    strncpy(user_odbcinterface_->query_.sql_str_, sqlstr_, sizeof(sqlstr_) - 1);
     user_odbcinterface_->clear();
-    if (!userdb_odbcinterface_->execute()) return false;
+    if (!user_odbcinterface_->execute()) return false;
     return true;
   __LEAVE_FUNCTION
     return false;
 }
 
-bool adduser(const char* name, 
-             const char* password,
-             const char* prompt,
-             const char* answer,
-             const char* truename,
-             const char* idnumber,
-             const char* email,
-             const char* mobilenumber,
-             const char* province,
-             const char* city,
-             const char* phonenumber,
-             const char* address,
-             const char* postalcode,
-             uint8_t gender,
-             const char* birthday,
-             const char* qq,
-             const char* password2) {
+bool Manager::adduser(const char* name, 
+                      const char* password,
+                      const char* prompt,
+                      const char* answer,
+                      const char* truename,
+                      const char* idnumber,
+                      const char* email,
+                      const char* mobilenumber,
+                      const char* province,
+                      const char* city,
+                      const char* phonenumber,
+                      const char* address,
+                      const char* postalcode,
+                      uint8_t gender,
+                      const char* birthday,
+                      const char* qq,
+                      const char* password2) {
   __ENTER_FUNCTION
     char encryptpassword[36] = {0};
     char encryptpassword2[36] = {0};
@@ -72,8 +72,8 @@ bool adduser(const char* name,
              qq,
              encryptpassword2);
     strncpy(user_odbcinterface_->query_.sql_str_,
-            sizeof(user_odbcinterface_->query_.sql_str_) - 1,
-            sqlstr_);
+            sqlstr_,
+            sizeof(user_odbcinterface_->query_.sql_str_) - 1);
     user_odbcinterface_->clear();
     if (!user_odbcinterface_->execute() || 
         user_odbcinterface_->affect_count_ <= 0) return false;
