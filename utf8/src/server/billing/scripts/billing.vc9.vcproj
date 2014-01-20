@@ -442,6 +442,18 @@
 								</Filter>
 							</Filter>
 						</Filter>
+						<Filter
+							Name="db"
+							>
+							<Filter
+								Name="user"
+								>
+								<File
+									RelativePath="..\src\db\user\manager.cc"
+									>
+								</File>
+							</Filter>
+						</Filter>
 					</Filter>
 				</Filter>
 			</Filter>
@@ -676,6 +688,18 @@
 							RelativePath="..\..\..\..\include\server\billing\connection\server.h"
 							>
 						</File>
+					</Filter>
+					<Filter
+						Name="db"
+						>
+						<Filter
+							Name="user"
+							>
+							<File
+								RelativePath="..\..\..\..\include\server\billing\db\user\manager.h"
+								>
+							</File>
+						</Filter>
 					</Filter>
 				</Filter>
 			</Filter>
