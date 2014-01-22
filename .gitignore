@@ -242,3 +242,9 @@ tags
 */run/server/*.dll
 */run/server/*.so
 */run/server/test/*
+
+#######################
+## build libs
+#######################
+*/lib/client/cegui/bin/
+*/lib/client/cegui/link/
