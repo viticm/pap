@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ATBOARD_PROPERTIES_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ATBOARD_PROPERTIES_H_
 #ifndef _FalChatBoardProperties_h_
 #define _FalChatBoardProperties_h_
 
@@ -38,3 +40,4 @@ namespace CEGUI
 
 
 #endif
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ATBOARD_PROPERTIES_H_

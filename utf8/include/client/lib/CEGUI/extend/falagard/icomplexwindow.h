@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ICOMPLEXWINDOW_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ICOMPLEXWINDOW_H_
 
 namespace CEGUI
 {
@@ -45,3 +47,4 @@ namespace CEGUI
     virtual void      subscribInfoItemDeleteEvent(Event::Subscriber subscriber) = 0;
   };
 }
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ICOMPLEXWINDOW_H_

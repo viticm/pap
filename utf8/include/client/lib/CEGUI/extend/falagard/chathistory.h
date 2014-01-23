@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_AISTORY_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_AISTORY_H_
 #ifndef _FalChatHistoryBox_h_
 #define _FalChatHistoryBox_h_
 
@@ -237,3 +239,4 @@ namespace CEGUI
 }
 
 #endif
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_AISTORY_H_

@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IBITBOARD_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IBITBOARD_H_
 #pragma once
 #include "ceguivector.h"
 namespace CEGUI
@@ -39,3 +41,4 @@ namespace CEGUI
   };
 
 }
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IBITBOARD_H_

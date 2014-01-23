@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ANIMATEPROPERTIES_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ANIMATEPROPERTIES_H_
 #ifndef _FalAnimateProperties_h_
 #define _FalAnimateProperties_h_
 
@@ -37,3 +39,5 @@ namespace CEGUI
 }
 
 #endif  // end of guard _FalAnimateProperties_h_
+
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ANIMATEPROPERTIES_H_

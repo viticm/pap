@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_MONEY_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_MONEY_H_
 #ifndef _FalMoney_h_
 #define _FalMoney_h_
 
@@ -169,3 +171,4 @@ namespace CEGUI
     };
 }
 #endif
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_MONEY_H_

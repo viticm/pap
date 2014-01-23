@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_PAOPAO_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_PAOPAO_H_
 #pragma once
 #include "falagardselffitwindow.h"
 #include "ceguirenderableimage.h"
@@ -52,3 +54,4 @@ namespace CEGUI
     };
 
 };
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_PAOPAO_H_

@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_SUPERTOOL_TIP_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_SUPERTOOL_TIP_H_
 #ifndef _FalSuperTooltip_h_
 #define _FalSuperTooltip_h_
 
@@ -211,3 +213,4 @@ namespace CEGUI
 }
 
 #endif
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_SUPERTOOL_TIP_H_

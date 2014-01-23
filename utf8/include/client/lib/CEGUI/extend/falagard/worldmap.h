@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_WORLDMAP_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_WORLDMAP_H_
 #pragma once
 #include "falstaticimage.h"
 #include "falagardworldmapproperties.h"
@@ -168,3 +170,4 @@ namespace CEGUI
     };
   /*----------------------------------------------------------------------*/
 };
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_WORLDMAP_H_

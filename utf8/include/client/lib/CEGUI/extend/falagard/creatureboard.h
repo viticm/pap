@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_CREATUREBOARD_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_CREATUREBOARD_H_
 #ifndef _FalCreatureBoard_h
 #define _FalCreatureBoard_h
 
@@ -87,3 +89,4 @@ namespace CEGUI
 
 
 #endif
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_CREATUREBOARD_H_

@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ECKBUTTON_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ECKBUTTON_H_
 #pragma once
 #include "falbutton.h"
 namespace CEGUI
@@ -103,3 +105,4 @@ namespace CEGUI
     };
 
 }
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ECKBUTTON_H_

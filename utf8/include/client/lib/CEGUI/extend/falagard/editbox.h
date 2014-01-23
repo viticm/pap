@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_EDITBOX_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_EDITBOX_H_
 #pragma once
 #include "FalModule.h"
 #include "faleditbox.h"
@@ -80,3 +82,4 @@ namespace CEGUI
         void destroyWindow(Window* window);
     };
 };
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_EDITBOX_H_

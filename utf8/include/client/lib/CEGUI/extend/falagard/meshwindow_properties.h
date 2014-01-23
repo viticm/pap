@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_MEWINDOW_PROPERTIES_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_MEWINDOW_PROPERTIES_H_
 #ifndef _FalMeshWindowProperties_h_
 #define _FalMeshWindowProperties_h_
 
@@ -75,3 +77,4 @@ namespace CEGUI
 }
 
 #endif
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_MEWINDOW_PROPERTIES_H_

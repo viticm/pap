@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IMAGELIST_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IMAGELIST_H_
 #pragma once
 #include "FalModule.h"
 #include "CEGUIRenderableImage.h"
@@ -84,3 +86,5 @@ namespace CEGUI
         void destroyWindow(Window* window);
     };
 }
+
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IMAGELIST_H_

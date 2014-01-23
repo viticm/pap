@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IIMEEDITBOX_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IIMEEDITBOX_H_
 
 #pragma once
 
@@ -36,3 +38,4 @@ namespace CEGUI
     virtual void  setBlinkText (const String32& text) = 0;
   };
 }
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IIMEEDITBOX_H_

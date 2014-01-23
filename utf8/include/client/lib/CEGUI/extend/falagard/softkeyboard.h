@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_SOFTKEYBOARD_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_SOFTKEYBOARD_H_
 #pragma once
 #include "falstaticimage.h"
 #include "ifalagardsoftkeyboard.h"
@@ -163,3 +165,4 @@ namespace CEGUI
         void destroyWindow(Window* window);
     };
 };
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_SOFTKEYBOARD_H_

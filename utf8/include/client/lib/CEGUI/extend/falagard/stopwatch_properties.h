@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_STOPWAT_PROPERTIES_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_STOPWAT_PROPERTIES_H_
 #ifndef _FalStopWatchProperties_h_
 #define _FalStopWatchProperties_h_
 
@@ -68,3 +70,4 @@ namespace CEGUI
 }
 
 #endif
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_STOPWAT_PROPERTIES_H_

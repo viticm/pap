@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_DRAGTITLE_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_DRAGTITLE_H_
 #ifndef _FalDragTitle_h_
 #define _FalDragTitle_h_
 
@@ -110,3 +112,4 @@ namespace CEGUI
 }
 
 #endif
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_DRAGTITLE_H_

@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ATBOARD_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ATBOARD_H_
 #ifndef _FalChatBoard_h_
 #define _FalChatBoard_h_
 
@@ -170,3 +172,4 @@ namespace CEGUI
 }
 
 #endif
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ATBOARD_H_

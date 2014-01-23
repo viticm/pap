@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_COMPLEXWINDOW_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_COMPLEXWINDOW_H_
 #ifndef _FalComplexWindow_h_
 #define _FalComplexWindow_h_
 
@@ -352,3 +354,4 @@ namespace CEGUI
 }
 
 #endif
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_COMPLEXWINDOW_H_

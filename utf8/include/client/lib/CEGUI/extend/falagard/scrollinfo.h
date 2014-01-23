@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_SCROLLINFO_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_SCROLLINFO_H_
 #pragma once
 #include "FalModule.h"
 #include "elements/CEGUIStaticImage.h"
@@ -123,3 +125,4 @@ namespace CEGUI
         void destroyWindow(Window* window);
     };
 };
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_SCROLLINFO_H_

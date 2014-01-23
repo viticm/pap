@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IMAGELIST_PROPERTIES_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IMAGELIST_PROPERTIES_H_
 #ifndef _FalImageListBoxProperties_h_
 #define _FalImageListBoxProperties_h_
 
@@ -126,3 +128,5 @@ namespace CEGUI
 }
 
 #endif  // end of guard _FalActionButtonProperties_h_
+
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IMAGELIST_PROPERTIES_H_

@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_MINIMAP_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_MINIMAP_H_
 #pragma once
 
 #include "falmodule.h"
@@ -267,3 +269,5 @@ namespace CEGUI
         void destroyWindow(Window* window);
     };
 }  
+
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_MINIMAP_H_

@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ATANNEL_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ATANNEL_H_
 #ifndef _FalChatChannel_h_
 #define _FalChatChannel_h_
 
@@ -149,3 +151,4 @@ namespace CEGUI
 
 
 #endif
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ATANNEL_H_

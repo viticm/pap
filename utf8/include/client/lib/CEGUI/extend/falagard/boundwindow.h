@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_BOUNDWINDOW_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_BOUNDWINDOW_H_
 #ifndef _FalBoundWindow_h_
 #define _FalBoundWindow_h_
 
@@ -89,3 +91,5 @@ namespace CEGUI
 }
 
 #endif
+
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_BOUNDWINDOW_H_

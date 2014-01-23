@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_COMPLEXWINDOW_PROPERTIES_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_COMPLEXWINDOW_PROPERTIES_H_
 #ifndef _FalagardComplexWindowProperties_h_
 #define _FalagardComplexWindowProperties_h_
 
@@ -81,3 +83,5 @@ namespace CEGUI
 };
 
 #endif  // end of guard _FalagardComplexWindowProperties_h_
+
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_COMPLEXWINDOW_PROPERTIES_H_

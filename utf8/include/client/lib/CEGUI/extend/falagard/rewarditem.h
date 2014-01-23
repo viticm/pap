@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_REWARDITEM_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_REWARDITEM_H_
 #ifndef _FalRewardItemWindow_h_
 #define _FalRewardItemWindow_h_
 
@@ -102,3 +104,5 @@ namespace CEGUI
 }
 
 #endif
+
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_REWARDITEM_H_

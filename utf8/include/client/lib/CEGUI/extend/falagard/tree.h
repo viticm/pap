@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_TREE_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_TREE_H_
 /***********************************************************************
 filename:   FalTree.h
 created:  5-13-07
@@ -93,3 +95,5 @@ namespace CEGUI
 
 
 #endif  // end of guard _FalTree_h_
+
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_TREE_H_

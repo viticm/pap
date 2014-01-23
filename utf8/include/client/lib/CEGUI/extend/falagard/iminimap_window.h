@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IMINIMAP_WINDOW_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IMINIMAP_WINDOW_H_
 #pragma once
 
 namespace CEGUI
@@ -11,3 +13,4 @@ namespace CEGUI
     virtual void setPlayerDirection( int nDir ) = 0; 
   };
 };
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IMINIMAP_WINDOW_H_

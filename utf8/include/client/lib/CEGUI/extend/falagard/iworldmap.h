@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IWORLDMAP_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IWORLDMAP_H_
 #pragma once
 
 namespace CEGUI
@@ -26,3 +28,4 @@ namespace CEGUI
     virtual void createBackground() = 0;
   };
 };
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_IWORLDMAP_H_

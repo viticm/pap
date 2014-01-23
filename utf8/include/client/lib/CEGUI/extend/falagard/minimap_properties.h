@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_MINIMAP_PROPERTIES_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_MINIMAP_PROPERTIES_H_
 #ifndef _FalMinimapProperties_h_
 #define _FalMinimapProperties_h_
 
@@ -272,3 +274,5 @@ namespace CEGUI
 };
 
 #endif  // end of guard _FalMinimapProperties_h_
+
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_MINIMAP_PROPERTIES_H_

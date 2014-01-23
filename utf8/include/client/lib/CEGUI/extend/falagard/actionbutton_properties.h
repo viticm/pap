@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ACTIONBUTTON_PROPERTIES_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ACTIONBUTTON_PROPERTIES_H_
 #ifndef _FalActionButtonProperties_h_
 #define _FalActionButtonProperties_h_
 
@@ -216,3 +218,5 @@ namespace CEGUI
 }
 
 #endif  // end of guard _FalActionButtonProperties_h_
+
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ACTIONBUTTON_PROPERTIES_H_

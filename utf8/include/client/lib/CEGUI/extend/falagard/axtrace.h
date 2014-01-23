@@ -1,3 +1,5 @@
+#ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_AXTRACE_H_
+#define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_AXTRACE_H_
 //////////////////////////////////////////////////////
 //
 //  AIXA|Trace2 (C) Copyright 開元. 2004
@@ -63,3 +65,4 @@
 
 
 #endif
+#endif //PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_AXTRACE_H_
