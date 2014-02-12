@@ -85,15 +85,15 @@ typedef int16_t connectionid_t;
 // common define
 #if defined(__LINUX__)
 #ifndef LF
-#define LF "\r\n"
+#define LF "\n"
 #endif
 #elif defined(__WINDOWS__)
 #ifndef LF
-#define LF "\n"
+#define LF "\r\n"
 #endif
 #endif
 
-//c output functions
+//c output/string functions
 #if defined(__WINDOWS__)
 #ifndef snprintf
 #define snprintf _snprintf
@@ -113,34 +113,34 @@ typedef int16_t connectionid_t;
 //根据指针值删除内存
 #ifndef SAFE_DELETE
 #if defined(__WINDOWS__)
-#define SAFE_DELETE(x)	if((x)!=NULL) { \
+#define SAFE_DELETE(x)	if ((x) != NULL) { \
                           Assert(_CrtIsValidHeapPointer(x)); \
-                          delete (x); (x)=NULL; \
+                          delete (x); (x) = NULL; \
                         }
 
 #elif defined(__LINUX__)
-#define SAFE_DELETE(x)	if((x)!=NULL) { delete (x); (x)=NULL; }
+#define SAFE_DELETE(x)	if ((x) != NULL) { delete (x); (x) = NULL; }
 #endif
 #endif
 //根据指针值删除数组类型内存 
 //其中注意_CrtIsValidHeapPointer前的定义，在relase需要定义NDEBUG
 #ifndef SAFE_DELETE_ARRAY
 #if defined(__WINDOWS__)
-#define SAFE_DELETE_ARRAY(x) if((x)!=NULL) { \
+#define SAFE_DELETE_ARRAY(x) if ((x) != NULL) { \
                                Assert(_CrtIsValidHeapPointer(x)); \
-                               delete[] (x); (x)=NULL; \
+                               delete[] (x); (x) = NULL; \
                              }
 #elif defined(__LINUX__)
-#define SAFE_DELETE_ARRAY(x) if((x)!=NULL) { delete[] (x); (x)=NULL; }
+#define SAFE_DELETE_ARRAY(x) if ((x) != NULL) { delete[] (x); (x) = NULL; }
 #endif
 #endif
 
 //删除指针型数据(应尽量使用SAFE_DELETE_ARRAY)
 #ifndef DELETE_ARRAY
 #if defined(__WINDOWS__)
-#define DELETE_ARRAY(x)	if((x)!=NULL) { delete[] (x); (x)=NULL; }
+#define DELETE_ARRAY(x)	if ((x) != NULL) { delete[] (x); (x) = NULL; }
 #elif defined(__LINUX__)
-#define DELETE_ARRAY(x)	if((x)!=NULL) { delete[] (x); (x)=NULL; }
+#define DELETE_ARRAY(x)	if ((x) != NULL) { delete[] (x); (x) = NULL; }
 #endif
 #endif
 
@@ -149,11 +149,11 @@ typedef int16_t connectionid_t;
 #endif
 //根据指针调用free接口
 #ifndef SAFE_FREE
-#define SAFE_FREE(x) if((x)!=NULL) { free(x); (x)=NULL; }
+#define SAFE_FREE(x) if ((x) != NULL) { free(x); (x) = NULL; }
 #endif
 //根据指针调用Release接口
 #ifndef SAFE_RELEASE
-#define SAFE_RELEASE(x)	if((x)!=NULL) { (x)->Release(); (x)=NULL; }
+#define SAFE_RELEASE(x)	if ((x) != NULL) { (x)->Release(); (x) = NULL; }
 #endif
 
 #ifndef ERRORPRINTF
@@ -166,17 +166,17 @@ typedef int16_t connectionid_t;
 
 #if defined(__WINDOWS__) //normal functions
 #if defined(NDEBUG)
-  #define __ENTER_FUNCTION {try{
-  #define __LEAVE_FUNCTION }catch(...){AssertSpecial(false,__FUNCTION__);}}
+  #define __ENTER_FUNCTION { try {
+  #define __LEAVE_FUNCTION } catch(...){ AssertSpecial(false,__FUNCTION__); } }
 #else
-  #define __ENTER_FUNCTION {try{
-  #define __LEAVE_FUNCTION }catch(...){AssertSpecial(false,__FUNCTION__);}}
+  #define __ENTER_FUNCTION { try {
+  #define __LEAVE_FUNCTION } catch(...){ AssertSpecial(false,__FUNCTION__); } }
 #endif
 
 #elif defined(__LINUX__)    //linux
-#define __ENTER_FUNCTION {try{
-#define __LEAVE_FUNCTION }catch(...) \
-                         {AssertSpecial(false,__PRETTY_FUNCTION__);}}
+#define __ENTER_FUNCTION { try {
+#define __LEAVE_FUNCTION } catch(...) \
+                         { AssertSpecial(false,__PRETTY_FUNCTION__); } }
 #endif
 
 #endif //PAP_COMMON_BASE_TYPE_H_

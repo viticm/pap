@@ -1,8 +1,18 @@
+/**
+ * PAP Engine ( https://github.com/viticm/pap )
+ * $Id actionbutton.h
+ * @link https://github.com/viticm/pap for the canonical source repository
+ * @copyright Copyright (c) 2013-2013 viticm( viticm@126.com )
+ * @license
+ * @user viticm<viticm@126.com>
+ * @date 2014-1-24 10:39:18
+ * @uses cegui extend falagard action button class.
+ */
 #ifndef PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ACTIONBUTTON_H_
 #define PAP_CLIENT_LIB_CEGUI_EXTEND_FALAGARD_ACTIONBUTTON_H_
 
 #include <client/lib/CEGUI/standard/Base.h> //CEGUI STANDARD
-#include <client/lib/CEGUI/standard/ButtonBase.h>
+#include <client/lib/CEGUI/standard/widgets/ButtonBase.h>
 #include "client/lib/CEGUI/extend/falagard/actionbutton_properties.h"
 #include "client/lib/CEGUI/extend/falagard/iactionbutton.h"
 
@@ -13,8 +23,8 @@ namespace extend {
 
 namespace falagard {
 
-struct AnimateRuntime;
-class Animate;
+struct AnimationRuntime;
+class Animation;
 
 class CEGUIEXPORT ActionButton : public ButtonBase, public IActionButton {
  public:
@@ -95,11 +105,11 @@ class CEGUIEXPORT ActionButton : public ButtonBase, public IActionButton {
    String32 getCornerChar(int nPos) const;
    void setCornerChar(int nPos, const String32& strChar );
 
-   virtual void  setAnimate(const String& name, int totalTime, float percent);
-   virtual void  setPercentageImage(const String& animateName, 
+   virtual void  setAnimation(const String& name, int totalTime, float percent);
+   virtual void  setPercentageImage(const String& animationName, 
                                      int cur, 
                                      int total);
-   virtual void  cleanAnimate(void);
+   virtual void  cleanAnimation(void);
    virtual void  cleanPercentageImage(void);
    virtual void  onParentSized(WindowEventArgs& e);
    virtual void  onSized(WindowEventArgs& e);
@@ -188,8 +198,8 @@ class CEGUIEXPORT ActionButton : public ButtonBase, public IActionButton {
    \brief
    Set/Get Logic data (ActionItem)
    */
-   virtual void setLogicItemData(void* pData)  { m_pLogicData = pData; };
-   virtual void* getLogicItemData(void) const { return m_pLogicData; }
+   virtual void setLogicItemData(void* pData)  { d_LogicData = pData; };
+   virtual void* getLogicItemData(void) const { return d_LogicData; }
 
    /*!
    \brief 
@@ -199,8 +209,8 @@ class CEGUIEXPORT ActionButton : public ButtonBase, public IActionButton {
      return d_dragAcceptName.c_str(); }
    virtual void setDragAcceptName(const String& value) { 
      d_dragAcceptName = value; }
-   virtual void setFlashAnimate( const String& strAnimateName );
-   virtual void setFlashEnable( bool bEnable ){ d_bFlash = bEnable; };
+   virtual void setFlashAnimation( const String& strAnimationName );
+   virtual void setFlashEnable( bool bEnable ){ d_Flash = bEnable; };
    void setBackImage( const Image* pImage );
    void setUseDefaultTooltip( bool bUse ) { d_isUseDefaultTooltip = bUse; };
  protected:
@@ -213,8 +223,8 @@ class CEGUIEXPORT ActionButton : public ButtonBase, public IActionButton {
    Overrides for Event handler methods
    *************************************************************************/
    virtual void  initialise(void);
-   virtual void  onMouseButtonDown(MouseEventArgs& e);
-   virtual void  onMouseButtonUp(MouseEventArgs& e);
+   virtual void  onMouseButtonBaseDown(MouseEventArgs& e);
+   virtual void  onMouseButtonBaseUp(MouseEventArgs& e);
    virtual void  onMouseMove(MouseEventArgs& e);
    virtual void  onRBClicked(WindowEventArgs& e);
    virtual void  onClicked(WindowEventArgs& e);
@@ -230,19 +240,19 @@ class CEGUIEXPORT ActionButton : public ButtonBase, public IActionButton {
    Protected Implementation Methods
    *************************************************************************/
    void drawCorner(float z);
-   void drawAnimate(float z);
+   void drawAnimation(float z);
    void drawPercentageImg(float z);
    void drawDefault(float z);
    void drawFlash(float z );// 画闪光效果，
 
    struct ANIMATE {
-     Animate* d_animate;
+     Animation* d_animation;
      int d_time_start;
      int d_time_total;
      const Image*  d_currentFrame;
      float d_alpha;
      ANIMATE() {
-       d_animate = NULL;
+       d_animation = NULL;
        d_time_start = 0;
        d_time_total = 0;
        d_currentFrame = 0;
@@ -250,13 +260,14 @@ class CEGUIEXPORT ActionButton : public ButtonBase, public IActionButton {
      };
    };
 
-   void  updateAnimate(ANIMATE& animate);
-   void  updateAnimateFlash();
+   void  updateAnimation(ANIMATE& animation);
+   void  updateAnimationFlash();
 
    /*!
    \brief
-   Return a pointer to the Tooltip object used by this Window.  The value returned may
-   point to the system default Tooltip, a custom Window specific Tooltip, or be NULL.
+   Return a pointer to the Tooltip object used by this Window.  
+   The value returned may point to the system default Tooltip, 
+   a custom Window specific Tooltip, or be NULL.
 
    \return
    Pointer to a Tooltip based object, or NULL.
@@ -265,8 +276,8 @@ class CEGUIEXPORT ActionButton : public ButtonBase, public IActionButton {
 
    /*!
    \brief
-   Return whether the required minimum movement threshold before initiating dragging
-   has been exceeded.
+   Return whether the required minimum movement threshold before 
+   initiating dragging has been exceeded.
 
    \param local_mouse
    Mouse position as a pixel offset from the top-left corner of this window.
@@ -291,7 +302,7 @@ class CEGUIEXPORT ActionButton : public ButtonBase, public IActionButton {
    */
    virtual bool testClassName_impl(const String& class_name) const {
      if (class_name==(const utf8*)"FalagardActionButton")  return true;
-     return FalagardButton::testClassName_impl(class_name);
+     return FalagardButtonBase::testClassName_impl(class_name);
    }
    Rect getActionArea();
 
@@ -307,19 +318,20 @@ class CEGUIEXPORT ActionButton : public ButtonBase, public IActionButton {
    /*************************************************************************
    Data
    *************************************************************************/
-   void* m_pLogicData;    //!< Logic data refrence store here.
+   void* d_LogicData;    //!< Logic data refrence store here.
    bool d_empty;      //!< True if button empty
    bool d_checked;      //!< True if button is checked
    bool d_gloom;      //!< True if button is gloom
    bool d_default;      //!< True if button is default action button
    void* d_OwnerItem;    // Helper
-   bool d_bFlash;      // 是不是需要闪烁
+   bool d_Flash;      // 是不是需要闪烁
 
    bool d_draggingEnabled;  //!< True when dragging is enabled.
    bool d_leftMouseDown;    //!< True when left mouse button is down.
    bool d_dragging;         //!< true when being dragged.
    Point d_dragPoint;        //!< point we are being dragged at.
-   float d_dragThreshold;    //!< Pixels mouse must move before dragging commences.
+   float d_dragThreshold;    //!< Pixels mouse must move before 
+                               //dragging commences.
    String d_dragAcceptName;  //!< The name of drag accept name.
 
    struct CORNER_CHAR {
@@ -331,12 +343,14 @@ class CEGUIEXPORT ActionButton : public ButtonBase, public IActionButton {
    CORNER_CHAR d_CornerChar_BotLeft;  //!< BottomLeft Corner
    CORNER_CHAR d_CornerChar_BotRight;  //!< BottomRight Corner
 
-   MouseButton d_ActiveButton;      //!< MouseButton that do "Clicked" event
-   MouseButton d_DragButton;      //!< MouseButton that do "Drag" event;
+   MouseButtonBase d_ActiveButtonBase;      //!< MouseButtonBase that 
+                                              //do "Clicked" event
+   MouseButtonBase d_DragButtonBase;      //!< MouseButtonBase that 
+                                               //do "Drag" event;
 
-   ANIMATE d_animate1;        //!< Button animate layout1
-   ANIMATE d_animateFlash;      // 闪烁动画
-   bool m_bCoolDown;      // 说明现在正是cool down 状态
+   ANIMATE d_animation1;        //!< ButtonBase animation layout1
+   ANIMATE d_animationFlash;      // 闪烁动画
+   bool d_CoolDown;      // 说明现在正是cool down 状态
 
    const Image* d_percentageImg;    //!< Image used to draw percentage image.
 
@@ -356,7 +370,7 @@ class CEGUIEXPORT ActionButton : public ButtonBase, public IActionButton {
    static ActionButtonProperties::DraggingEnabled d_dragEnabledProperty;
    static ActionButtonProperties::DragThreshold d_dragThresholdProperty;
    static ActionButtonProperties::DragAcceptName d_dragAcceptNameProperty;
-   static ActionButtonProperties::FlashAnimate d_flashAnimateProperty;
+   static ActionButtonProperties::FlashAnimation d_flashAnimationProperty;
    static ActionButtonProperties::BackImage d_BackImageProperty;
    static ActionButtonProperties::UseDefaultTooltip 
      d_UseDefaultTooltipProperty;
@@ -377,7 +391,7 @@ class CEGUIEXPORT ActionButton : public ButtonBase, public IActionButton {
 
   /*!
   \brief
-  WindowFactory for FalagardButton type Window objects.
+  WindowFactory for FalagardButtonBase type Window objects.
   */
 class FALAGARDBASE_API ActionButtonFactory : public WindowFactory {
  public:

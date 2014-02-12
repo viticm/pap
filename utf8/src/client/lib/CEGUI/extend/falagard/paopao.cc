@@ -1,4 +1,4 @@
-#include ".\falagardpaopao.h"
+#include "client/lib/CEGUI/extend/falagard/paopao.h"
 #include "ceguipropertyhelper.h"
 #include "falagard/CEGUIFalWidgetLookManager.h"
 #include "falagard/CEGUIFalWidgetLookFeel.h"
