@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>billing</ProjectName>
+    <ProjectGuid>{D78A9474-FC59-4C87-B957-022EFD4BEC92}</ProjectGuid>
+    <RootNamespace>billing</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>11.0.50727.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>../../../../run/server\</OutDir>
+    <IntDir>../../../../vc_build/Intermediate/$(Configuration)/$(ProjectName)\</IntDir>
+    <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>../../../../run/server\</OutDir>
+    <IntDir>../../../../vc_build/Intermediate/$(Configuration)/$(ProjectName)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;__WINDOWS__;_CRT_SECURE_NO_DEPRECATE;_PAP_BILLING;_PAP_NET_BILLING;UTF8;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>ws2_32.lib;../../../../lib/common/iconv/link/libiconv.lib;../../../../lib/common/vnet/link/libvnet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <HeapReserveSize>0</HeapReserveSize>
+      <HeapCommitSize>0</HeapCommitSize>
+      <StackReserveSize>0</StackReserveSize>
+      <StackCommitSize>0</StackCommitSize>
+      <OptimizeReferences />
+      <EnableCOMDATFolding />
+      <LinkTimeCodeGeneration />
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>../../../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;__WINDOWS__;_CRT_SECURE_NO_DEPRECATE;_PAP_BILLING;_PAP_NET_BILLING;UTF8;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <UseFullPaths>false</UseFullPaths>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>ws2_32.lib;../../../../lib/common/iconv/link/libiconv.lib;../../../../lib/common/vnet/link/libvnet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>libc.lib;libcd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <HeapReserveSize>0</HeapReserveSize>
+      <HeapCommitSize>0</HeapCommitSize>
+      <StackReserveSize>0</StackReserveSize>
+      <StackCommitSize>0</StackCommitSize>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\common\base\md5.cc" />
+    <ClCompile Include="..\..\..\common\base\string.cc" />
+    <ClCompile Include="..\..\..\common\base\util.cc" />
+    <ClCompile Include="..\..\..\common\sys\assert.cc" />
+    <ClCompile Include="..\..\..\common\sys\minidump.cc" />
+    <ClCompile Include="..\..\..\common\sys\thread.cc" />
+    <ClCompile Include="..\..\..\common\sys\util.cc" />
+    <ClCompile Include="..\..\..\common\file\database.cc" />
+    <ClCompile Include="..\..\..\common\file\ini.cc" />
+    <ClCompile Include="..\..\..\common\net\packet\base.cc" />
+    <ClCompile Include="..\..\..\common\net\packet\factorymanager.cc" />
+    <ClCompile Include="..\..\..\common\net\socket\base.cc" />
+    <ClCompile Include="..\..\..\common\net\socket\inputstream.cc" />
+    <ClCompile Include="..\..\..\common\net\socket\outputstream.cc" />
+    <ClCompile Include="..\..\common\net\socket.cc" />
+    <ClCompile Include="..\..\common\net\packets\billing_tologin\resultauth.cc" />
+    <ClCompile Include="..\..\common\net\packets\login_tobilling\askauth.cc" />
+    <ClCompile Include="..\..\common\net\packets\serverserver\connect.cc" />
+    <ClCompile Include="..\..\common\net\connection\base.cc" />
+    <ClCompile Include="..\..\common\net\connection\manager.cc" />
+    <ClCompile Include="..\..\common\net\connection\server.cc" />
+    <ClCompile Include="..\..\common\base\config.cc" />
+    <ClCompile Include="..\..\..\common\base\io.cc" />
+    <ClCompile Include="..\..\common\base\log.cc" />
+    <ClCompile Include="..\..\common\base\time_manager.cc" />
+    <ClCompile Include="..\..\common\db\manager.cc" />
+    <ClCompile Include="..\..\common\db\odbc_interface.cc" />
+    <ClCompile Include="..\..\common\db\system.cc" />
+    <ClCompile Include="..\src\main\accounttable.cc" />
+    <ClCompile Include="..\src\main\billing.cc" />
+    <ClCompile Include="..\src\main\servermanager.cc" />
+    <ClCompile Include="..\src\connection\billing.cc" />
+    <ClCompile Include="..\src\connection\manager.cc" />
+    <ClCompile Include="..\src\connection\pool.cc" />
+    <ClCompile Include="..\src\connection\server.cc" />
+    <ClCompile Include="..\src\packets\handler\billing_tologin\resultauth.cc" />
+    <ClCompile Include="..\src\packets\handler\login_tobilling\askauth.cc" />
+    <ClCompile Include="..\src\packets\handler\serverserver\connect.cc" />
+    <ClCompile Include="..\src\db\user\manager.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\include\server\common\base\config.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\base\define.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\base\file_define.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\base\log.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\base\log_define.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\base\time_manager.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\net\config.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\net\socket.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\net\connection\base.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\net\connection\manager.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\net\connection\server.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\net\packets\billing_tologin\resultauth.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\net\packets\login_tobilling\askauth.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\net\packets\serverserver\connect.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\all.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\enum.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\macros.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\type\all.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\type\server.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\type\sharememory.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\id\all.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\id\packet\all.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\id\packet\billinglogin.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\id\packet\serverserver.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\status\all.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\status\connection.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\status\sharememory.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\result\all.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\result\userdata.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\sys\config.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\db\config.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\db\manager.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\db\odbc_interface.h" />
+    <ClInclude Include="..\..\..\..\include\server\common\db\system.h" />
+    <ClInclude Include="..\..\..\..\include\server\billing\main\accounttable.h" />
+    <ClInclude Include="..\..\..\..\include\server\billing\main\billing.h" />
+    <ClInclude Include="..\..\..\..\include\server\billing\main\servermanager.h" />
+    <ClInclude Include="..\..\..\..\include\server\billing\connection\billing.h" />
+    <ClInclude Include="..\..\..\..\include\server\billing\connection\manager.h" />
+    <ClInclude Include="..\..\..\..\include\server\billing\connection\pool.h" />
+    <ClInclude Include="..\..\..\..\include\server\billing\connection\server.h" />
+    <ClInclude Include="..\..\..\..\include\server\billing\db\user\manager.h" />
+    <ClInclude Include="..\..\..\..\include\common\base\config.h" />
+    <ClInclude Include="..\..\..\..\include\common\base\io.h" />
+    <ClInclude Include="..\..\..\..\include\common\base\md5.h" />
+    <ClInclude Include="..\..\..\..\include\common\base\string.h" />
+    <ClInclude Include="..\..\..\..\include\common\base\type.h" />
+    <ClInclude Include="..\..\..\..\include\common\base\util.h" />
+    <ClInclude Include="..\..\..\..\include\common\sys\assert.h" />
+    <ClInclude Include="..\..\..\..\include\common\sys\config.h" />
+    <ClInclude Include="..\..\..\..\include\common\sys\minidump.h" />
+    <ClInclude Include="..\..\..\..\include\common\sys\thread.h" />
+    <ClInclude Include="..\..\..\..\include\common\sys\util.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\config.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\util.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\all.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\enum.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\macros.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\attribute\all.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\attribute\character.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\attribute\monster.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\attribute\pet.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\attribute\teammember.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\error\all.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\error\attack.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\error\channel.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\error\team.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\group\all.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\group\relation.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\id\ability.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\id\all.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\id\impact.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\id\packet.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\id\skill.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\index\all.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\index\skill.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\result\all.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\result\channel.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\result\login.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\result\team.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\size\all.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\size\mibao.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\status\all.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\time\all.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\all.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\attack.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\chat.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\command.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\event.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\human.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\mail.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\monster.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\relation.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\setting.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\shop.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\skill.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\value\all.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\value\combat.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\value\pk.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\define\value\relation.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\classes\all.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\structs\all.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\structs\impact.h" />
+    <ClInclude Include="..\..\..\..\include\common\game\structs\skill.h" />
+    <ClInclude Include="..\..\..\..\include\common\file\config.h" />
+    <ClInclude Include="..\..\..\..\include\common\file\database.h" />
+    <ClInclude Include="..\..\..\..\include\common\file\ini.h" />
+    <ClInclude Include="..\..\..\..\include\common\lib\iconv\iconv.h" />
+    <ClInclude Include="..\..\..\..\include\common\lib\vnet\vnet.h" />
+    <ClInclude Include="..\..\..\..\include\common\lib\vnet\vnet.hpp" />
+    <ClInclude Include="..\..\..\..\include\common\lib\vnet\vnetapi.h" />
+    <ClInclude Include="..\..\..\..\include\common\lib\vnet\vnetconf.h" />
+    <ClInclude Include="..\..\..\..\include\common\lib\vnet\vnetlib.h" />
+    <ClInclude Include="..\..\..\..\include\common\net\config.h" />
+    <ClInclude Include="..\..\..\..\include\common\net\socket\base.h" />
+    <ClInclude Include="..\..\..\..\include\common\net\socket\inputstream.h" />
+    <ClInclude Include="..\..\..\..\include\common\net\socket\outputstream.h" />
+    <ClInclude Include="..\..\..\..\include\common\net\packet\base.h" />
+    <ClInclude Include="..\..\..\..\include\common\net\packet\factory.h" />
+    <ClInclude Include="..\..\..\..\include\common\net\packet\factorymanager.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

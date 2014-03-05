@@ -1,0 +1,732 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\common">
+      <UniqueIdentifier>{2d67f906-df74-49af-aaf9-81a4d56f836d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common\base">
+      <UniqueIdentifier>{75ea408e-4ae8-434c-835d-9e21f82394b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common\sys">
+      <UniqueIdentifier>{08f8c955-fcea-49b1-8b2b-b7d3b09043b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common\file">
+      <UniqueIdentifier>{25b58490-b24f-4a7c-a6e4-5c1f8fc59954}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common\net">
+      <UniqueIdentifier>{7412c7b4-1de7-4f39-b157-39ed2fed68fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common\net\packet">
+      <UniqueIdentifier>{43b9fc85-feef-463a-9fd2-0d2829cddd1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common\net\socket">
+      <UniqueIdentifier>{f593fa88-64e2-4a16-98de-2eadc3119fda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server">
+      <UniqueIdentifier>{b957ad48-e23b-473c-bded-aa9f9eda102e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common">
+      <UniqueIdentifier>{bd241afc-0715-4405-87f8-f273623fa8b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common\game">
+      <UniqueIdentifier>{dc689069-9772-44f7-8ef9-538f954203d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common\net">
+      <UniqueIdentifier>{597a1e99-3a02-46b8-9bf5-4a91188bd4e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common\net\packets">
+      <UniqueIdentifier>{57b9e453-b3fe-40bc-8f2a-b8c762164723}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common\net\packets\billing_tologin">
+      <UniqueIdentifier>{61bf4e0c-1e99-4922-b095-20fbeb88d49a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common\net\packets\login_tobilling">
+      <UniqueIdentifier>{da9bbb17-17ce-4c46-a8ca-7f4d26009f48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common\net\packets\serverserver">
+      <UniqueIdentifier>{6eccfbc5-a551-456c-a990-5b6c8d4bed6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common\net\connection">
+      <UniqueIdentifier>{ae2c7ad5-796b-4352-a096-52defc5b83cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common\base">
+      <UniqueIdentifier>{66d9abab-67aa-48e0-8e4e-6c78aee3f737}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common\sys">
+      <UniqueIdentifier>{832e3558-bdae-42c9-aca2-0b336236be56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\common\db">
+      <UniqueIdentifier>{04de3764-d557-49d3-a9db-f43b06e43593}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\billing">
+      <UniqueIdentifier>{d0dd8ab1-e7cf-46bb-a447-35ea21ab0c93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\billing\src">
+      <UniqueIdentifier>{f41f88e0-1979-4d4b-b108-f71fbeeeb334}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\billing\src\main">
+      <UniqueIdentifier>{0b8507ba-faa9-464e-8cf6-c9722a979f6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\billing\src\connection">
+      <UniqueIdentifier>{f6335091-5cc8-4e31-885f-6c5850ba31f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\billing\src\packets">
+      <UniqueIdentifier>{f49f1ece-d480-4f85-ac77-e2216f1d7b79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\billing\src\packets\handler">
+      <UniqueIdentifier>{9515dc33-823e-475e-bcb9-b4c4e7a3aab8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\billing\src\packets\handler\billing_tologin">
+      <UniqueIdentifier>{2b8f1cce-ec77-4afa-a99f-cde7c496642c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\billing\src\packets\handler\login_tobilling">
+      <UniqueIdentifier>{7b389e77-2cc2-43f9-bcba-71924183bdae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\billing\src\packets\handler\serverserver">
+      <UniqueIdentifier>{910e3ac2-2672-4910-9bda-d3c5b62dac55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\billing\src\db">
+      <UniqueIdentifier>{7e81f7a9-170b-4326-af33-38becd493a22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server\billing\src\db\user">
+      <UniqueIdentifier>{ca8d8923-28db-46ec-b856-84d4b43ff0ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\server">
+      <UniqueIdentifier>{4aa70b2c-c51e-4b66-bf71-965aeed035c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common">
+      <UniqueIdentifier>{d3abbc57-e193-471b-a3bb-c7fcd3c0c490}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\base">
+      <UniqueIdentifier>{4e990da6-7d39-4e84-9703-8cf96c513e93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\net">
+      <UniqueIdentifier>{4ca0e5db-0610-4264-9683-c5d628cb1c4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\net\connection">
+      <UniqueIdentifier>{583555c2-a920-4adb-9869-b81443597c57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\net\packets">
+      <UniqueIdentifier>{21e4c741-5c1c-422c-8f38-0462cae49600}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\net\packets\billing_tologin">
+      <UniqueIdentifier>{8911abac-cd3d-49b7-a5f8-f369fed34dcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\net\packets\login_tobilling">
+      <UniqueIdentifier>{4324e5bb-b315-4bbc-ac83-29ee55ff56ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\net\packets\serverserver">
+      <UniqueIdentifier>{61cff4ac-0f7f-4d0b-a136-52881315e046}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\game">
+      <UniqueIdentifier>{0c8a22ff-e4a9-4aa7-89b4-26e118b6f9c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\game\define">
+      <UniqueIdentifier>{0d7f2412-0aa6-4cc3-88c0-64d07da685de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\game\define\type">
+      <UniqueIdentifier>{2861b36b-017f-48b0-b41f-ccd6d0449552}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\game\define\id">
+      <UniqueIdentifier>{6daa4cfa-9a8b-4851-a2f4-7395dc599688}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\game\define\id\packet">
+      <UniqueIdentifier>{97e8aa54-a0dd-4849-ab5b-5ae65df9a98b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\game\define\status">
+      <UniqueIdentifier>{e4bca0a4-7f05-49f9-a571-63ce3181a58b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\game\define\result">
+      <UniqueIdentifier>{699c5fd7-b752-40fc-b248-a798a1395c80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\sys">
+      <UniqueIdentifier>{87957869-f3d4-4a19-b7ed-a22abfede1fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\common\db">
+      <UniqueIdentifier>{5c35efa1-c8bf-43dc-9141-82484cefb2f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\billing">
+      <UniqueIdentifier>{28a417e1-b0c3-4636-9987-dc779a957b4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\billing\main">
+      <UniqueIdentifier>{10e432db-9b75-4824-9f5a-8b9e7c6575e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\billing\connection">
+      <UniqueIdentifier>{75b5a45c-5821-468b-a331-c829000bc543}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\billing\db">
+      <UniqueIdentifier>{1ef54acd-6569-4074-8bdf-5cdb10b0c970}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server\billing\db\user">
+      <UniqueIdentifier>{9abc18e7-6fd8-496d-8b57-49a887a3ca83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common">
+      <UniqueIdentifier>{15617f0f-432d-4b7d-938c-6d02294529b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\base">
+      <UniqueIdentifier>{d7ef6c0c-cc27-406a-8cb6-2609e5bed6f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\sys">
+      <UniqueIdentifier>{690beea6-942f-4a43-93da-9f83d10d92fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\game">
+      <UniqueIdentifier>{58e0bd29-37d7-4184-929e-42c50249bac2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\game\define">
+      <UniqueIdentifier>{fa45b98c-1d24-4e60-a00f-fda308a860b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\game\define\attribute">
+      <UniqueIdentifier>{1cbf551a-4b75-46c4-aad4-944a90018797}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\game\define\error">
+      <UniqueIdentifier>{94cf3a0f-a6db-4d4c-a8d5-2467ade8d8b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\game\define\group">
+      <UniqueIdentifier>{5ac090ca-0112-459d-b737-333f8f41a3c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\game\define\id">
+      <UniqueIdentifier>{c3157cd4-d221-4762-bca7-cb1de21f9e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\game\define\index">
+      <UniqueIdentifier>{122206e5-9462-4b1e-8f50-c4a60865a15d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\game\define\result">
+      <UniqueIdentifier>{f96bab68-cc66-434e-81df-13c04ac66995}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\game\define\size">
+      <UniqueIdentifier>{7c29f4fc-9337-47fc-97c7-b0ece0e131e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\game\define\status">
+      <UniqueIdentifier>{dd93606c-4df6-40ed-ad7a-68b6ce3a495a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\game\define\time">
+      <UniqueIdentifier>{158c9eb7-d801-47af-8453-40a15e5912b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\game\define\type">
+      <UniqueIdentifier>{c57a604b-e86f-43ca-94a4-32dee1f661ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\game\define\value">
+      <UniqueIdentifier>{aad681c1-b652-4956-8162-713750336a2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\game\classes">
+      <UniqueIdentifier>{078cea9b-5fb2-4553-aa42-36077ff91906}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\game\structs">
+      <UniqueIdentifier>{83957d4f-e57d-4a4e-982b-e8da5226dd08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\file">
+      <UniqueIdentifier>{3494fac7-10b4-4f91-8dbc-d9e4b40557b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\lib">
+      <UniqueIdentifier>{449e567c-3db4-453b-ac2d-b179ed7d0ed9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\lib\iconv">
+      <UniqueIdentifier>{f1a4a012-f28b-4e47-8406-34f7abd949c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\lib\vnet">
+      <UniqueIdentifier>{ca615363-21bc-4e0f-8a33-5f3eedd41a21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\net">
+      <UniqueIdentifier>{537b9b49-c1b5-4baa-ab6b-48ffe68bcb14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\net\socket">
+      <UniqueIdentifier>{0639a418-f972-4fbb-80b2-642c642e3341}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\net\packet">
+      <UniqueIdentifier>{66fdc24e-2d49-4ece-93ca-b5570dff62d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\common\base\md5.cc">
+      <Filter>Source Files\common\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\base\string.cc">
+      <Filter>Source Files\common\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\base\util.cc">
+      <Filter>Source Files\common\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\sys\assert.cc">
+      <Filter>Source Files\common\sys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\sys\minidump.cc">
+      <Filter>Source Files\common\sys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\sys\thread.cc">
+      <Filter>Source Files\common\sys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\sys\util.cc">
+      <Filter>Source Files\common\sys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\file\database.cc">
+      <Filter>Source Files\common\file</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\file\ini.cc">
+      <Filter>Source Files\common\file</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\net\packet\base.cc">
+      <Filter>Source Files\common\net\packet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\net\packet\factorymanager.cc">
+      <Filter>Source Files\common\net\packet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\net\socket\base.cc">
+      <Filter>Source Files\common\net\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\net\socket\inputstream.cc">
+      <Filter>Source Files\common\net\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\net\socket\outputstream.cc">
+      <Filter>Source Files\common\net\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\net\socket.cc">
+      <Filter>Source Files\server\common\net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\net\packets\billing_tologin\resultauth.cc">
+      <Filter>Source Files\server\common\net\packets\billing_tologin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\net\packets\login_tobilling\askauth.cc">
+      <Filter>Source Files\server\common\net\packets\login_tobilling</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\net\packets\serverserver\connect.cc">
+      <Filter>Source Files\server\common\net\packets\serverserver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\net\connection\base.cc">
+      <Filter>Source Files\server\common\net\connection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\net\connection\manager.cc">
+      <Filter>Source Files\server\common\net\connection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\net\connection\server.cc">
+      <Filter>Source Files\server\common\net\connection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\base\config.cc">
+      <Filter>Source Files\server\common\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\base\io.cc">
+      <Filter>Source Files\server\common\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\base\log.cc">
+      <Filter>Source Files\server\common\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\base\time_manager.cc">
+      <Filter>Source Files\server\common\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\db\manager.cc">
+      <Filter>Source Files\server\common\db</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\db\odbc_interface.cc">
+      <Filter>Source Files\server\common\db</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\db\system.cc">
+      <Filter>Source Files\server\common\db</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main\accounttable.cc">
+      <Filter>Source Files\server\billing\src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main\billing.cc">
+      <Filter>Source Files\server\billing\src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main\servermanager.cc">
+      <Filter>Source Files\server\billing\src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\connection\billing.cc">
+      <Filter>Source Files\server\billing\src\connection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\connection\manager.cc">
+      <Filter>Source Files\server\billing\src\connection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\connection\pool.cc">
+      <Filter>Source Files\server\billing\src\connection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\connection\server.cc">
+      <Filter>Source Files\server\billing\src\connection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\packets\handler\billing_tologin\resultauth.cc">
+      <Filter>Source Files\server\billing\src\packets\handler\billing_tologin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\packets\handler\login_tobilling\askauth.cc">
+      <Filter>Source Files\server\billing\src\packets\handler\login_tobilling</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\packets\handler\serverserver\connect.cc">
+      <Filter>Source Files\server\billing\src\packets\handler\serverserver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\db\user\manager.cc">
+      <Filter>Source Files\server\billing\src\db\user</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\include\server\common\base\config.h">
+      <Filter>Header Files\server\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\base\define.h">
+      <Filter>Header Files\server\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\base\file_define.h">
+      <Filter>Header Files\server\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\base\log.h">
+      <Filter>Header Files\server\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\base\log_define.h">
+      <Filter>Header Files\server\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\base\time_manager.h">
+      <Filter>Header Files\server\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\net\config.h">
+      <Filter>Header Files\server\common\net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\net\socket.h">
+      <Filter>Header Files\server\common\net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\net\connection\base.h">
+      <Filter>Header Files\server\common\net\connection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\net\connection\manager.h">
+      <Filter>Header Files\server\common\net\connection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\net\connection\server.h">
+      <Filter>Header Files\server\common\net\connection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\net\packets\billing_tologin\resultauth.h">
+      <Filter>Header Files\server\common\net\packets\billing_tologin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\net\packets\login_tobilling\askauth.h">
+      <Filter>Header Files\server\common\net\packets\login_tobilling</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\net\packets\serverserver\connect.h">
+      <Filter>Header Files\server\common\net\packets\serverserver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\all.h">
+      <Filter>Header Files\server\common\game\define</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\enum.h">
+      <Filter>Header Files\server\common\game\define</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\macros.h">
+      <Filter>Header Files\server\common\game\define</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\type\all.h">
+      <Filter>Header Files\server\common\game\define\type</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\type\server.h">
+      <Filter>Header Files\server\common\game\define\type</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\type\sharememory.h">
+      <Filter>Header Files\server\common\game\define\type</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\id\all.h">
+      <Filter>Header Files\server\common\game\define\id</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\id\packet\all.h">
+      <Filter>Header Files\server\common\game\define\id\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\id\packet\billinglogin.h">
+      <Filter>Header Files\server\common\game\define\id\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\id\packet\serverserver.h">
+      <Filter>Header Files\server\common\game\define\id\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\status\all.h">
+      <Filter>Header Files\server\common\game\define\status</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\status\connection.h">
+      <Filter>Header Files\server\common\game\define\status</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\status\sharememory.h">
+      <Filter>Header Files\server\common\game\define\status</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\result\all.h">
+      <Filter>Header Files\server\common\game\define\result</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\game\define\result\userdata.h">
+      <Filter>Header Files\server\common\game\define\result</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\sys\config.h">
+      <Filter>Header Files\server\common\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\db\config.h">
+      <Filter>Header Files\server\common\db</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\db\manager.h">
+      <Filter>Header Files\server\common\db</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\db\odbc_interface.h">
+      <Filter>Header Files\server\common\db</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\common\db\system.h">
+      <Filter>Header Files\server\common\db</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\billing\main\accounttable.h">
+      <Filter>Header Files\server\billing\main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\billing\main\billing.h">
+      <Filter>Header Files\server\billing\main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\billing\main\servermanager.h">
+      <Filter>Header Files\server\billing\main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\billing\connection\billing.h">
+      <Filter>Header Files\server\billing\connection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\billing\connection\manager.h">
+      <Filter>Header Files\server\billing\connection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\billing\connection\pool.h">
+      <Filter>Header Files\server\billing\connection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\billing\connection\server.h">
+      <Filter>Header Files\server\billing\connection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\server\billing\db\user\manager.h">
+      <Filter>Header Files\server\billing\db\user</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\base\config.h">
+      <Filter>Header Files\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\base\io.h">
+      <Filter>Header Files\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\base\md5.h">
+      <Filter>Header Files\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\base\string.h">
+      <Filter>Header Files\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\base\type.h">
+      <Filter>Header Files\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\base\util.h">
+      <Filter>Header Files\common\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\sys\assert.h">
+      <Filter>Header Files\common\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\sys\config.h">
+      <Filter>Header Files\common\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\sys\minidump.h">
+      <Filter>Header Files\common\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\sys\thread.h">
+      <Filter>Header Files\common\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\sys\util.h">
+      <Filter>Header Files\common\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\config.h">
+      <Filter>Header Files\common\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\util.h">
+      <Filter>Header Files\common\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\all.h">
+      <Filter>Header Files\common\game\define</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\enum.h">
+      <Filter>Header Files\common\game\define</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\macros.h">
+      <Filter>Header Files\common\game\define</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\attribute\all.h">
+      <Filter>Header Files\common\game\define\attribute</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\attribute\character.h">
+      <Filter>Header Files\common\game\define\attribute</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\attribute\monster.h">
+      <Filter>Header Files\common\game\define\attribute</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\attribute\pet.h">
+      <Filter>Header Files\common\game\define\attribute</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\attribute\teammember.h">
+      <Filter>Header Files\common\game\define\attribute</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\error\all.h">
+      <Filter>Header Files\common\game\define\error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\error\attack.h">
+      <Filter>Header Files\common\game\define\error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\error\channel.h">
+      <Filter>Header Files\common\game\define\error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\error\team.h">
+      <Filter>Header Files\common\game\define\error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\group\all.h">
+      <Filter>Header Files\common\game\define\group</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\group\relation.h">
+      <Filter>Header Files\common\game\define\group</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\id\ability.h">
+      <Filter>Header Files\common\game\define\id</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\id\all.h">
+      <Filter>Header Files\common\game\define\id</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\id\impact.h">
+      <Filter>Header Files\common\game\define\id</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\id\packet.h">
+      <Filter>Header Files\common\game\define\id</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\id\skill.h">
+      <Filter>Header Files\common\game\define\id</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\index\all.h">
+      <Filter>Header Files\common\game\define\index</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\index\skill.h">
+      <Filter>Header Files\common\game\define\index</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\result\all.h">
+      <Filter>Header Files\common\game\define\result</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\result\channel.h">
+      <Filter>Header Files\common\game\define\result</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\result\login.h">
+      <Filter>Header Files\common\game\define\result</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\result\team.h">
+      <Filter>Header Files\common\game\define\result</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\size\all.h">
+      <Filter>Header Files\common\game\define\size</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\size\mibao.h">
+      <Filter>Header Files\common\game\define\size</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\status\all.h">
+      <Filter>Header Files\common\game\define\status</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\time\all.h">
+      <Filter>Header Files\common\game\define\time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\all.h">
+      <Filter>Header Files\common\game\define\type</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\attack.h">
+      <Filter>Header Files\common\game\define\type</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\chat.h">
+      <Filter>Header Files\common\game\define\type</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\command.h">
+      <Filter>Header Files\common\game\define\type</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\event.h">
+      <Filter>Header Files\common\game\define\type</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\human.h">
+      <Filter>Header Files\common\game\define\type</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\mail.h">
+      <Filter>Header Files\common\game\define\type</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\monster.h">
+      <Filter>Header Files\common\game\define\type</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\relation.h">
+      <Filter>Header Files\common\game\define\type</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\setting.h">
+      <Filter>Header Files\common\game\define\type</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\shop.h">
+      <Filter>Header Files\common\game\define\type</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\type\skill.h">
+      <Filter>Header Files\common\game\define\type</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\value\all.h">
+      <Filter>Header Files\common\game\define\value</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\value\combat.h">
+      <Filter>Header Files\common\game\define\value</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\value\pk.h">
+      <Filter>Header Files\common\game\define\value</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\define\value\relation.h">
+      <Filter>Header Files\common\game\define\value</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\classes\all.h">
+      <Filter>Header Files\common\game\classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\structs\all.h">
+      <Filter>Header Files\common\game\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\structs\impact.h">
+      <Filter>Header Files\common\game\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\game\structs\skill.h">
+      <Filter>Header Files\common\game\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\file\config.h">
+      <Filter>Header Files\common\file</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\file\database.h">
+      <Filter>Header Files\common\file</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\file\ini.h">
+      <Filter>Header Files\common\file</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\lib\iconv\iconv.h">
+      <Filter>Header Files\common\lib\iconv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\lib\vnet\vnet.h">
+      <Filter>Header Files\common\lib\vnet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\lib\vnet\vnet.hpp">
+      <Filter>Header Files\common\lib\vnet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\lib\vnet\vnetapi.h">
+      <Filter>Header Files\common\lib\vnet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\lib\vnet\vnetconf.h">
+      <Filter>Header Files\common\lib\vnet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\lib\vnet\vnetlib.h">
+      <Filter>Header Files\common\lib\vnet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\net\config.h">
+      <Filter>Header Files\common\net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\net\socket\base.h">
+      <Filter>Header Files\common\net\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\net\socket\inputstream.h">
+      <Filter>Header Files\common\net\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\net\socket\outputstream.h">
+      <Filter>Header Files\common\net\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\net\packet\base.h">
+      <Filter>Header Files\common\net\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\net\packet\factory.h">
+      <Filter>Header Files\common\net\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common\net\packet\factorymanager.h">
+      <Filter>Header Files\common\net\packet</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
