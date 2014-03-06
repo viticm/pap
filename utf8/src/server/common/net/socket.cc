@@ -9,33 +9,39 @@ Socket::Socket(uint16_t port, uint32_t backlog) {
     socket_ = new pap_common_net::socket::Base();
     if (NULL == socket_) { //memory not enough
       ERRORPRINTF("pap_server_common_net::Socket::Socket"
-                  "new pap_common_net::socket::Base() failed");
+                  " new pap_common_net::socket::Base() failed,"
+                  " errorcode: %d",
+                  socket_->getlast_errorcode());
       throw 1;
     }
     result = socket_->create();
     if (false == result) {
       ERRORPRINTF("pap_server_common_net::Socket::Socket"
-                  " socket_->create() failed"); 
+                  " socket_->create() failed, errorcode: %d",
+                  socket_->getlast_errorcode()); 
       throw 1;
     }
     result = socket_->set_reuseaddr();
     if (false == result) {
       ERRORPRINTF("pap_server_common_net::Socket::Socket"
-                  " socket_->set_reuseaddr() failed");
+                  " socket_->set_reuseaddr() failed, errorcode: %d",
+                  socket_->getlast_errorcode());
       throw 1;
     }
     result = socket_->bind(port);
     if (false == result) {
       ERRORPRINTF("pap_server_common_net::Socket::Socket"
-                  " socket_->bind(%d) failed", 
-                  port);
+                  " socket_->bind(%d) failed, errorcode: %d", 
+                  port,
+                  socket_->getlast_errorcode());
       throw 1;
     }
     result = socket_->listen(backlog);
     if (false == result) {
       ERRORPRINTF("pap_server_common_net::Socket::Socket"
-                  " socket_->listen(%d) failed",
-                  backlog);
+                  " socket_->listen(%d) failed, errorcode: %d",
+                  backlog,
+                  socket_->getlast_errorcode());
       throw 1;
     }
   __LEAVE_FUNCTION

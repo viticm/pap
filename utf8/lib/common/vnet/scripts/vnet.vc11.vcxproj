@@ -71,10 +71,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\static\</OutDir>
     <IntDir>..\..\..\..\vc_build\Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetName>lib$(ProjectName)d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\static\</OutDir>
     <IntDir>..\..\..\..\vc_build\Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetName>lib$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
     <OutDir>..\..\..\Run\Server\$(Configuration)\</OutDir>
@@ -94,8 +96,8 @@
       <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <DllDataFileName />
-      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+      <InterfaceIdentifierFileName>lib_common_vnet_scripts_%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>lib_common_vnet_scripts_%(Filename)_p.c</ProxyFileName>
     </Midl>
     <ClCompile>
       <AdditionalOptions> /Zm1000 %(AdditionalOptions)</AdditionalOptions>
@@ -113,14 +115,14 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;__WINDOWS__;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\svn\temp\ShareMemory;C:\svn\temp\World;C:\svn\temp\Server;C:\svn\temp\Server\FoxScriptLib;C:\svn\temp\Server\FoxNet;.\;.\Encoder;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Lib>
-      <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
+      <OutputFile>$(OutDir)lib$(ProjectName)d.lib</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -133,8 +135,8 @@
       <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <DllDataFileName />
-      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+      <InterfaceIdentifierFileName>lib_common_vnet_scripts_%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>lib_common_vnet_scripts_%(Filename)_p.c</ProxyFileName>
     </Midl>
     <ClCompile>
       <AdditionalOptions> /Zm1000 %(AdditionalOptions)</AdditionalOptions>
@@ -151,14 +153,14 @@
       <ProgramDataBaseFileName>$(IntDir)$(ProjectName).pdb</ProgramDataBaseFileName>
       <WarningLevel>Level4</WarningLevel>
       <CompileAs>CompileAsC</CompileAs>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;__WINDOWS__;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\svn\temp\ShareMemory;C:\svn\temp\World;C:\svn\temp\Server;C:\svn\temp\Server\FoxScriptLib;C:\svn\temp\Server\FoxNet;.\;.\Encoder;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Lib>
-      <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
+      <OutputFile>$(OutDir)lib$(ProjectName).lib</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
@@ -171,8 +173,8 @@
       <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <DllDataFileName />
-      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+      <InterfaceIdentifierFileName>lib_common_vnet_scripts_%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>lib_common_vnet_scripts_%(Filename)_p.c</ProxyFileName>
     </Midl>
     <ClCompile>
       <AdditionalOptions> /Zm1000 %(AdditionalOptions)</AdditionalOptions>
@@ -208,8 +210,8 @@
       <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <DllDataFileName />
-      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+      <InterfaceIdentifierFileName>lib_common_vnet_scripts_%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>lib_common_vnet_scripts_%(Filename)_p.c</ProxyFileName>
     </Midl>
     <ClCompile>
       <AdditionalOptions> /Zm1000 %(AdditionalOptions)</AdditionalOptions>
@@ -244,12 +246,14 @@
     <ClCompile Include="..\src\socket\endecode.c" />
     <ClCompile Include="..\src\socket\inputstream.c" />
     <ClCompile Include="..\src\socket\outputstream.c" />
+    <ClCompile Include="..\src\base\io.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\api\vnet.h" />
     <ClInclude Include="..\include\api\vnetapi.h" />
     <ClInclude Include="..\include\api\vnetconf.h" />
     <ClInclude Include="..\include\api\vnetlib.h" />
+    <ClInclude Include="..\include\base\io.h" />
     <ClInclude Include="..\include\base\type.h" />
     <ClInclude Include="..\include\file\api.h" />
     <ClInclude Include="..\include\file\config.h" />

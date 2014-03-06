@@ -2,31 +2,34 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{eee90801-2cb1-4377-a58a-2fca48c88316}</UniqueIdentifier>
+      <UniqueIdentifier>{76dc493a-4f98-4c5a-99d1-a989505a189e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\api">
-      <UniqueIdentifier>{08b5169a-ae58-4146-b285-9be63837a84c}</UniqueIdentifier>
+      <UniqueIdentifier>{e85b3b45-d265-4920-b189-2faa6b72853c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\file">
-      <UniqueIdentifier>{484756ba-cd62-4d04-bf3e-c94338212229}</UniqueIdentifier>
+      <UniqueIdentifier>{84e9b3f1-bbe6-4ee6-bc9e-8febc956e557}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\socket">
-      <UniqueIdentifier>{53de7452-9afa-4f81-a5c2-99c572af21f5}</UniqueIdentifier>
+      <UniqueIdentifier>{cf47e90d-f40f-4ada-9816-54fc27591997}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\base">
+      <UniqueIdentifier>{8dd4c071-afdf-44f1-9d9e-0ee53a0fffe8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{117eb5e0-459c-4938-90bf-64961f41504c}</UniqueIdentifier>
+      <UniqueIdentifier>{9e1ac852-3798-4d8a-b304-ed64d2517237}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\api">
-      <UniqueIdentifier>{b04475fa-7ad7-4bf6-b20b-d32b4a0dc958}</UniqueIdentifier>
+      <UniqueIdentifier>{95e3e3e3-c896-4455-8245-7ddeba10f618}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\base">
-      <UniqueIdentifier>{ab14aeaf-badf-4c69-912d-04f366b7479a}</UniqueIdentifier>
+      <UniqueIdentifier>{41513dd7-487f-4411-9c1f-d6fc3e872055}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\file">
-      <UniqueIdentifier>{ff9bf83e-7663-4162-8938-816bf1924818}</UniqueIdentifier>
+      <UniqueIdentifier>{fff37223-5016-48a8-a8e7-fb12163127cb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\socket">
-      <UniqueIdentifier>{6c4c3736-9faf-4dda-9301-52586eaa26bc}</UniqueIdentifier>
+      <UniqueIdentifier>{edf8176a-76b1-4db6-a39f-7e5b5fa79aae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +54,9 @@
     <ClCompile Include="..\src\socket\outputstream.c">
       <Filter>Source Files\socket</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\base\io.c">
+      <Filter>Source Files\base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\api\vnet.h">
@@ -64,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="..\include\api\vnetlib.h">
       <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\base\io.h">
+      <Filter>Header Files\base</Filter>
     </ClInclude>
     <ClInclude Include="..\include\base\type.h">
       <Filter>Header Files\base</Filter>

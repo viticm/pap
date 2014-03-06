@@ -3,6 +3,8 @@
 
 #if defined(__LINUX__)
 extern int32_t errno;
+#elif defined(__WINDOWS__)
+int32_t error;
 #endif
 char errormessage[FILENAME_MAX] = {'\0'};
 
@@ -23,7 +25,7 @@ int32_t socketapi_socketex(int32_t domain, int32_t type, int32_t protocol) {
       }
     }
 #elif defined(__WINDOWS__)
-    int32_t error = WSAGetLastError();
+    error = WSAGetLastError();
     switch (error) {
       case WSANOTINITIALISED : { 
         strncpy(errormessage, "WSANOTINITIALISED", sizeof(errormessage) - 1);
@@ -97,7 +99,7 @@ bool socketapi_bindex(int32_t socketid,
       }
     }
 #elif defined(__WINDOWS__)
-    int32_t error = WSAGetLastError();
+    error = WSAGetLastError();
     switch (error) {
       case WSANOTINITIALISED : { 
         strncpy(errormessage, "WSAESOCKTNOSUPPORT", sizeof(errormessage) - 1);
@@ -168,7 +170,7 @@ bool socketapi_connectex(int32_t socketid,
       }
     }
 #elif defined(__WINDOWS__)
-    int32_t error = WSAGetLastError();
+    error = WSAGetLastError();
     switch (error) {
       case WSANOTINITIALISED : {
         strncpy(errormessage, "WSANOTINITIALISED", sizeof(errormessage) - 1);
@@ -262,7 +264,7 @@ bool socketapi_listenex(int32_t socketid, uint32_t backlog) {
       }
     }
 #elif defined(__WINDOWS__)
-    int32_t error = WSAGetLastError();
+    error = WSAGetLastError();
     switch (error) {
       case WSANOTINITIALISED : {
         strncpy(errormessage, "WSANOTINITIALISED", sizeof(errormessage) - 1);
@@ -373,7 +375,7 @@ int32_t socketapi_acceptex(int32_t socketid,
       }
     }
 #elif defined(__WINDOWS__)
-    int32_t error = WSAGetLastError();
+    error = WSAGetLastError();
     switch (error) {
       case WSANOTINITIALISED : {
         strncpy(errormessage, "WSANOTINITIALISED", sizeof(errormessage) - 1);
@@ -460,7 +462,7 @@ bool socketapi_getsockopt_exb(int32_t socketid,
                                  optname, 
                                  (char*)optval, 
                                  (int32_t*)optlength)) {
-    int32_t error = WSAGetLastError();
+    error = WSAGetLastError();
     switch (error) 
     {
       case WSANOTINITIALISED : {
@@ -542,7 +544,7 @@ uint32_t result = 0;
                                  optname, 
                                  (char*)optval, 
                                  (int32_t*)optlength)) {
-    int32_t error = WSAGetLastError();
+    error = WSAGetLastError();
     switch (error) {
       case WSANOTINITIALISED: {
         strncpy(errormessage, "WSANOTINITIALISED", sizeof(errormessage) - 1);
@@ -611,7 +613,7 @@ bool socketapi_setsockopt_ex(int32_t socketid,
                                  optname, 
                                  (char*)optval, 
                                  optlength)) {
-    int32_t error = WSAGetLastError();
+    error = WSAGetLastError();
     switch (error) {
       case WSANOTINITIALISED : { 
         strncpy(errormessage, "WSANOTINITIALISED", sizeof(errormessage) - 1);
@@ -690,7 +692,7 @@ int32_t socketapi_sendex(int32_t socketid,
       }
     }
 #elif defined(__WINDOWS__)
-    int32_t error = WSAGetLastError();
+    error = WSAGetLastError();
     switch (error) {
       case WSANOTINITIALISED : { 
         strncpy(errormessage, "WSANOTINITIALISED", sizeof(errormessage) - 1);
@@ -853,7 +855,7 @@ int32_t socketapi_recvex(int32_t socketid,
       }
     }
 #elif defined(__WINDOWS__)
-    int32_t error = WSAGetLastError();
+    error = WSAGetLastError();
     switch (error) {
       case WSANOTINITIALISED : { 
         strncpy(errormessage, "WSANOTINITIALISED", sizeof(errormessage) - 1);
@@ -978,7 +980,7 @@ bool socketapi_closeex(int32_t socketid) {
   fileapi_closeex(socketid);
 #elif defined(__WINDOWS__)
   if (SOCKET_ERROR == closesocket(socketid)) {
-    int32_t error = WSAGetLastError();
+    error = WSAGetLastError();
     switch (error) {
       case WSANOTINITIALISED : {
         strncpy(errormessage, "WSANOTINITIALISED", sizeof(errormessage) - 1);
@@ -1022,7 +1024,7 @@ bool socketapi_ioctlex(int32_t socketid, int64_t cmd, uint64_t* argp) {
   //do nothing
 #elif defined(__WINDOWS__)
   if (SOCKET_ERROR == ioctlsocket(socketid,(long)cmd,(u_long*)argp)) {
-    int32_t error = WSAGetLastError();
+    error = WSAGetLastError();
       switch (error) {
       case WSANOTINITIALISED : {
         strncpy(errormessage, "WSANOTINITIALISED", sizeof(errormessage) - 1);
@@ -1102,7 +1104,7 @@ bool socketapi_shutdown_ex (int32_t socketid, uint32_t how) {
       }
     }
 #elif defined(__WINDOWS__)
-    int32_t error = WSAGetLastError();
+    error = WSAGetLastError();
     switch (error) {
       case WSANOTINITIALISED : {
         strncpy(errormessage, "WSANOTINITIALISED", sizeof(errormessage) - 1);
@@ -1150,7 +1152,7 @@ int32_t socketapi_selectex(int32_t maxfdp,
 #if defined(__LINUX__)
 
 #elif defined(__WINDOWS__)
-    int32_t error = WSAGetLastError();
+    error = WSAGetLastError();
     switch (error) {
       case WSANOTINITIALISED : {
         strncpy(errormessage, "WSANOTINITIALISED", sizeof(errormessage) - 1);
@@ -1191,7 +1193,11 @@ int32_t socketapi_selectex(int32_t maxfdp,
 }
 
 int32_t socketapi_getlast_errorcode() {
+#if defined(__LINUX__)
   return errno;
+#elif defined(__WINDOWS__)
+  return error;
+#endif
 }
 
 void socketapi_getlast_errormessage(char* buffer, uint16_t length) {

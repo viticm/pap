@@ -65,7 +65,7 @@
       <DisableSpecificWarnings>4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>ws2_32.lib;../../../../lib/common/iconv/link/libiconv.lib;../../../../lib/common/vnet/link/libvnet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;../../../../lib/common/iconv/link/libiconv.lib;../../../../lib/common/vnet/link/libvnetd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <HeapReserveSize>0</HeapReserveSize>

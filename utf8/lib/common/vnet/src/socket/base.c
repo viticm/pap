@@ -80,6 +80,7 @@ int32_t socketbase_accept(int32_t socketid, uint16_t port) {
 bool socketbase_bind(int32_t socketid, uint16_t port) {
   bool result = true;
   struct sockaddr_in connect_sockaddr_in;
+  connect_sockaddr_in.sin_family = AF_INET;
   connect_sockaddr_in.sin_addr.s_addr = htonl(INADDR_ANY);
   connect_sockaddr_in.sin_port = htons(port);
   result = socketapi_bindex(socketid, 
