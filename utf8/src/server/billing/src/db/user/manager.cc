@@ -20,7 +20,7 @@ Manager::~Manager() {
 bool Manager::init() {
   __ENTER_FUNCTION
     dbmanager_ = new pap_server_common_db::Manager();
-    if (!dbmanager_->init()) return false;
+    if (!dbmanager_->init(kUserDatabase)) return false; //just use userdb
     user_odbcinterface_ = dbmanager_->get_interface(kUserDatabase);
     snprintf(sqlstr_, sizeof(sqlstr_) - 1, "USE userdb");
     strncpy(user_odbcinterface_->query_.sql_str_, sqlstr_, sizeof(sqlstr_) - 1);

@@ -57,9 +57,9 @@ bool ODBCInterface::connect(const char* connection_name,
       memset(log_buffer, '\0', sizeof(log_buffer));
       snprintf(log_buffer, 
                sizeof(log_buffer) - 1,
-               "connection name: %s", 
-               connection_name_);
-      snprintf(log_buffer, sizeof(log_buffer) - 1, "connect user: %s", user_);
+               "connection name: %s, connect user: %s", 
+               connection_name_,
+               user_);
       Log::save_log("odbc_interface", "[odbc] connect failed, %s", log_buffer);
       diag_state();
       return false;
@@ -99,9 +99,9 @@ bool ODBCInterface::connect() {
       memset(log_buffer, '\0', sizeof(log_buffer));
       snprintf(log_buffer, 
                sizeof(log_buffer) - 1,
-               "connection name: %s", 
-               connection_name_); 
-      snprintf(log_buffer, sizeof(log_buffer) - 1, "connect user: %s", user_);
+               "connection name: %s connect user: %s", 
+               connection_name_,
+               user_); 
       Log::save_log("odbc_interface", "[odbc] connect failed, %s", log_buffer);
       diag_state();
       return false;

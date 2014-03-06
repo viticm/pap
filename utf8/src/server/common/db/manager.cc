@@ -82,6 +82,7 @@ bool Manager::init(db_type_enum db_type) {
             db_type_);
       }
     }
+
     if (kAllDatabase == db_type_ || kUserDatabase == db_type_) {
       //init all variable in first(user db)
       user_interface_ = new ODBCInterface();
