@@ -119,6 +119,7 @@ bool Billing::init() {
 bool Billing::loop() {
   __ENTER_FUNCTION
     g_log->save_log("billing", "loop ...");
+    //g_servermanager->connectserver();
     g_servermanager->loop();
     return true;
   __LEAVE_FUNCTION

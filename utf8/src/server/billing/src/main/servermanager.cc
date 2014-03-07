@@ -136,8 +136,9 @@ bool ServerManager::processoutput() {
     for (i = 0; i < connectioncount; ++i) {
       if (ID_INVALID == connectionids_[i]) continue;
       billingconnection::Server* serverconnection = NULL;
-      serverconnection = g_connectionpool->get(connectionids_[i]);
-      Assert(serverconnection);
+      //serverconnection = g_connectionpool->get(connectionids_[i]);
+      serverconnection = &billing_serverconnection_;
+	  Assert(serverconnection);
       int32_t socketid = serverconnection->getsocket()->getid();
       if (socketid_ == socketid) continue;
       if (FD_ISSET(socketid, &writefds_[kSelectUse])) {
@@ -194,8 +195,8 @@ bool ServerManager::processcommand() {
     for (i = 0; i < connectioncount; ++i) {
       if (ID_INVALID == connectionids_[i]) continue;
       billingconnection::Server* serverconnection = NULL;
-      serverconnection = g_connectionpool->get(connectionids_[i]);
-      //serverconnection = &billing_serverconnection_;
+      //serverconnection = g_connectionpool->get(connectionids_[i]);
+      serverconnection = &billing_serverconnection_;
       Assert(serverconnection);
       int32_t socketid = serverconnection->getsocket()->getid();
       if (socketid_ == socketid) continue;
@@ -534,6 +535,8 @@ bool ServerManager::connectserver() {
     bool result = false;
     pap_server_common_net::packets::serverserver::Connect* connectpacket = NULL;
     pap_common_net::socket::Base* billingsocket = NULL;
+	const char *kServerIp = "192.168.200.100";
+	const uint16_t kServerPort = 12680;
     billingsocket = billing_serverconnection_.getsocket();
     try {
       result = billingsocket->create();
@@ -542,9 +545,8 @@ bool ServerManager::connectserver() {
         Assert(false);
       }
       result = billingsocket->connect(
-          g_config.billing_info_.ip_,
-          12680);
-
+          kServerIp,
+		  kServerPort);
       if (!result) {
         step = 2;
         printf("exception 2");
@@ -567,8 +569,8 @@ bool ServerManager::connectserver() {
       g_log->fast_save_log(kBillingLogFile,
                            "ServerManager::connectserver()"
                            " ip:%s, port: %d, success",
-                           g_config.billing_info_.ip_,
-                           g_config.billing_info_.port_);
+						   kServerIp,
+						   kServerPort);
     }
     catch(...) {
       step = 5;
@@ -581,7 +583,7 @@ bool ServerManager::connectserver() {
       Assert(false);
     }
     connectpacket = new pap_server_common_net::packets::serverserver::Connect();
-    connectpacket->set_serverid(0);
+    connectpacket->set_serverid(9999);
     connectpacket->set_worldid(0);
     connectpacket->set_zoneid(0);
     result = billing_serverconnection_.sendpacket(connectpacket);
@@ -597,8 +599,8 @@ EXCEPTION:
     g_log->fast_save_log(
         kBillingLogFile, 
         "ServerManager::connectserver() have error, ip: %s, port: %d, step: %d",
-        g_config.billing_info_.ip_,
-        g_config.billing_info_.port_,
+		kServerIp,
+		kServerPort,
         step);
     billing_serverconnection_.cleanup();
     return false;
