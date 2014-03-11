@@ -1,0 +1,31 @@
+#!/bin/sh
+#@desc this script can auto create cscope file and ctags
+#@date 2013-12-9 13:53:44
+#@author viticm<viticm@126.com>
+paths="./ ../../../../../include/client/lib/vengine/"
+types="php lua h cpp c cc hpp"
+n=0
+for path in ${paths}
+do
+  cmd="find ${path}"
+  i=0
+  for filetype in ${types} 
+  do
+    if [[ 0 -eq ${i} ]] ; then
+      cmd=${cmd}" -name *."${filetype}
+    else
+      cmd=${cmd}" -o -name *."${filetype}
+    fi
+    ((++i))
+  done
+  if [[ 0 -eq ${n} ]] ; then
+    cmd=${cmd}" > cscope.files"
+  else
+    cmd=${cmd}" >> cscope.files"
+  fi
+  echo ${cmd} | sh
+  ((++n))
+done
+
+cscope -bkq -i cscope.files
+ctags -R
