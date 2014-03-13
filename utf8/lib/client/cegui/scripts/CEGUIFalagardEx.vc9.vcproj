@@ -90,8 +90,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\..\Run\Client\Game"
-			IntermediateDirectory="..\..\..\..\BuildOut\$(ConfigurationName)\$(ProjectName)"
+			OutputDirectory="Release"
+			IntermediateDirectory="cegui_falagardex.dir/Release"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
@@ -118,7 +118,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="..\..\EngineSDK\kylinengine\ogre1.6.5\OgreMain\Include;..\..\EngineSDK\kylinengine\ogre1.6.5\Dependencies\include;..\..\EngineSDK\ThirdParty\VSInclude;..\CEGUI/CEGUI\WidgetSets\Falagard\include;..\CEGUI\CEGUI\include;..\CEGUI\CEGUIRenderer\include"
+				AdditionalIncludeDirectories="..\..\Ogre\OgreMain\Include;..\..\Ogre\Dependencies\include;..\CEGUI\WidgetSets\Falagard\include;..\CEGUI\include;..\CEGUIRenderer\include;..\CEGUI\include\falagard\extend;..\CEGUI\include\elements;..\..\Ogre\vc_build\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;FALAGARDBASE_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="false"
 				MinimalRebuild="true"
@@ -143,7 +143,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/CEGUIFalagardEx.lib"
+				OutputFile="../lib/Release/CEGUIFalagardEx.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -260,10 +260,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CEGUI\src\falagard\extend\FalagardChatEditBox.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CEGUI\src\falagard\extend\FalagardCheckButton.cpp"
 				>
 			</File>
@@ -273,18 +269,6 @@
 			</File>
 			<File
 				RelativePath="..\CEGUI\src\falagard\extend\FalagardComplexWindowProperties.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CEGUI\src\falagard\extend\FalagardEditBox.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CEGUI\src\falagard\extend\FalagardImageListEx.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CEGUI\src\falagard\extend\FalagardImageListItem.cpp"
 				>
 			</File>
 			<File
@@ -301,10 +285,6 @@
 			</File>
 			<File
 				RelativePath="..\CEGUI\src\falagard\extend\FalagardMiniMap.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CEGUI\src\falagard\extend\FalagardNumberEditBox.cpp"
 				>
 			</File>
 			<File
@@ -514,10 +494,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CEGUI\include\falagard\extend\FalagardChatEditBox.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CEGUI\include\falagard\extend\FalagardCheckButton.h"
 				>
 			</File>
@@ -527,18 +503,6 @@
 			</File>
 			<File
 				RelativePath="..\CEGUI\include\falagard\extend\FalagardComplexWindowProperties.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CEGUI\include\falagard\extend\FalagardEditBox.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CEGUI\include\falagard\extend\FalagardImageListEx.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CEGUI\include\falagard\extend\FalagardImageListItem.h"
 				>
 			</File>
 			<File
@@ -555,10 +519,6 @@
 			</File>
 			<File
 				RelativePath="..\CEGUI\include\falagard\extend\FalagardMiniMap.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CEGUI\include\falagard\extend\FalagardNumberEditBox.h"
 				>
 			</File>
 			<File

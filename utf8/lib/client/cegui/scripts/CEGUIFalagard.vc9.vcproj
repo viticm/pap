@@ -98,8 +98,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\Bin\Client\Game"
-			IntermediateDirectory="..\..\..\..\BuildOut\$(ConfigurationName)\$(ProjectName)"
+			OutputDirectory="Release"
+			IntermediateDirectory="cegui_falagard.dir\Release"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="0"
@@ -126,7 +126,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="../CEGUI/CEGUI/include;../CEGUI/CEGUI/WidgetSets/Falagard/include;../CEGUIFalagardEx"
+				AdditionalIncludeDirectories="../CEGUI/include;../CEGUI/WidgetSets/Falagard/include;../CEGUIFalagardEx"
 				PreprocessorDefinitions="NDEBUG;FALAGARDBASE_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="false"
 				MinimalRebuild="true"

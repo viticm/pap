@@ -1,4 +1,4 @@
-#include ".\falagardchateditbox.h"
+#include "falagardchateditbox.h"
 #include "CEGUIScrollbar.h"
 // Start of CEGUI namespace section
 namespace CEGUI

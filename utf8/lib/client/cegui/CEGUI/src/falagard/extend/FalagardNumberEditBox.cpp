@@ -1,5 +1,6 @@
 #include "FalagardNumberEditBox.h"
 #include "CEGUIPropertyHelper.h"
+#include "CEGUIPropertySet.h"
 // Start of CEGUI namespace section
 namespace CEGUI
 {
