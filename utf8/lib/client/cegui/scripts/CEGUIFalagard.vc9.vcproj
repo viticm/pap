@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="CEGUIFalagard"
+	Name="cegui_falagard"
 	ProjectGUID="{E1A62A24-FF2E-4B16-A128-862A8F655E06}"
 	RootNamespace="CEGUIFalagard"
 	Keyword="Win32Proj"

@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="LuaPlus"
+	Name="luaplus"
 	ProjectGUID="{1658EB2F-8E9F-4D28-85AC-633F0F4C82D4}"
 	RootNamespace="LuaPlus"
 	TargetFrameworkVersion="131072"

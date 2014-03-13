@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="CEGUIBase"
+	Name="cegui_base"
 	ProjectGUID="{232B1F48-87C1-4EF9-98A2-CF675BAC7A54}"
 	RootNamespace="CEGUIBase"
 	Keyword="Win32Proj"
@@ -99,8 +99,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\Bin\Client\Game"
-			IntermediateDirectory="..\..\..\..\BuildOut\$(ConfigurationName)\$(ProjectName)"
+			OutputDirectory="Release"
+			IntermediateDirectory="cegui_base.dir\Release"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="0"
@@ -127,7 +127,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="..\CEGUI\include;..\CEGUI\expatParser;..\..\EngineSDK\ThirdParty\VSInclude\expat;..\..\EngineSDK\kylinengine\ogre1.6.5\Dependencies\include"
+				AdditionalIncludeDirectories="..\CEGUI\include;..\CEGUI\expatParser;..\..\Ogre\Dependencies\include;..\..\expat\include"
 				PreprocessorDefinitions="NDEBUG;CEGUIBASE_EXPORTS;CEGUI_ALIGN_ELEMENTS_TO_PIXELS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="false"
 				MinimalRebuild="true"
@@ -152,7 +152,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="freetype2311.lib zlib.lib expat.lib"
-				AdditionalLibraryDirectories="&quot;../../EngineSDK/LibAndDll/$(ConfigurationName)&quot;;..\..\EngineSDK\kylinengine\ogre1.7.1\Dependencies\lib\Release;..\..\EngineSDK\ThirdParty\VSLib"
+				OutputFile="..\bin\Release\$(ProjectName).dll"
+				AdditionalLibraryDirectories="..\..\Ogre\Dependencies\lib\Release"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"

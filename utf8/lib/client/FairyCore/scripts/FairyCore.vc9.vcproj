@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="FairyCore"
+	Name="fairycore"
 	ProjectGUID="{60D1A2F1-DBC1-4C6D-8274-25C73E81DD5C}"
 	RootNamespace="FairyCore"
 	Keyword="Win32Proj"
