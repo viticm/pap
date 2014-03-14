@@ -126,7 +126,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="../CEGUI/include;../CEGUI/WidgetSets/Falagard/include;../CEGUIFalagardEx"
+				AdditionalIncludeDirectories="../CEGUI/include;../CEGUI/WidgetSets/Falagard/include"
 				PreprocessorDefinitions="NDEBUG;FALAGARDBASE_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="false"
 				MinimalRebuild="true"
@@ -151,7 +151,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalLibraryDirectories="..\..\Bin\Client\Game;&quot;../../EngineSDK/LibAndDll/$(ConfigurationName)&quot;;..\..\EngineSDK\kylinengine\ogre1.7.1\Dependencies\lib\Release"
+				OutputFile="..\bin\Release\$(ProjectName).dll"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"

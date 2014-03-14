@@ -97,8 +97,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\Bin\Client\Game"
-			IntermediateDirectory="..\..\..\..\..\BuildOut\$(ConfigurationName)\$(ProjectName)"
+			OutputDirectory="Release"
+			IntermediateDirectory="cegui_ogrerenderer.dir/Release"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="0"
@@ -124,7 +124,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="..\CEGUIRenderer\include;..\CEGUI\include;..\..\EngineSDK\kylinengine\ogre1.6.5\OgreMain\Include;..\..\EngineSDK\kylinengine\ogre1.6.5\Dependencies\include;..\..\EngineSDK\ThirdParty\VSInclude"
+				AdditionalIncludeDirectories="..\CEGUIRenderer\include;..\CEGUI\include;..\..\Ogre\OgreMain\Include;..\..\Ogre\Dependencies\include;..\..\Ogre\vc_build\include"
 				PreprocessorDefinitions="NDEBUG;OGRE_GUIRENDERER_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="false"
 				MinimalRebuild="true"
@@ -148,7 +148,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="OgreMain.lib CEGUIBase.lib"
-				AdditionalLibraryDirectories="..\..\Bin\Client\Game;&quot;..\..\EngineSDK\LibAndDll\$(ConfigurationName)&quot;;..\..\EngineSDK\kylinengine\ogre1.6.5\Dependencies\lib\Release"
+				OutputFile="..\bin\Release\$(ProjectName).dll"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
