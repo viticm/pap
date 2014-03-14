@@ -33,13 +33,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Plugin_Scorpio", "..\..\..\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OgreMain", "..\..\..\lib\client\Ogre\vc_build\OgreMain\OgreMain.vc9.vcproj", "{6CECADEF-C6B4-4A19-8A70-F30C161682C9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Opcode", "..\..\..\lib\client\Opcode\Opcode.vc9.vcproj", "{FD449C37-B1EC-4A35-9300-1EA7A273158B}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxml_lib", "..\..\..\lib\client\tinyxml\scripts\tinyxml.vc9.vcproj", "{3B8B63F1-9EEB-4644-A5CE-EF59F09C1797}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PathLib", "..\..\..\lib\client\PathLib\scripts\PathLib.vc9.vcproj", "{36AA4C25-8433-42CD-8DCB-05D52A276132}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cgallib", "..\..\..\lib\client\CGAL3.2.1\scripts\cgallib.vc9.vcproj", "{C1F788D5-DC18-4223-B77D-924CBAED2201}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Opcode", "..\..\..\lib\client\Opcode\scripts\Opcode.vc9.vcproj", "{FD449C37-B1EC-4A35-9300-1EA7A273158B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -195,18 +195,6 @@ Global
 		{6CECADEF-C6B4-4A19-8A70-F30C161682C9}.ReleaseWithSymbol|Win32.Build.0 = Release|Win32
 		{6CECADEF-C6B4-4A19-8A70-F30C161682C9}.RelWithDebInfo|Win32.ActiveCfg = RelWithDebInfo|Win32
 		{6CECADEF-C6B4-4A19-8A70-F30C161682C9}.RelWithDebInfo|Win32.Build.0 = RelWithDebInfo|Win32
-		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.Debug|Win32.Build.0 = Debug|Win32
-		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.Final|Win32.ActiveCfg = Debug|Win32
-		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.Final|Win32.Build.0 = Debug|Win32
-		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.MinSizeRel|Win32.ActiveCfg = Debug|Win32
-		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.MinSizeRel|Win32.Build.0 = Debug|Win32
-		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.Release|Win32.ActiveCfg = Release|Win32
-		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.Release|Win32.Build.0 = Release|Win32
-		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.ReleaseWithSymbol|Win32.ActiveCfg = Release|Win32
-		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.ReleaseWithSymbol|Win32.Build.0 = Release|Win32
-		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
-		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.RelWithDebInfo|Win32.Build.0 = Release|Win32
 		{3B8B63F1-9EEB-4644-A5CE-EF59F09C1797}.Debug|Win32.ActiveCfg = Debug|Win32
 		{3B8B63F1-9EEB-4644-A5CE-EF59F09C1797}.Debug|Win32.Build.0 = Debug|Win32
 		{3B8B63F1-9EEB-4644-A5CE-EF59F09C1797}.Final|Win32.ActiveCfg = Debug|Win32
@@ -243,6 +231,18 @@ Global
 		{C1F788D5-DC18-4223-B77D-924CBAED2201}.ReleaseWithSymbol|Win32.Build.0 = Release|Win32
 		{C1F788D5-DC18-4223-B77D-924CBAED2201}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
 		{C1F788D5-DC18-4223-B77D-924CBAED2201}.RelWithDebInfo|Win32.Build.0 = Release|Win32
+		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.Debug|Win32.Build.0 = Debug|Win32
+		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.Final|Win32.ActiveCfg = Debug|Win32
+		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.Final|Win32.Build.0 = Debug|Win32
+		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.MinSizeRel|Win32.ActiveCfg = Debug|Win32
+		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.MinSizeRel|Win32.Build.0 = Debug|Win32
+		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.Release|Win32.ActiveCfg = Release|Win32
+		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.Release|Win32.Build.0 = Release|Win32
+		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.ReleaseWithSymbol|Win32.ActiveCfg = Release|Win32
+		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.ReleaseWithSymbol|Win32.Build.0 = Release|Win32
+		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
+		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.RelWithDebInfo|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
