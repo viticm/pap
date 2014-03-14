@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="tinyxml_lib"
+	Name="tinyxml"
 	ProjectGUID="{3B8B63F1-9EEB-4644-A5CE-EF59F09C1797}"
 	RootNamespace="tinyxml"
 	TargetFrameworkVersion="131072"
@@ -17,8 +17,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\Bin\Client\Game"
-			IntermediateDirectory="..\..\..\..\BuildOut\$(ConfigurationName)\$(ProjectName)"
+			OutputDirectory="Release"
+			IntermediateDirectory="tinyxml.dir/Release"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -49,6 +49,7 @@
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="false"
+				AdditionalIncludeDirectories="../include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;TIXML_USE_STL"
 				StringPooling="false"
 				MinimalRebuild="true"
@@ -59,8 +60,8 @@
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="false"
 				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile=".\Release/tinyxml_lib.pch"
-				ProgramDataBaseFileName="$(IntDir)\vc80_tiny.pdb"
+				PrecompiledHeaderFile="$(IntDir)/tinyxml_lib.pch"
+				ProgramDataBaseFileName="$(IntDir)\vc90_tinyxml.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
@@ -78,7 +79,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\tinyxml.lib"
+				OutputFile="..\lib\Release\tinyxml.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool

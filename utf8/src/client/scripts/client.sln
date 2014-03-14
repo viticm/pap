@@ -33,11 +33,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Plugin_Scorpio", "..\..\..\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OgreMain", "..\..\..\lib\client\Ogre\vc_build\OgreMain\OgreMain.vc9.vcproj", "{6CECADEF-C6B4-4A19-8A70-F30C161682C9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxml_lib", "..\..\..\lib\client\tinyxml\scripts\tinyxml.vc9.vcproj", "{3B8B63F1-9EEB-4644-A5CE-EF59F09C1797}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxml", "..\..\..\lib\client\tinyxml\scripts\tinyxml.vc9.vcproj", "{3B8B63F1-9EEB-4644-A5CE-EF59F09C1797}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PathLib", "..\..\..\lib\client\PathLib\scripts\PathLib.vc9.vcproj", "{36AA4C25-8433-42CD-8DCB-05D52A276132}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FD449C37-B1EC-4A35-9300-1EA7A273158B} = {FD449C37-B1EC-4A35-9300-1EA7A273158B}
+		{C1F788D5-DC18-4223-B77D-924CBAED2201} = {C1F788D5-DC18-4223-B77D-924CBAED2201}
+		{3B8B63F1-9EEB-4644-A5CE-EF59F09C1797} = {3B8B63F1-9EEB-4644-A5CE-EF59F09C1797}
+	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cgallib", "..\..\..\lib\client\CGAL3.2.1\scripts\cgallib.vc9.vcproj", "{C1F788D5-DC18-4223-B77D-924CBAED2201}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cgal", "..\..\..\lib\client\CGAL3.2.1\scripts\cgallib.vc9.vcproj", "{C1F788D5-DC18-4223-B77D-924CBAED2201}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Opcode", "..\..\..\lib\client\Opcode\scripts\Opcode.vc9.vcproj", "{FD449C37-B1EC-4A35-9300-1EA7A273158B}"
 EndProject
