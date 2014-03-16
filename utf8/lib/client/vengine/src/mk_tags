@@ -12,9 +12,9 @@ do
   for filetype in ${types} 
   do
     if [[ 0 -eq ${i} ]] ; then
-      cmd=${cmd}" -name *."${filetype}
+      cmd=${cmd}" -name \*."${filetype}
     else
-      cmd=${cmd}" -o -name *."${filetype}
+      cmd=${cmd}" -o -name \*."${filetype}
     fi
     ((++i))
   done
