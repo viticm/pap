@@ -165,6 +165,66 @@
 				Name="base"
 				>
 			</Filter>
+			<Filter
+				Name="capability"
+				>
+			</Filter>
+			<Filter
+				Name="cursor"
+				>
+			</Filter>
+			<Filter
+				Name="db"
+				>
+			</Filter>
+			<Filter
+				Name="exception"
+				>
+			</Filter>
+			<Filter
+				Name="game"
+				>
+			</Filter>
+			<Filter
+				Name="helper"
+				>
+			</Filter>
+			<Filter
+				Name="input"
+				>
+			</Filter>
+			<Filter
+				Name="kernel"
+				>
+			</Filter>
+			<Filter
+				Name="math"
+				>
+			</Filter>
+			<Filter
+				Name="render"
+				>
+			</Filter>
+			<Filter
+				Name="resource"
+				>
+			</Filter>
+			<Filter
+				Name="script"
+				>
+			</Filter>
+			<Filter
+				Name="time"
+				>
+			</Filter>
+			<Filter
+				Name="ui"
+				>
+			</Filter>
+			<Filter
+				Name="variable"
+				>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="include"
@@ -181,66 +241,214 @@
 				<Filter
 					Name="base"
 					>
+					<File
+						RelativePath="..\include\vengine\base\util.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="capability"
 					>
+					<File
+						RelativePath="..\include\vengine\capability\debuger.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\vengine\capability\profile.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\vengine\capability\xzip.h"
+						>
+					</File>
+					<Filter
+						Name="ax"
+						>
+						<File
+							RelativePath="..\include\vengine\capability\ax\profile.h"
+							>
+						</File>
+						<File
+							RelativePath="..\include\vengine\capability\ax\trace.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 				<Filter
 					Name="cursor"
 					>
+					<File
+						RelativePath="..\include\vengine\cursor\system.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="db"
 					>
+					<File
+						RelativePath="..\include\vengine\db\file.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\vengine\db\struct.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="exception"
 					>
+					<File
+						RelativePath="..\include\vengine\exception\base.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\vengine\exception\errorinfo.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="game"
 					>
+					<File
+						RelativePath="..\include\vengine\game\eventdefine.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\vengine\game\interface.h"
+						>
+					</File>
+					<Filter
+						Name="data"
+						>
+						<Filter
+							Name="pool"
+							>
+							<File
+								RelativePath="..\include\vengine\game\data\pool\base.h"
+								>
+							</File>
+							<File
+								RelativePath="..\include\vengine\game\data\pool\ui.h"
+								>
+							</File>
+						</Filter>
+					</Filter>
+					<Filter
+						Name="system"
+						>
+						<File
+							RelativePath="..\include\vengine\game\system\action.h"
+							>
+						</File>
+						<File
+							RelativePath="..\include\vengine\game\system\event.h"
+							>
+						</File>
+						<File
+							RelativePath="..\include\vengine\game\system\fakeobject.h"
+							>
+						</File>
+						<File
+							RelativePath="..\include\vengine\game\system\object.h"
+							>
+						</File>
+						<File
+							RelativePath="..\include\vengine\game\system\transferitem.h"
+							>
+						</File>
+						<File
+							RelativePath="..\include\vengine\game\system\world.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 				<Filter
 					Name="helper"
 					>
+					<File
+						RelativePath="..\include\vengine\helper\system.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="input"
 					>
+					<File
+						RelativePath="..\include\vengine\input\system.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="kernel"
 					>
+					<File
+						RelativePath="..\include\vengine\kernel\base.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\vengine\kernel\class.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\vengine\kernel\node.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="math"
 					>
+					<File
+						RelativePath="..\include\vengine\math\base.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="render"
 					>
+					<File
+						RelativePath="..\include\vengine\render\system.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="resource"
 					>
+					<File
+						RelativePath="..\include\vengine\resource\provider.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="script"
 					>
+					<File
+						RelativePath="..\include\vengine\script\system.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="time"
 					>
+					<File
+						RelativePath="..\include\vengine\time\system.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="ui"
 					>
+					<File
+						RelativePath="..\include\vengine\ui\system.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="variable"
 					>
+					<File
+						RelativePath="..\include\vengine\variable\base.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>
