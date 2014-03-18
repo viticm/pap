@@ -33,17 +33,17 @@ typedef enum {
   kValueString
 } value_enum;
 
-void VENGINE_API trace(uint8_t winnumber, 
+VENGINE_API void trace(uint8_t winnumber, 
                        uint8_t typenumber, 
                        const char* format, 
                        ...);
-void VENGINE_API var(uint8_t winnumber,
+VENGINE_API void var(uint8_t winnumber,
                      uint8_t typenumber,
                      value_enum variabletype,
                      const char* valuename,
                      void* value);
 
-};
+}; //namespace ax
 
 }; //namespace vengine_capability
 

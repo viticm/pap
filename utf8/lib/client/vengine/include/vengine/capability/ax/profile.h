@@ -19,11 +19,11 @@ namespace ax {
 
 namespace profile {
 
-void VENGINE_API samplingbegin();
-void VENGINE_API samplingend();
-void VENGINE_API pushnode(const char* name, const char* parent = NULL);
-void VENGINE_API popnode(const char* name);
-void VENGINE_API report();
+VENGINE_API void samplingbegin();
+VENGINE_API void samplingend();
+VENGINE_API void pushnode(const char* name, const char* parent = NULL);
+VENGINE_API void popnode(const char* name);
+VENGINE_API void report();
 
 struct autosampling_t {
   autosampling_t();

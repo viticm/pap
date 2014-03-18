@@ -1,4 +1,3 @@
-#include "vengine/config.h"
 #include "vengine/capability/ax/profile.h"
 
 #define ENABLE_CAPABILITY_AXPROFILE // ax profile is alive

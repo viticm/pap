@@ -22,6 +22,7 @@
 #include <memory.h>
 #include <tchar.h>
 #include <assert.h>
+#include <string.h>
 
 #include <string>
 #include <vector>
@@ -30,6 +31,7 @@
 #include <hash_map>
 #include <algorithm>
 #include <stdint.h>
+#include <stdio.h>
 /*system include }*/
 
 /*
@@ -76,5 +78,18 @@
 #else
   typedef std::string STRING;
 #endif
+
+//just for windows
+#define LF "\r\n"
+
+#ifndef snprintf
+#define snprintf _snprintf
+#endif
+
+#ifndef vsnprintf
+#define vsnprintf _vsnprintf
+#endif
+
+#define VENGINE_MODULENAME "vengine"
 
 #endif //VENGINE_CONFIG_H_
