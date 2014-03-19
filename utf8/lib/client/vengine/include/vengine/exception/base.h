@@ -33,7 +33,7 @@ VENGINE_API int32_t processinner(PEXCEPTION_POINTERS exception,
 
 }; //namespace vengine_exception
 
-#define VENGINE_SHOW showstring
+#define VENGINE_SHOW vengine_exception::base::showstring
 #define VENGINE_ASSERT(condition) \
   do { \
     if (!condition) { \
