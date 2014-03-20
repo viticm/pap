@@ -1,3 +1,4 @@
+#include <windows.h>
 #include <tlhelp32.h>
 #include <time.h>
 #include <dbghelp.h>
@@ -5,7 +6,7 @@
 
 #define DUMP_SIZE_MAX 8000
 // max number of traced calls
-#define CALL_TRACE_MAX ((DUMPSIZE_MAX - 2000) / (MAX_PATH + 40))
+#define CALL_TRACE_MAX ((DUMP_SIZE_MAX - 2000) / (MAX_PATH + 40))
 #define  NL _T("\r\n")                  // 换行
 
 namespace vengine_exception {
@@ -167,14 +168,14 @@ VOID WINAPI Get_Version_Str(FILE* fp) {
   _tstrtime(timeBuf);
 
   _ftprintf(fp,
-    _T("****************************************************")NL
-    _T("操作系统信息：")NL
-    _T("windows: %d.%d.%d, SP %d.%d, product type %d")NL  //SP - service pack, 
+    _T("****************************************************") NL
+    _T("操作系统信息：") NL
+    _T("windows: %d.%d.%d, SP %d.%d, product type %d") NL  //SP - service pack, 
                                                             //Product Type - 
                                                             //VER_NT_WORKSTATION,
                                                             //...
     NL
-    _T("time: %s %s")NL,
+    _T("time: %s %s") NL,
     V.dwMajorVersion, 
     V.dwMinorVersion, 
     V.dwBuildNumber, 

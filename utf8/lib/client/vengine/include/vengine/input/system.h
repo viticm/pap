@@ -218,7 +218,7 @@ typedef enum {
   kCaptureStatusGame, //被Game捕获
 } capturestatus_enum;
 
-VENGINE_API class System : public vengine_kernel::Node {
+class VENGINE_API System : public vengine_kernel::Node {
 
 VENGINE_KERNEL_DECLARE_DYNAMIC(System);
 

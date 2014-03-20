@@ -16,7 +16,7 @@
 
 namespace vengine_variable {
 
-VENGINE_API class Base : public vengine_kernel::Node {
+class VENGINE_API Base : public vengine_kernel::Node {
 
 VENGINE_KERNEL_DECLARE_DYNAMIC(Base);
 

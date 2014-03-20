@@ -34,7 +34,7 @@ typedef enum {
   kTypeNumber
 } type_enum; //指针类型定义
 
-VENGINE_API class System : public vengine_kernel::Node {
+class VENGINE_API System : public vengine_kernel::Node {
 
 VENGINE_KERNEL_DECLARE_DYNAMIC(System);
 

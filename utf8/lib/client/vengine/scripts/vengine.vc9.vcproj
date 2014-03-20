@@ -284,6 +284,10 @@
 			<Filter
 				Name="cursor"
 				>
+				<File
+					RelativePath="..\src\cursor\system.cc"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="db"
@@ -292,6 +296,14 @@
 			<Filter
 				Name="exception"
 				>
+				<File
+					RelativePath="..\src\exception\base.cc"
+					>
+				</File>
+				<File
+					RelativePath="..\src\exception\errorinfo.cc"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="game"
@@ -300,10 +312,18 @@
 			<Filter
 				Name="helper"
 				>
+				<File
+					RelativePath="..\src\helper\system.cc"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="input"
 				>
+				<File
+					RelativePath="..\src\input\system.cc"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="kernel"
@@ -368,6 +388,10 @@
 			<Filter
 				Name="variable"
 				>
+				<File
+					RelativePath="..\src\variable\base.cc"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
