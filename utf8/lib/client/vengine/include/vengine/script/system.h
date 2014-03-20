@@ -25,7 +25,7 @@ class LuaObject;
 
 namespace vengine_script {
 
-VENGINE_API class System : public vengine_kernel::Node {
+class VENGINE_API System : public vengine_kernel::Node {
 
 VENGINE_KERNEL_DECLARE_DYNAMIC(System);
 

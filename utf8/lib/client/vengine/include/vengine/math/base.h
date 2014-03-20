@@ -17,7 +17,7 @@ namespace vengine_math {
 
 namespace base {
 
-VENGINE_API struct twofloat_vector_t {
+struct VENGINE_API twofloat_vector_t {
  public:
    inline twofloat_vector_t& operator = (const twofloat_vector_t& vector) {
      x = vector.x;
@@ -42,7 +42,7 @@ VENGINE_API struct twofloat_vector_t {
    }
 
    inline twofloat_vector_t operator - 
-     (const twofloat_vector_tr& vector) const {
+     (const twofloat_vector_t& vector) const {
      twofloat_vector_t diff;
      diff.x = x - vector.x;
      diff.y = y - vector.y;
@@ -75,7 +75,7 @@ VENGINE_API struct twofloat_vector_t {
 };
 
 //tow int32_t vector struct
-VENGINE_API struct twoint_vector_t {
+struct VENGINE_API twoint_vector_t {
  public:
    twoint_vector_t() : x(0), y(0) {}
    twoint_vector_t(int32_t _x, int32_t _y) : x(_x), y(_y) {}
@@ -112,7 +112,7 @@ struct threefloat_vector_t {
    }
 
    inline threefloat_vector_t operator - 
-     (const threefloat_vector& vector) const {
+     (const threefloat_vector_t& vector) const {
      threefloat_vector_t diff;
      diff.x = x - vector.x;
      diff.y = y - vector.y;
@@ -121,11 +121,11 @@ struct threefloat_vector_t {
    }
 
    inline threefloat_vector_t operator * (const float& mult) const {
-     threefloat_vector_t mult;
-     mult.x = x * mult;
-     mult.y = y * mult;
-     mult.z = z * mult;
-     return mult;
+     threefloat_vector_t vector;
+     vector.x = x * mult;
+     vector.y = y * mult;
+     vector.z = z * mult;
+     return vector;
    }
 
    inline float length() const;
@@ -141,7 +141,7 @@ struct threefloat_vector_t {
    float z;
 };
 
-VENGINE_API struct threeint_vector_t {
+struct VENGINE_API threeint_vector_t {
  public:
    threeint_vector_t() : x(0), y(0), z(0) {}
    threeint_vector_t(int32_t _x, int32_t _y, int32_t _z) : 
@@ -153,7 +153,7 @@ VENGINE_API struct threeint_vector_t {
 };
 
 
-VENGINE_API struct floatray {
+struct VENGINE_API floatray {
  public:
    threefloat_vector_t origin;
    threefloat_vector_t direction;

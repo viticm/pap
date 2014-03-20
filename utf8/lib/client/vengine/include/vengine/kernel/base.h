@@ -21,7 +21,7 @@ namespace vengine_kernel {
 typedef void (__stdcall* function_dllinit)(void*);
 typedef void (__stdcall* function_dllrelease)(void);
 
-VENGINE_API class Base {
+class VENGINE_API Base {
 
  public:
    Base();

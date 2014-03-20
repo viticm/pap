@@ -16,7 +16,7 @@
 
 namespace vengine_kernel {
 
-VENGINE_API class Node {
+class VENGINE_API Node {
  public:
    Node();
    Node(const char* name);
@@ -26,7 +26,7 @@ VENGINE_API class Node {
    //获得子节点名称
    virtual const STRING& getname() const;
    //获得子节点列表
-   virtual std::list<Node*>& get_childlist() const;
+   virtual std::list<Node*> get_childlist() const;
    //返回父节点
    virtual Node* getparent() const;
    //初始化节点

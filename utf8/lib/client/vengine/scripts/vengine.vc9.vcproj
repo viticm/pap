@@ -3,9 +3,10 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="vengine"
-	ProjectGUID="{3EDDD609-D8C8-40DA-B7BE-DABD24DE6D2B}"
-	RootNamespace="vengine"
-	TargetFrameworkVersion="196613"
+	ProjectGUID="{8CA4AA89-654D-468B-A6D8-E42421001D87}"
+	RootNamespace="GameInterface"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -17,9 +18,10 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
+			OutputDirectory="..\..\..\Run\Client\Game"
+			IntermediateDirectory="..\..\..\..\BuildOut\$(ConfigurationName)\$(ProjectName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -40,10 +42,17 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\Common\DataBase;..\GameInterface;..\GameInterface\Include;..\GameInterface\Include\Game;..\GameInterface\Capability"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GAME_EXPORTS;_USE_32BIT_TIME_T;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="false"
+				EnableEnhancedInstructionSet="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
+				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -57,7 +66,15 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				OutputFile="$(OutDir)/GameInterface.dll"
+				LinkIncremental="2"
+				IgnoreDefaultLibraryNames="libcd.lib"
 				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)/$(ProjectName).pdb"
+				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				ImportLibrary="$(OutDir)/GameInterface.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -84,11 +101,11 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ProjectName).dir\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
-			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -107,11 +124,20 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				EnableIntrinsicFunctions="true"
+				InlineFunctionExpansion="1"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="true"
+				EnableFiberSafeOptimizations="true"
+				AdditionalIncludeDirectories="..\include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_DEPRECATE;VENGINE_BUILD_AS_DLL;VENGINE_LIB"
+				StringPooling="false"
+				MinimalRebuild="true"
 				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
+				BufferSecurityCheck="false"
+				EnableEnhancedInstructionSet="0"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
+				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -125,9 +151,16 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				OutputFile="..\bin\$(ConfigurationName)\$(ProjectName).dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				ImportLibrary="../bin/Release/$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -150,6 +183,85 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseWithSymbol|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="..\..\..\Common\DataBase;.\;.\GameInterface\Include;.\GameInterface\Include\Game;.\GameInterface\Capability"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GAME_EXPORTS"
+				RuntimeLibrary="0"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)/GameInterface.dll"
+				LinkIncremental="1"
+				GenerateDebugInformation="true"
+				AssemblyDebug="0"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				ImportLibrary="$(OutDir)/GameInterface.lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="copy $(OutDir)\$(TargetFileName) ..\..\Bin\Client\Game"
 			/>
 		</Configuration>
 	</Configurations>
@@ -196,10 +308,26 @@
 			<Filter
 				Name="kernel"
 				>
+				<File
+					RelativePath="..\src\kernel\base.cc"
+					>
+				</File>
+				<File
+					RelativePath="..\src\kernel\class.cc"
+					>
+				</File>
+				<File
+					RelativePath="..\src\kernel\node.cc"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="math"
 				>
+				<File
+					RelativePath="..\src\math\base.cc"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="render"
@@ -208,14 +336,30 @@
 			<Filter
 				Name="resource"
 				>
+				<File
+					RelativePath="..\src\resource\provider.cc"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="script"
 				>
+				<File
+					RelativePath="..\src\script\environment.cc"
+					>
+				</File>
+				<File
+					RelativePath="..\src\script\system.cc"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="time"
 				>
+				<File
+					RelativePath="..\src\time\system.cc"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="ui"

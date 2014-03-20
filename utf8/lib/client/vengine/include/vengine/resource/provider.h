@@ -16,7 +16,7 @@
 
 namespace vengine_resource {
 
-VENGINE_API class Provider {
+class VENGINE_API Provider {
 
 VENGINE_KERNEL_DECLARE_DYNAMIC(Provider);
 

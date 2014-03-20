@@ -18,10 +18,10 @@ namespace vengine_kernel {
 
 class Node;
 
-VENGINE_API struct class_t {
+struct VENGINE_API class_t {
   const char* classname; //class name
   int32_t objectsize; //class size
-  Node* (__stdcall* newobject_pointer); //函数指针，用于生成一个Node类实例
+  Node* (__stdcall* newobject_pointer)(); //函数指针，用于生成一个Node类实例
   class_t* baseclass; //基类
   class_t* nextclass; //下一个类
   Node* newobject(const char* name); //生成对象方法
@@ -30,7 +30,7 @@ VENGINE_API struct class_t {
 }; //namespace vengine_kernel
 
 //据类名取得定义类
-#define VENGINE_KERNEL_GETCLASS(classname) (&classname::class_##classname)
+#define VENGINE_KERNEL_GETCLASS(classname) (&classname::class_##classname_)
 
 //定义声明宏
 #define VENGINE_KERNEL_DECLARE_DYNAMIC(classname) \
@@ -55,7 +55,7 @@ vengine_kernel::Node* classname::newobject() { \
 //纯虚类类定义实现宏
 #define VENGINE_KERNEL_IMPLEMENT_VIRTUAL_DYNAMIC(classname, baseclass) \
 static char name_##classname[] = #classname; \
-vengine_kernel::class_t classname::class_##classname = { \
+vengine_kernel::class_t classname::class_##classname_ = { \
   name_##classname, sizeof(classname), classname::newobject, baseclass, NULL \
 }; \
 const vengine_kernel::class_t* classname::getclass() const { \

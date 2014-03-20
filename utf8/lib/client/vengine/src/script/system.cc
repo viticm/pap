@@ -4,6 +4,6 @@ namespace vengine_script {
 
 VENGINE_KERNEL_IMPLEMENT_VIRTUAL_DYNAMIC(
     System,
-    vengine_kernel::Node);
+    VENGINE_KERNEL_GETCLASS(vengine_kernel::Node));
 
 } //namespace vengine_script

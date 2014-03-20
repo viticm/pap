@@ -13,7 +13,7 @@ float twofloat_vector_t::normalise(float aimlength) {
   float length = sqrt(x * x + y * y);
   //Will also work for zero-sized vectors, but will change nothing
   if (length > 1e-08) {
-    float invlength = aimLength / length;
+    float invlength = aimlength / length;
     x *= invlength;
     y *= invlength;
   }

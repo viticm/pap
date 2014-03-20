@@ -12,7 +12,7 @@ Node::Node(const char* name) {
   name_ = name;
 }
 
-~Node::Node() {
+Node::~Node() {
   release();
 }
 
@@ -25,7 +25,7 @@ const STRING& Node::getname() const {
   return name_;
 }
 
-std::list<Node*> Node::get_childlist() const {
+std::list<Node*>  Node::get_childlist() const {
   return childlist_;
 }
 
