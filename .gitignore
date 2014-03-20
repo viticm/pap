@@ -242,6 +242,7 @@ tags
 */run/server/*.dll
 */run/server/*.so
 */run/server/test/*
+utf8/lib/client/vengine/GameInterface/*
 
 #######################
 ## build libs
