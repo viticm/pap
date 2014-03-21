@@ -25,7 +25,7 @@ const STRING& Node::getname() const {
   return name_;
 }
 
-std::list<Node*>& Node::get_childlist() const {
+std::list<Node*>& Node::get_childlist() {
   return childlist_;
 }
 
