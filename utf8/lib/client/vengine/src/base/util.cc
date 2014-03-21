@@ -16,7 +16,7 @@ void savelog(const char* format, ...) {
   va_start(vapointer, format);
   vsnprintf(temp, sizeof(temp) - 1, format, vapointer);
   va_end(vapointer);
-  //for windows, if also work in linux please see server timemanager
+  //for windows, if want also work in linux please see server timemanager
   SYSTEMTIME nowtime;
   ::GetLocalTime(&nowtime);
   fprintf(fp, 
@@ -293,15 +293,15 @@ POINT hermitecurve(int32_t x1,
   return point;   
 }
 
-POINT beziercurve(int x1, 
-                  int y1, 
-                  int x2, 
-                  int y2, 
-                  int xr1, 
-                  int yr1, 
-                  int xr2, 
-                  int yr2, 
-                  int currentiter) {
+POINT beziercurve(int32_t x1, 
+                  int32_t y1, 
+                  int32_t x2, 
+                  int32_t y2, 
+                  int32_t xr1, 
+                  int32_t yr1, 
+                  int32_t xr2, 
+                  int32_t yr2, 
+                  int32_t currentiter) {
 	POINT result =  hermitecurve(x1, 
                                y1, 
                                x2, 
