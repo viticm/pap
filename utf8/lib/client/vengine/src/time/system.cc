@@ -12,7 +12,7 @@ VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
     System, 
     VENGINE_KERNEL_GETCLASS(vengine_kernel::Node));
 
-void System::init() {
+void System::init(void*) {
   looptime_ = .0f;
   lastframe_time_ = .0f;
   runtime_ = .0f;

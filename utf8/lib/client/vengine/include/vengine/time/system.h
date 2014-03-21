@@ -21,7 +21,7 @@ class VENGINE_API System : public vengine_kernel::Node {
 VENGINE_KERNEL_DECLARE_DYNAMIC(System);
 
  public:
-   virtual void init();
+   virtual void init(void*);
    virtual void tick();
 
  public:
