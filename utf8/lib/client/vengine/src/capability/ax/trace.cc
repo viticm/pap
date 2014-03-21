@@ -44,7 +44,7 @@ void VENGINE_API trace(uint8_t winnumber,
                                 format, 
                                 vapointer);
     if (result >= 0 && result <= sizeof(tracedata.content) - 1) {
-      tracedata.content[strlen(tracedata.content)] = "\n";
+      tracedata.content[strlen(tracedata.content)] = '\n';
     }
     va_end(vapointer);
     copydata.dwData = ID_COPYDATA_TRACEMSG;
@@ -171,7 +171,7 @@ void VENGINE_API var(uint8_t winnumber,
     SendMessage(g_hwatcher_wnd, 
                 WM_COPYDATA, 
                 NULL, 
-                reinterpret_cast<LPARAM>(&cCopyData));
+                reinterpret_cast<LPARAM>(&copydata));
   }
   catch(...) {
 

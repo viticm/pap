@@ -169,7 +169,7 @@ VOID WINAPI Get_Version_Str(FILE* fp) {
 
   _ftprintf(fp,
     _T("****************************************************") NL
-    _T("操作系统信息：") NL
+    _T("system info: ") NL
     _T("windows: %d.%d.%d, SP %d.%d, product type %d") NL  //SP - service pack, 
                                                             //Product Type - 
                                                             //VER_NT_WORKSTATION,

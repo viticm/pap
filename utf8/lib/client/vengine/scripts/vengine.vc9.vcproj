@@ -136,9 +136,10 @@
 				BufferSecurityCheck="false"
 				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
+				WarningLevel="4"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4819"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -276,10 +277,34 @@
 			<Filter
 				Name="base"
 				>
+				<File
+					RelativePath="..\src\base\util.cc"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="capability"
 				>
+				<File
+					RelativePath="..\src\capability\profile.cc"
+					>
+				</File>
+				<File
+					RelativePath="..\src\capability\xzip.cc"
+					>
+				</File>
+				<Filter
+					Name="ax"
+					>
+					<File
+						RelativePath="..\src\capability\ax\profile.cc"
+						>
+					</File>
+					<File
+						RelativePath="..\src\capability\ax\trace.cc"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="cursor"

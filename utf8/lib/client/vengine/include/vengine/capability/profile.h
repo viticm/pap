@@ -22,15 +22,16 @@ namespace profile {
 struct treenode_t;
 
 //堆栈中的节点(用于push/pop)
-VENGINE_API struct stacknode_t {
+struct VENGINE_API stacknode_t {
   STRING name; //名称
   LARGE_INTEGER starttime;
   treenode_t* treenode; //树形节点指针
-  stacknode_t(const char* _name, const char* extensionname);
+  stacknode_t(const char* _name = NULL, const char* extensionname = NULL);
 };
 
 //堆栈
 struct stack_t {
+  stack_t() {};
   enum {
     kStackNumberMax = 256,
   };
@@ -44,7 +45,6 @@ struct stack_t {
   typedef stdext::hash_set<STRING> hash_nameset;
 #endif
   hash_nameset hashname;
-
 };
 
 //tree node, 用于统计

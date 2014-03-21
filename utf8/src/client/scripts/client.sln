@@ -46,7 +46,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cgal", "..\..\..\lib\client
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Opcode", "..\..\..\lib\client\Opcode\scripts\Opcode.vc9.vcproj", "{FD449C37-B1EC-4A35-9300-1EA7A273158B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vengine", "..\..\..\lib\client\vengine\scripts\vengine.vc9.vcproj", "{3EDDD609-D8C8-40DA-B7BE-DABD24DE6D2B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vengine", "..\..\..\lib\client\vengine\scripts\vengine.vc9.vcproj", "{8CA4AA89-654D-468B-A6D8-E42421001D87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -250,18 +250,18 @@ Global
 		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.ReleaseWithSymbol|Win32.Build.0 = Release|Win32
 		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
 		{FD449C37-B1EC-4A35-9300-1EA7A273158B}.RelWithDebInfo|Win32.Build.0 = Release|Win32
-		{3EDDD609-D8C8-40DA-B7BE-DABD24DE6D2B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{3EDDD609-D8C8-40DA-B7BE-DABD24DE6D2B}.Debug|Win32.Build.0 = Debug|Win32
-		{3EDDD609-D8C8-40DA-B7BE-DABD24DE6D2B}.Final|Win32.ActiveCfg = Release|Win32
-		{3EDDD609-D8C8-40DA-B7BE-DABD24DE6D2B}.Final|Win32.Build.0 = Release|Win32
-		{3EDDD609-D8C8-40DA-B7BE-DABD24DE6D2B}.MinSizeRel|Win32.ActiveCfg = Release|Win32
-		{3EDDD609-D8C8-40DA-B7BE-DABD24DE6D2B}.MinSizeRel|Win32.Build.0 = Release|Win32
-		{3EDDD609-D8C8-40DA-B7BE-DABD24DE6D2B}.Release|Win32.ActiveCfg = Release|Win32
-		{3EDDD609-D8C8-40DA-B7BE-DABD24DE6D2B}.Release|Win32.Build.0 = Release|Win32
-		{3EDDD609-D8C8-40DA-B7BE-DABD24DE6D2B}.ReleaseWithSymbol|Win32.ActiveCfg = Release|Win32
-		{3EDDD609-D8C8-40DA-B7BE-DABD24DE6D2B}.ReleaseWithSymbol|Win32.Build.0 = Release|Win32
-		{3EDDD609-D8C8-40DA-B7BE-DABD24DE6D2B}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
-		{3EDDD609-D8C8-40DA-B7BE-DABD24DE6D2B}.RelWithDebInfo|Win32.Build.0 = Release|Win32
+		{8CA4AA89-654D-468B-A6D8-E42421001D87}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8CA4AA89-654D-468B-A6D8-E42421001D87}.Debug|Win32.Build.0 = Debug|Win32
+		{8CA4AA89-654D-468B-A6D8-E42421001D87}.Final|Win32.ActiveCfg = Release|Win32
+		{8CA4AA89-654D-468B-A6D8-E42421001D87}.Final|Win32.Build.0 = Release|Win32
+		{8CA4AA89-654D-468B-A6D8-E42421001D87}.MinSizeRel|Win32.ActiveCfg = Release|Win32
+		{8CA4AA89-654D-468B-A6D8-E42421001D87}.MinSizeRel|Win32.Build.0 = Release|Win32
+		{8CA4AA89-654D-468B-A6D8-E42421001D87}.Release|Win32.ActiveCfg = Release|Win32
+		{8CA4AA89-654D-468B-A6D8-E42421001D87}.Release|Win32.Build.0 = Release|Win32
+		{8CA4AA89-654D-468B-A6D8-E42421001D87}.ReleaseWithSymbol|Win32.ActiveCfg = Release|Win32
+		{8CA4AA89-654D-468B-A6D8-E42421001D87}.ReleaseWithSymbol|Win32.Build.0 = Release|Win32
+		{8CA4AA89-654D-468B-A6D8-E42421001D87}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
+		{8CA4AA89-654D-468B-A6D8-E42421001D87}.RelWithDebInfo|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include "vengine/exception/base.h"
 #include "vengine/base/util.h"
 
@@ -68,7 +69,7 @@ int32_t convertstring_tovector(const char* str,
     }
     if (STRING::npos == right) right = sourcestr.length();
   }
-  result = static_cast<int32_t>(save.length());
+  result = static_cast<int32_t>(save.size());
   return result;
 }
 //取得两点间的距离
@@ -114,7 +115,7 @@ float get_squaredistance(
 float get_Yangle(const vengine_math::base::twofloat_vector_t& position1, 
                  const vengine_math::base::twofloat_vector_t& position2) {
   double distance = static_cast<double>(getdistance(position1, position2));
-  float result = .0f
+  float result = .0f;
   if (distance <= 0.0f) return result;
   double _acos = (position2.y - position1.y) / distance;
   if (_acos > 1.0) _acos = 0.0;
@@ -270,7 +271,10 @@ POINT hermitecurve(int32_t x1,
       m4    = 0,
       k1    = 0,
       k2    = 0;
-  POINT point;
+  POINT point = {0, 0};
+  //for debug
+  USE_PARAM(oldx);
+  USE_PARAM(oldy);
   
   for (int32_t i = 0; i < 150; ++i) {
     k1 = (i << 1) + 1;

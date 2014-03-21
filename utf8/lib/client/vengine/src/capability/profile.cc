@@ -18,11 +18,11 @@ tree_t& gettree() {
   static tree_t tree;
   static bool first = true;
   if (first) {
-    tree.root.name = "root";
-    tree.root.parentnode = NULL;
-    tree.root.invokecount = 0;
-    tree.root.totaltime.QuadPart = 0;
-    tree.currentnode = &(tree.root);
+    tree.rootnode.name = "root";
+    tree.rootnode.parentnode = NULL;
+    tree.rootnode.invokecount = 0;
+    tree.rootnode.totaltime.QuadPart = 0;
+    tree.currentnode = &(tree.rootnode);
     first = false;
   }
   return tree;
@@ -43,9 +43,9 @@ stacknode_t::stacknode_t(const char* _name, const char* extensionname) {
   treenode = NULL;  
 }
 
-~treenode_t::treenode_t() {
+treenode_t::~treenode_t() {
   hash_treenode::iterator treenode_iterator;
-  if (treenode_iterator = childmap.begin(); 
+  for (treenode_iterator = childmap.begin(); 
       treenode_iterator != childmap.end(); 
       ++treenode_iterator) {
     if (treenode_iterator->second) {
@@ -77,12 +77,12 @@ void pushnode(const char* name, const char* extensionname) {
   }
   //create new node in tree
   treenode_t::hash_treenode::iterator childiterator = 
-    getstack().currentnode->childmap.find(nodepointer->name);
+    gettree().currentnode->childmap.find(nodepointer->name);
   //not exist, then create
-  if (childiterator == getstack().currentnode->childmap.end()) {
+  if (childiterator == gettree().currentnode->childmap.end()) {
     treenode_t* new_treenode = new treenode_t;
     new_treenode->name = new_treenode->name;
-    new_treenode->parentnode = getstack().currentnode;
+    new_treenode->parentnode = gettree().currentnode;
     new_treenode->invokecount = 0;
     new_treenode->totaltime.QuadPart = 0;
 
@@ -96,13 +96,13 @@ void pushnode(const char* name, const char* extensionname) {
   gettree().currentnode = childiterator->second;
   //push in stack
   stacknode_t& topnode = getstack().stacknode_list[getstack().topindex];
-  topnode.name = new_treenode->name;
-  topnode.starttime = new_treenode->starttime;
+  topnode.name = nodepointer->name;
+  topnode.starttime = nodepointer->starttime;
   topnode.treenode = childiterator->second;
   ++(topnode.treenode->invokecount);
   ++(getstack().topindex);
-  int32_t a = getstack().topindex;
-  int32_t b = 1;
+  //int32_t a = getstack().topindex;
+  //int32_t b = 1;
 }
 
 extern "C"
@@ -128,9 +128,9 @@ void popnode(const char* name) {
   processtime.QuadPart = nowtime.QuadPart - top_stacknode.starttime.QuadPart;
   --(getstack().topindex);
   //处理树中节点
-  treenode_t& current_treenode = *(getstack().currentnode);
+  treenode_t& current_treenode = *(gettree().currentnode);
   current_treenode.totaltime.QuadPart += processtime.QuadPart;
-  getstack().currentnode = current_treenode.parentnode;
+  gettree().currentnode = current_treenode.parentnode;
   tick(); //select
 }
 
@@ -138,12 +138,12 @@ void tick() {
   //条件为：有查询请求并且堆栈为空
   if (g_askdump && g_functiondump && 0 == getstack().topindex) {
     //计算根节点总时间
-    gettree().root.totaltime.QuadPart = 0;
+    gettree().rootnode.totaltime.QuadPart = 0;
     treenode_t::hash_treenode::iterator treenode_iterator;
-    for (treenode_iterator = gettree().root.childmap.begin();
-         treenode_iterator != gettree().root.childmap.end();
+    for (treenode_iterator = gettree().rootnode.childmap.begin();
+         treenode_iterator != gettree().rootnode.childmap.end();
          ++treenode_iterator) {
-      gettree().root.totaltime.QuadPart += 
+      gettree().rootnode.totaltime.QuadPart += 
         treenode_iterator->second->totaltime.QuadPart;
     }
     (g_functiondump)(&gettree());

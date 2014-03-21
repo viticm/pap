@@ -35,12 +35,12 @@ VENGINE_API int32_t processinner(PEXCEPTION_POINTERS exception,
 
 #define VENGINE_SHOW vengine_exception::base::showstring
 #define VENGINE_ASSERT(condition) \
-  do { \
-    if (!condition) { \
-      vengine_exception::base::showassert(__FILE__, \
-                                          __LINE__, \
-                                          #condition); \
-    } \
-  } while (0);
+if (!condition) { \
+  vengine_exception::base::showassert(__FILE__, \
+                                      __LINE__, \
+                                      #condition); \
+} \
+//  do { \
+//  } while (0);
 
 #endif //VENGINE_EXCEPTION_BASE_H_

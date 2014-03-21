@@ -46,7 +46,7 @@ VENGINE_API float get_squaredistance(
     const vengine_math::base::twofloat_vector_t& position1, 
     const vengine_math::base::twofloat_vector_t& position2);
 
-VENGINE float get_squaredistance(
+VENGINE_API float get_squaredistance(
     const vengine_math::base::threefloat_vector_t& position1, 
     const vengine_math::base::threefloat_vector_t& position2);
 

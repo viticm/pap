@@ -92,4 +92,8 @@
 
 #define VENGINE_MODULENAME "vengine"
 
+#ifndef USE_PARAM
+#define USE_PARAM(x) if (!x) {}
+#endif
+
 #endif //VENGINE_CONFIG_H_
