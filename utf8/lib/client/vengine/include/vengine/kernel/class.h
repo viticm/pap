@@ -66,4 +66,8 @@ vengine_kernel::Node* classname::newobject() { \
   return NULL; \
 }
 
+#define VENGINE_KERNEL_DECLARE_LOGICAL(havelogical) \
+public: \
+  virtual inline is_havelogical(havelogical) { return  havelogical; }
+
 #endif //VENGINE_KERNEL_CLASS_H_
