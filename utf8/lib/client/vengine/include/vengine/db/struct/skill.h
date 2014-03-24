@@ -58,7 +58,7 @@ const uint16_t kDirectlyId = 605;
 const uint16_t kBulletDataId = 606;
 
 //技能
-const uint16_t kDataId = 607;
+//const uint16_t kDataId = 607;
 
 //法术OBJECT数据
 const uint16_t kSpecialObjectId = 608;
@@ -254,6 +254,31 @@ typedef struct {
   uint8_t studylevel; //学习等级
   _xinfa_studycost_t studycost[54]; //学习消耗
 } xinfa_studycost_t;
+
+//技能数据 --预留
+const uint16_t kDataId = 907;
+typedef struct {
+  int32_t data;
+  const char* description;
+} datapair_t;
+
+typedef struct {
+  uint32_t id; //技能数据可能会有很多
+  int32_t planid; //策划专用ID
+  int32_t logicid; //逻辑ID
+  const char* effectdescription; //效果的说明
+  int32_t cooldowntime; //冷却时间
+  int32_t juqi_time; //聚气时间
+  int32_t conducttime; //引导时间
+  //... 参考天龙八部--SkillData_V1.txt
+} data_t;
+
+//技能模板 --预留
+const uint16_t kTemplateId = 908;
+typedef struct {
+  uint32_t id;
+  //... 参考天龙八部--SkillTemplate_V1.txt
+} template_t;
 
 }; //namespace skill
 

@@ -94,6 +94,23 @@ typedef struct {
   const char* target_scenename; //目标场景名
 } deliverposition_t;
 
+//场景切换
+const uint16_t kCutoverMapId = 706;
+typedef struct {
+  static const uint8_t sceneid_column = 1; //按列查找时，默认查找场景ID列
+  uint16_t id;
+  uint16_t scendid;
+  const char* picturename; //跳转显示的图片名称
+} cutovermap_t;
+
+//场景切换时提示文字
+const uint16_t kCutoverMapHelpTextId = 707;
+typedef struct {
+  static const uint8_t helpid_column = 1; //
+  uint16_t id;
+  const char* tip; //提示信息
+} cutovermap_helptext_t;
+
 }; //namespace scene
 
 #endif //VENGINE_DB_STRUCT_SCENE_H_

@@ -109,10 +109,46 @@ typedef struct
 typedef struct {
   uint16_t id;
   float leaveground_height; //距离地面的距离，特殊坐骑用
-  uint16_t modleid;
+  uint16_t modelid;
   int16_t character_actionindex; //人物骑乘时的动作组
   mounteffect_t effectinfo[kMountEffectMax]; //特效信息
 } mount_t;
+
+//称号表
+const uint16_t kTitleInfoId = 110;
+typedef struct {
+  uint16_t id;
+  uint8_t type;
+  const char* color; //显示颜色
+  bool defaultshow; //默认是否显示
+  const char* man; //男性称号
+  const char* woman; //女性称号
+  const char* description; //描述
+  int32_t timelimit; //时限
+  int16_t effectid; //效果ID
+  const char* reclaimcause; //回收原因
+  int16_t groupid; //组合称号ID
+} titleinfo_t;
+
+//阵营
+const uint16_t kCampDataId = 111;
+
+//人物等级携带金钱上限
+const uint16_t kLevelMoneyMaxId = 112;
+typedef struct {
+  uint8_t id;
+  uint32_t moneymax;
+  uint8_t level; //等级
+} level_moneymax_t;
+
+//改变发型消耗表
+const uint16_t kHairStyleCostId = 113;
+typedef struct {
+  uint16_t id;
+  int32_t itemid; //物品ID
+  int32_t itemcount; //消耗物品数量
+  uint8_t sex; //性别
+} hairstyle_cost_t;
 
 }; //namespace character
 

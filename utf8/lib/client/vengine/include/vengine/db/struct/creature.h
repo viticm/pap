@@ -124,6 +124,64 @@ typedef struct {
   int32_t death;
 } sound_t;
 
+//怪物泡泡
+const uint16_t kMonsterPaoPaoId = 204;
+typedef struct {
+  uint16_t id;
+  const char* text; //头顶文字
+} monster_paopao_t;
+
+//宠物升级经验表
+const uint16_t kPetLevelUpId = 205;
+typedef struct {
+  uint8_t id;
+  uint32_t experience; //经验
+} pet_levelup_t;
+
+//坐骑基础数据表
+const uint16_t kMountBaseDataId = 206;
+typedef struct {
+  uint16_t id; //坐骑ID
+  const char* name; //坐骑名称
+  uint8_t level; //坐骑等级
+  uint8_t requirement_level; //携带等级
+  const char* childid; //还童ID
+  const char* matingid; //交配ID
+  bool canmating; //是否可以交配
+  bool isaberrance; //是否变异
+  uint8_t daishu; //繁殖代数
+  int32_t attach; //坐骑的归属
+  int32_t survivaltime; //无主坐骑存活时间
+  uint32_t powermin; //初始最小力量
+  uint32_t powermax; //初始最大力量
+  uint32_t agilitymin; //初始最小敏捷
+  uint32_t agilitymax; //初始最大敏捷
+  uint32_t intellectmin; //初始最小智力
+  uint32_t intellectmax; //初始最大智力
+  uint32_t physiquemin; //初始最小体质
+  uint32_t physiquemax; //初始最大体质
+  uint32_t power_zizhi_min; //初始最小力量资质
+  uint32_t power_zizhi_max; //初始最大力量资质
+  uint32_t agility_zizhi_min; //初始最小敏捷资质
+  uint32_t agility_zizhi_max; //初始最大敏捷资质
+  uint32_t intellect_zizhi_min; //初始最小智力资质
+  uint32_t intellect_zizhi_max; //初始最大智力资质
+  uint32_t physique_zizhi_min; //初始最小体质资质
+  uint32_t physique_zizhi_max; //初始最大体质资质
+  uint16_t savvymin; //初始最小悟性
+  uint16_t savvymax; //初始最大悟性
+  uint16_t basicmin; //初始最小根骨
+  uint16_t basicmax; //初始最大根骨
+  uint16_t growrate_min; //初始最小成长率
+  uint16_t growrate_max; //初始最大成长率
+  int32_t speed; //移动速度
+  uint16_t modelid; //模型ID
+  uint16_t modelid_show; //对应表现ID
+  uint8_t skillnumber; //技能数量
+  const char* skill[6]; //技能数据
+  int32_t savvyskill; //坐骑领悟技能ID
+} mount_basedata_t;
+
 }; //namespace creature
 
 #endif //VENGINE_DB_STRUCT_CREATURE_H_

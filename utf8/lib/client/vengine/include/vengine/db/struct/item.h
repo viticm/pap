@@ -446,7 +446,53 @@ typedef struct {
   equipset_attribute_t attribute[kEquipSetAttributeNumber]; //套装属性
 } equipset_info_t;
 
+//物品规则表
+const uint16_t kRuleId = 327;
+typedef struct {
+  uint8_t id;
+  const char* name; //规则名字 程序不适用 策划用
+  bool canoverlay; //是否可以重叠
+  bool candrop; //是否可以丢弃
+  bool can_put_shortcutbar; //是否可以放入快捷栏
+  bool cansale; //是否可以出售
+  bool canexchange; //是否可以交易
+  bool canuse; //是否可以使用
+  bool pickbind; //是否拾取就绑定
+  bool equipbind; //是否装备时绑定
+  bool sole; //是否唯一的
+  bool needcheck; //是否需要鉴定
+  bool virtualitem; //是否为虚拟的物品
+  bool storebank; //是否可以放入银行
+  bool wearout; //是否消耗
+} rule_t;
 
+//骑宠物品表
+const uint16_t kMountDataId = 328;
+typedef struct {
+  uint32_t id;
+  const char* description; //策划用
+  uint8_t type;
+  int32_t attributerate; //属性比例
+  int32_t attributevalue; //属性值
+  int32_t skillid; //技能ID
+  int32_t successrate; //成功率
+} mountdata_t;
+
+//坐骑属性表--物品
+const uint16_t kMountAttributeId = 329;
+typedef struct {
+  uint16_t id;
+  const char* name;
+  const char* description;
+  const char* icon;
+  uint8_t rule; //适应规则
+  uint8_t needlevel; //需要达到的等级
+  int32_t addspeed; //增加的速度
+  int32_t lifetime; //存在的时间
+  uint8_t bindtype; //绑定类型
+  uint32_t price; //所需金钱
+  uint16_t mountid; //外形ID
+} mount_attribute_t;
 
 }; //namespace item
 
