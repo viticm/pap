@@ -16,41 +16,6 @@
 #include "vengine/render/entitynode.h"
 #include "vengine/cursor/system.h"
 
-//引用公用类物品结构
-namespace pap_common_game {
-
-namespace structs {
-
-namespace item {
-
-struct base_t;
-
-}; //namespace item
-
-}; //namespace structs
-
-}; //namespace pap_common_game
-
-//引用公用类的定义
-namespace pap_common_game {
-
-namespace define {
-
-namespace type {
-
-namespace item {
-
-enum _enum;
-
-}; //namespace item
-
-}; //namespace define
-
-}; //namespace define
-
-}; //namespace pap_common_game
-
-
 namespace vengine_game {
 
 namespace object {
@@ -102,7 +67,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Base);
    //获得鼠标类型
    virtual vengine_cursor::type_enum tripper_getcursor_type() const = 0;
    //进入激活状态
-   virtual void tripper_enteractive() = 0;
+   virtual void tripper_active() = 0;
 
 };
 

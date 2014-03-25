@@ -1,9 +1,9 @@
-#include "vengine/game/worldsystem.h"
+#include "vengine/game/scene.h"
 
 namespace vengine_game {
 
 VENGINE_KERNEL_IMPLEMENT_VIRTUAL_DYNAMIC(
-    WorldSystem,
+    Scene,
     VENGINE_KERNEL_GETCLASS(vengine_kernel::Node));
 
 } //namespace vengine_game
