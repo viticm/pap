@@ -348,9 +348,9 @@ bool create_smallinfo_dumpfile(PEXCEPTION_POINTERS exception,
   return true;
 }
 
-bool breate_biginfo_dumpfile(PEXCEPTION_POINTERS exception, 
-                         char* filename, 
-                         uint16_t lasterror) {
+bool create_biginfo_dumpfile(PEXCEPTION_POINTERS exception, 
+                             char* filename, 
+                             uint16_t lasterror) {
   if (!exception) return false;
   char tempdir[MAX_PATH] = {0};
   ::GetTempPath(MAX_PATH, tempdir);

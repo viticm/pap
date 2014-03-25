@@ -84,7 +84,7 @@ struct VENGINE_API twoint_vector_t {
    int32_t y;
 };
 
-struct threefloat_vector_t {
+struct VENGINE_API threefloat_vector_t {
  public:
    inline threefloat_vector_t& operator = 
      (const threefloat_vector_t& vector) {

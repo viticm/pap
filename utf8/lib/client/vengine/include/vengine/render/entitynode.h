@@ -138,8 +138,10 @@ class EntityNode {
                                          bool show, 
                                          float ringrange,
                                          float height) = 0;
-   virtual void attachobject(EntityNode* object, const char* locator) {};
-   virtual void attachobject(EntityNode* object) {};
+   virtual void attachobject(EntityNode* object, const char* locator) {
+     USE_PARAM(object); USE_PARAM(locator);
+   };
+   virtual void attachobject(EntityNode* object) {USE_PARAM(object);};
 
  public:
    //设置静态物体类
@@ -194,20 +196,20 @@ class EntityNode {
    virtual void actor_setanimation_eventend(
        function_on_animationendex function,
        uint64_t param,
-       int32_t) {}
+       int32_t) {USE_PARAM(function);USE_PARAM(param);}
    //设置角色动画打击点通知
    virtual void actor_setanimation_eventshake(
        function_on_animationend function,
-       uint64_t param) {}
+       uint64_t param) {USE_PARAM(function); USE_PARAM(param);}
 
    //设置角色动画可以结束通知
    virtual void actor_setanimation_can_eventbreak(
        function_on_skillbreak_time function,
-       uint64_t param) {}
+       uint64_t param) {USE_PARAM(function); USE_PARAM(param);}
    //设置角色动画打击点通知
    virtual void actor_setanimation_eventhit(
        function_on_skillhit_time function,
-       uint64_t param) {}
+       uint64_t param) {USE_PARAM(function); USE_PARAM(param);}
 
  public:
    virtual int32_t get_terrainsound_type() { return -1; }

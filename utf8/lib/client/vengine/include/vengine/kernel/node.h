@@ -30,7 +30,7 @@ class VENGINE_API Node {
    //返回父节点
    virtual Node* getparent() const;
    //初始化节点
-   virtual void init(void*); //空指针，子类可以用这个继承这个指针初始化
+   virtual void init(void*) {}; //空指针，子类可以用这个继承这个指针初始化
    //逻辑轮循环
    virtual void tick();
 

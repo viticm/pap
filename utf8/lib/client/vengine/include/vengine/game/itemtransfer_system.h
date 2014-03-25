@@ -52,7 +52,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(ItemTransferSystem);
      int32_t usecount; //用于计数，如果这个值到0则删除这个element
      element_t() : type(kElementTypeInvalid) {};
      virtual ~element_t() {};
-     bool istype(int32_t _type) return type == _type;
+     bool istype(int32_t _type) { return type == _type; }
      virtual STRING get_displaycolor() = 0;
      virtual STRING get_display_prefixtext() = 0;
    };

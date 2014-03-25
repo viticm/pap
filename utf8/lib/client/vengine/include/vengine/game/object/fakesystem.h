@@ -35,7 +35,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(FakeSystem);
    virtual void create(const char* classname,
                        const char* objectname,
                        const char* cameraname) = 0;
-   virtual void destroy(const name) = 0;
+   virtual void destroy(const char* name) = 0;
    //UI需要显示某物体
    virtual void on_ui_hook(const char* windowname,
                            const char* objectname,

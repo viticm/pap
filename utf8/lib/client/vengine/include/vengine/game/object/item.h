@@ -111,7 +111,7 @@ class VENGINE_API Item  {
    virtual uint16_t get_guid(uint16_t& worldid, 
                              uint16_t& serverid,
                              uint32_t& serial) const = 0;
-   virtual pap_common_game::define::item::class_enum getclass() const = 0;
+   virtual pap_common_game::define::type::item::class_enum getclass() const = 0;
    virtual int32_t get_tabletype() const = 0;
    virtual const char* getname() const = 0;
    virtual const char* getdescription() const = 0;

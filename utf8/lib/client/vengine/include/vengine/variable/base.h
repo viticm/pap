@@ -12,6 +12,7 @@
 #define VENGINE_VARIABLE_BASE_H_
 
 #include "vengine/config.h"
+#include "vengine/kernel/node.h"
 #include "vengine/math/base.h"
 
 namespace vengine_variable {
@@ -30,7 +31,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Base);
                             bool fireevent = true) = 0;
 
    //设置某个变量的值，但并不马上生效, 下一次启动时才会生效
-   virtual void setvariable_delay(const char* name, const char* value);
+   virtual void setvariable_delay(const char* name, const char* value) = 0;
 
    /* 快速设置方法 */
    virtual void setint32(const char* name, 

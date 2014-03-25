@@ -50,7 +50,7 @@ void VENGINE_API trace(uint8_t winnumber,
     copydata.dwData = ID_COPYDATA_TRACEMSG;
     copydata.cbData = sizeof(uint8_t) * 4 + 
                       sizeof(int32_t) + 
-                      static_cast<DWORD>strlen(tracedata.content) + 
+                      static_cast<DWORD>(strlen(tracedata.content)) + 
                       1;
     copydata.lpData = static_cast<char*>(tracedata.content);
     if (!g_hwatcher_wnd) {
@@ -75,6 +75,7 @@ void VENGINE_API var(uint8_t winnumber,
                      const char* valuename,
                      void* value) {
 #ifndef DISABLE_VENGINE_CAPABILITY_AX_TRACE
+  USE_PARAM(typenumber);
   try {
     if (!g_hwatcher_wnd) {
       //find window

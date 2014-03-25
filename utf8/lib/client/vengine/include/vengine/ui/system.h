@@ -13,6 +13,7 @@
 
 #include "vengine/config.h"
 #include "vengine/game/itemtransfer_system.h"
+#include "vengine/ui/character_headboard.h"
 
 namespace vengine_ui {
 

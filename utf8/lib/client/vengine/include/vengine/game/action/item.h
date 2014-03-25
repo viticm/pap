@@ -41,7 +41,7 @@ class VENGINE_API Item {
    virtual const char* getname() const = 0;
    virtual const char* geticon() const = 0;
    virtual void seticon(STRING& name) = 0;
-   virtual vois set_checkstate(bool check) = 0;
+   virtual void set_checkstate(bool check) = 0;
    //添加引用
    virtual void addreference(Reference* reference, 
                              bool is_menu_toolbar = false) = 0;

@@ -13,6 +13,7 @@
 #define VENGINE_RENDER_SYSTEM_H_
 
 #include "vengine/config.h"
+#include "vengine/kernel/node.h"
 #include "vengine/math/base.h"
 #include "vengine/render/entitynode.h"
 
@@ -47,7 +48,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    //设置debug状态信息
    virtual void debug_setstring(const char* name, const char* value) = 0;
    //设置选中物体信息
-   virtual void set_hitobjet_string(const char* str);
+   virtual void set_hitobjet_string(const char* str) = 0;
    //检查物体的透明度
    virtual void check_objecttransparent() = 0;
    virtual void set_shoeobject_bytype(const char* name) = 0;

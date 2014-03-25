@@ -17,7 +17,7 @@
 
 namespace vengine_sound {
 
-VENGINE_API class Source {
+class VENGINE_API Source {
  public:
    typedef enum {
      kTypeBackground, //背景音乐
@@ -30,7 +30,7 @@ VENGINE_API class Source {
    virtual int32_t getid() = 0;
    //播放中不立即生效，需要stop后重新play
    virtual void setbuffer(Buffer* buffer) = 0;
-   virtual void Buffer* getbuffer() = 0;
+   virtual Buffer* getbuffer() = 0;
    //循环播放
    virtual void setlooping(bool flag) = 0;
    virtual bool islooping() const = 0;

@@ -12,7 +12,7 @@ namespace base {
 void showstring(const char* format, ...) {
   va_list arglist;
   va_start(arglist, format);
-  uint16_t size = _vsctprintf(format, arglist);
+  uint16_t size = static_cast<uint16_t>(_vsctprintf(format, arglist));
   STRING message;
   message.assign(size + 1, _T(' '));
   _vstprintf(reinterpret_cast<LPTSTR>(&(message[0])), format, arglist);
@@ -27,7 +27,8 @@ void showassert(const char* filename, uint16_t fileline, const char* exception) 
     _T("file: %s"LF"")
     _T("line: %d"LF"");
     _T("exception: %s"LF"");
-  uint16_t size = _sctprintf(assertformat, filename, fileline, exception);
+  uint16_t size = static_cast<uint16_t>(
+    _sctprintf(assertformat, filename, fileline, exception));
   STRING message;
   message.assign(size + 1, _T(' '));
   _stprintf(reinterpret_cast<LPTSTR>(&(message[0])), 
@@ -39,7 +40,7 @@ void showassert(const char* filename, uint16_t fileline, const char* exception) 
 }
 
 void process(PEXCEPTION_POINTERS exception, bool run_crashreport) throw() {
-  uint16_t lasterror = ::GetLastError();
+  uint16_t lasterror = static_cast<uint16_t>(::GetLastError());
   if (!exception) return;
   char smallinfo_file[MAX_PATH] = {0};
   if (!errorinfo::create_smallinfo_dumpfile(exception, 
@@ -59,7 +60,7 @@ void process(PEXCEPTION_POINTERS exception, bool run_crashreport) throw() {
     char crashreport_file[MAX_PATH] = {0};
     ::GetModuleFileName(NULL, crashreport_file, sizeof(crashreport_file) - 1);
     ::PathRemoveFileSpec(crashreport_file);
-    ::PathAppend(szCrashReportFile, _T("crashreport.exe"));
+    ::PathAppend(crashreport_file, _T("crashreport.exe"));
     char cmd[1024] = {0};
     _sntprintf(cmd, 
                sizeof(cmd) - 1, 
@@ -72,7 +73,7 @@ void process(PEXCEPTION_POINTERS exception, bool run_crashreport) throw() {
     STARTUPINFO startupinfo;
     PROCESS_INFORMATION processinformation;
     ZeroMemory(&startupinfo, sizeof(STARTUPINFO));
-    ZeroMemory(processinformation, sizeof(PROCESS_INFORMATION));
+    ZeroMemory(&processinformation, sizeof(PROCESS_INFORMATION));
     startupinfo.cb = sizeof(STARTUPINFO);
     startupinfo.dwFlags = STARTF_USESHOWWINDOW;
     startupinfo.wShowWindow = SW_SHOWNORMAL;
@@ -136,7 +137,7 @@ void sendinner_crashreport(HWND innerhwnd) {
   char localfile[MAX_PATH] = {0};
   strncpy(localfile, currentdir, sizeof(localfile) - 1);
   PathAppend(localfile, crashfile);
-  HZIP hzip = vengine_capability::CreateZip(
+  vengine_capability::HZIP hzip = vengine_capability::CreateZip(
     reinterpret_cast<void*>(localfile), 
     0, 
     ZIP_FILENAME);
@@ -149,7 +150,7 @@ void sendinner_crashreport(HWND innerhwnd) {
   }
   vengine_capability::ZipAdd(hzip, 
                              "dump.dmp", 
-                             reinterpret_cast<void*>(g_dumpfile.c_str()), 
+                             (void*)g_dumpfile.c_str(), 
                              0, 
                              ZIP_FILENAME);
   char logfile[MAX_PATH] = {0};
@@ -157,14 +158,14 @@ void sendinner_crashreport(HWND innerhwnd) {
   PathAppend(logfile, "fairy.log");
   vengine_capability::ZipAdd(hzip, 
                              "fairy.log", 
-                             reinterpret_cast<void*>logfile, 
+                             (void*)logfile, 
                              0, 
                              ZIP_FILENAME);
   strncpy(logfile, currentdir, sizeof(logfile) - 1);
   PathAppend(logfile, "cegui.log");
   vengine_capability::ZipAdd(hzip, 
                              "cegui.log", 
-                             reinterpret_cast<void*>logfile, 
+                             (void*)logfile, 
                              0, 
                              ZIP_FILENAME);
 
@@ -173,9 +174,9 @@ void sendinner_crashreport(HWND innerhwnd) {
   ZeroMemory(&browseinfo, sizeof(browseinfo));
   browseinfo.hwndOwner = innerhwnd;
   browseinfo.pidlRoot = NULL;
+  browseinfo.lpszTitle = "ѡ��Ŀ¼�����ļ�";
   browseinfo.ulFlags = BIF_NEWDIALOGSTYLE|BIF_RETURNONLYFSDIRS;
   browseinfo.pszDisplayName = NULL;
-  browseinfo.lpszTitle = "选择一个目录用以保存数据文件";
   LPITEMIDLIST findfolder = ::SHBrowseForFolder(&browseinfo);
   if (!findfolder) return;
   char result[MAX_PATH] = {0};
@@ -187,7 +188,7 @@ void sendinner_crashreport(HWND innerhwnd) {
   CopyFile(localfile, saveas, false); //save as new file
 }
 
-CALLBACK bool inner_dialogprocess(HWND hdialog, 
+bool CALLBACK inner_dialogprocess(HWND hdialog, 
                                   uint16_t message, 
                                   WPARAM wparam, 
                                   LPARAM lparam) {
@@ -197,11 +198,10 @@ CALLBACK bool inner_dialogprocess(HWND hdialog,
       static HBRUSH s_yellowbrush = 0;
       if (hstatic == GetDlgItem(hdialog, IDC_STATIC_TYPE)) {
         SetBkMode(reinterpret_cast<HDC>(wparam), TRANSPARENT);
-        SetBkColor((reinterpret_cast<HDC>(wparam), RGB(255, 255, 0));
+        SetBkColor(reinterpret_cast<HDC>(wparam), RGB(255, 255, 0));
         if (0 == s_yellowbrush) {
           s_yellowbrush = ::CreateSolidBrush(RGB(255, 255, 0));
-          return static_cast<bool>(
-            static_cast<int32_t>(reinterpret_cast<INT_PTR>(s_yellowbrush)));
+          return 0 < static_cast<int32_t>(reinterpret_cast<INT_PTR>(s_yellowbrush));
         }
       }
       else {
@@ -223,7 +223,6 @@ CALLBACK bool inner_dialogprocess(HWND hdialog,
       }
       ::EnableWindow(::GetDlgItem(hdialog, IDC_BUTTON_DEBUG), 
                      is_windbg_enable());
-    }
     break;
   }
   case WM_COMMAND: {
@@ -257,18 +256,19 @@ CALLBACK bool inner_dialogprocess(HWND hdialog,
   }
   default:
     return false;
+  }
   return true;
 }
 
 int32_t processinner(PEXCEPTION_POINTERS exception, 
-                  HWND hparentwnd, 
-                  const char* title) {
+                     HWND hparentwnd, 
+                     const char* title) {
   DWORD lasterror = ::GetLastError();
   char smallinfo_file[MAX_PATH] = {0};
   //base
   if (!errorinfo::create_smallinfo_dumpfile(exception, 
                                             smallinfo_file, 
-                                            lasterror)) {
+                                            static_cast<uint16_t>(lasterror))) {
     return 0;
   }
   /**
@@ -286,7 +286,7 @@ int32_t processinner(PEXCEPTION_POINTERS exception,
   int32_t result = ::DialogBox(g_hInstance, 
                                MAKEINTRESOURCE(IDD_INNER_EXCEPTION), 
                                hparentwnd, 
-                               reinterpret_cast<DLGPROC>(inner_dialogprocess));
+                               (DLGPROC)inner_dialogprocess);
   return result;
 }
 

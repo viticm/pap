@@ -32,7 +32,6 @@ const uint8_t kExtraParamMax = 3;
 
 class VENGINE_API Base : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_LOGICAL(false); //声明该对象没有逻辑功能
 VENGINE_KERNEL_DECLARE_DYNAMIC(Base);
 
  public:
@@ -68,6 +67,8 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Base);
    virtual vengine_cursor::type_enum tripper_getcursor_type() const = 0;
    //进入激活状态
    virtual void tripper_active() = 0;
+
+VENGINE_KERNEL_DECLARE_LOGICAL(false); //声明该对象没有逻辑功能
 
 };
 

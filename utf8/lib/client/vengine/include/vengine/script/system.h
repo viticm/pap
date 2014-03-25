@@ -36,7 +36,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
                                        const char* filename) = 0;
 
    virtual void destroyenvironment(Environment* environment) = 0;
-   virtual Environment* getenvironment(const char* name);
+   virtual Environment* getenvironment(const char* name) = 0;
 
 };
 

@@ -33,7 +33,7 @@ uint32_t System::get_difftime(uint32_t starttime, uint32_t endtime) {
 
 void System::tick() {
   static uint32_t last_ticktime = 0;
-  ++tickcout; //total tick count
+  ++tickcount_; //total tick count
   //save now time
   nowtime_ = (*g_gettime_pointer)();
   //记录距上一桢所花费的时间， 考虑跨时间阙的问题(49.71天)

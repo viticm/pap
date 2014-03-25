@@ -11,6 +11,7 @@
 #ifndef VENGINE_TIME_SYSTEM_H_
 #define VENGINE_TIME_SYSTEM_H_
 
+#include <time.h>
 #include "vengine/config.h"
 #include "vengine/kernel/node.h"
 

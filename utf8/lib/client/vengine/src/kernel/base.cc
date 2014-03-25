@@ -11,11 +11,11 @@ Base::Base() : noderoot_("root"), firstclass_inmap_(NULL) {
   self_ = this;
 }
 
-~Base::Base() {
+Base::~Base() {
 
 }
 
-Base* getself() {
+Base* Base::getself() {
   return self_;
 }
 
@@ -33,7 +33,7 @@ void Base::registerclass(class_t* newclass) {
     VENGINE_SHOW("repeat register class: %s", newclass->name);
   }
   newclass->nextclass = firstclass_inmap_;
-  firstclass_inmap_ = nextclass;
+  firstclass_inmap_ = newclass;
   classmap_[newclass->name] = newclass;
 }
 
@@ -68,7 +68,7 @@ Node* Base::newnode(const char* classname,
                  classname);
   }
   std::vector<STRING> pathsplit_buffer;
-  convertstring_tovector(position, pathsplit_buffer, "\\/");
+  vengine_base::util::convertstring_tovector(position, pathsplit_buffer, "\\/");
   Node* currentnode = &noderoot_;
   Node* findnode = NULL;
   register uint16_t i;
@@ -81,11 +81,11 @@ Node* Base::newnode(const char* classname,
     }
     currentnode = findnode;
   }
-  if (currentnode->lookup_child(name)) {
+  if (currentnode->lookup_child(nodename)) {
     VENGINE_SHOW("vengine_kernel::Base::newnode: node[%s] has exist!", 
                  nodename);
   }
-  Node* _newnode = dynamic_cast<Node*>(classpointer->newobject());
+  Node* _newnode = dynamic_cast<Node*>(classpointer->newobject(nodename));
   currentnode->addchild(_newnode);
   return _newnode;
 }
@@ -103,7 +103,8 @@ Node* Base::newnode(const char* classname,
     VENGINE_SHOW("vengine_kernel::Base::newnode: node[%s] has exist!",
                  nodename);
   }
-  Node* _newnode = nparentnode->addchild(nodename);
+  Node* _newnode = classpointer->newobject(nodename);
+  parentnode->addchild(_newnode);
   return _newnode;
 }
 
@@ -121,7 +122,7 @@ Node* Base::getnode(const char* name) {
   return currentnode;
 }
 
-bool loadplugin(const char* name, void* param) {
+bool Base::loadplugin(const char* name, void* param) {
   if (!name) return false;
   HMODULE hmodule = NULL;
   function_dllinit dllinit_pointer;
@@ -142,9 +143,9 @@ bool loadplugin(const char* name, void* param) {
     }
     //查看是否有合法的DllMagicCode导出
     uint32_t* magiccode = reinterpret_cast<uint32_t*>(
-        ::GetProcAddress(hModule, "DllMagicCode"));
+        ::GetProcAddress(hmodule, "DllMagicCode"));
     if (!magiccode || (
-        VENGINE_DLL_MAGIC_CODE | VENGINE_KERNEL_VERSION) != *magiccode) {
+        VENGINE_DLL_MAGIC_CODE | VENGINE_VERSION) != *magiccode) {
       ::FreeLibrary(hmodule);
       hmodule = NULL;
       VENGINE_SHOW("vengine_kernel::Base::loadplugin: "
@@ -155,7 +156,7 @@ bool loadplugin(const char* name, void* param) {
     dllinit_pointer = reinterpret_cast<function_dllinit>(
         ::GetProcAddress(hmodule, "DllInit"));
     dllrelease_pointer = reinterpret_cast<function_dllrelease>(
-        ::GetProcAddress(hModule, "DllRelease"));
+        ::GetProcAddress(hmodule, "DllRelease"));
     if (!dllinit_pointer || !dllrelease_pointer) {
       ::FreeLibrary(hmodule);
       hmodule = NULL;

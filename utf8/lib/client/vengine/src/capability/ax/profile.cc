@@ -8,11 +8,11 @@ namespace ax {
 
 namespace profile {
 
-autosampling_t() {
+autosampling_t::autosampling_t() {
   samplingbegin();
 }
 
-~autosampling_t() {
+autosampling_t::~autosampling_t() {
   samplingend();
 }
 
@@ -59,7 +59,7 @@ void samplingbegin() {
   newsampling.starttime = nowtime;
   newsampling.endtime.QuadPart = 0;
   g_samplinglist.push_back(newsampling);
-  g_currentsampling = = &(*(g_samplinglist.rbegin()));
+  g_currentsampling = &(*(g_samplinglist.rbegin()));
 #endif
 }
 
@@ -87,7 +87,7 @@ void pushnode(const char* name, const char* parent) {
   //search all node
   nodedfine_map::iterator iteratorfind = g_allnode.find(name);
   if (iteratorfind == g_allnode.end()) {
-    nodedefine newnode;
+    nodedefine_t newnode;
     newnode.name = name;
     //search parent node
     if (!parent || '\0' == parent[0]) {
@@ -98,7 +98,7 @@ void pushnode(const char* name, const char* parent) {
       if (iteratorparent == g_allnode.end()) {
         assert(false && 
                "vengine_capatility::ax::profile:pushnode:"
-               "invalid parent name!")
+               "invalid parent name!");
         return;
       }
       newnode.parent = &(iteratorparent->second);
@@ -114,7 +114,7 @@ void pushnode(const char* name, const char* parent) {
     newnode.starttime = nowtime;
     newnode.endtime.QuadPart = 0;
     g_currentsampling->samplingmap_node.insert(
-        std:make_pair(newnode.nodedefine, newnode));
+        std::make_pair(newnode.nodedefine, newnode));
   }
 #endif
 }
@@ -147,7 +147,7 @@ void popnode(const char* name) {
   if (iterator_node_insamping == g_currentsampling->samplingmap_node.end()) {
     assert(false &&
            "vengine_capatility::ax::profile::popnode: "
-           "must push node first")
+           "must push node first");
     return;
   }
   iterator_node_insamping->second.endtime = nowtime;
@@ -162,9 +162,9 @@ void tryclose_currentsampling() {
   if (!g_currentsampling) return;
   LARGE_INTEGER nowtime;
   ::QueryPerformanceCounter(&nowtime);
-  register ::stdext::hash_map<nodedefine*, node_insampling_t>::iterator
+  register ::stdext::hash_map<nodedefine_t*, node_insampling_t>::iterator
     _iterator = g_currentsampling->samplingmap_node.begin();
-  ::stdext::hash_map<nodedefine*, node_insampling_t>::iterator iteratorend =
+  ::stdext::hash_map<nodedefine_t*, node_insampling_t>::iterator iteratorend =
     g_currentsampling->samplingmap_node.end();
   g_currentsampling->invalid = true;
   for (; _iterator != iteratorend; ++_iterator) {
@@ -182,7 +182,7 @@ void report() {
   FILE* fp = fopen("report.txt", "w");
   if (!fp) return;
   LARGE_INTEGER perquency;
-  QueryPerformanceFrequency(&performance);
+  QueryPerformanceFrequency(&perquency);
   fprintf(fp, "#VENGINE_CAPABILITYAX_PROFILE_TOTAL");
   nodedfine_map::iterator iterator_nodedefine = g_allnode.begin();
   for (; iterator_nodedefine != g_allnode.end(); ++iterator_nodedefine) {
@@ -193,7 +193,7 @@ void report() {
   std::list<sampling_t>::iterator iteratorsampling = g_samplinglist.begin();
   for (; iteratorsampling != g_samplinglist.end(); ++iteratorsampling) {
     fprintf(fp, "%d\t", index);
-    sampling_t& sampling = g_allnode.begin();
+    sampling_t& sampling = *iteratorsampling;
     if (!sampling.invalid) continue;
     fprintf(fp, 
             "%f\t", 

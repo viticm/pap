@@ -12,6 +12,7 @@
 #define VENGINE_INPUT_SYSTEM_H_
 
 #include "vengine/config.h"
+#include "vengine/kernel/node.h"
 
 namespace vengine_input {
 

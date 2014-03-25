@@ -10,13 +10,20 @@
  */
 #include "vengine/config.h"
 
+namespace vengine_exception {
+
 #pragma optimize("y", off)
 
-void create_smallinfo_dumpfile(PEXCEPTION_POINTERS exception, 
+namespace errorinfo {
+
+bool create_smallinfo_dumpfile(PEXCEPTION_POINTERS exception, 
                                char* filename, 
                                uint16_t lasterror);
-void create_biginfo_dumpfile(PEXCEPTION_POINTERS exception,
+bool create_biginfo_dumpfile(PEXCEPTION_POINTERS exception,
                              char* filename,
                              uint16_t lasterror);
-void create_dumphelp_file(PEXCEPTION_POINTERS exception,
+bool create_dumphelp_file(PEXCEPTION_POINTERS exception,
                           char* filename);
+}; //namespce errorinfo
+
+}; //namespace vengine_exception

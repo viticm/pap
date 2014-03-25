@@ -15,6 +15,7 @@
 #include "vengine/kernel/node.h"
 #include "vengine/render/system.h"
 #include "vengine/sound/system.h"
+#include "vengine/game/scene.h"
 #include "vengine/game/object/basesystem.h"
 
 namespace vengine_game {

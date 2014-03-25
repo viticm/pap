@@ -13,7 +13,7 @@
 
 //插件必须导出一个名为DllMagicCode的U32整数,
 //值等于 VENGINE_DLL_MAGIC_CODE|VENGINE_KERNEL_VERSION
-#define VENGINE_DLL_MAGIC_CODE  (static_cast<uint32_t>(0XC0DE0000))
+#define VENGINE_DLL_MAGIC_CODE (static_cast<uint32_t>(0XC0DE0000))
 
 namespace vengine_kernel {
 
@@ -59,7 +59,7 @@ class VENGINE_API Base {
  protected:
    static Base* self_;
    static void* userdata_;
-   std::list<STRING, class_t*> classmap_;
+   std::map<STRING, class_t*> classmap_; //is a map not a list
    class_t* firstclass_inmap_;
    Node noderoot_;
 

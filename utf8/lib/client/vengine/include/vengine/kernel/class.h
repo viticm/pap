@@ -19,7 +19,7 @@ namespace vengine_kernel {
 class Node;
 
 struct VENGINE_API class_t {
-  const char* classname; //class name
+  const char* name; //class name
   int32_t objectsize; //class size
   Node* (__stdcall* newobject_pointer)(); //函数指针，用于生成一个Node类实例
   class_t* baseclass; //基类
@@ -66,8 +66,8 @@ vengine_kernel::Node* classname::newobject() { \
   return NULL; \
 }
 
-#define VENGINE_KERNEL_DECLARE_LOGICAL(havelogical) \
-public: \
-  virtual inline is_havelogical(havelogical) { return  havelogical; }
+#define VENGINE_KERNEL_DECLARE_LOGICAL( havelogical ) \
+ public: \
+   virtual inline bool is_havelogical() { return havelogical; }
 
 #endif //VENGINE_KERNEL_CLASS_H_

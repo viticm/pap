@@ -274,6 +274,14 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath="..\src\interface.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\src\stdafx.cc"
+				>
+			</File>
 			<Filter
 				Name="base"
 				>
@@ -317,6 +325,14 @@
 			<Filter
 				Name="db"
 				>
+				<File
+					RelativePath="..\src\db\file.cc"
+					>
+				</File>
+				<File
+					RelativePath="..\src\db\system.cc"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="exception"
@@ -333,6 +349,62 @@
 			<Filter
 				Name="game"
 				>
+				<File
+					RelativePath="..\src\game\eventsystem.cc"
+					>
+				</File>
+				<File
+					RelativePath="..\src\game\interface.cc"
+					>
+				</File>
+				<File
+					RelativePath="..\src\game\itemtransfer_system.cc"
+					>
+				</File>
+				<File
+					RelativePath="..\src\game\worldsystem.cc"
+					>
+				</File>
+				<Filter
+					Name="action"
+					>
+					<File
+						RelativePath="..\src\game\action\system.cc"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="data"
+					>
+					<Filter
+						Name="pool"
+						>
+						<File
+							RelativePath="..\src\game\data\pool\base.cc"
+							>
+						</File>
+						<File
+							RelativePath="..\src\game\data\pool\ui.cc"
+							>
+						</File>
+					</Filter>
+				</Filter>
+				<Filter
+					Name="object"
+					>
+					<File
+						RelativePath="..\src\game\object\base.cc"
+						>
+					</File>
+					<File
+						RelativePath="..\src\game\object\basesystem.cc"
+						>
+					</File>
+					<File
+						RelativePath="..\src\game\object\fakesystem.cc"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="helper"
@@ -377,6 +449,14 @@
 			<Filter
 				Name="render"
 				>
+				<File
+					RelativePath="..\src\render\entitynode.cc"
+					>
+				</File>
+				<File
+					RelativePath="..\src\render\system.cc"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="resource"
@@ -409,12 +489,28 @@
 			<Filter
 				Name="ui"
 				>
+				<File
+					RelativePath="..\src\ui\character_headboard.cc"
+					>
+				</File>
+				<File
+					RelativePath="..\src\ui\system.cc"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="variable"
 				>
 				<File
 					RelativePath="..\src\variable\base.cc"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="sound"
+				>
+				<File
+					RelativePath="..\src\sound\system.cc"
 					>
 				</File>
 			</Filter>
@@ -429,6 +525,10 @@
 				>
 				<File
 					RelativePath="..\include\vengine\config.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\vengine\stdafx.h"
 					>
 				</File>
 				<Filter
@@ -483,9 +583,53 @@
 						>
 					</File>
 					<File
-						RelativePath="..\include\vengine\db\struct.h"
+						RelativePath="..\include\vengine\db\system.h"
 						>
 					</File>
+					<Filter
+						Name="structs"
+						>
+						<File
+							RelativePath="..\include\vengine\db\struct\all.h"
+							>
+						</File>
+						<File
+							RelativePath="..\include\vengine\db\struct\character.h"
+							>
+						</File>
+						<File
+							RelativePath="..\include\vengine\db\struct\creature.h"
+							>
+						</File>
+						<File
+							RelativePath="..\include\vengine\db\struct\effect.h"
+							>
+						</File>
+						<File
+							RelativePath="..\include\vengine\db\struct\item.h"
+							>
+						</File>
+						<File
+							RelativePath="..\include\vengine\db\struct\other.h"
+							>
+						</File>
+						<File
+							RelativePath="..\include\vengine\db\struct\scene.h"
+							>
+						</File>
+						<File
+							RelativePath="..\include\vengine\db\struct\skill.h"
+							>
+						</File>
+						<File
+							RelativePath="..\include\vengine\db\struct\sound.h"
+							>
+						</File>
+						<File
+							RelativePath="..\include\vengine\db\struct\ui.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 				<Filter
 					Name="exception"
@@ -507,7 +651,23 @@
 						>
 					</File>
 					<File
+						RelativePath="..\include\vengine\game\eventsystem.h"
+						>
+					</File>
+					<File
 						RelativePath="..\include\vengine\game\interface.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\vengine\game\itemtransfer_system.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\vengine\game\scene.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\vengine\game\worldsystem.h"
 						>
 					</File>
 					<Filter
@@ -527,30 +687,38 @@
 						</Filter>
 					</Filter>
 					<Filter
-						Name="system"
+						Name="object"
 						>
 						<File
-							RelativePath="..\include\vengine\game\system\action.h"
+							RelativePath="..\include\vengine\game\object\base.h"
 							>
 						</File>
 						<File
-							RelativePath="..\include\vengine\game\system\event.h"
+							RelativePath="..\include\vengine\game\object\basesystem.h"
 							>
 						</File>
 						<File
-							RelativePath="..\include\vengine\game\system\fakeobject.h"
+							RelativePath="..\include\vengine\game\object\fakesystem.h"
 							>
 						</File>
 						<File
-							RelativePath="..\include\vengine\game\system\object.h"
+							RelativePath="..\include\vengine\game\object\item.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="action"
+						>
+						<File
+							RelativePath="..\include\vengine\game\action\item.h"
 							>
 						</File>
 						<File
-							RelativePath="..\include\vengine\game\system\transferitem.h"
+							RelativePath="..\include\vengine\game\action\reference.h"
 							>
 						</File>
 						<File
-							RelativePath="..\include\vengine\game\system\world.h"
+							RelativePath="..\include\vengine\game\action\system.h"
 							>
 						</File>
 					</Filter>
@@ -643,6 +811,22 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="sound"
+					>
+					<File
+						RelativePath="..\include\vengine\sound\buffer.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\vengine\sound\source.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\vengine\sound\system.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -650,6 +834,14 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath="..\src\resource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\vengine.rc"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

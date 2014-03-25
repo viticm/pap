@@ -12,6 +12,7 @@
 #define VENGINE_SOUND_SYSTEM_H_
 
 #include "vengine/config.h"
+#include "vengine/kernel/node.h"
 #include "vengine/sound/buffer.h"
 #include "vengine/sound/source.h"
 
@@ -23,7 +24,7 @@ typedef int32_t (__stdcall* function_play)
 //外提供声音的停止接口
 typedef void (__stdcall* function_stop)(int32_t id);
 
-VENGINE_API class System : public vengine_kernel::Node {
+class VENGINE_API System : public vengine_kernel::Node {
 
 VENGINE_KERNEL_DECLARE_DYNAMIC(System);
 

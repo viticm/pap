@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "vengine/resource.h"
+#include "resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -57,12 +57,12 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "Exception"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "(&D)Ë∞ÉËØï",IDC_BUTTON_DEBUG,176,109,50,14
-    PUSHBUTTON      "(&S)ÂèëÈÄÅ",IDC_BUTTON_SEND,176,131,50,14
+    DEFPUSHBUTTON   "(&D)µ˜ ‘",IDC_BUTTON_DEBUG,176,109,50,14
+    PUSHBUTTON      "(&S)∑¢ÀÕ",IDC_BUTTON_SEND,176,131,50,14
     LTEXT           "",IDC_STATIC_TYPE,5,3,221,14
     EDITTEXT        IDC_EDIT_CONTENTS,6,23,163,129,ES_MULTILINE | ES_READONLY | WS_VSCROLL
-    PUSHBUTTON      "(&I)ÂøΩÁï•",IDC_BUTTON_IGNORE,176,81,50,14
-    PUSHBUTTON      "(&T)ÊäõÂá∫",IDC_BUTTON_THROW,176,55,50,14
+    PUSHBUTTON      "(&I)∫ˆ¬‘",IDC_BUTTON_IGNORE,176,81,50,14
+    PUSHBUTTON      "(&T)≈◊≥ˆ",IDC_BUTTON_THROW,176,55,50,14
 END
 
 
