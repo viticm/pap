@@ -2,8 +2,7 @@
 #@desc this script can auto create cscope file and ctags
 #@date 2013-12-9 13:53:44
 #@author viticm<viticm@126.com>
-paths="./ ../../../../../include/client/lib/CEGUI/ 
-../../../../../include/client/lib/vgui/"
+paths="./ ../include/ ../../cegui/CEGUI/"
 types="php lua h cpp c cc hpp"
 n=0
 for path in ${paths}
@@ -13,9 +12,9 @@ do
   for filetype in ${types} 
   do
     if [[ 0 -eq ${i} ]] ; then
-      cmd=${cmd}" -name *."${filetype}
+      cmd=${cmd}" -name \*."${filetype}
     else
-      cmd=${cmd}" -o -name *."${filetype}
+      cmd=${cmd}" -o -name \*."${filetype}
     fi
     ((++i))
   done

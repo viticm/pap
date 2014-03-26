@@ -12,23 +12,6 @@
 #define VGUI_CONFIG_H_
 
 /*macros {*/
-#define VC_EXTRALEAN //Exclude rarely-used stuff from Windows headers
-#define STRICT
-
-// Works with Windows 2000 and later and Windows 98 or later
-#undef _WIN32_IE
-#undef WINVER
-#undef _WIN32_WINDOWS
-#undef _WIN32_WINNT
-#define WINVER         0x0500 
-#define _WIN32_WINDOWS 0x0410 
-#define _WIN32_WINNT   0x0500 
-
-#include <windows.h>
-
-// TODO: reference additional headers your program requires here
-#undef min
-#undef max
 
 #ifndef SAFE_DELETE
 #define SAFE_DELETE(p) if (p) { delete (p); (p) = NULL; }
@@ -36,11 +19,40 @@
 #ifndef SAFE_RELEASE
 #define SAFE_RELEASE(p) if (p) { (p)->Release(); delete (p); (p) = NULL; }
 #endif
-/*macros }*/
+/* }macros*/
 
-/*class {*/
-class Kernel;
+/*class {*/ //from vengine
 
-/*class*/
+namespace vengine_kernel {
+class Base;
+}; //namespace vengine_kernel
+
+namespace vengine_script {
+class System;
+}; //namespace vengine_script
+
+namespace vengine_game {
+class EventSystem;
+class WorldSystem;
+
+namespace action {
+class System;
+}; //namespace action
+
+}; //namespace vengine_game
+
+namespace vengine_input {
+class System;
+}; //namespace vengine_input
+
+namespace vengine_render {
+class System;
+}; //namespace vengine_render
+
+namespace vengine_cursor {
+class System;
+}; //namespace vengine_cursor
+
+/* }class*/
 
 #endif //VGUI_CONFIG_H_
