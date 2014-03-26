@@ -1,0 +1,6 @@
+;export three function and variable
+EXPORTS
+    ; Explicit exports can go here
+	  DllMagicCode
+	  DllInit
+	  DllRelease
