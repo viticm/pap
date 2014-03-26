@@ -294,6 +294,10 @@
 				Name="capability"
 				>
 				<File
+					RelativePath="..\src\capability\debuger.cc"
+					>
+				</File>
+				<File
 					RelativePath="..\src\capability\profile.cc"
 					>
 				</File>

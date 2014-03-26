@@ -243,6 +243,7 @@ tags
 */run/server/*.so
 */run/server/test/*
 utf8/lib/client/vengine/GameInterface/*
+utf8/lib/client/vgui/UI_CEGUI/*
 
 #######################
 ## build libs
