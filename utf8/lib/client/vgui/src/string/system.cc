@@ -1005,7 +1005,7 @@ void System::replacestring_usefilter(const STRING& in,
 STRING System::check_stringvalid(const char* str) {
   //转换为unicode
   wchar_t unicode_chars[1024] = {0};
-  mbcs_to_ucs16(get_code_page(), 
+  mbcs_to_ucs16(encode::get_code_page(), 
                 str, 
                 static_cast<int32_t>(strlen(str)), 
                 unicode_chars, 1024);
@@ -1045,7 +1045,7 @@ STRING System::check_stringvalid(const char* str) {
         wchar_t temp[8] = {0};
         temp[0]= (*find);
         char _temp[8] = {0};
-        ucs16_to_mbcs(get_code_page(), 
+        ucs16_to_mbcs(encode::get_code_page(), 
                       temp, static_cast<int32_t>(wcslen(temp)), 
                       _temp, 
                       8);
