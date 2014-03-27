@@ -11,6 +11,8 @@
 #ifndef VGUI_CONFIG_H_
 #define VGUI_CONFIG_H_
 
+#include <stdint.h> 
+
 /*macros {*/
 
 #ifndef SAFE_DELETE

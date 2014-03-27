@@ -142,4 +142,77 @@ lengthover:
   }
 }
 
+void Filter::replace_tosign_normal(const STRING& in, STRING& out) {
+  static STRING sign = "?";
+  static uint8_t ansistart = 0X20;
+  static uint8_t ansiend = 0X80;
+  out = in;
+  STRING::size_type totalsize = includefilter_.size();
+  STRING::size_type i;
+  //包含替换
+  for (i = 0; i < totalsize; ++i) {
+    STRING::size_type position = in.find(includefilter_[i]);
+    while (position != STRING::npos) {
+      STRING replace = "";
+      STRING::size_type length = includefilter_[i].size();
+      //如果包含替换的是1个字节的ANSI字节，替换前，
+      //需要确认前一个字节一定不是双字节字符集的前一个字节
+      bool skip = false;
+      if (1 == length && position > 0) {
+        int8_t _char = in[position - 1];
+        //不是标准ANSI英文字符
+        if (!(_char >= ansistart 
+              && _char <= ansiend || 
+              '\r' == _char || 
+              '\n' == _char || 
+              '\t' == _char)) {
+          skip = true;
+        }
+      }
+      if (!skip) {
+        for (STRING::size_type j = 0; j < len; ++j, replace += sign);
+        out.replace(position, length, replace);
+      }
+      position = in.find(includefilter_[i], position + length);
+    }
+  } //include replace
+
+  //完全匹配替换
+  if (is_fullmatch(in)) {
+    STRING::size_type length = in.size();
+    out.clear();
+    for (i = 0; i < length; ++i, out += sign);
+  }
+}
+
+void Filter::replace_tosign_new(const STRING& in, STRING out) {
+  static STRING signs = "~$%^&(){}`-_+=?,.<>";
+  out = in;
+  //包含替换
+  STRING::size_type i;
+  STRING::size_type totalsize = includefilter_.size();
+  for (i = 0; i < totalsize; ++i) {
+    STRING::size_type position = in.find(includefilter_[i]);
+    while (position != STRING::npos) {
+      STRING replace = "";
+      STRING::size_type length = includefilter_[i].size();
+      for(STRING::size_type j = 0; j < length; ++j) {
+        STRING::size_type randsize = rand() % int32_t(signs.size());
+        replace += signs.at(randsize);
+      }
+      out.replace(position, length, replace);
+      position = in.find(includefilter_[i], position + length);
+    }
+  }
+  //完全匹配替换
+  if (is_fullmatch(in)) {
+    STRING::size_type length = in.size();
+    out.clear();
+    for (i = 0; i < length; ++i) {
+      STRING::size_type randsize = rand() % int32_t(signs.size());
+      out += signs.at(randsize);
+    }
+  }
+}
+
 } //namespace vgui_string

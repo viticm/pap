@@ -3,7 +3,7 @@
 #@date 2013-12-9 13:53:44
 #@author viticm<viticm@126.com>
 paths="./ ../include/ ../../cegui/CEGUI/ ../../vengine/include
-../../LuaPlus/Src/LuaPlus/"
+../../LuaPlus/Src/LuaPlus/ ../../FairyCore/src/"
 types="php lua h cpp c cc hpp"
 n=0
 for path in ${paths}

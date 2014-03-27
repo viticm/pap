@@ -51,6 +51,7 @@ class VENGINE_API File {
    
  public:
    virtual const field_data* search_index_equal(int32_t index) const = 0;
+   virtual const field_data* search_line_equal(int32_t line) const = 0;
    virtual const field_data* search_position(int32_t line, 
                                              int32_t column) const = 0;
    virtual const field_data* search_first_column_equal(

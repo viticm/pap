@@ -55,7 +55,7 @@ typedef struct {
   //过滤过则
   //0表示忽略，1表示含有就过滤，2表示完全匹配过滤
   uint8_t chat; //聊天时
-  uint8_t createrole; //创建角色时，即命名
+  uint8_t role; //创建角色时，即命名
   uint8_t name; //命名
   uint8_t stall; //摆摊 --这几种基本一样
 } talkfilter_t;

@@ -63,7 +63,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(ItemTransferSystem);
    //将一个珍兽转换为字符串
    virtual element_t* convert_frompet(int32_t index) = 0;
    //将字符串转换为物品
-   virtual element_t* convet_fromstring(const STRING& display, 
+   virtual element_t* convert_fromstring(const STRING& display, 
                                         const STRING& contents) = 0;
    //添加一个超链接
    virtual element_t* add_hyperlink(const STRING& name,
