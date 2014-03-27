@@ -958,14 +958,102 @@ void parsestring_elementonly_runtime(const STRING& in, CEGUI::String32& out) {
             out_mbcs = 
               g_game_itemtransfer_system->get_element_displayname(infoid);
             if (!out_mbcs.empty()) {
-              
+              //id
+              CEGUI::utf32 idnumber = static_cast<uint32_t>(infoid);
+              idnumber |= 0xE4000000;
+              //display
+              CEGUI::String32 temp;
+              parsestring_runtime(out_mbcs, temp);
+              //length
+              CEGUI::utf32 idlength = static_cast<uint32_t>(
+                  g_game_itemtransfer_system
+                  ->get_elementcontents(infoid).length();
+              idlength |= 0xE5000000;
+              out += idnumber + temp + idlength;
             }
           }
+          keyend = idend + 1;
+        }
+        else { //#{需要保留
+          out_mbcs = = sourcestr.substr(validend, 2);
+          STRING temp;
+          mbcs_to_utf8(out_mbcs, temp);
+          out +=
+            (CEGUI::String32)reinterpret_cast<CEGUI::utf8*>(temp.c_str());
+          keyend = keystart + 1;
         }
       }
+      else { //无法解析的命令，保留#
+        out_mbcs = sourcestr.substr(validend, 1); 
+        STRING temp;
+        mbcs_to_utf8(out_mbcs, temp);
+        out += (CEGUI::String32)reinterpret_cast<CEGUI::utf8*>(temp.c_str());
+        keyend = keystart;
+      }
     }
-
+    validstart = keyend;
   } //for loop
+}
+void System::replacestring_usefilter(const STRING& in, 
+                                     STRING& out, 
+                                     vengine_ui::filtertype_enum filtertype) {
+  if (filtertype < 0 || filtertype > vengine_ui::kFilterTypeMax) return;
+  //替换非法字符为特定符号
+  filtertable_[filtertype].replace_tosign(in, out);
+}
+
+STRING System::check_stringvalid(const char* str) {
+  //转换为unicode
+  wchar_t unicode_chars[1024] = {0};
+  mbcs_to_ucs16(get_code_page(), 
+                str, 
+                static_cast<int32_t>(strlen(str)), 
+                unicode_chars, 1024);
+
+  //禁止的UNICODE字符
+  struct forbidden_unicode_area_t {
+    wchar_t begin;
+    uint16_t length;
+  };
+
+  static forbidden_unicode_area_t s_forbiddencode[] =  {
+    {0x0020, 16},  // !"#$%&'()*+,-./
+    {0x003A, 7},  //:;<=>?@
+    {0x005B, 6},  //[\]^_`
+    {0x007B, 4},  //{|}~
+    {0x03B1, 17},  //αβγδεζηθικλμνξοπρ
+    {0x03C3, 7},  //στυφχψω
+    {0x0430, 32},  //абвгдежзийклмнопрстуфхцчшщъыьэюя
+    {0x0451, 1},  //ё
+    {0x2500, 76},  //─━│┃┄┅┆┇┈┉┊┋┌┍┎┏┐┑┒┓└┕┖┗┘┙┚┛├┝┞┟┠┡┢┣┤┥┦┧┨┩┪┫┬┭┮┯┰┱┲┳┴┵┶┷┸┹┺┻┼┽┾┿╀╁╂╃╄╅╆╇╈╉╊╋
+    {0x3000, 1},  //　
+    {0x3105, 37},  //ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦㄧㄨㄩ
+    {0xE772, 74},  //
+    {0xE7C9, 25},  //
+    {0xE7FE, 18},  //
+    {0xFE31, 1},  //︱
+    {0xFE33, 18},  //︳︴︵︶︷︸︹︺︻︼︽︾︿﹀﹁﹂﹃﹄
+  };
+
+  for (int32_t i = 0; 
+       i < sizeof(s_forbiddencode) /sizeof(forbidden_unicode_area_t); 
+       ++i) {
+    const forbidden_unicode_area_t& area = s_forbiddencode[i];
+    for (wchar_t ch = area.begin; ch < area.begin + area.length; ch++) {
+      wchar_t* find = wcschr(unicode_chars, ch);
+      if (find) {
+        wchar_t temp[8] = {0};
+        temp[0]= (*find);
+        char _temp[8] = {0};
+        ucs16_to_mbcs(get_code_page(), 
+                      temp, static_cast<int32_t>(wcslen(temp)), 
+                      _temp, 
+                      8);
+        return STRING(_temp);
+      }
+    }
+  }
+  return STRING("");
 }
 
 } //namespace vgui_string
