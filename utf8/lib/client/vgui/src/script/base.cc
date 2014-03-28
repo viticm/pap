@@ -9,7 +9,7 @@ class EventArgs { //CEGUI 事件参数查询接口
  public:
    EventArgs() : metetable_(NULL), eventargs_(NULL){};
    virtual ~EventArgs(){}
-   LuaPlus::LuaObject* metetable_; //lua元表
+   LuaPlus::LuaObject* metatable_; //lua元表
    CEGUI::EventArgs* eventargs_; //参数保存
 
  public:
@@ -85,6 +85,8 @@ class EventArgs { //CEGUI 事件参数查询接口
    }
 }
 
+static EventArgs g_eventargs;
+
 Base::Base() {
   //do nothing
 }
@@ -102,5 +104,76 @@ int32_t Base::execute_globalfunction(const CEGUI::String& functionname) {
   int32_t result = CEGUI::executeScriptGlobal(functionname);
   return result;
 }
- 
+
+bool Base::execute_eventhandler(const CEGUI::String& handlername,
+                                const CEGUI::EventArgs& eventargs) {
+  const CEGUI::WindowEventArgs& eventwindow = 
+    dynamic_cast<const CEGUI::WindowEventArgs&>(eventargs);
+  CEGUI::Window window = eventwindow.window;
+  do {
+    if (!window) break;
+    void* userdata = window->getUserData();
+    if (userdata) {
+      ((CEGUI::CUIWindowItem*)userdata)->FireUIEvent(handlername.c_str(), 
+                                                     eventwindow.window);
+      break;
+    }
+    window = window->getParent();
+  } while (window);
+  g_eventargs.eventargs_ = 0;
+  return true;
+}
+
+void Base::startbindings() {
+  LuaPlus::LuaState* luastate = g_scriptsystem->get_luastate();
+  VENGINE_ASSERT(luastate);
+  //全局函数
+  luastate->GetGlobals().Register("GetIconFullName", 
+                                  vgui_icon::System::lua_get_icon_fullname);
+  g_eventargs.metatable_ = new LuaPlus::LuaObject;
+  *(g_eventargs.metatable_) = luastate->CreateTable("CEGUIEventMetaTable");
+  g_eventargs.metatable_->SetObject("__index", *(g_eventargs.metatable_));
+  g_eventargs.metatable_->RegisterObjectFunctor("GetValue", 
+                                                &EventArgs::lua_getvalue);
+  LuaObject event = luastate->BoxPointer(&(g_eventargs));
+  event.SetMetaTable(*(g_eventargs.metatable_));
+  luastate->GetGlobals().SetObject("CEArg", event);
+
+  //注册引用对象
+  LuaObject metatable_ui_windowitem = 
+    luastate->GetGlobals().CreateTable("MetaTable_UIWindowItem");
+  metatable_ui_windowitem.SetObject("__index", metatable_ui_windowitem);
+  metatable_ui_windowitem.RegisterObjectFunctor(
+      "RegisterEvent", 
+      &CEGUI::CUIWindowItem::LUA_RegisterEvent);
+  metatable_ui_windowitem.RegisterObjectFunctor(
+      "Show",
+      &CEGUI::CUIWindowItem::LUA_Show);
+  metatable_ui_windowitem.RegisterObjectFunctor(
+      "Hide",
+      &CEGUI::CUIWindowItem::LUA_Hide);
+  metatable_ui_windowitem.RegisterObjectFunctor(
+      "TogleShow",
+      &CEGUI::CUIWindowItem::LUA_TigleShow);
+  metatable_ui_windowitem.RegisterObjectFunctor(
+      "IsVisible",
+      &CEGUI::CUIWindowItem::LUA_IsVisible);
+  metatable_ui_windowitem.RegisterObjectFunctor(
+      "TransAllWindowText",
+      &CEGUI::CUIWindowItem::LUA_TransAllWindowText);
+  metatable_ui_windowitem.RegisterObjectFunctor(
+      "CareObject",
+      &CEGUI::CUIWindowItem::LUA_CareObject);
+
+  //控件
+  vgui_luacontrol::window::Base::register_metatable();
+}
+
+void Base::stopbindings() {
+  delete g_eventargs.eventargs_;
+  g_eventargs.metatable_ = NULL;
+  //释放控件注册
+  vgui_luacontrol::window::Base::destroy_metatable();
+}
+
 } //namespace vgui_script
