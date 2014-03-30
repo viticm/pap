@@ -23,6 +23,7 @@ typedef struct {
   const char* script;
   uint16_t opensound;
   uint16_t closesound;
+  const char* defaultposition;
   const char* help;
   const char* description;
 } layoutdefine_t;
