@@ -11,6 +11,16 @@
 #ifndef VGUI_WINDOW_MANAGER_H_
 #define VGUI_WINDOW_MANAGER_H_
 
+#include "CEGUIVector.h"
+#include "vengine/config.h"
+#include "vengine/game/eventsystem.h"
+#include "vgui/config.h"
+
+namespace CEGUI {
+class Window;
+}; //namespace CEGUI
+
+
 namespace vgui {
 
 namespace window {
