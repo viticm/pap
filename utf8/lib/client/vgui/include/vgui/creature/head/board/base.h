@@ -12,6 +12,7 @@
 #ifndef VGUI_CREATURE_HEAD_BOARD_BASE_H_
 #define VGUI_CREATURE_HEAD_BOARD_BASE_H_
 
+#include "vengine/ui/character_headboard.h"
 #include "vgui/config.h"
 #include "vgui/string/system.h"
 
@@ -56,13 +57,15 @@ class Base : public vengine_ui::CharacterHeadBoard {
    virtual void show(bool flag); //显示/隐藏
    virtual void showattribute(bool flag); //显示属性，等级/血量/称号
    virtual void showtitle(bool flag, uint16_t type) ; //显示称号
-   virtual void settitle(const char* name); //设置称号
+   virtual void settitle(const char* name, uint8_t type); //设置称号
    virtual void setname(const char* name); //设置名称
-   virtual void set_HPProgress(uint32_t now, uint32_t max); //设置血量
-   virtual void set_HPProgress(float percent); //血量百分比
+   virtual void set_HPprogress(uint32_t now, uint32_t max); //设置血量
+   virtual void set_HPprogress(float percent); //血量百分比
+   virtual void setlevel(uint8_t level, uint8_t type); //设置等级
    virtual void set_countryflag(uint8_t flag) ; //国家标记--以后变为阵营
-   virtual void set_leaderflag(uint8_t flag); //队长标记
-   virtual void set_pkflag(uint8_t flag); //设置PK|任务标记
+   virtual void set_leaderflag(bool flag, uint8_t type); //队长标记
+   //设置PK|任务标记
+   virtual void set_pkflag(uint8_t type, uint8_t state, bool flag);
    virtual void set_saletext(const char* text); //摆摊文字
    virtual void set_salesign(bool sign); //设置是否显示摆摊信息
    virtual void set_objectid(int32_t id); //设置对象ID
@@ -72,7 +75,10 @@ class Base : public vengine_ui::CharacterHeadBoard {
    virtual vengine_math::base::twofloat_vector_t getposition(); //屏幕位置
    virtual bool isshow(); //是否显示
    virtual void showstall(bool isself); //显示摆摊信息
+ public:
    CEGUI::Window* get_mainwindow();
+   void set_titletype(uint8_t type);
+   void set_guildpposition(uint8_t position);
 
  protected:
    //必须显示

@@ -67,7 +67,7 @@ class Item {
    void loadwindow(); //窗口加载
    void show(bool flag); //显示/隐藏窗口
    bool is_windowshow(); //窗口是否正在显示
-   bool is_child_windowshow(); //子窗口是否正在显示
+   bool is_child_windowshow() const; //子窗口是否正在显示
    const char* get_windowname(); //得到窗口名
    void moveto(CEGUI::Point& position); //将窗口移动到某一位置
    void positionself(); //窗口位置自适应
@@ -104,8 +104,8 @@ class Item {
    bool show_; //是否显示
    vengine_script::Environment* scriptenvironment_; //脚本环境指针
    bool layoutloaded_; //窗口是否已经加载
-   int32_t openwindow_id_;
-   int32_t closewindow_id_;
+   int32_t openwindow_soundid_;
+   int32_t closewindow_soundid_;
    std::vector<vgui_luacontrol::window*> controls_;
 
  protected:

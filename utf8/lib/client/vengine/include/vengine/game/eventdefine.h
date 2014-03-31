@@ -42,6 +42,10 @@ typedef enum {
   kGameLoginSelectArea, //-- 选择大区
 
 /** }用户登陆 **/
+
+  kGameUIToggleSystemFrame, //-- 切换显示系统菜单
+  kGameUICloseSecondMenu, //-- 关闭二级菜单
+
 } _enum;
 
 }; //namespace event_id
