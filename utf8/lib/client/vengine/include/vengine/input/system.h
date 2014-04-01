@@ -204,7 +204,7 @@ typedef enum {
 } eventid_enum;
 
 typedef struct {
-  eventid_enum eventid;
+  eventid_enum id;
   //键盘事件的键盘编号，如果是鼠标事件，此值无效
   keycode_enum keyindex;
   //是否已被处理

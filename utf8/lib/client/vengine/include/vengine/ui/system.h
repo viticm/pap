@@ -13,7 +13,7 @@
 
 #include "vengine/config.h"
 #include "vengine/game/itemtransfer_system.h"
-#include "vengine/ui/character_headboard.h"
+#include "vengine/ui/creature_headboard.h"
 
 namespace vengine_ui {
 
@@ -65,11 +65,12 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    //获得聊天信息里的超链接信息
    virtual STRING get_chatboard_hyplink_content(int64_t x, int64_t y) = 0;
    //创建一个新的角色信息板
-   virtual CharacterHeadBoard* create_character_headboard() = 0;
+   virtual CreatureHeadBoard* create_creature_headboard() = 0;
    //添加一个新的被击中信息框
    virtual void add_behit_board(bool _double, 
                                 const char* info, 
-                                float startx, float starty, 
+                                float startx, 
+                                float starty, 
                                 uint8_t type = 0, 
                                 uint8_t movetype = 0) = 0;
    virtual bool is_windowshow(const char* name, 
@@ -89,7 +90,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
 
  public:
    virtual void change_dragflag(bool flag) = 0;
-   virtual bool isdrag() = 0;
+   virtual bool is_dragend() = 0;
 
  public:
    //逻辑层添加系统通知信息

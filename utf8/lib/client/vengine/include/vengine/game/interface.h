@@ -146,7 +146,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Interface);
    virtual void skill_setactive(action::Item* Item) = 0;
    virtual action::Item* skill_getactive() = 0;
    //恢复到缺省技能操作，用于退出修理，鉴定，等特殊鼠标命令状态
-   virtual void skiil_cancelactive() = 0;
+   virtual void skill_cancelaction() = 0;
 
  public:
    virtual void booth_buyitem(action::Item* item) = 0; //物品购买

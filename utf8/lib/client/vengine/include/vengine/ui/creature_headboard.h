@@ -6,10 +6,11 @@
  * @license
  * @user viticm<viticm@126.com/viticm.ti@gmail.com>
  * @date 2014-3-21 11:14:52
- * @uses vengine ui character headboard module
+ * @uses vengine ui creature headboard module
+ *       cn: 同样适用与怪物，所以从character->creature
  */
-#ifndef VENGINE_UI_CHARACTER_HEADBOARD_H_
-#define VENGINE_UI_CHARACTER_HEADBOARD_H_
+#ifndef VENGINE_UI_CREATURE_HEADBOARD_H_
+#define VENGINE_UI_CREATURE_HEADBOARD_H_
 
 #include "vengine/config.h"
 #include "vengine/math/base.h"
@@ -17,7 +18,7 @@
 namespace vengine_ui {
 
 //角色头顶信息
-class VENGINE_API CharacterHeadBoard {
+class VENGINE_API CreatureHeadBoard {
 
  public:
    virtual void destroy() = 0;
@@ -48,4 +49,4 @@ class VENGINE_API CharacterHeadBoard {
 
 }; //namespace vengine_ui
 
-#endif //VENGINE_UI_CHARACTER_HEADBOARD_H_
+#endif //VENGINE_UI_CREATURE_HEADBOARD_H_

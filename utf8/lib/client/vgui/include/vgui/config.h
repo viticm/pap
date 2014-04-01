@@ -90,6 +90,7 @@ extern HWND g_mainwindow_handle;
 extern vengine_kernel::Base* g_kernel;
 extern vengine_script::Sytem* g_scriptsystem;
 extern vengine_game::EventSystem* g_game_eventsystem;
+extern vengine_game::action::Sytem* g_game_actionsystem;
 extern vengine_input::System* g_inputsystem;
 extern vengine_render::System* g_rendersystem;
 extern vengine_game::object::BaseSystem* g_game_objectsystem;
@@ -104,5 +105,15 @@ extern vengine_db::System* g_databasesystem;
 extern vengine_game::ItemTransferSystem* g_game_itemtransfer_system;
 extern vengine_sound::System* g_soundsystem;
 /*} global variable*/
+
+//color 系列宏
+#ifndef MAKE_COLOR /* {*/ 
+#define MAKE_COLOR(r,g,b,a) (((r & 0xFF) << 24) | ((g & 0xFF) << 16) \
+  | ((b & 0xFF) << 8) | (a & 0xFF))
+#define COLOR_R(color) ((color >> 24) & 0x000000FF)
+#define COLOR_G(color) ((color >> 16) & 0x000000FF)
+#define COLOR_B(color) ((color >> 8) & 0x000000FF)
+#define COLOR_A(color) ((color) & 0x000000FF) 
+#endif /* }*/
 
 #endif //VGUI_CONFIG_H_

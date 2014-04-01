@@ -25,6 +25,7 @@ namespace vengine_game {
 namespace object {
 
 class Base; //引用
+const char* kFakeRenderTexture = "_RenderTexture";
 
 class VENGINE_API FakeSystem : public vengine_kernel::Node {
 

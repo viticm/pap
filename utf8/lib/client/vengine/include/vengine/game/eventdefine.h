@@ -45,6 +45,10 @@ typedef enum {
 
   kGameUIToggleSystemFrame, //-- 切换显示系统菜单
   kGameUICloseSecondMenu, //-- 关闭二级菜单
+  kGameUIChatAdjustMoveCtl, //-- 通知聊天窗口调整大小
+
+  kGameChatChangePrivateName, //-- 修改聊天中的密语对象
+  kGameChatContexMenu, //-- 聊天相关的快捷菜单
 
 } _enum;
 

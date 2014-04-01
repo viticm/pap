@@ -166,7 +166,7 @@ void Item::registercontrol_toscript(CEGUI::Window* window) {
       dynamic_cast<CEGUI::IFalagardComplexWindow*>(
           dynamic_cast<CEGUI::FalagardComplexWindow*>(window));
     complexwindow->subscribInfoItemClickEvent(CEGUI::Event::Subscriber(
-          &vgui_base::System::handle_chathistory_info_elementclick, 
+          &vgui_base::System::handle_chathistory_infoelement_click, 
           vgui_base::System::getself()));
     complexwindow->subscribInfoItemDeleteEvent(CEGUI::Event::Subscriber(
           &vgui_base::System::handle_elementdelete, 
@@ -177,16 +177,16 @@ void Item::registercontrol_toscript(CEGUI::Window* window) {
       dynamic_cast<CEGUI::IFalagardChatHistory*>(
           dynamic_cast<CEGUI::FalagardChatHistory*>(window));
     chathistory_window->subscribInfoItemClickEvent(CEGUI::Event::Subscriber(
-          &vgui_base::System::handle_chathistory_info_elementclick, 
+          &vgui_base::System::handle_chathistory_infoelement_click, 
           vgui_base::System::getself()));
     chathistory_window->subscribInfoItemDeleteEvent(CEGUI::Event::Subscriber(
           &vgui_base::System::handle_elementdelete, 
           vgui_base::System::getself()));
     chathistory_window->subscribInfoItemMoveInEvent(CEGUI::Event::Subscriber(
-          &vgui_base::System::handle_chathistory_info_element_movein, 
+          &vgui_base::System::handle_chathistory_infoelement_movein, 
           vgui_base::System::getself()));
     chathistory_eindow->subscribInfoItemMoveOutEvent(CEGUI::Event::Subscriber(
-          &vgui_base::System::handle_chathistory_info_element_moveout, 
+          &vgui_base::System::handle_chathistory_infoelement_moveout, 
           vgui_base::System::getself()));
   }
 
