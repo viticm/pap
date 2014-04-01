@@ -494,7 +494,7 @@
 				Name="ui"
 				>
 				<File
-					RelativePath="..\src\ui\character_headboard.cc"
+					RelativePath="..\src\ui\creature_headboard.cc"
 					>
 				</File>
 				<File
@@ -802,6 +802,10 @@
 				<Filter
 					Name="ui"
 					>
+					<File
+						RelativePath="..\include\vengine\ui\creature_headboard.h"
+						>
+					</File>
 					<File
 						RelativePath="..\include\vengine\ui\system.h"
 						>
