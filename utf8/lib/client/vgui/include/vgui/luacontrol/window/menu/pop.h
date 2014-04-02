@@ -26,8 +26,8 @@ class Pop : public Base {
    virtual LuaPlus::LuaObject* get_metatable();
 
  public: //for export
-   int32_t lua_open(LuaPlus::LuaState* luastate);
-   int32_t lua_close(LuaPlus::LuaState* luastate);
+   int32_t lua_openit(LuaPlus::LuaState* luastate);
+   int32_t lua_closeit(LuaPlus::LuaState* luastate);
    int32_t lua_setposition(LuaPlus::LuaState* luastate);
 
  protected:

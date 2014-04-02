@@ -36,35 +36,35 @@ class Base {
    virtual LuaPlus::LuaObject* get_metatable();
 
  public:
-   int32_t setproperty(LuaPlus::LuaState* luastate);
-   int32_t getproperty(LuaPlus::LuaState* luastate);
-   int32_t setevent(LuaPlus::LuaState* luastate);
-   int32_t gettype(LuaPlus::LuaState* luastate);
-   int32_t getname(LuaPlus::LuaState* luastate);
-   int32_t gettext(LuaPlus::LuaState* luastate);
-   int32_t settext(LuaPlus::LuaState* luastate);
-   int32_t set_textoriginal(LuaPlus::LuaState* luastate);
-   int32_t transtext(LuaPlus::LuaState* luastate);
-   int32_t setforce(LuaPlus::LuaState* luastate);
+   int32_t lua_setproperty(LuaPlus::LuaState* luastate);
+   int32_t lua_getproperty(LuaPlus::LuaState* luastate);
+   int32_t lua_setevent(LuaPlus::LuaState* luastate);
+   int32_t lua_gettype(LuaPlus::LuaState* luastate);
+   int32_t lua_getname(LuaPlus::LuaState* luastate);
+   int32_t lua_gettext(LuaPlus::LuaState* luastate);
+   int32_t lua_settext(LuaPlus::LuaState* luastate);
+   int32_t lua_set_textoriginal(LuaPlus::LuaState* luastate);
+   int32_t lua_transtext(LuaPlus::LuaState* luastate);
+   int32_t lua_setforce(LuaPlus::LuaState* luastate);
    //设置显示区域并设置材质坐标
-   int32_t setarea_and_texturecoord(LuaPlus::LuaState* luastate);
-   int32_t show(LuaPlus::LuaState* luastate);
-   int32_t hide(LuaPlus::LuaState* luastate);
-   int32_t disable(LuaPlus::LuaState* luastate);
-   int32_t enable(LuaPlus::LuaState* luastate);
-   int32_t setalpha(LuaPlus::LuaState* luastate);
-   int32_t isvisiable(LuaPlus::LuaState* luastate);
-   int32_t set_tooltip(LuaPlus::LuaState* luastate);
-   int32_t captureinput(LuaPlus::LuaState* luastate);
-   int32_t center(LuaPlus::LuaState* luastate);
-   int32_t setcenter(LuaPlus::LuaState* luastate);
-   int32_t setclipped_byparent(LuaPlus::LuaState* luastate);
-   int32_t auto_mouseposition(LuaPlus::LuaState* luastate);
-   int32_t createchild(LuaPlus::LuaState* luastate);
-   int32_t removechild(LuaPlus::LuaState* luastate);
-   int32_t debuginfo(LuaPlus::LuaState* luastate);
-   int32_t getposition(LuaPlus::LuaState* luastate);
-   int32_t setposition(LuaPlus::LuaState* luastate);
+   int32_t lua_setarea_and_texturecoord(LuaPlus::LuaState* luastate);
+   int32_t lua_show(LuaPlus::LuaState* luastate);
+   int32_t lua_hide(LuaPlus::LuaState* luastate);
+   int32_t lua_disable(LuaPlus::LuaState* luastate);
+   int32_t lua_enable(LuaPlus::LuaState* luastate);
+   int32_t lua_setalpha(LuaPlus::LuaState* luastate);
+   int32_t lua_isvisiable(LuaPlus::LuaState* luastate);
+   int32_t lua_set_tooltip(LuaPlus::LuaState* luastate);
+   int32_t lua_captureinput(LuaPlus::LuaState* luastate);
+   int32_t lua_center(LuaPlus::LuaState* luastate);
+   int32_t lua_setcenter(LuaPlus::LuaState* luastate);
+   int32_t lua_setclipped_byparent(LuaPlus::LuaState* luastate);
+   int32_t lua_auto_mouseposition(LuaPlus::LuaState* luastate);
+   int32_t lua_createchild(LuaPlus::LuaState* luastate);
+   int32_t lua_removechild(LuaPlus::LuaState* luastate);
+   int32_t lua_debuginfo(LuaPlus::LuaState* luastate);
+   int32_t lua_getposition(LuaPlus::LuaState* luastate);
+   int32_t lua_setposition(LuaPlus::LuaState* luastate);
 
  protected:
    CEGUI::Window* window_;

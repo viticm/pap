@@ -30,6 +30,7 @@ class Base : public vgui_luacontrol::window::Base {
    int32_t lua_resetlist(LuaPlus::LuaState* luastate);
    int32_t lua_get_currentselect(LuaPlus::LuaState* luastate);
    int32_t lua_set_currentselect(LuaPlus::LuaState* luastate);
+   int32_t lua_set_itemtext(LuaPlus::LuaState* luastate);
 
  protected:
    static LuaPlus::LuaObject* metatable_;

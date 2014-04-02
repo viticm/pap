@@ -30,7 +30,7 @@ class Base : public vgui_luacontrol::window::Base {
  public:
    int32_t lua_update_viewrect(LuaPlus::LuaState* luastate);
    int32_t lua_set_filename(LuaPlus::LuaState* luastate);
-   int32_t lua_close(LuaPlus::LuaState* luastate);
+   int32_t lua_closeit(LuaPlus::LuaState* luastate);
    int32_t lua_get_mouseposition(LuaPlus::LuaState* luastate);
    int32_t lua_update(LuaPlus::LuaState* luastate);
    int32_t lua_set_zoommode(LuaPlus::LuaState* luastate); 

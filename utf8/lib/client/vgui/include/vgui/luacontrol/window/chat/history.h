@@ -27,7 +27,7 @@ class History : public Base {
 
  public:
    int32_t lua_insertstring(LuaPlus::LuaState* luastate);
-   int32_t lua_romve_allstring(LuaPlus::LuaState* luastate); 
+   int32_t lua_remove_allstring(LuaPlus::LuaState* luastate); 
    int32_t lua_scroll_toend(LuaPlus::LuaState* luastate); 
    int32_t lua_extend_clearregion(LuaPlus::LuaState* luastate);
 
