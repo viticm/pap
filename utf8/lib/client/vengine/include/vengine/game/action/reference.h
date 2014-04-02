@@ -30,7 +30,7 @@ class VENGINE_API Reference {
    //按钮设置成default的状态
    virtual void setdefault(bool flag) = 0;
    //进入冷却
-   virtual void enter_cooldown() = 0;
+   virtual void enter_cooldown(int32_t time, float percent) = 0;
    //显示字符, _char所显示的字符，0不显示
    typedef enum {
      kCornerNumberPositionTopLeft = 0,
