@@ -43,12 +43,17 @@ typedef enum {
 
 /** }用户登陆 **/
 
-  kGameUIToggleSystemFrame, //-- 切换显示系统菜单
-  kGameUICloseSecondMenu, //-- 关闭二级菜单
-  kGameUIChatAdjustMoveCtl, //-- 通知聊天窗口调整大小
+  kUIToggleSystemFrame, //-- 切换显示系统菜单
+  kUICloseSecondMenu, //-- 关闭二级菜单
+  kUIChatAdjustMoveCtl, //-- 通知聊天窗口调整大小
 
-  kGameChatChangePrivateName, //-- 修改聊天中的密语对象
-  kGameChatContexMenu, //-- 聊天相关的快捷菜单
+  kChatChangePrivateName, //-- 修改聊天中的密语对象
+  kChatContexMenu, //-- 聊天相关的快捷菜单
+
+  kSuperToolTip, //-- 提示框 arg0 - 显示/隐藏 1,0
+                          // arg1 - 类型 "skill", "lifeability", "item", 
+                          // "xinfa", "pet_skill"
+                          // arg2, arg3 鼠标位置
 
 } _enum;
 

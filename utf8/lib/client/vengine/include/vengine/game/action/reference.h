@@ -38,7 +38,7 @@ class VENGINE_API Reference {
      kCornerNumberPositionFootLeft,
      kCornerNumberPositionFootRight
    } cornernumber_position_enum;
-   virtual void set_cornerchar(cornernumber_position_enum posistion,
+   virtual void set_cornerchar(cornernumber_position_enum position,
                                const char* _char) = 0;
    virtual void enable() = 0;
    virtual void disable() = 0;

@@ -26,7 +26,7 @@ class Base : public vgui_luacontrol::window::Base {
    virtual LuaPlus::LuaObject* get_metatable();
 
  public:
-   int32_t setprogress(LuaPlus::LuaState* luastate);
+   int32_t lua_setprogress(LuaPlus::LuaState* luastate);
 
  protected:
    friend class vgui_luacontrol::window::Base;

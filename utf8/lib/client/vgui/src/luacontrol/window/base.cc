@@ -1,4 +1,4 @@
-#include "vgui/luacontrol/config.h"
+#include "vgui/luacontrol/window/config.h"
 /* controls { */
 #include "vgui/luacontrol/window/animation.h"
 #include "vgui/luacontrol/window/complex.h"
@@ -38,6 +38,10 @@ LuaPlus::LuaObject* Base::metatable_ = NULL;
 
 Base::Base(CEGUI::Window* window) {
   window_ = window;
+}
+
+LuaPlus::LuaObject* Base::get_metatable() {
+  return metatable_;
 }
 
 Base* Base::create(CEGUI::Window* window) {
@@ -230,7 +234,7 @@ void Base::register_metatable() {
       button::Action::lua_setpushed);
   button::Action::metatable_->RegisterObjectFunctor(
       "SetFlash",
-      button::Action::lua_setflush);
+      button::Action::lua_setflash);
   button::Action::metatable_->RegisterObjectFunctor(
       "Gloom",
       button::Action::lua_gloom);
@@ -745,7 +749,7 @@ void Base::destroy_metatable() {
   //complex
   SAFE_DELETE(Complex::metatable_);
   //menu
-  SAFE_DELETE(menu::Pop);
+  SAFE_DELETE(menu::Pop::metatable_);
   //button
   SAFE_DELETE(button::Check::metatable_);
   SAFE_DELETE(button::Action::metatable_);
@@ -754,6 +758,350 @@ void Base::destroy_metatable() {
   SAFE_DELETE(progressbar::Base::metatable_);
   //base
   SAFE_DELETE(Base::metatable_);
+}
+
+int32_t Base::lua_setproperty(LuaPlus::LuaState* luastate) {
+  LuaStack args(luastate);
+  if (!args[2].IsString() || !args[3].IsString()) return 0;
+  CEGUI::Window* window = window_;
+  if (!args[4].IsNil()) {
+    if (args[4].IsString()) {
+      const char* windowname = args[4].GetString();
+      if (0 == strcmp("Parent", windowname)) {
+        window = window_->getParent();
+      }
+      else {
+        window = CEGUI::WindowManager::getSingleton().getWindow(windowname);
+      }
+    }
+  }
+  const char* name = args[2].GetString();
+  const char* value = args[3].GetString();
+  STRING full_iconname, iconname;
+  if (0 == strcmp("ShortImage", name)) {
+    STRING mbcs = args[3].GetString();
+    CEGUI::String32 str;
+    vgui_string::System::getself()->parsestring_runtime(mbcs, str);
+    window->setText(str);
+    return 0;
+  }
+  if (0 == strcmp("Tooltip", name)) {
+    STRING mbcs = args[3].GetString();
+    CEGUI::String32 str;
+    vgui_string::System::getself()->parsestring_runtime(mbcs, str);
+    window->setProperty(name, str.c_str());
+    return 0;
+  }
+  try {
+    window->setProperty(name, value);
+  }
+  catch(...) {
+
+  }
+  return 0;
+}
+
+int32_t Base::lua_setevent(LuaPlus::LuaState* luastate) {
+  LuaStack args(luastate);
+  if (!args[2].IsString() || !args[3].IsString()) return 0;
+  CEGUI::Window* window = window_;
+  if (!args[4].IsNil()) {
+    if (args[4].IsString()) {
+      const char* windowname = args[4].GetString();
+      if (0 == strcmp("Parent", windowname)) {
+        window = window_->getParent();
+      }
+      else {
+        window = CEGUI::WindowManager::getSingleton().getWindow(windowname);
+      }
+    }
+  }
+  CEGUI::String eventname(args[2].GetString());
+  CEGUI::String functionname(args[3].GetString());
+  if (window) {
+    window->subscribeEvent(eventname, CEGUI::ScriptFunctor(functionname));
+  }
+  return 1;
+}
+
+int32_t Base::lua_center(LuaPlus::LuaState* luastate) {
+  LuaStack args(luastate);
+  CEGUI::Window* parent = window->getParent();
+  if (parent) {
+    CEGUI::Point position;
+    CEGUI::Rect rect = parent->getAbsoluteRect();
+    position.d_x = (rect.d_left + rect.d_right) / 2 - 
+                   window_->getAbsoluteRect().getWidth() / 2;
+    position.d_y = (rect.d_top + rect.d_bottom ) / 2 - 
+                   window_->getAbsoluteRect().getHeight() / 2;
+    window_->setPosition(CEGUI::Absolute, position);
+  }
+  return 0;
+}
+
+int32_t Base::lua_setcenter(LuaPlus::LuaState* luastate) {
+  LuaStack args(luastate);
+  if (!args[2].IsInteger() || !args[3].IsInteger()) return 0;
+  CEGUI::Point position;
+  position.d_x = 
+    args[2].GetInteger() - window_->getAbsoluteRect().getWidth() / 2;
+  position.d_y =
+    args[3].GetInteger() - window_->getAbsoluteRect().getHeight() / 2;
+  window_->setPosition(CEGUI::Absolute, position);
+  return 0;
+}
+
+int32_t Base::lua_setclipped_byparent(LuaPlus::LuaState* luastate) {
+  LuaStack args(luastate);
+  if (!args[2].IsInteger()) return 0;
+  uint8_t flag = args[2].GetInteger();
+  if (0 == flag) {
+    window_->setClippedByParent(false);
+    window_->setAlwaysOnTop(true);
+  }
+  else {
+    window_->setClippedByParent(true);
+  }
+  return 0;
+}
+
+int32_t Base::lua_auto_mouseposition(LuaPlus::LuaState* luastate) { 
+  LuaStack args(luastate);
+  if (!args[2].IsString() || !args[3].IsString()) return 0;
+  float x = args[2].GetFloat();
+  float y = args[3].GetFloat();
+  //重新计算
+  float width = window_->getAbsoluteWidth();
+  float height = window_->getAbsoluteHeight();
+  float screenwidth = 
+    vgui_window::Manager::get_clientscreen()->getAbsoluteWidth();
+  float screenheight =
+    vgui_window::Manager::get_clientscreen()->getAbsoluteHeight();
+  if (x + width + 5.0f > screenwidth) {
+    x -= width + 5.0f;
+  }
+  else {
+    x += 5.0f;
+  }
+  if (y + height + 5.0f > screenheight) {
+    y -= height + 5.0f;
+  }
+  else {
+    y += 5.0f;
+  }
+  CEGUI::Point position;
+  position.d_x = x;
+  position.d_y = y;
+  window_->setPosition(CEGUI::Absolute, position);
+  return 0;
+}
+
+int32_t Base::lua_getproperty(LuaPlus::LuaState* luastate) {
+  LuaStack args(luastate);
+  if (!args[2].IsString()) return 0;
+  CEGUI::Window* window = window_;
+  if (!args[3].IsNil()) {
+    if (args[3].IsString()) {
+      const char* windowname = args[3].GetString();
+      if (0 == strcmp("Parent", windowname)) {
+        window = window_->getParent();
+      }
+      else {
+        window = CEGUI::WindowManager::getSingleton().getWindow(windowname);
+      }
+    }
+  }
+  try {
+    CEGUI::String str = window->getProperty(args[2].GetString());
+    STRING out;
+    vgui_string::System::getself()->parsestring_runtime(str, out);
+    luastate->PushString(out);
+  }
+  catch(...) {
+    luastate->PushString("");
+  }
+  return 1;
+}
+
+int32_t Base::lua_settext(LuaPlus::LuaState* luastate) { 
+  LuaStack args(luastate);
+  if (args[2].IsInteger()) {
+    char value[128] = {0};
+    sprintf(value, "%d", args[2].GetInteger());
+    STRING str;
+    vgui_string::System::getself()->parsestring_runtime(value, str);
+    window_->setText((CEGUI::String32)(CEGUI::utf8*)(str.c_str()));
+  }
+  else if (args[2].IsString()) {
+    STRING mbcs = args[2].GetString();
+    CEGUI::String32 str;
+    vgui_string::System::getself()->parsestring_runtime(mbcs, str);
+    window_->setText(str);
+  }
+  return 0;
+}
+
+int32_t Base::lua_hide(LuaPlus::LuaState* luastate) {
+  window_->setVisible(false);
+  if (window_->testClassName("Editbox")) {
+    window_->releaseInput();
+  }
+  return 0;
+}
+
+int32_t Base::lua_gettext(LuaPlus::LuaState* luastate) {
+  STRING mbcs = window_->getText().c_str();
+  STRING str;
+  vgui_string::System::getself()->parsestring_runtime(mbcs, str);
+  luastate->PushString(str.c_str());
+  return 1;
+}
+
+int32_t Base::lua_set_textoriginal(LuaPlus::LuaState* luastate) {
+  LuaStack args(luastate);
+  if (!args[2].IsString()) return 0;
+  STRING mbcs = args[2].GetString();
+  CEGUI::String32 str;
+  vgui_string::System::getself()->parsestring_runtime(mbcs, str);
+  window_->setTextOriginal(str);
+  return 0;
+}
+
+int32_t Base::lua_setalpha(LuaPlus::LuaState* luastate) {
+  LuaStack args(luastate);
+  if (!args[2].IsNumber()) return 0;
+  float value = args[2].GetFloat();
+  window_->setAlpha(value);
+  return 1;
+}
+
+int32_t Base::lua_setforce(LuaPlus::LuaState* luastate) {
+  window_->activate();
+  return 0;
+}
+
+int32_t Base::lua_setarea_and_texturecoord(LuaPlus::LuaState* luastate) {
+  LuaStack args(luastate);
+  if (!args[2].IsInteger() || !args[4].IsInteger()) return 0;
+  if (!args[3].IsNumber() || !args[5].IsNumber()) return 0;
+  window_->setAreaAndTexCoord(args[2].GetInteger(),
+                              args[3].GetFloat(),
+                              args[4].GetInteger(),
+                              args[5].GetFloat());
+  return 0;
+}
+
+int32_t Base::lua_createchild(LuaPlus::LuaState* luastate) {
+  LuaStack args(luastate);
+  if (!args[2].IsString() || !args[3].IsString()) return 0;
+  STRING windowtype = args[2].GetString();
+  STRING windowname = args[3].GetString();
+  CEGUI::Window* window = CEGUI::WindowManager::getSingleton().createWindow(
+      windowtype,
+      windowname);
+  window_->addChildWindow(window);
+  return 0;
+}
+
+int32_t Base::lua_removechild(LuaPlus::LuaState* luastate) {
+  LuaStack args(luastate);
+  if (!args[2].IsString()) return 0;
+  STRING windowname = args[2].GetString();
+  CEGUI::Window* window =  
+    CEGUI::WindowManager::getSingleton().getWindow(windowname);
+  if (window) window_->removeChildWindow(window);
+  return 0;
+}
+
+int32_t Base::lua_debuginfo(LuaPlus::LuaState* luastate) {
+  LuaStack args(luastate);
+  //do something in here
+  return 0;
+}
+
+int32_t Base::lua_getposition(LuaPlus::LuaState* luastate) {
+  luastate->PushNumber(window_->getPosition(CEGUI::Absolute).d_x);
+  luastate->PushNumber(window_->getPosition(CEGUI::Absolute).d_y);
+  return 2;
+}
+
+int32_t Base::lua_setposition(LuaPlus::LuaState* luastate) {
+  LuaStack args(luastate);
+  if (!args[2].IsInteger() || !args[3].IsInteger() || !args[4].IsInteger())
+    return 0;
+  CEGUI::Point position;
+  position.d_x = args[3].GetInteger();
+  position.d_y = args[4].GetInteger();
+  CEGUI::MetricsMode metricsmode;
+  if (0 == args[2].GetInteger()) {
+    metricsmode = CEGUI::Relative;
+  }
+  else if (1 == args[2].GetInteger()) {
+    metricsmode = CEGUI::Absolute;
+  }
+  else {
+    metricsmode = CEGUI::Inherited;
+  }
+  window_->setPosition(metricsmode, position);
+  return 0;
+}
+
+int32_t Base::lua_set_tooltip(LuaPlus::LuaState* luastate) {
+  LuaStack args(luastate);
+  if (args[2].IsString()) return 0;
+  STRING mbcs = args[2].GetString();
+  CEGUI::String32 str;
+  vgui_string::System::getself()->parsestring_runtime(mbcs, str);
+  window_->setProperty("Tooltip", str.c_str());
+  return 0;
+}
+
+int32_t Base::lua_transtext(LuaPlus::LuaState* luastate) {
+  CEGUI::String32 str = window_->getTextOriginal();
+  if (!str.empty()) {
+    STRING mbsc;
+    vgui_string::System::utf8_to_mbcs(str.c_st(), mbcs);
+    CEGUI::String32 out;
+    vgui_string::System::getself()->parsestring_runtime(mbcs, out);
+    window_->setText(out);
+  }
+  return 0;
+}
+
+int32_t Base::lua_captureinput(LuaPlus::LuaState* luastate) { 
+  window_->activate();
+  window_->captureInput();
+  return 0;
+}
+
+int32_t Base::lua_gettype(LuaPlus::LuaState* luastate) {
+  luastate->PushString(window_->getWidgetType().c_str());
+  return 1;
+}
+
+int32_t Base::lua_getname(LuaPlus::LuaState* luastate) { 
+  luastate->PushString(window_->getName().c_str());
+  return 1;
+}
+
+int32_t Base::lua_show(LuaPlus::LuaState* luastate) {
+  window_->setVisible(true);
+  return 0;
+}
+
+int32_t Base::lua_disable(LuaPlus::LuaState* luastate) {
+  window_->setEnabled(false);
+  return 0;
+}
+
+int32_t Base::lua_enable(LuaPlus::LuaState* luastate) {
+  window_->setEnabled(true);
+  return 0;
+}
+
+int32_t Base::lua_isvisible(LuaPlus::LuaState* luastate) {
+  luastate->PushBoolean(window_->isVisible());
+  return 1;
 }
 
 } //namespace window

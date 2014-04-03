@@ -6,11 +6,11 @@
  * @license
  * @user viticm<viticm@126.com/viticm.ti@gmail.com>
  * @date 2014-4-1 20:58:50
- * @uses vgui lua control config
+ * @uses vgui lua control window config
  *       cn: 这个配置文件供源文件作为依赖，以后有机会再一一分清
  */
-#ifndef VGUI_LUACONTROL_CONFIG_H
-#define VGUI_LUACONTROL_CONFIG_H
+#ifndef VGUI_LUACONTROL_WINDOW_CONFIG_H_
+#define VGUI_LUACONTROL_WINDOW_CONFIG_H_
 
 #include "vgui/config.h"
 
@@ -50,8 +50,9 @@
 #include "vengine/game/worldsystem.h"
 #include "vengine/db/struct/all.h"
 #include "vengine/db/system.h"
+#include "vengine/capability/ax/trace.h"
 
 #include "vgui/string/encode.h"
 #include "vgui/string/system.h"
 
-#endif //VGUI_LUACONTROL_CONFIG_H
+#endif //VGUI_LUACONTROL_WINDOW_CONFIG_H_

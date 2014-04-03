@@ -44,9 +44,10 @@ class Action : public Base, vengine_game::action::Reference {
  public:
    virtual void bedestoryed(); //逻辑Action已经被销毁
    virtual void setcheck(bool check); //按钮按下
+   virtual void enterflash(bool flash); //进入闪烁
    virtual void setdefault(bool flag); //将按钮设置为默认状态
    virtual void enter_cooldown(int32_t time, float percent); //进入冷却
-   virtual void set_cornerchar(cornernumber_position_enum posistion, 
+   virtual void set_cornerchar(cornernumber_position_enum position, 
                                const char* _char);
    virtual void update();
    virtual void disable();

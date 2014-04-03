@@ -426,7 +426,7 @@ void System::init(void*) {
   RECT rect;
   get_clientrect(g_mainwindow_handle, &rect);
   //聊天窗口
-  g_game_eventsystem->push(kGameUIChatAdjustMoveCtl, 
+  g_game_eventsystem->push(vengine_game::event_id::kUIChatAdjustMoveCtl, 
                            rect.right - rect.left,
                            rect.bottom - rect.top);
 }
@@ -832,7 +832,7 @@ bool System::handle_hyperlink_leftactive(const CEGUI::EventArgs& event) {
       CEGUI::WindowManager::getSingleton().getWindow(hyperlink.windowName);
     if (window->testClassName((CEGUI::utf8*)"FalagardChatBoard")) {
       g_game_eventsystem->push(
-          vengine_game::event_id::kGameChatChangePrivateName, link.c_str());        
+          vengine_game::event_id::kChatChangePrivateName, link.c_str());        
     }
     else { //如果不是就说明是特殊链接
       if (!link.empty()) {
@@ -881,7 +881,7 @@ bool System::handle_hyperlink_rightactive(const CEGUI::EventArgs& event) {
       CEGUI::WindowManager::getSingleton().getWindow(hyperlink.windowName);
     if (window->testClassName((CEGUI::utf8*)"FalagardChatBoard")) {
       g_game_eventsystem->push(
-          vengine_game::event_id::kGameChatContexMenu, link.c_str());        
+          vengine_game::event_id::kChatContexMenu, link.c_str());        
     }
   }
   return true;

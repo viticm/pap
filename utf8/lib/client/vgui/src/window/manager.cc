@@ -180,8 +180,8 @@ void Manager::on_sizechange() {
 void Manager::onescape() { //响应Esc键
   if (closeall()) return;
   //如果没有窗口显示了，就开开系统菜单
-  g_game_eventsystem->push(vengine_game::event_id::kGameUIToggleSystemFrame);
-  g_game_eventsystem->push(vengine_game::event_id::kGameUICloseSecondMenu, 
+  g_game_eventsystem->push(vengine_game::event_id::kUIToggleSystemFrame);
+  g_game_eventsystem->push(vengine_game::event_id::kUICloseSecondMenu, 
                            0, 
                            0);
 }
@@ -223,5 +223,11 @@ bool Manager::reloadscript(const char* uiname) {
   }
   return false;
 }
+
+CEGUI::Window* Manager::get_clientscreen() {
+  return background_sheet_;
+}
+
+
 
 } //namespace vgui_window
