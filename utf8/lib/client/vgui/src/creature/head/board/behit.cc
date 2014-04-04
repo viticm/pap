@@ -1,6 +1,9 @@
 #include "CEGUIWindowManager.h"
+#include "FalagardBeHitBoard.h"
 #include "vengine/time/system.h"
 #include "vgui/string/system.h"
+#include "vgui/creature/head/board/behit_manager.h"
+#include "vgui/creature/head/board/system.h"
 #include "vgui/creature/head/board/behit.h"
 
 namespace vgui_creature {
@@ -16,7 +19,7 @@ BeHit::BeHit() {
 }
 
 BeHit::~BeHit() {
-  is_inuse_(false);
+  is_inuse_= false;
   CEGUI::WindowManager::getSingleton().destroyWindow(windowname_);
 }
 
@@ -50,7 +53,7 @@ void BeHit::resetdata(const char* text) {
     ->SetTextColor(colortype_);
   (dynamic_cast<CEGUI::IFalagardBeHitBoard*>
    (dynamic_cast<CEGUI::FalagardBeHitBoard*>(window_)))
-    setTextScale(scale_, scale_);
+    ->setTextScale(scale_, scale_);
   window_->setText(str);
   //如果渐变消失属性设置为false，则一定要重新设置alpha的值，否则会导致冒字不显示
   if (!alphamode_) {
@@ -92,7 +95,7 @@ void BeHit::update() {
     position.d_y = float(starty_);
     (dynamic_cast<CEGUI::IFalagardBeHitBoard*> 
      (dynamic_cast<CEGUI::FalagardBeHitBoard*>(window_))) 
-      setDisplayCenter(position.d_x, position.d_y);
+      ->setDisplayCenter(position.d_x, position.d_y);
     if (alphamode_) window_->setAlpha(alpha_);
   }
 }
@@ -100,10 +103,10 @@ void BeHit::update() {
 void BeHit::inuse(bool flag) {
   is_inuse_ = flag;
   if (is_inuse_) {
-    System::get_clientscreen()->add_childwindow(window_);
+    System::get_clientscreen()->addChildWindow(window_);
   }
   else {
-    System::get_clientscreen()->remove_childwindow(window_);
+    System::get_clientscreen()->removeChildWindow(window_);
   }
 }
 

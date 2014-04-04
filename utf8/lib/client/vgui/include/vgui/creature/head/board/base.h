@@ -12,7 +12,7 @@
 #ifndef VGUI_CREATURE_HEAD_BOARD_BASE_H_
 #define VGUI_CREATURE_HEAD_BOARD_BASE_H_
 
-#include "vengine/ui/character_headboard.h"
+#include "vengine/ui/creature_headboard.h"
 #include "vgui/config.h"
 #include "vgui/string/system.h"
 
@@ -29,10 +29,10 @@ typedef enum {
   kPlayerInfoStateDie
 } playerinfo_state_enum;
 
-class Base : public vengine_ui::CharacterHeadBoard {
+class Base : public vengine_ui::CreatureHeadBoard {
 
  public:
-   typedef enum {
+   enum titletype_enum {
      kTitleTypeDimness,
      kTitleTypeCountry,
      kTitleTypeGuild,
@@ -42,14 +42,14 @@ class Base : public vengine_ui::CharacterHeadBoard {
      kTitleTypeMood,
      kTitleTypePlayerShop,
      kTitleTypeMax
-   } titletype_enum; //称号类型 
+   }; //称号类型 
    
-   typedef enum {
+   enum guild_position_enum {
      kGuildPositionNone,
      kGuildPositionExcellence, //精英
      kGuildPositionOfficeholder, //官员
      kGuildPositionChairman, //帮主
-   } guild_position_enum;
+   };
 
  public: //--implement abstract class
    virtual void destroy();
@@ -79,6 +79,7 @@ class Base : public vengine_ui::CharacterHeadBoard {
    CEGUI::Window* get_mainwindow();
    void set_titletype(uint8_t type);
    void set_guildpposition(uint8_t position);
+   bool handle_salesign_clicked(const CEGUI::EventArgs& event);
 
  protected:
    //必须显示
@@ -98,7 +99,7 @@ class Base : public vengine_ui::CharacterHeadBoard {
 
    //图标
    CEGUI::Window* countryflag_; //国家
-   CEGUI::Window* leaderflag_; //队长
+   CEGUI::Window* leaderflag_window_; //队长
    CEGUI::Window* pkwindow_; //PK
 
    //其他

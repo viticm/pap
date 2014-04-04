@@ -15,7 +15,7 @@
 #include "vgui/config.h"
 #include "vgui/creature/head/board/behit.h"
 
-namespace vgui_character {
+namespace vgui_creature {
 
 namespace head_board {
 

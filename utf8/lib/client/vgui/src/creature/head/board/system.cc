@@ -28,9 +28,9 @@ void System::init() {
 	groundsheet_ = CEGUI::WindowManager::getSingleton().createWindow(
       (CEGUI::utf8*)"DefaultGUISheet", 
       (CEGUI::utf8*)"__CREATUREBOARDSHEET__");
-  groundsheet->setMouseHollow(true);
-  if (vgui_base::get_clientscreen()) {
-    vgui_base::get_clientscreen()->addChildWindow(groundsheet_);
+  groundsheet_->setMouseHollow(true);
+  if (vgui_base::System::get_clientscreen()) {
+    vgui_base::System::get_clientscreen()->addChildWindow(groundsheet_);
     groundsheet_->setProperty("RiseOnClick", "False");
     groundsheet_->moveToBack();
   }

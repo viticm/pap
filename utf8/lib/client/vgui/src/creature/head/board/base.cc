@@ -14,12 +14,13 @@
 #include "FalButton.h"
 
 #include "vengine/db/system.h"
+#include "vengine/game/interface.h"
 #include "vengine/db/struct/all.h"
 #include "vgui/window/manager.h"
 #include "vgui/creature/head/board/behit.h"
 #include "vgui/creature/head/board/behit_manager.h"
 #include "vgui/creature/head/board/system.h"
-
+#include "vgui/base/system.h"
 #include "vgui/creature/head/board/base.h"
 
 namespace vgui_creature {
@@ -86,7 +87,7 @@ Base::Base(int32_t index) {
   salewindow_ = CEGUI::WindowManager::getSingleton().getWindow(
     window_->getName() + "__auto_salessign__");
   salewindow_->subscribeEvent(CEGUI::PushButton::EventClicked, 
-    CEGUI::Event::Subscriber(&handle_salesign_clicked, this));
+    CEGUI::Event::Subscriber(&Base::handle_salesign_clicked, this));
 
 
   //国家称号
@@ -103,14 +104,14 @@ Base::Base(int32_t index) {
 
   //国家标记
   countryflag_ = CEGUI::WindowManager::getSingleton().getWindow(
-    windowname_->getName() + "__auto_countryflag__");
+    window_->getName() + "__auto_countryflag__");
 
   //帮派权限小图标
   guildflag_ = CEGUI::WindowManager::getSingleton().getWindow(
     window_->getName() + "__auto_bangpaiflag__");
 
   //队长标志
-  leaderflag_ = CEGUI::WindowManager::getSingleton().getWindow(
+  leaderflag_window_ = CEGUI::WindowManager::getSingleton().getWindow(
     window_->getName() + "__auto_leaderflag__");
 
   // 聊天泡泡
@@ -152,7 +153,7 @@ void Base::reset() {
   titlewindow_->hide();
 
   countryflag_->hide();
-  leaderflag_->hide();
+  leaderflag_window_->hide();
   guildflag_->hide();
   pkwindow_->hide();
 
@@ -271,7 +272,7 @@ void Base::setposition(float x, float y) {
   }
 
   //称号
-  if (title_ && !(titlewindow_.getText().empty())) {
+  if (title_ && !(titlewindow_->getText().empty())) {
     point.d_y = _y + offset;
     (dynamic_cast<CEGUI::IFalagardSelfFitWindow*>(
       dynamic_cast<CEGUI::FalagardSelfFitWindow*>(titlewindow_)))
@@ -306,7 +307,7 @@ void Base::setposition(float x, float y) {
     pksize = CEGUI::AnimateManager::getSingleton().getAnimate(
         (CEGUI::utf8*)"questsign_accept" )->getSize();
     pkwindow_->setSize(CEGUI::Absolute, pksize);
-    pkwindow_->>setPosition(CEGUI::Absolute, point);
+    pkwindow_->setPosition(CEGUI::Absolute, point);
   }
   
   //国家标识
@@ -314,7 +315,7 @@ void Base::setposition(float x, float y) {
   point = namewindow_->getAbsolutePosition();
 
   point.d_x -= size.d_height;
-  countryflag_->setposition(CEGUI::Absolute, point);
+  countryflag_->setPosition(CEGUI::Absolute, point);
 
   size.d_width = size.d_height;
   countryflag_->setSize(CEGUI::Absolute, size);
@@ -325,9 +326,9 @@ void Base::setposition(float x, float y) {
   CEGUI::Size leveltext_size = leveltext_window_->getAbsoluteSize();
   point.d_x += size.d_width;
   point.d_y += leveltext_size.d_width;
-  leaderflag_->setPosition(CEGUI::Absolute, point);
+  leaderflag_window_->setPosition(CEGUI::Absolute, point);
   size.d_width = size.d_height;
-  leaderflag_->setSize(CEGUI::Absolute, size);
+  leaderflag_window_->setSize(CEGUI::Absolute, size);
 
   //帮派权限图标标的位置
   size = namewindow_->getAbsoluteSize();
@@ -340,7 +341,7 @@ void Base::setposition(float x, float y) {
   //透明度设置
   countryflag_->setAlpha(alpha);
   guildflag_->setAlpha(alpha);
-  leaderflag_->setAlpha(alpha);
+  leaderflag_window_->setAlpha(alpha);
   pkwindow_->setAlpha(alpha);
   salewindow_->setAlpha(alpha);
   namewindow_->setAlpha(alpha);
@@ -450,7 +451,7 @@ void Base::setname(const char* name) { //设置名字
 }
 
 void Base::set_HPprogress(uint32_t now, uint32_t max) { //设置
-  if (0 == hp || 0 == max) {
+  if (0 == now || 0 == max) {
     hpprogross_ = 1.0f;
   }
   else {
@@ -477,7 +478,7 @@ void Base::setlevel(uint8_t level, uint8_t type) {
 }
 
 void Base::set_paopao_text(const char* paopao) {
-  if (!vgui_base::System::getself()->is_paopap_active()) return;
+  if (!vgui_base::System::getself()->is_paopao_active()) return;
   CEGUI::String32 str;
   vgui_string::System::getself()->parsestring_runtime(paopao, str);
   if (paopao_) {
@@ -549,7 +550,7 @@ void Base::settitle(const char* name, uint8_t type) { //设置称号
 
   STRING colortitle;
   CEGUI::String32 str;
-  colortitle = title;
+  colortitle = name;
   titletype_ = type;
   vgui_string::System::getself()->parsestring_runtime(colortitle.c_str(), str);
 
@@ -578,7 +579,7 @@ void Base::settitle(const char* name, uint8_t type) { //设置称号
             guildflag_->hide();
             break;
           }
-         case kGuildPositionExcellence: { //帮主
+         case kGuildPositionChairman: { //帮主
             ((CEGUI::StaticImage*)guildflag_)->setImage(
               (CEGUI::utf8*)"common2", 
               (CEGUI::utf8*)"Captain_Icon");
@@ -607,20 +608,20 @@ void Base::set_leaderflag(bool flag, uint8_t type) {
     return;
   }
   if (0 == type) {
-    ((CEGUI::StaticImage*)leaderflag_)->setImage(
+    ((CEGUI::StaticImage*)leaderflag_window_)->setImage(
       (CEGUI::utf8*)"UIIcons",
       (CEGUI::utf8*)"Confraternity_Class2");
   }
   else if (1 == type) {
-    ((CEGUI::StaticImage*)leaderflag_)->setImage(
+    ((CEGUI::StaticImage*)leaderflag_window_)->setImage(
       (CEGUI::utf8*)"UIIcons",
       (CEGUI::utf8*)"Icon_Captain_1");
   }
   if (flag) {
-    if (false == showstall_) leaderflag_->show();
+    if (false == showstall_) leaderflag_window_->show();
   }
   else {
-    leaderflag_->hide();
+    leaderflag_window_->hide();
   }
 }
 
@@ -672,7 +673,7 @@ void Base::set_pkflag(uint8_t type, uint8_t state, bool flag) {
 }
 
 void Base::set_saletext(const char* text) {
-  CEGUI::String32 str;
+  CEGUI::String str;
   vgui_string::System::mbcs_to_utf8(text, str);
   if (salewindow_ != NULL) salewindow_->setText(str);
 }
@@ -699,7 +700,7 @@ bool Base::handle_salesign_clicked(const CEGUI::EventArgs& event) {
 
 void Base::update_nameelement() {
   if (name_.empty()) {
-    namewindow_->>setText("");
+    namewindow_->setText("");
     window_->hide();
     return;
   }
@@ -735,7 +736,7 @@ void Base::showstall(bool isself) {
   countrytitle_window_->hide();
   guildtitle_window_->hide();
   titlewindow_->hide();
-  leaderflag_->hide();
+  leaderflag_window_->hide();
   guildflag_->hide();
   pkwindow_->hide();
   countryflag_->hide();

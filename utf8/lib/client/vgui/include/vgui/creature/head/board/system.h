@@ -41,7 +41,7 @@ class System {
    void tick();
 
  public:
-   System* self_;
+   static System* self_;
 
  public:
    static CEGUI::Window* get_clientscreen();

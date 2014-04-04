@@ -1,4 +1,7 @@
+#include "CEGUIWindowManager.h"
+#include "FalagardBeHitBoard.h"
 #include "vgui/creature/head/board/behit_manager.h"
+
 
 namespace vgui_creature {
 
@@ -56,7 +59,7 @@ BeHitManager::~BeHitManager() {
       item = NULL;
     }
   }
-  return windowlist_.clear();
+  windowlist_.clear();
 }
 
 //一个没有用得窗口
@@ -65,7 +68,7 @@ BeHit* BeHitManager::get_freewindow() {
   for (iterator = windowlist_.begin(); 
        iterator != windowlist_.end();
        ++iterator) {
-    if (false == (*iterator)->is_inuse) {
+    if (false == (*iterator)->is_inuse()) {
       return (*iterator);
     }
   }
