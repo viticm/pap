@@ -15,7 +15,7 @@
 namespace ui {
 
 const uint16_t kLayoutDefineId = 801;
-typedef struct {
+struct layoutdefine_t {
   uint16_t id;
   const char* name;
   const char* layout;
@@ -26,7 +26,7 @@ typedef struct {
   const char* defaultposition;
   const char* help;
   const char* description;
-} layoutdefine_t;
+};
 
 }; //namespace ui
 

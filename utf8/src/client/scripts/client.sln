@@ -19,7 +19,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cegui_ogrerenderer", "..\..
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fairycore", "..\..\..\lib\client\FairyCore\scripts\FairyCore.vc9.vcproj", "{60D1A2F1-DBC1-4C6D-8274-25C73E81DD5C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "luaplus", "..\..\..\lib\client\LuaPlus\scripts\LuaPlus.vc9.vcproj", "{1658EB2F-8E9F-4D28-85AC-633F0F4C82D4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaPlus", "..\..\..\lib\client\LuaPlus\scripts\LuaPlus.vc9.vcproj", "{1658EB2F-8E9F-4D28-85AC-633F0F4C82D4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Plugin_CgProgramManager", "..\..\..\lib\client\Ogre\vc_build\PlugIns\CgProgramManager\Plugin_CgProgramManager.vc9.vcproj", "{39AEC0B0-FF4D-4848-8BCA-4162E431FD83}"
 EndProject
@@ -47,6 +47,14 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Opcode", "..\..\..\lib\client\Opcode\scripts\Opcode.vc9.vcproj", "{FD449C37-B1EC-4A35-9300-1EA7A273158B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vengine", "..\..\..\lib\client\vengine\scripts\vengine.vc9.vcproj", "{8CA4AA89-654D-468B-A6D8-E42421001D87}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vgui", "..\..\..\lib\client\vgui\scripts\vgui.vc9.vcproj", "{52608C89-4B8F-44A6-A984-8877E8DB8D03}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E1A62A24-FF2E-4B16-A128-862A8F655E06} = {E1A62A24-FF2E-4B16-A128-862A8F655E06}
+		{1658EB2F-8E9F-4D28-85AC-633F0F4C82D4} = {1658EB2F-8E9F-4D28-85AC-633F0F4C82D4}
+		{232B1F48-87C1-4EF9-98A2-CF675BAC7A54} = {232B1F48-87C1-4EF9-98A2-CF675BAC7A54}
+		{6CECADEF-C6B4-4A19-8A70-F30C161682C9} = {6CECADEF-C6B4-4A19-8A70-F30C161682C9}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -262,6 +270,18 @@ Global
 		{8CA4AA89-654D-468B-A6D8-E42421001D87}.ReleaseWithSymbol|Win32.Build.0 = Release|Win32
 		{8CA4AA89-654D-468B-A6D8-E42421001D87}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
 		{8CA4AA89-654D-468B-A6D8-E42421001D87}.RelWithDebInfo|Win32.Build.0 = Release|Win32
+		{52608C89-4B8F-44A6-A984-8877E8DB8D03}.Debug|Win32.ActiveCfg = Debug|Win32
+		{52608C89-4B8F-44A6-A984-8877E8DB8D03}.Debug|Win32.Build.0 = Debug|Win32
+		{52608C89-4B8F-44A6-A984-8877E8DB8D03}.Final|Win32.ActiveCfg = ReleaseWithSymbol|Win32
+		{52608C89-4B8F-44A6-A984-8877E8DB8D03}.Final|Win32.Build.0 = ReleaseWithSymbol|Win32
+		{52608C89-4B8F-44A6-A984-8877E8DB8D03}.MinSizeRel|Win32.ActiveCfg = ReleaseWithSymbol|Win32
+		{52608C89-4B8F-44A6-A984-8877E8DB8D03}.MinSizeRel|Win32.Build.0 = ReleaseWithSymbol|Win32
+		{52608C89-4B8F-44A6-A984-8877E8DB8D03}.Release|Win32.ActiveCfg = Release|Win32
+		{52608C89-4B8F-44A6-A984-8877E8DB8D03}.Release|Win32.Build.0 = Release|Win32
+		{52608C89-4B8F-44A6-A984-8877E8DB8D03}.ReleaseWithSymbol|Win32.ActiveCfg = ReleaseWithSymbol|Win32
+		{52608C89-4B8F-44A6-A984-8877E8DB8D03}.ReleaseWithSymbol|Win32.Build.0 = ReleaseWithSymbol|Win32
+		{52608C89-4B8F-44A6-A984-8877E8DB8D03}.RelWithDebInfo|Win32.ActiveCfg = ReleaseWithSymbol|Win32
+		{52608C89-4B8F-44A6-A984-8877E8DB8D03}.RelWithDebInfo|Win32.Build.0 = ReleaseWithSymbol|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

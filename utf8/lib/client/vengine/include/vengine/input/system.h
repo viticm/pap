@@ -230,6 +230,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    virtual bool is_eventexist(eventid_enum id) = 0;
    //捕获状态
    virtual capturestatus_enum getcapture() = 0;
+   virtual void setcapture(capturestatus_enum type) = 0;
    //处理windows消息
    virtual bool messageprocess(HWND hwnd, 
                                uint32_t message, 

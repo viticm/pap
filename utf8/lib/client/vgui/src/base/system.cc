@@ -37,21 +37,30 @@
 #include "vengine/game/action/system.h"
 #include "vengine/time/system.h"
 #include "vengine/capability/profile.h"
-#include "vengine/game/eventdefine.h"
+#include "vengine/capability/debuger.h"
 #include "vengine/game/object/fakesystem.h"
 #include "vengine/game/interface.h"
 #include "vengine/game/worldsystem.h"
-#include "vengine/db/struct/all.h"
+#include "vengine/ui/creature_headboard.h"
+#include "vengine/db/system.h"
+#include "vengine/variable/base.h"
 
 #include "vgui/script/base.h"
 #include "vgui/icon/manager.h"
+#include "vgui/window/manager.h"
 #include "vgui/string/system.h"
 #include "vgui/creature/head/board/system.h"
 #include "vgui/base/system.h"
+//defines in last, remember
+#include "vengine/game/eventdefine.h"
+#include "vengine/db/struct/all.h"
 
 namespace vgui_base {
 
-VENGINE_KERNEL_IMPLEMENT_DYNAMIC(System);
+VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
+  System,
+  VENGINE_KERNEL_GETCLASS(vengine_ui::System));
+
 System* System::self_ = NULL;
 
 System::System() {
@@ -68,7 +77,7 @@ System::~System() {
 }
 
 void System::injectinput() {
-  CEGUI::System& ceguiSystem = CEGUI::System::getSingleton();
+  CEGUI::System& cegui_system = CEGUI::System::getSingleton();
   vengine_input::eventqueue& eventqueue = g_inputsystem->get_eventqueue();
   POINT point = g_inputsystem->get_mousepostion();
   uint32_t i;
@@ -96,7 +105,7 @@ void System::injectinput() {
             CEGUI::WindowManager::getSingleton().getWindow(
                 buttonname_indragging_);
           if (button_indragging) {
-            CEGUI::Window* window = cegui_system_.getTargetWindow(CEGUI::Point(
+            CEGUI::Window* window = cegui_system.getTargetWindow(CEGUI::Point(
                   static_cast<float>(point.x), static_cast<float>(point.y)));
             if (window) {
               on_dragend(window);
@@ -104,7 +113,7 @@ void System::injectinput() {
             }
           }
           else {
-            if (cegui_system_.injectMouseButtonDown(CEGUI::LeftButton))
+            if (cegui_system.injectMouseButtonDown(CEGUI::LeftButton))
               event.processed = true;
           }
         }
@@ -112,7 +121,7 @@ void System::injectinput() {
       }
       case vengine_input::kEventId_MOUSE_LBUP: {
         if (CEGUI::Window::getCaptureWindow()) {
-          if (ceguiSystem.injectMouseButtonUp(CEGUI::LeftButton)) {
+          if (cegui_system.injectMouseButtonUp(CEGUI::LeftButton)) {
             event.processed = true;
             //捕获本桢鼠标click事件
             for (uint32_t j = 0; 
@@ -131,7 +140,7 @@ void System::injectinput() {
             CEGUI::WindowManager::getSingleton().getWindow(
                 buttonname_indragging_);
           if (button_indragging) {
-            CEGUI::Window* window = cegui_system_.getTargetWindow(CEGUI::Point(
+            CEGUI::Window* window = cegui_system.getTargetWindow(CEGUI::Point(
                   static_cast<float>(point.x), static_cast<float>(point.y)));
             if (window && 
                 window->testClassName((CEGUI::utf8*)"FalagardActionButton")) {
@@ -143,7 +152,7 @@ void System::injectinput() {
         break;
       }
       case vengine_input::kEventId_MOUSE_LBCLICK: {
-        if (ceguiSystem.injectMouseButtonUp(CEGUI::LeftButton)) {
+        if (cegui_system.injectMouseButtonUp(CEGUI::LeftButton)) {
           event.processed = true;
           //捕获本桢鼠标click事件
           for (uint32_t j = 0; 
@@ -158,12 +167,12 @@ void System::injectinput() {
         break;
       }
       case vengine_input::kEventId_MOUSE_RBDOWN: {
-        if (cegui_system_.injectMouseButtonDown(CEGUI::RightButton))
+        if (cegui_system.injectMouseButtonDown(CEGUI::RightButton))
           event.processed = true;
         break;
       }
       case vengine_input::kEventId_MOUSE_RBCLICK: {
-        if (cegui_system_.injectMouseButtonUp(CEGUI::RightButton)) {
+        if (cegui_system.injectMouseButtonUp(CEGUI::RightButton)) {
           event.processed = true;
           //捕获本桢鼠标click事件
           for (uint32_t j = 0; 
@@ -180,11 +189,11 @@ void System::injectinput() {
         break;
       }
       case vengine_input::kEventId_MOUSE_RBUP: {
-        if (cegui_system_.injectMouseButtonUp(CEGUI::RightButton))
+        if (cegui_system.injectMouseButtonUp(CEGUI::RightButton))
           event.processed = true;
         break;
       }
-      case vengine_input::kEventId__MOUSE_LBDOWNREPEAT:
+      case vengine_input::kEventId_MOUSE_LBDOWNREPEAT:
         break;
       default:
         break;
@@ -197,7 +206,7 @@ void System::injectinput() {
         
       }
       else { //对于未加handle的mouse event，根据位置判断是否应该捕获
-        CEGUI::Window* window = cegui_system_.getTargetWindow(CEGUI::Point(
+        CEGUI::Window* window = cegui_system.getTargetWindow(CEGUI::Point(
               static_cast<float>(point.x), static_cast<float>(point.y)));
         if (vengine_input::kEventId_MOUSE_LBDOWN == event.id ||
             vengine_input::kEventId_MOUSE_LBUP == event.id ||
@@ -227,11 +236,13 @@ void System::injectinput() {
   } //for loop
 }
 
-bool Sytem::messageprocess(HWND hwnd, 
+bool System::messageprocess(HWND hwnd, 
                            uint32_t message, 
                            WPARAM wparam, 
                            LPARAM lparam) { //文字输入消息
-  bool result = Ime::ImeMsgProc(message, wparam, lparam);
+  bool result = Ime::ImeMsgProc(message, 
+                                static_cast<uint32_t>(wparam), 
+                                static_cast<uint32_t>(lparam));
   return result;
 }
 
@@ -244,6 +255,9 @@ bool System::is_mousehover() {
   }
   POINT point = g_inputsystem->get_mousepostion();
   CEGUI::System& cegui_system = CEGUI::System::getSingleton();
+  CEGUI::Window* window = cegui_system.getTargetWindow(
+    CEGUI::Point(
+    static_cast<float>(point.x), static_cast<float>(point.y)), 0);
   if (window && 
       !(window->getMouseHollow() || window->getMouseLButtonHollow())) {
     if (window->testClassName((CEGUI::utf8*)"FalagardChatBoard") && 
@@ -286,7 +300,7 @@ STRING System::get_chatboard_hyplink_content(int64_t x, int64_t y) {
             static_cast<float>(x), 
             static_cast<float>(y)));
     STRING mbcs;
-    vgui_script::System::utf8_to_mbcs(str, mbcs);
+    vgui_string::System::utf8_to_mbcs(str.c_str(), mbcs);
     return mbcs;
   }
   return STRING("");
@@ -300,16 +314,16 @@ void System::init(void*) {
   g_game_eventsystem = dynamic_cast<vengine_game::EventSystem*>(
       g_kernel->getnode("bin\\event"));
   VENGINE_ASSERT(g_game_eventsystem);
-  g_game_actionsystem = dynamic_cast<vengine_game::action::Sytem*>(
+  g_game_actionsystem = dynamic_cast<vengine_game::action::System*>(
       g_kernel->getnode("bin\\action"));
   VENGINE_ASSERT(g_game_actionsystem);
   g_inputsystem = dynamic_cast<vengine_input::System*>( 
       g_kernel->getnode("bin\\input"));
   VENGINE_ASSERT(g_inputsystem);
-  g_rendersystem = dynamic_cast<vengine_game::action::Sytem*>(
+  g_rendersystem = dynamic_cast<vengine_render::System*>(
       g_kernel->getnode("bin\\gfx"));
   VENGINE_ASSERT(g_rendersystem);
-  g_game_objectsystem = dynamic_cast<vengine_game::object::System*>(
+  g_game_objectsystem = dynamic_cast<vengine_game::object::BaseSystem*>(
       g_kernel->getnode("bin\\objman"));
   VENGINE_ASSERT(g_game_objectsystem);
   g_cursorsystem = dynamic_cast<vengine_cursor::System*>(
@@ -327,10 +341,10 @@ void System::init(void*) {
   g_game_fake_objectsystem = dynamic_cast<vengine_game::object::FakeSystem*>(
       g_kernel->getnode("bin\\fake"));
   VENGINE_ASSERT(g_game_fake_objectsystem);
-  g_variablesystem = dynamic_cast<vengine_variable::System*>( 
+  g_variablesystem = dynamic_cast<vengine_variable::Base*>( 
       g_kernel->getnode("bin\\var"));
   VENGINE_ASSERT(g_variablesystem);
-  g_databasesystem = dynamic_cast<vengine_variable::System*>(
+  g_databasesystem = dynamic_cast<vengine_db::System*>(
       g_kernel->getnode("bin\\dbc"));
   VENGINE_ASSERT(g_databasesystem);
   g_soundsystem = dynamic_cast<vengine_sound::System*>(
@@ -365,19 +379,19 @@ void System::init(void*) {
   //挂接超连接管理器
   CEGUI::HyperLinkManager::getSingleton().subscribeEvent(
       "HyperLinkActive",
-      CEGUI::Event::Subscriber(&handle_hyperlink_active, 
+      CEGUI::Event::Subscriber(&System::handle_hyperlink_active, 
         getself()));
   CEGUI::HyperLinkManager::getSingleton().subscribeEvent(
       "HyperLinkLeftActive",
-      CEGUI::Event::Subscriber(&handle_hyperlink_leftactive, 
+      CEGUI::Event::Subscriber(&System::handle_hyperlink_leftactive, 
         getself()));
   CEGUI::HyperLinkManager::getSingleton().subscribeEvent(
       "HyperLinkRightActive",
-      CEGUI::Event::Subscriber(&handle_hyperlink_rightactive, 
+      CEGUI::Event::Subscriber(&System::handle_hyperlink_rightactive, 
         getself()));
   CEGUI::HyperLinkManager::getSingleton().subscribeEvent(
       "HyperLinkInactive",
-      CEGUI::Event::Subscriber(&handle_hyperlink_inactive, 
+      CEGUI::Event::Subscriber(&System::handle_hyperlink_inactive, 
         getself()));
   //初始化动画管理器
   new CEGUI::AnimateManager( "schema\\wowanimate.xml");
@@ -402,7 +416,7 @@ void System::init(void*) {
   //初始化角色信息板管理器
   creature_headboard_system_ = new vgui_creature::head_board::System();
   VENGINE_ASSERT(creature_headboard_system_);
-  creature_headboardsystem_->init();
+  creature_headboard_system_->init();
 
   //创建地图探灯
   const char* maplight_name = "MapLight_RenderTexture";
@@ -424,7 +438,7 @@ void System::init(void*) {
       CEGUI::Point(0.0f,0.0f));
   buttonname_indragging_ = "";
   RECT rect;
-  get_clientrect(g_mainwindow_handle, &rect);
+  GetClientRect(g_mainwindow_handle, &rect);
   //聊天窗口
   g_game_eventsystem->push(vengine_game::event_id::kUIChatAdjustMoveCtl, 
                            rect.right - rect.left,
@@ -432,12 +446,12 @@ void System::init(void*) {
 }
 
 void System::release() {
-  if (creature_headboardsystem_) creature_headboardsystem_->release();
-  SAFE_DELETE(creature_headboardsystem_);
+  if (creature_headboard_system_) creature_headboard_system_->release();
+  SAFE_DELETE(creature_headboard_system_);
   SAFE_DELETE(iconmanager_);
   SAFE_DELETE(windowmanager_);
   SAFE_DELETE(stringsystem_);
-  SAFE_DELETE(CEGUI::AnimateManager::getSingletonPtr());
+  delete CEGUI::AnimateManager::getSingletonPtr();
   Ime::UninitializeImm();
   SAFE_DELETE(cegui_system_);
   SAFE_DELETE(cegui_render_);
@@ -453,12 +467,12 @@ void System::tick() {
   }
   
   if (CEGUI::System::getSingletonPtr()) {
-     CEGUI::System::getSingleton().injectTimePulse(g_timesystem->CalSubTime(
+     CEGUI::System::getSingleton().injectTimePulse(g_timesystem->get_difftime(
            lasttime, nowtime) / 1000.0f);
   }
   lasttime = nowtime;
-  if (creature_headboardsystem_) creature_headboardsystem_->tick();
-  static last_freetime = g_timesystem->get_nowtime();
+  if (creature_headboard_system_) creature_headboard_system_->tick();
+  static uint32_t last_freetime = g_timesystem->get_nowtime();
   if (g_timesystem->get_difftime(last_freetime, nowtime) > 6000) { 
     //每分钟释放一次
     CEGUI::ImagesetManager::getSingleton().FreeUnuseImageset();
@@ -479,7 +493,7 @@ void System::on_windowsize_change(uint32_t message,
   if (windowmanager_) windowmanager_->on_sizechange();
 }
 
-bool System::handle_action_dragdrop_started(const CEGUI::EventArgs event) {
+bool System::handle_action_dragdrop_started(const CEGUI::EventArgs& event) {
   const CEGUI::WindowEventArgs& eventwindow = 
     (const CEGUI::WindowEventArgs&)event;
   CEGUI::Window* window = eventwindow.window;
@@ -489,7 +503,7 @@ bool System::handle_action_dragdrop_started(const CEGUI::EventArgs event) {
   return false;
 }
 
-bool System::handle_actionbutton_mouseenter(const CEGUI::EventArgs event) { 
+bool System::handle_actionbutton_mouseenter(const CEGUI::EventArgs& event) { 
   const CEGUI::WindowEventArgs& eventwindow =
     (const CEGUI::WindowEventArgs&)event;
   CEGUI::Window* window = eventwindow.window;
@@ -504,7 +518,7 @@ bool System::handle_actionbutton_mouseenter(const CEGUI::EventArgs event) {
   vengine_game::action::Item* actionitem = g_game_actionsystem->get(
       (int32_t)(int32_t*)button->getLogicItemData());
   if (actionitem) {
-    if (vengine_game::action::kOperateTypeChatMood == actionitem->gettype()) {
+    if (vengine_game::action::kOperateTypeChatMood == actionitem->get_operatetype()) {
       STRING tip = actionitem->getname();
       CEGUI::String32 str;
       vgui_string::System::getself()->parsestring_runtime(tip, str);
@@ -565,7 +579,7 @@ bool System::handle_meshwindow_shown(const CEGUI::EventArgs& event) {
   if (!(window->testClassName((CEGUI::utf8*)"FalagardMeshWindow"))) 
     return false;
   CEGUI::Size size = window->getAbsoluteSize();
-  g_game_fake_objectsystem->on_ui_shown(window->getName(), 
+  g_game_fake_objectsystem->on_ui_shown(window->getName().c_str(), 
                                         size.d_width / size.d_height);
   return false;
 }
@@ -584,7 +598,7 @@ void System::on_dragbegin(CEGUI::FalagardActionButton* draggingbutton) {
   CEGUI::IFalagardActionButton* button = 
     dynamic_cast<CEGUI::IFalagardActionButton*>(draggingbutton);
   vengine_game::action::Item* actionitem = g_game_actionsystem->get(
-      static_cast<int32_t>(button->getLogicItemData()));
+      (int32_t)(int32_t*)button->getLogicItemData());
   if (!actionitem) return;
   //ui捕获输入
   g_inputsystem->setcapture(vengine_input::kCaptureStatusUI);
@@ -623,7 +637,7 @@ void System::on_dragend(CEGUI::Window* targetwindow) {
     //如果被拖入一个actionbutton上，取得该ActionButton的DragAcceptName
     CEGUI::IFalagardActionButton* targetbutton = NULL;
     if (targetwindow && 
-        targetwindow->testClassName((CEGUI::utf8*)"FalagardActionButton") {
+        targetwindow->testClassName("FalagardActionButton")) {
       targetbutton = 
         dynamic_cast<CEGUI::IFalagardActionButton*>(
           dynamic_cast<CEGUI::FalagardActionButton*>(targetwindow));
@@ -631,7 +645,7 @@ void System::on_dragend(CEGUI::Window* targetwindow) {
     }
     //通知逻辑系统
     vengine_game::action::Item* actionitem = g_game_actionsystem->get(
-      static_cast<int32_t>(button->getLogicItemData()));
+      (int32_t)(int32_t*)(button->getLogicItemData()));
     if (actionitem) {
       actionitem->notify_dragdrop_dragged(
         bedestroy, 
@@ -645,7 +659,7 @@ void System::on_dragend(CEGUI::Window* targetwindow) {
 
   CEGUI::WindowManager::WindowIterator iterator = 
     CEGUI::WindowManager::getSingleton().getIterator();
-  for (iterator.toStart(); !iterator.toAtEnd(); ++iterator) {
+  for (iterator.toStart(); !iterator.isAtEnd(); ++iterator) {
     CEGUI::Window* window = iterator.getCurrentValue();
     if (window && 
         window->isVisible() && 
@@ -660,7 +674,7 @@ void System::on_dragend(CEGUI::Window* targetwindow) {
 
 vengine_ui::CreatureHeadBoard* System::create_creature_headboard() {
   vengine_ui::CreatureHeadBoard* board;
-  board = creature_headboardsystem_->create();
+  board = (vengine_ui::CreatureHeadBoard*)creature_headboard_system_->create();
   return board;
 }
 void System::add_behit_board(bool _double, 
@@ -669,7 +683,7 @@ void System::add_behit_board(bool _double,
                              float starty, 
                              uint8_t type, 
                              uint8_t movetype) {
-  creature_headboardsystem_->add_new_behit(_double,
+  creature_headboard_system_->add_new_behit(_double,
                                            info,
                                            startx,
                                            starty,
@@ -730,9 +744,10 @@ void System::fakeobject_destroy(const char* windowname, const char* name) {
 
 void System::debug_save_fonttexture() {
   ::CreateDirectory("debugsave", NULL);
+
   CEGUI::FontManager* fontmanager = CEGUI::FontManager::getSingletonPtr();
   CEGUI::FontManager::FontIterator iterator = fontmanager->getIterator();
-  if (iterator.toStart(); !iterator.toAtEnd(); ++iterator) {
+  for (iterator.toStart(); !iterator.isAtEnd(); ++iterator) {
     const CEGUI::String& name = iterator.getCurrentKey();
     CEGUI::FontBase* font = iterator.getCurrentValue();
     char fontout[MAX_PATH] = {0};
@@ -743,7 +758,8 @@ void System::debug_save_fonttexture() {
     int32_t shouldlength = font->debug_GetFontImageset(imagesets);
     uint32_t i;
     for (i = 0; i < static_cast<uint32_t>(imagesets.size()); ++i) {
-      const CEGUI::OgreCEGUITexture* texture = imagesets[i]->getTexture();
+      const CEGUI::OgreCEGUITexture* texture = 
+        (const CEGUI::OgreCEGUITexture*)imagesets[i]->getTexture();
       const Ogre::TexturePtr ogretexture = texture->getOgreTexture();
       const Ogre::HardwarePixelBufferSharedPtr pixelbuffer =
         ogretexture->getBuffer(0, 0);
@@ -780,7 +796,7 @@ STRING System::parsestring_varparam(const char* id, ...) {
   return str;
 }
 
-void System::parsestring_nocolor(const STRING& in, STRING& out, control) { 
+void System::parsestring_nocolor(const STRING& in, STRING& out, bool control) { 
   if (stringsystem_) stringsystem_->parsestring_nocolor(in, out, control);
 }
 
@@ -805,7 +821,7 @@ STRING System::parsestring_no_varparam(const char* id) {
 STRING System::parsestring_nocolor_no_varparam(const char* id) {
   STRING str;
   if (stringsystem_) {
-    str_hascolor = stringsystem_->parsestring_no_varparam(id);
+    STRING str_hascolor = stringsystem_->parsestring_no_varparam(id);
     stringsystem_->parsestring_nocolor(str_hascolor, str);
   }
   return str;
@@ -821,11 +837,11 @@ bool System::handle_hyperlink_active(const CEGUI::EventArgs& event) {
 }
 
 bool System::handle_hyperlink_leftactive(const CEGUI::EventArgs& event) { 
-  CEGUI::HyperLinkEventArgs& hyperlink = 
+  const CEGUI::HyperLinkEventArgs& hyperlink = 
     (const CEGUI::HyperLinkEventArgs&)event;
   STRING windowname, link;
-  CUIStringSystem::utf8_to_mbcs(hyperlink.windowName.c_str(), windowname);
-  CUIStringSystem::utf8_to_mbcs(hyperlink.hyperLinkName.c_str(), link);
+  vgui_string::System::utf8_to_mbcs(hyperlink.windowName.c_str(), windowname);
+  vgui_string::System::utf8_to_mbcs(hyperlink.hyperLinkName.c_str(), link);
   if (CEGUI::WindowManager::getSingleton().isWindowPresent(
         hyperlink.windowName)) {
     CEGUI::Window* window = 
@@ -851,7 +867,7 @@ bool System::handle_hyperlink_leftactive(const CEGUI::EventArgs& event) {
             g_game_worldsystem->get_activescene() && 
             g_game_worldsystem->get_activescene()->getdefine()) {
           uint16_t current_sceneid = 
-            g_game_worldsystem->get_activescene()->getdefine().localid;
+            g_game_worldsystem->get_activescene()->getdefine()->localid;
           //判断是否是可以对话的功能任务NPC，如果是则设置自动寻路的标记值
           if (strlen(npcname) > 0) {
             g_gameinterface->set_auto_findpath_tonpc(sceneid, npcname);
@@ -861,7 +877,8 @@ bool System::handle_hyperlink_leftactive(const CEGUI::EventArgs& event) {
           }
           g_gameinterface->player_moveto(
               sceneid,
-              vengine_math::base::twofloat_vector_t(x, y)); //移动过去
+              vengine_math::base::twofloat_vector_t(static_cast<float>(x), 
+                                                    static_cast<float>(y))); //移动过去
         }
       }
     }
@@ -873,8 +890,8 @@ bool System::handle_hyperlink_rightactive(const CEGUI::EventArgs& event) {
   const CEGUI::HyperLinkEventArgs& hyperlink = 
     (const CEGUI::HyperLinkEventArgs&)event;
   STRING windowname, link;
-  CUIStringSystem::utf8_to_mbcs(hyperlink.windowName.c_str(), windowname);
-  CUIStringSystem::utf8_to_mbcs(hyperlink.hyperLinkName.c_str(), link);
+  vgui_string::System::utf8_to_mbcs(hyperlink.windowName.c_str(), windowname);
+  vgui_string::System::utf8_to_mbcs(hyperlink.hyperLinkName.c_str(), link);
   if (CEGUI::WindowManager::getSingleton().isWindowPresent(
         hyperlink.windowName)) {
     CEGUI::Window* window = 
@@ -1006,7 +1023,7 @@ bool System::inject_iteminfo(
   return result;
 }
 
-STRING System::get_talktemplate(const STRING& key, uint32_t index) {
+STRING System::get_talktemplate(const STRING& key, uint16_t index) {
   STRING result = "";
   if (stringsystem_) {
     result = stringsystem_->get_talktemplate(key, index);
@@ -1033,12 +1050,12 @@ STRING System::get_talkrand_helpmessage() {
 }
 
 void System::on_pushescape() {
-  if (stringsystem_) stringsystem_->onescape();
+  vgui_window::Manager::getself()->onescape();
 }
 
 bool System::check_stringfilter(
     const STRING& in, 
-    const vengine_ui::filtertype_enum type = vengine_ui::kFilterTypeNone) {
+    const vengine_ui::filtertype_enum type) {
   bool result = false;
   if (stringsystem_) result = stringsystem_->check_stringfilter(in, type);
   return result;
@@ -1051,7 +1068,7 @@ bool System::check_stringcode(const STRING& in, STRING& out) {
 }
 
 bool System::check_string_fullcompare(const STRING& in, 
-                                      STRING& out,
+                                      const STRING& out,
                                       bool use_alltable) { 
   bool result = false;
   if (stringsystem_) result = stringsystem_->check_string_fullcompare(in, out);
@@ -1093,10 +1110,10 @@ uint32_t System::lumination_ogrecolor(uint32_t ogrecolor, int32_t lumination) {
                        _lumination);
   }
   int32_t _color_a, _color_r, _color_g, _color_b;
-  _color_a = cegui_color.getAlpha() * 0xFF;
-  _color_r = cegui_color.getRed() * 0xFF;
-  _color_g = cegui_color.getGreen() * 0xFF;
-  _color_b = cegui_color.getBlue() * 0xFF;
+  _color_a = static_cast<int32_t>(cegui_color.getAlpha() * 0xFF);
+  _color_r = static_cast<int32_t>(cegui_color.getRed() * 0xFF);
+  _color_g = static_cast<int32_t>(cegui_color.getGreen() * 0xFF);
+  _color_b = static_cast<int32_t>(cegui_color.getBlue() * 0xFF);
   result = MAKE_COLOR(_color_r, _color_g, _color_b, _color_a);
   return result;
 }
@@ -1144,12 +1161,12 @@ STRING System::get_IME_editbox_string(const char* windowname) {
   STRING result = "";
   if (Ime::GetActiveIMEEditBox()) {
     CEGUI::Window* window = Ime::GetActiveIMEEditBox();
-    if (0 == strcmp(window->getName(), windowname)) {
+    if (0 == strcmp(window->getName().c_str(), windowname)) {
       CEGUI::IFalagardIMEEditBox* findwindow = 
         dynamic_cast<CEGUI::IFalagardIMEEditBox*>(
             dynamic_cast<CEGUI::FalagardIMEEditBox*>(window));
-      CEGUI::String32 text = window->getItemElementString();
-      vgui_string::System::getself()->parsestring_runtime(text, result);
+      CEGUI::String32 text = findwindow->getItemElementString();
+      vgui_string::System::getself()->parsestring_reverseruntime(text, result);
     }
   }
   return result;
@@ -1158,7 +1175,7 @@ STRING System::get_IME_editbox_string(const char* windowname) {
 bool System::add_chathistory_message(int32_t id,
                                      const char* windowname, 
                                      const char* message, 
-                                     int32_t type = -1, 
+                                     int32_t type, 
                                      uint32_t disappeartime) {
   bool result = false;
   if (!windowname || !message || !stringsystem_) return result;
@@ -1187,7 +1204,7 @@ bool System::add_chathistory_message(int32_t id,
 void System::replacestring_usefilter(
     const STRING& in, 
     STRING& out, 
-    vengine_ui::filtertype_enum filtertype = vengine_ui::kFilterTypeChat) {
+    vengine_ui::filtertype_enum filtertype) {
   if (stringsystem_) 
     stringsystem_->replacestring_usefilter(in, out, filtertype);
 }
@@ -1206,7 +1223,7 @@ bool System::reload_windowscript(const STRING& windowname) {
 
 void System::uirender_toggleshow() {
   if (cegui_render_)
-    cegui_render_->>setRenderDisable(!(cegui_render_->isRenderDisable()));
+    cegui_render_->setRenderDisable(!(cegui_render_->isRenderDisable()));
 }
 
 bool System::is_ctrlinfo_enable() {

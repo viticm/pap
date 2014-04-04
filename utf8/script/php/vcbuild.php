@@ -90,7 +90,8 @@ $g_scriptdirs = array(
   "server src/server/server/scripts",
   
   "vnet lib/common/vnet/scripts",
-  "vengine lib/client/vengine/scripts"
+  "vengine lib/client/vengine/scripts",
+  "vgui lib/client/vgui/scripts"
 ); //not use EOF, if you want it work not just use output
 
 $selfpath = str_replace('\\', '/', dirname(realpath(__FILE__)));

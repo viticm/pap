@@ -14,8 +14,8 @@
 
 namespace creature {
 
-const uint8_t kMonsterEffectMax = 4;
-struct monstereffect_t {
+const uint8_t kMountEffectMax = 4;
+struct mounteffect_t {
   const char* effect;
   const char* bind;
   mounteffect_t() {

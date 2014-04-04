@@ -24,6 +24,10 @@ namespace vgui_creature {
 
 namespace head_board {
 
+class Base;
+class BeHit;
+class BeHitManager;
+
 class System {
 
  public:

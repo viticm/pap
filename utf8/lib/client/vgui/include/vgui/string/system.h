@@ -50,8 +50,9 @@ class System {
    //string parse
    void parsestring_prebuild(const STRING& in, STRING& out);
    void parsestring_runtime(const STRING& in, 
-                            STRING& out, 
-                            const vengine_ui::filtertype_enum filtertype);
+                            CEGUI::String32& out, 
+                            const vengine_ui::filtertype_enum filtertype
+                            = vengine_ui::kFilterTypeChat);
    STRING parsestring_varparam(const STRING& id, va_list va_pointer);
    void parsestring_nocolor(const STRING& in, 
                             STRING& out, 
@@ -78,7 +79,7 @@ class System {
    //过滤字符串中的非法敏感字符
    bool check_stringfilter(
        const STRING& in, 
-       const filtertype_enum type = vengine_ui::kFilterTypeNone);
+       const vengine_ui::filtertype_enum type = vengine_ui::kFilterTypeNone);
    bool check_stringcode(const STRING& in, const STRING& out);
    //完全匹配过滤
    bool check_string_fullcompare(const STRING& in, 

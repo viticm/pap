@@ -34,6 +34,14 @@ class Base : public CEGUI::ScriptModule {
    virtual void startbindings(); //开始脚本绑定
    virtual void stopbindings(); //停止脚本绑定
 
+   // for abstract
+   virtual void	executeScriptFile(const CEGUI::String& filename, 
+                                  const CEGUI::String& resourceGroup = "");
+   virtual int32_t executeScriptGlobal(const CEGUI::String& functionname);
+   virtual bool	executeScriptedEventHandler(const CEGUI::String& handler_name, 
+                                            const CEGUI::EventArgs& e);
+   void executeString(const CEGUI::String& str);
+
 };
 
 }; //namespace vgui_script

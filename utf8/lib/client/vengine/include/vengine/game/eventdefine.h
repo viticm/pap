@@ -18,7 +18,7 @@ namespace vengine_game {
 
 namespace event_id {
 
-typedef enum {
+enum _enum {
   kApplicationInit, //-- 游戏主程序初始化
   kSceneCutover, //-- 场景切换
 
@@ -55,7 +55,7 @@ typedef enum {
                           // "xinfa", "pet_skill"
                           // arg2, arg3 鼠标位置
 
-} _enum;
+};
 
 }; //namespace event_id
 

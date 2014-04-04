@@ -71,7 +71,7 @@ class System;
 }; //namespace vengine_time
 
 namespace vengine_variable {
-class System;
+class Base;
 }; //namespace vengine_variable
 
 namespace vengine_db {
@@ -88,9 +88,9 @@ class System;
 extern HINSTANCE g_hInstance;
 extern HWND g_mainwindow_handle;
 extern vengine_kernel::Base* g_kernel;
-extern vengine_script::Sytem* g_scriptsystem;
+extern vengine_script::System* g_scriptsystem;
 extern vengine_game::EventSystem* g_game_eventsystem;
-extern vengine_game::action::Sytem* g_game_actionsystem;
+extern vengine_game::action::System* g_game_actionsystem;
 extern vengine_input::System* g_inputsystem;
 extern vengine_render::System* g_rendersystem;
 extern vengine_game::object::BaseSystem* g_game_objectsystem;
@@ -99,7 +99,7 @@ extern vengine_cursor::System* g_cursorsystem;
 extern vengine_capability::Debuger* g_capability_debuger;
 extern vengine_time::System* g_timesystem;
 extern vengine_game::object::FakeSystem* g_game_fake_objectsystem;
-extern vengine_variable::System* g_variablesystem;
+extern vengine_variable::Base* g_variablesystem;
 extern vengine_game::Interface* g_gameinterface;
 extern vengine_db::System* g_databasesystem;
 extern vengine_game::ItemTransferSystem* g_game_itemtransfer_system;

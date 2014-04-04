@@ -15,7 +15,7 @@
 namespace scene {
 
 const uint16_t kDefineId = 701;
-typedef struct {
+struct define_t {
   static const uint8_t kSceneServerIdColumn = 1;
   uint16_t localid;
   uint16_t serverid;
@@ -41,7 +41,7 @@ typedef struct {
   const char* info;
   const char* blurshine_amount;
   float cameraangle; //摄像机偏移
-} define_t;
+};
 
 //城市建筑定义
 const uint16_t kCityBuildingId = 702;

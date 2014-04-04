@@ -127,7 +127,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
                                       const STRING& target);
    virtual STRING get_talkrand_helpmessage(); //聊天随机提示消息
    //查看当前获取输入的EditBox
-   virtual bool is_IME_editbox_active();
+   virtual bool is_IME_editbox_active(const char* windowname);
    virtual int32_t get_current_IMEstate(); //获取当前输入法状态
    virtual STRING get_IME_editbox_string(const char* name); //获得输入内容
 
@@ -144,8 +144,8 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    //过滤字符串中的非法敏感字符
    virtual bool check_stringfilter(
        const STRING& in, 
-       const vengine_ui::filtertype_enum type = kFilterTypeNone);
-   virtual bool check_stringcode(const STRING& in, const STRING& out);
+       const vengine_ui::filtertype_enum type = vengine_ui::kFilterTypeNone);
+   virtual bool check_stringcode(const STRING& in, STRING& out);
    //完全匹配过滤
    virtual bool check_string_fullcompare(const STRING& in, 
                                          const STRING& filtertype = "all", 
@@ -155,7 +155,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    //取当前的鼠标下面的窗口
    virtual void openwindow(const STRING& name);
    virtual void closewindow(const STRING& name);
-   virtual void togglewindow(const STRING& name) =0;
+   virtual void togglewindow(const STRING& name);
 
    virtual bool has_inputfocus();
 
@@ -164,13 +164,13 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
                                         const char* windowname, 
                                         const char* message, 
                                         int32_t type = -1, 
-                                        uint32_t disappeartime );
+                                        uint32_t disappeartime = 0);
    virtual void replacestring_usefilter(
        const STRING& in, 
        STRING& out, 
        vengine_ui::filtertype_enum filtertype = vengine_ui::kFilterTypeChat);
    virtual STRING check_stringvalid(const char* string);
-   virtual bool reload_windowscript(const char* windowname);
+   virtual bool reload_windowscript(const STRING& windowname);
    virtual void uirender_toggleshow();
 
  public:

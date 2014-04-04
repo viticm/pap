@@ -117,7 +117,7 @@ typedef struct {
   int32_t param11; //参数值12
   const char* paramdescription12; //参数描述13
   int32_t param12; //参数值13
-  const char* paramdescription12; //参数描述14
+  const char* paramdescription13; //参数描述14
   int32_t param13; //参数值14
   const char* paramdescription14; //参数描述15
   int32_t param14; //参数值15

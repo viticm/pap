@@ -176,4 +176,23 @@ void Base::stopbindings() {
   vgui_luacontrol::window::Base::destroy_metatable();
 }
 
+void Base::executeScriptFile(const CEGUI::String& filename, 
+                             const CEGUI::String& resourceGroup = "") {
+  executefile(filename, resourceGroup);
+}
+
+int32_t Base::executeScriptGlobal(const CEGUI::String& functionname) {
+  execute_globalfunction(functionname);
+}
+
+bool Base::executeScriptedEventHandler(const CEGUI::String& handler_name, 
+                                       const CEGUI::EventArgs& e) {
+  bool result = execute_eventhandler(handler_name, e);
+  return result;
+}
+
+void Base::executeString(const CEGUI::String& str) {
+  executestring(str);
+}
+
 } //namespace vgui_script

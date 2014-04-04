@@ -190,7 +190,7 @@ typedef struct {
   int32_t donecircle_index; //活动完成环数下标
   int32_t lastdone_timeindex; //活动最后一次完成时间下标
   int32_t lastabandon_timeindex; //活动最后一次放弃时间下标
-} 
+} daytips_t;
 
 //排行榜表
 const uint16_t kRankListId = 2011;

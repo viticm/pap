@@ -25,12 +25,12 @@ class Image;
 
 namespace vgui_icon {
 
-class Base {
+class Manager {
 
  public:
-   Base();
-   virtual ~Base();
-   static Base* getself();
+   Manager();
+   virtual ~Manager();
+   static Manager* getself();
 
  public:
    STRING get_icon_fullname(const char* iconname);
@@ -47,7 +47,7 @@ class Base {
 
  protected:
    iconmap iconmap_;
-   static Base* self_;
+   static Manager* self_;
 
 };
 

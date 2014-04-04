@@ -11,21 +11,21 @@
 
 namespace vgui_icon {
 
-Base* Base::self_ = NULL;
+Manager* Manager::self_ = NULL;
 
-Base::Base() {
+Manager::Manager() {
   self_ = this;
 }
 
-Base::~Base() {
+Manager::~Manager() {
   //do nothing
 }
 
-Base* Base::getself() {
+Manager* Manager::getself() {
   return self_;
 }
 
-void Base::init() {
+void Manager::init() {
   CEGUI::ImagesetManager& imageset_manager = 
     CEGUI::ImagesetManager::getSingleton();
   //find all
@@ -48,7 +48,7 @@ void Base::init() {
   }
 }
 
-STRING Base::get_icon_fullname(const char* iconname) {
+STRING Manager::get_icon_fullname(const char* iconname) {
   iconmap::iterator iconmap_iterator = iconmap_.find(iconname);
   if (iconmap_.end() == iconmap_iterator) return STRING("set:X image:X");
   const CEGUI::Imageset* imageset = iconmap_iterator->second;
@@ -61,21 +61,21 @@ STRING Base::get_icon_fullname(const char* iconname) {
   return STRING(fullname);
 }
 
-int32_t Base::lua_get_icon_fullname(LuaPlus::LuaState* luastate) {
+int32_t Manager::lua_get_icon_fullname(LuaPlus::LuaState* luastate) {
   LuaStack args(luastate);
   if (!args[1].IsString()) return 0;
   luastate->PushString(getself()->get_icon_fullname(args[1].GetString()));
   return 1;
 }
 
-const CEGUI::Image* Base::geticon(const char* iconname) {
+const CEGUI::Image* Manager::geticon(const char* iconname) {
   iconmap::iterator iconmap_iterator = iconmap_.find(iconname);
   if (iconmap_.end() == iconmap_iterator) return NULL;
   const CEGUI::Imageset* imageset = iconmap_iterator->scenod;
   return &(imageset->getImage(iconname));
 }
 
-HCURSOR Base::create_as_windowscursor(const char* iconname) {
+HCURSOR Manager::create_as_windowscursor(const char* iconname) {
   try {
     const CEGUI::Image* iconimage = geticon(iconname);
     if (!iconimage) return NULL;

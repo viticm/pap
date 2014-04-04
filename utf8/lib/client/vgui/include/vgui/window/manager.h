@@ -24,9 +24,7 @@ class Window;
 }; //namespace CEGUI
 
 
-namespace vgui {
-
-namespace window {
+namespace vgui_window {
 
 class Manager {
 
@@ -66,8 +64,6 @@ class Manager {
    itemlist itemlist_;
 
 };
-
-}; //namespace window
 
 }; //namespace vgui
 

@@ -109,7 +109,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
                                       const STRING& target) = 0;
    virtual STRING get_talkrand_helpmessage() = 0; //聊天随机提示消息
    //查看当前获取输入的EditBox
-   virtual bool is_IME_editbox_active() = 0;
+   virtual bool is_IME_editbox_active(const char* windowname) = 0;
    virtual int32_t get_current_IMEstate() = 0; //获取当前输入法状态
    virtual STRING get_IME_editbox_string(const char* name) = 0; //获得输入内容
 
@@ -127,7 +127,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    virtual bool check_stringfilter(
        const STRING& in, 
        const filtertype_enum type = kFilterTypeNone) = 0;
-   virtual bool check_stringcode(const STRING& in, const STRING& out) = 0;
+   virtual bool check_stringcode(const STRING& in, STRING& out) = 0;
    //完全匹配过滤
    virtual bool check_string_fullcompare(const STRING& in, 
                                          const STRING& filtertype = "all", 
@@ -152,7 +152,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
        STRING& out, 
        filtertype_enum filtertype = kFilterTypeChat) = 0;
    virtual STRING check_stringvalid(const char* string) = 0;
-   virtual bool reload_windowscript(const char* windowname) = 0;
+   virtual bool reload_windowscript(const STRING& windowname) = 0;
    virtual void uirender_toggleshow() = 0;
 };
 

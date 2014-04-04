@@ -88,7 +88,7 @@ const uint8_t kEquipEffectSkillNumberMax = 4;
 typedef struct {
   int32_t skillid; //技能ID
   int32_t skilllevel; //影响技能的等级
-} equipeffect_skill_t
+} equipeffect_skill_t;
 
 const uint16_t kEquipId = 305;
 typedef struct {

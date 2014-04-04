@@ -101,7 +101,7 @@ typedef struct {
 //坐骑表
 const uint16_t kMountId = 109;
 const uint8_t kMountEffectMax = 8;
-typedef struct 
+typedef struct {
   const char* effectlocator; //特效绑定点
   const char* effectname; //特效名称
 } mounteffect_t;

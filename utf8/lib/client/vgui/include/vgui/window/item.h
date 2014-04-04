@@ -106,7 +106,7 @@ class Item {
    bool layoutloaded_; //窗口是否已经加载
    int32_t openwindow_soundid_;
    int32_t closewindow_soundid_;
-   std::vector<vgui_luacontrol::window*> controls_;
+   std::vector<vgui_luacontrol::window::Base*> controls_;
 
  protected:
    void on_windowhide();
