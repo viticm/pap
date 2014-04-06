@@ -1,4 +1,5 @@
-#include "vgui/luacontrol/window/config.h"
+#include "FalChatHistory.h"
+#include "vgui/string/system.h"
 #include "vgui/luacontrol/window/chat/history.h"
 
 namespace vgui_luacontrol {
@@ -14,12 +15,12 @@ LuaPlus::LuaObject* History::get_metatable() {
 }
 
 int32_t History::lua_insertstring(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   STRING mbcs = args[2].GetString();
   STRING::size_type start = mbcs.find("#aB");
   STRING::size_type end = mbcs.find("#aE");
-  int32_t talkerlength = end - start - 3;
+  int32_t talkerlength = static_cast<int32_t>(end - start - 3);
   talkerlength = (talkerlength - 2) / 2 + 2;
   CEGUI::String32 str;
   vgui_string::System::getself()->parsestring_runtime(mbcs, str);

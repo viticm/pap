@@ -1,4 +1,4 @@
-#include "vgui/luacontrol/window/config.h"
+#include "elements/CEGUIScrollbar.h"
 #include "vgui/luacontrol/window/scroll/bar.h"
 
 namespace vgui_luacontrol {
@@ -20,10 +20,10 @@ int32_t Bar::lua_getposition(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Bar::lua_setposition(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsNumber()) return 0;
   (dynamic_cast<CEGUI::Scrollbar*>(window_))
-    ->setScrollPosition(args.GetFloat());
+    ->setScrollPosition(args[2].GetFloat());
   return 0;
 }
 

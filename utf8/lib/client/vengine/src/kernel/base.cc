@@ -123,6 +123,7 @@ Node* Base::getnode(const char* name) {
 }
 
 bool Base::loadplugin(const char* name, void* param) {
+  USE_PARAM(param);
   if (!name) return false;
   HMODULE hmodule = NULL;
   function_dllinit dllinit_pointer;

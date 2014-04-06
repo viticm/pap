@@ -12,6 +12,7 @@
 #define VGUI_CONFIG_H_
 
 #include <stdint.h> 
+#include <windows.h>
 
 /*macros {*/
 

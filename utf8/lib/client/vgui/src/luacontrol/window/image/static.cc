@@ -1,9 +1,10 @@
-#include "vgui/luacontrol/window/config.h"
+#include "CEGUIPropertyHelper.h"
+#include "vgui/icon/manager.h"
 #include "vgui/luacontrol/window/image/static.h"
 
 namespace vgui_luacontrol {
 
-namespace widow {
+namespace window {
 
 namespace image {
 
@@ -14,7 +15,7 @@ LuaPlus::LuaObject* Static::get_metatable() {
 }
 
 int32_t Static::lua_set(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   if (args[3].IsString()) { //图片全路径
     char imagename[128] = {0};
@@ -39,7 +40,7 @@ int32_t Static::lua_set(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Static::lua_setcolor(LuaPlus::LuaState* luastate) { 
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   CEGUI::colour color = CEGUI::PropertyHelper::stringToColour(
       args[2].GetString());

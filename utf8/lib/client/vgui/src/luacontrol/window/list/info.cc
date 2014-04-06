@@ -1,4 +1,5 @@
-#include "vgui/luacontrol/window/config.h"
+#include "FalagardInfoList.h"
+#include "vgui/string/system.h"
 #include "vgui/luacontrol/window/list/info.h"
 
 namespace vgui_luacontrol {
@@ -14,7 +15,7 @@ LuaPlus::LuaObject* Info::get_metatable() {
 }
 
 int32_t Info::lua_add(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   STRING mbcs = args[2].GetString();
   CEGUI::String32 str;

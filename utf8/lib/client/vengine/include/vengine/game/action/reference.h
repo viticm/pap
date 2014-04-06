@@ -24,7 +24,7 @@ class VENGINE_API Reference {
    //逻辑Action消失
    virtual void bedestroyed() = 0;
    //数据更新
-   virtual void update() = 0;
+   virtual void update(int32_t itemid) = 0;
    //按钮按下
    virtual void setcheck(bool check) = 0;
    //按钮设置成default的状态

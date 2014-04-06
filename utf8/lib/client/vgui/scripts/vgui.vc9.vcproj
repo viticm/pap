@@ -21,7 +21,6 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			CharacterSet="2"
 			>
@@ -110,7 +109,6 @@
 			OutputDirectory="$(ConfigurationName)"
 			IntermediateDirectory="$(ProjectName).dir\$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -148,7 +146,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4819"
+				DisableSpecificWarnings="4819;4251"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -161,10 +159,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="imm32.lib shlwapi.lib zlib.lib freetype235.lib"
+				AdditionalDependencies="imm32.lib shlwapi.lib ..\..\Ogre\Dependencies\lib\Release\freetype2311.lib ..\..\Ogre\vc_build\lib\Release\OgreMain.lib"
 				OutputFile="..\bin\$(ConfigurationName)\$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\..\Run\Client\Game;&quot;../../EngineSDK/LibAndDll/$(ConfigurationName)&quot;;..\..\EngineSDK\ThirdParty\VSLib;..\..\EngineSDK\kylinengine\ogre1.6.5\Dependencies\lib\Release"
+				AdditionalLibraryDirectories=""
 				ModuleDefinitionFile="vgui.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -172,7 +170,7 @@
 				EnableCOMDATFolding="2"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/$(TargetName).lib"
+				ImportLibrary="../bin/Release/$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -202,7 +200,6 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -286,7 +283,7 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Source Files"
+			Name="src"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
@@ -299,7 +296,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\vgui.def"
+				RelativePath=".\vgui.def"
 				>
 			</File>
 			<Filter
@@ -531,6 +528,18 @@
 				</File>
 			</Filter>
 			<Filter
+				Name="window"
+				>
+				<File
+					RelativePath="..\src\window\item.cc"
+					>
+				</File>
+				<File
+					RelativePath="..\src\window\manager.cc"
+					>
+				</File>
+			</Filter>
+			<Filter
 				Name="string"
 				>
 				<File
@@ -546,24 +555,24 @@
 					>
 				</File>
 			</Filter>
-			<Filter
-				Name="window"
-				>
-				<File
-					RelativePath="..\src\window\item.cc"
-					>
-				</File>
-				<File
-					RelativePath="..\src\window\manager.cc"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
-			Name="Header Files"
+			Name="include"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\resource1.h"
+				>
+			</File>
+			<File
+				RelativePath=".\resource2.h"
+				>
+			</File>
 			<Filter
 				Name="vgui"
 				>
@@ -806,14 +815,38 @@
 				<Filter
 					Name="script"
 					>
+					<File
+						RelativePath="..\include\vgui\script\base.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="string"
 					>
+					<File
+						RelativePath="..\include\vgui\string\encode.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\vgui\string\filter.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\vgui\string\system.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="window"
 					>
+					<File
+						RelativePath="..\include\vgui\window\item.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\vgui\window\manager.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>
@@ -822,6 +855,10 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath=".\vgui.rc"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

@@ -1,3 +1,5 @@
+#include "elements/CEGUIPopupMenu.h"
+#include "vgui/window/manager.h"
 #include "vgui/luacontrol/window/menu/pop.h"
 
 namespace vgui_luacontrol {
@@ -23,7 +25,7 @@ int32_t Pop::lua_closeit(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Pop::lua_setposition(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString() || !args[3].IsString()) return 0;
   float x = args[2].GetFloat();
   float y = args[3].GetFloat();

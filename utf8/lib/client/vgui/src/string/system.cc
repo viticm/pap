@@ -45,7 +45,7 @@ void System::init(const char* string_datbasefile) {
   int32_t i;
   for (i = 0; i < stringdict->get_record_number(); ++i) {
     const stringdict_t* line = 
-      reinterpret_cast<stringdict_t*>(stringdict->search_line_equal(i));
+      reinterpret_cast<const stringdict_t*>(stringdict->search_line_equal(i));
     dictionarytable_[line->key] = line->string;
   }
   dictionarymap::iterator dictmap_iterator;
@@ -66,7 +66,7 @@ void System::init(const char* string_datbasefile) {
   typedef vengine_db::structs::other::codeconvert_t codeconvert_t;
   for (i = 0; i < codeconvert->get_record_number(); ++i) {
     const codeconvert_t* line = 
-      reinterpret_cast<codeconvert_t*>(codeconvert->search_line_equal(i));
+      reinterpret_cast<const codeconvert_t*>(codeconvert->search_line_equal(i));
     CEGUI::utf32 value = 0;
     sscanf(line->code, "%8X", &value);
     codeconvert_table_[line->id] = value;
@@ -77,7 +77,7 @@ void System::init(const char* string_datbasefile) {
   typedef vengine_db::structs::other::talkfilter_t talkfilter_t;
   for (i = 0; i < talkfilter->get_record_number(); ++i) {
     const talkfilter_t* line = 
-      reinterpret_cast<talkfilter_t*>(talkfilter->search_line_equal(i));
+      reinterpret_cast<const talkfilter_t*>(talkfilter->search_line_equal(i));
     filterstring_t filterstring;
     filterstring.str = line->str;
     filterstring.chat = line->chat;
@@ -95,7 +95,7 @@ std::pair<bool, System::dictionarymap::iterator> System::isvalid_dictionkey(
   const STRING& key) {
   dictionarymap::iterator dictmap_iterator = dictionarytable_.find(key);
   bool result = dictmap_iterator == dictionarytable_.end() ? false : true;
-  return std::pair<result, dictmap_iterator>;
+  return std::make_pair(result, dictmap_iterator);
 }
 
 //转化：主要是从字典和系统级字符串中查找
@@ -165,7 +165,7 @@ void System::parsestring_prebuild(const STRING& in, STRING& out) {
 |  国际标准组织制作的，有可能与标准有不一致的地方。
 |
 */
-bool System::check_stringcode(const STRING& in, STRING out) {
+bool System::check_stringcode(const STRING& in, STRING& out) {
   const uint8_t ansi_start = 0X20;
   const uint8_t ansi_end = 0X80;
 
@@ -199,7 +199,7 @@ bool System::check_stringcode(const STRING& in, STRING out) {
     //汉字第一个字节
     else if (bychar >= by1_gbk_start && bychar <= by1_gbk_end) {
       //半个汉字
-      if (i + 1 == sroucesize) goto CHECKSTRING_ERROR;
+      if (i + 1 == sourcesize) goto CHECKSTRING_ERROR;
       //取出第二个字节
       uint8_t bynext = in[++i];
       if (!(bynext >= by2_gbk_start1 && 
@@ -267,7 +267,7 @@ bool System::check_stringfilter(const STRING& in,
         if (in.find(filtertable_[i].str) != STRING::npos) return false;
         break;
       }
-      case vengine_ui::kFilterLevelNoMatch: {
+      case vengine_ui::kFilterLevelFullMatch: {
         if (in== filtertable_[i].str ) return false;
         break;
       }
@@ -279,7 +279,7 @@ bool System::check_stringfilter(const STRING& in,
   return true;
 }
 
-bool System::check_string_fullcompare(const STRING& in
+bool System::check_string_fullcompare(const STRING& in,
                                       const STRING& filtertype,
                                       bool use_alltable) {
   bool find = false;
@@ -342,16 +342,16 @@ void System::parsestring_runtimenew(
   check_stringcode(in, sourcestr);
   //过滤聊天信息中的非法信息
   if (!check_stringfilter(sourcestr, filtertype)) 
-    sourcestr = "#R请注意你的言辞！"
+    sourcestr = "#R请注意你的言辞！";
   for (;;) {
     if (validstart >= sourcestr.size()) break;
-    STRING::size_type validend = strSource.find(keyparse, validstart);
+    STRING::size_type validend = sourcestr.find(keyparse, validstart);
     //最后一段正常值
     if (STRING::npos == validend) {
       out_mbcs = sourcestr.substr(validstart);
       STRING temp;
       mbcs_to_utf8(out_mbcs, temp);
-      out += (CEGUI::String32)(reinterpret_cast<CEGUI::utf8*>(temp.c_str()));
+      out += CEGUI::String32(temp.c_str());
       break;
     }
     //加入正常值
@@ -359,7 +359,7 @@ void System::parsestring_runtimenew(
       out_mbcs = sourcestr.substr(validstart, validend - validstart);
       STRING temp;
       mbcs_to_utf8(out_mbcs, temp);
-      out += (CEGUI::String32)(reinterpret_cast<CEGUI::utf8*>(temp.c_str()));
+      out += CEGUI::String32(temp.c_str());
     }
 
     STRING::size_type keystart = validend + 1; //"#"后面那个字符的位置
@@ -427,14 +427,14 @@ void System::parsestring_runtimenew(
         out_mbcs = "\n";
         STRING temp;
         mbcs_to_utf8(out_mbcs, temp);
-        out += (CEGUI::String32)(reinterpret_cast<CEGUI::utf8*>(temp.c_str()));
+        out += CEGUI::String32(temp.c_str());
         keyend = keystart + 1;
       }
       else if ("#" == keyoption) { //##输出#
         out_mbcs = "#";
         STRING temp;
         mbcs_to_utf8(out_mbcs, temp);
-        out += (CEGUI::String32)(reinterpret_cast<CEGUI::utf8*>(temp.c_str()));
+        out += CEGUI::String32(temp.c_str());
         keyend = keystart + 1;
       }
       else if ("a" == keyoption) { //#a:HyperLink #aB{linktxt}showtxt#aE
@@ -444,7 +444,7 @@ void System::parsestring_runtimenew(
           out += val;
           keyend = keystart + 2;
         }
-        else if ("E" = rig) { //#aE
+        else if ("E" == rig) { //#aE
           val = 0xFE000000;
           out += val; 
           keyend = keystart + 2;
@@ -457,15 +457,14 @@ void System::parsestring_runtimenew(
         STRING::size_type idstart = keystart + 1;
         STRING::size_type idend = sourcestr.find(key_parseid_end, idstart);
         if (idend != STRING::npos) {
-          idstr = sourcestr.substr(idstart, idend - idstart);
+          STRING idstr = sourcestr.substr(idstart, idend - idstart);
           if ("_ITEM" == idstr.substr(0, 5)) { //#{_ITEM10100005}
             STRING tableindex_str = idstr.substr(5, 8);
             int32_t tableindex = atoi(tableindex_str.c_str());
-            out_mbcs = g_game_objectsystem->getitem(tableindex);
+            out_mbcs = g_game_objectsystem->get_local_itemname(tableindex);
             STRING temp;
             mbcs_to_utf8(out_mbcs, temp);
-            out += 
-              (CEGUI::String32)(reinterpret_cast<CEGUI::utf8*>(temp.c_str())); 
+            out += CEGUI::String32(temp.c_str()); 
           }
           if ("_TIME" == idstr.substr(0, 5)) { //#{_TIME0507211233}
                                                //0507211233 表示 
@@ -495,15 +494,14 @@ void System::parsestring_runtimenew(
             out_mbcs = date;
             STRING temp;
             mbcs_to_utf8(out_mbcs, temp);
-            out += 
-              (CEGUI::String32)(reinterpret_cast<CEGUI::utf8*>(temp.c_str()));
+            out += CEGUI::String32(temp.c_str());
           }
 
           if ("_INFOID" == idstr.substr(0, 7)) { //#{_INFOID123}
                                                  //123 表示 ItemTransferSystem
                                                  //中的ID号为123的element
             STRING infoid_str = idstr.substr(7, idend - idstart - 7); 
-            int32_t infoid = atoi(infoid_str);
+            int32_t infoid = atoi(infoid_str.c_str());
             out_mbcs = 
               g_game_itemtransfer_system->get_element_displayname(infoid);
             if (!out_mbcs.empty()) {
@@ -530,8 +528,7 @@ void System::parsestring_runtimenew(
               STRING temp;
               mbcs_to_utf8(userstr, temp);
               out += 0xFBFFFFFF; //自己的名字显示为白色
-              out += 
-                (CEGUI::String32)(reinterpret_cast<CEGUI::utf8*>(temp.c_str()));
+              out += CEGUI::String32(temp.c_str());
               out += currentcolor; //恢复成句子起始的颜色
             }
             else {
@@ -563,7 +560,7 @@ void System::parsestring_runtimenew(
               char itemid[64] = {0};
               snprintf(itemid, sizeof(itemid) - 1, "#{_INFOID%d}", element->id);
               out_mbcs = itemid;
-              CEGUI::String32 = temp;
+              CEGUI::String32 temp;
               parsestring_runtime(out_mbcs, temp);
               out += temp + currentcolor;
             }
@@ -662,7 +659,7 @@ void System::parsestring_runtimenew(
 }
 
 STRING System::parsestring_varparam(const STRING& id, va_list va_pointer) {
-  const kSelfMessageLengthMax = 1024;
+  const uint16_t kSelfMessageLengthMax = 1024;
   STRING out = "";
   std::pair<bool, dictionarymap::iterator> is_validkey = 
     isvalid_dictionkey(id);
@@ -682,7 +679,7 @@ STRING System::parsestring_varparam(const STRING& id, va_list va_pointer) {
 }
 
 STRING System::parsestring_no_varparam(const STRING& id) {
-  STRINT out;
+  STRING out;
   std::pair<bool, dictionarymap::iterator> is_validkey =
     isvalid_dictionkey(id);
   if (is_validkey.first) out = is_validkey.second->second;
@@ -690,7 +687,7 @@ STRING System::parsestring_no_varparam(const STRING& id) {
 }
 
 void System::parsestring_nocolor(const STRING& in,
-                                 const STRING& out,
+                                 STRING& out,
                                  bool control) {
   const char keystart = '#';
   out.clear();
@@ -779,7 +776,7 @@ void System::generate_fullmatch_table() {
   typedef vengine_db::structs::other::fullmatch_filter_t fullmatch_filter_t;
   for (i = 0; i < fullmatch_filter->get_record_number(); ++i) {
     const fullmatch_filter_t* line = 
-      reinterpret_cast<fullmatch_filter_t*>(
+      reinterpret_cast<const fullmatch_filter_t*>(
           fullmatch_filter->search_line_equal(i));
     fullmatch_map::iterator iterator = fullmatch_table_.find(line->type);
     //创建新的类型
@@ -790,13 +787,13 @@ void System::generate_fullmatch_table() {
     }
     //添加字串
     fullmatch_template_set& strset = iterator->second;
-    strset->insert(line->text);
+    strset.insert(line->text);
   } //for loop
 }
 
 void System::generate_talktemplate_table() {
   dictionarymap::iterator iterator = dictionarytable_.begin();
-  talktemplate_map talktemplate;
+  talktemplate_vector talktemplate;
   STRING talkkey;
   for (;iterator != dictionarytable_.end(); ++iterator) {
     //聊天快捷模板发现
@@ -815,7 +812,7 @@ void System::generate_talktemplate_table() {
           char number[4] = {0};
           snprintf(number, 4, "%03d", id + 1);
           STRING findstr = "TALK_" + talkkey + "_" + number;
-          dictionarymap::iterator _iterator dictionarytable_.find(talkkey);
+          dictionarymap::iterator _iterator = dictionarytable_.find(talkkey);
           if (_iterator != dictionarytable_.end()) {
             talktemplate.push_back(_iterator->second);
             dictionarytable_.erase(_iterator);
@@ -838,7 +835,7 @@ void System::generate_talktemplate_table() {
   } //for loop
 }
 
-STRING modify_chattemplate(const STRING& source, 
+STRING System::modify_chattemplate(const STRING& source, 
                            const STRING& talker, 
                            const STRING& target) {
   const char keystart = '$';
@@ -892,8 +889,8 @@ void System::parsestring_reverseruntime(const CEGUI::String32& in,
    * length always empty, because we don't need this message.
    *
    * */
-  static CEGUI::String32 infostart = (CEGUI::utf8*)"#{_INFOID";
-  static CEGUI::String32 infoend = (CEGUI::utf8*)"}";
+  static CEGUI::String32 infostart = "#{_INFOID";
+  static CEGUI::String32 infoend = "}";
   CEGUI::String32 temp;
   temp.erase();
   size_t i;
@@ -916,9 +913,9 @@ void System::parsestring_reverseruntime(const CEGUI::String32& in,
   utf8_to_mbcs(temp.c_str(), out);
 }
 
-void parsestring_elementonly_runtime(const STRING& in, CEGUI::String32& out) {
+void System::parsestring_elementonly_runtime(const STRING& in, CEGUI::String32& out) {
   const char keyparse = '#';
-  const char key_parsestart = '{';
+  const char key_parseid_start = '{';
   const char key_parseid_end = '}';
   STRING::size_type validstart = 0;
   STRING out_mbcs = "";
@@ -933,8 +930,7 @@ void parsestring_elementonly_runtime(const STRING& in, CEGUI::String32& out) {
       out_mbcs = sourcestr.substr(validstart);
       STRING temp;
       mbcs_to_utf8(out_mbcs, temp);
-      out += (CEGUI::String32)(
-          reinterpret_cast<CEGUI::utf8*>(temp.c_str());
+      out += CEGUI::String32(temp.c_str());
       break;
     }
     STRING::size_type keystart = validend + 1; //"#"后面那个字符的位置
@@ -967,7 +963,7 @@ void parsestring_elementonly_runtime(const STRING& in, CEGUI::String32& out) {
               //length
               CEGUI::utf32 idlength = static_cast<uint32_t>(
                   g_game_itemtransfer_system
-                  ->get_elementcontents(infoid).length();
+                  ->get_elementcontents(infoid).length());
               idlength |= 0xE5000000;
               out += idnumber + temp + idlength;
             }
@@ -975,11 +971,10 @@ void parsestring_elementonly_runtime(const STRING& in, CEGUI::String32& out) {
           keyend = idend + 1;
         }
         else { //#{需要保留
-          out_mbcs = = sourcestr.substr(validend, 2);
+          out_mbcs = sourcestr.substr(validend, 2);
           STRING temp;
           mbcs_to_utf8(out_mbcs, temp);
-          out +=
-            (CEGUI::String32)reinterpret_cast<CEGUI::utf8*>(temp.c_str());
+          out += CEGUI::String32(temp.c_str());
           keyend = keystart + 1;
         }
       }
@@ -987,7 +982,7 @@ void parsestring_elementonly_runtime(const STRING& in, CEGUI::String32& out) {
         out_mbcs = sourcestr.substr(validend, 1); 
         STRING temp;
         mbcs_to_utf8(out_mbcs, temp);
-        out += (CEGUI::String32)reinterpret_cast<CEGUI::utf8*>(temp.c_str());
+        out += CEGUI::String32(temp.c_str());
         keyend = keystart;
       }
     }
@@ -999,17 +994,17 @@ void System::replacestring_usefilter(const STRING& in,
                                      vengine_ui::filtertype_enum filtertype) {
   if (filtertype < 0 || filtertype > vengine_ui::kFilterTypeMax) return;
   //替换非法字符为特定符号
-  filtertable_[filtertype].replace_tosign(in, out);
+  filter_[filtertype].replace_tosign(in, out);
 }
 
 STRING System::check_stringvalid(const char* str) {
   //转换为unicode
   wchar_t unicode_chars[1024] = {0};
-  mbcs_to_ucs16(encode::get_code_page(), 
-                str, 
-                static_cast<int32_t>(strlen(str)), 
-                unicode_chars, 1024);
-
+  encode::mbcs_to_ucs16(encode::get_code_page(), 
+                        str, 
+                        static_cast<int32_t>(strlen(str)), 
+                        unicode_chars, 1024);
+  
   //禁止的UNICODE字符
   struct forbidden_unicode_area_t {
     wchar_t begin;
@@ -1045,10 +1040,10 @@ STRING System::check_stringvalid(const char* str) {
         wchar_t temp[8] = {0};
         temp[0]= (*find);
         char _temp[8] = {0};
-        ucs16_to_mbcs(encode::get_code_page(), 
-                      temp, static_cast<int32_t>(wcslen(temp)), 
-                      _temp, 
-                      8);
+        encode::ucs16_to_mbcs(encode::get_code_page(), 
+                              temp, static_cast<int32_t>(wcslen(temp)), 
+                              _temp, 
+                              8);
         return STRING(_temp);
       }
     }

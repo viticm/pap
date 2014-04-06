@@ -1,4 +1,5 @@
-#include "vgui/luacontrol/window/config.h"
+#include "FalMultiIMEEditBox.h"
+#include "vgui/string/system.h"
 #include "vgui/luacontrol/window/editbox/multiline.h"
 
 namespace vgui_luacontrol {
@@ -14,10 +15,10 @@ LuaPlus::LuaObject* MultiLine::get_metatable() {
 }
 
 int32_t MultiLine::lua_set_item_elementstring(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   CEGUI::FalagardMultiIMEEditBox* window = 
-    dynamic_cast<CEGUI::FalagardMultiIMEEditBox>(window_);
+    dynamic_cast<CEGUI::FalagardMultiIMEEditBox*>(window_);
   STRING mbcs = args[2].GetString();
   CEGUI::String32 str;
   vgui_string::System::getself()->parsestring_elementonly_runtime(mbcs, str);
@@ -27,11 +28,11 @@ int32_t MultiLine::lua_set_item_elementstring(LuaPlus::LuaState* luastate) {
 
 int32_t MultiLine::lua_get_item_elementstring(LuaPlus::LuaState* luastate) {
   CEGUI::FalagardMultiIMEEditBox* window = 
-    dynamic_cast<CEGUI::FalagardMultiIMEEditBox>(window_);
+    dynamic_cast<CEGUI::FalagardMultiIMEEditBox*>(window_);
   CEGUI::String32 str = window->getItemElementString();
   STRING mbcs;
   vgui_string::System::getself()->parsestring_reverseruntime(str, mbcs);
-  luastate->PushString(mbcs);
+  luastate->PushString(mbcs.c_str());
   return 1;
 }
 

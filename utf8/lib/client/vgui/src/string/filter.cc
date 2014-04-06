@@ -33,10 +33,10 @@ bool Filter::is_fullmatch(const STRING& str) {
 void Filter::replace_tosign(const STRING& in, STRING& out) {
   const char startkey = '#';
   const char contentend = '}';
-  STRING itemstr = "_INFOID"; //物品对象字符串,替换为物品
-  STRING messagestr = "_INFOMSG"; //消息对象字符串，将替换为消息
-  uint8_t itemlength = iteminfo_str.size();
-  uint8_t messagelength = messageinfo_str.size();
+  STRING iteminfo_str = "_INFOID"; //物品对象字符串,替换为物品
+  STRING messageinfo_str = "_INFOMSG"; //消息对象字符串，将替换为消息
+  uint8_t itemlength = static_cast<uint8_t>(iteminfo_str.size());
+  uint8_t messagelength = static_cast<uint8_t>(messageinfo_str.size());
 
   std::vector<stringreplace_t> stringreplaces; //分割来源字符串
   STRING sourcestr = in;
@@ -54,7 +54,7 @@ void Filter::replace_tosign(const STRING& in, STRING& out) {
       break;
     }
     STRING operatorstr = sourcestr.substr(e + 1, 1);
-    if ('{' == operatorstr) { //ok, check magic #{} string.
+    if ("{" == operatorstr) { //ok, check magic #{} string.
       //item element is valid. ex: #{_INFOID123}
       STRING itemelement = sourcestr.substr(e + 2, itemlength);
       //info message is valid. ex: #{_INFOMSGxxxxxx}
@@ -83,11 +83,11 @@ void Filter::replace_tosign(const STRING& in, STRING& out) {
         e = idend + 1;
         c = e;
       }
-      else if (messagelength == itemelement) {
+      else if (messageinfo_str == itemelement) {
         //get info message
         int32_t contentlength = atoi(
-            sourcestrc.substr(e + 2 + messagestr, 3).c_str());
-        STRING::size_type idend = e + 2 + messagestr + 3 + contentlength;
+            sourcestr.substr(e + 2 + messagelength, 3).c_str());
+        STRING::size_type idend = e + 2 + messagelength + 3 + contentlength;
         if (e + 2 + messagelength >= length) {
           e += 2;
           goto lengthover;
@@ -170,7 +170,7 @@ void Filter::replace_tosign_normal(const STRING& in, STRING& out) {
         }
       }
       if (!skip) {
-        for (STRING::size_type j = 0; j < len; ++j, replace += sign);
+        for (STRING::size_type j = 0; j < length; ++j, replace += sign);
         out.replace(position, length, replace);
       }
       position = in.find(includefilter_[i], position + length);
@@ -185,7 +185,7 @@ void Filter::replace_tosign_normal(const STRING& in, STRING& out) {
   }
 }
 
-void Filter::replace_tosign_new(const STRING& in, STRING out) {
+void Filter::replace_tosign_new(const STRING& in, STRING& out) {
   static STRING signs = "~$%^&(){}`-_+=?,.<>";
   out = in;
   //包含替换

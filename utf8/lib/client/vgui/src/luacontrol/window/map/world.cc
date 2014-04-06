@@ -1,9 +1,13 @@
-#include "vgui/luacontrol/window/config.h"
+#include "FalagardWorldMap.h"
+#include "vgui/string/system.h"
+#include "vengine/db/struct/all.h"
+#include "vengine/db/system.h"
+#include "vengine/game/worldsystem.h"
 #include "vgui/luacontrol/window/map/world.h"
 
 namespace vgui_luacontrol {
 
-namespace world {
+namespace window {
 
 namespace map {
 
@@ -31,21 +35,21 @@ int32_t World::lua_init(LuaPlus::LuaState* luastate) {
         continue;
       //显示城市信息
       window->setCityPos(
-          line->severid,
+          line->serverid,
           CEGUI::Point(static_cast<float>(line->worldmap_xposition),
                        static_cast<float>(line->worldmap_yposition)));
       window->setCityNamePos(
-          line->severid,
+          line->serverid,
           CEGUI::Point(static_cast<float>(line->worldmap_xposition),
                        static_cast<float>(line->worldmap_yposition)));
       window->setCityType(line->serverid, line->type);
 
-      window->setCityNameNormalImage(line->severid,
+      window->setCityNameNormalImage(line->serverid,
                                      line->cityname_normal_imageset,
                                      line->cityname_normalimage);
-      window->setCityNameHoverImage(line->severid,
+      window->setCityNameHoverImage(line->serverid,
                                     line->cityname_hover_imageset,
-                                    line->cityname_hover_image);
+                                    line->cityname_hoverimage);
       CEGUI::String cityname = line->name;
       uint8_t citylevel = line->citylevel;
       char tips[128] = {0};
@@ -56,14 +60,14 @@ int32_t World::lua_init(LuaPlus::LuaState* luastate) {
                citylevel);
       CEGUI::String name;
       vgui_string::System::mbcs_to_utf8(tips, name);
-      window->setCityNameTooltipText(line->severid, name.c_str());
+      window->setCityNameTooltipText(line->serverid, name.c_str());
 
-      if (line->severid == 
+      if (line->serverid == 
           g_game_worldsystem->get_activescene()->getdefine()->serverid) {
-        window->setCityCurrentScene(line->severid, 1);
+        window->setCityCurrentScene(line->serverid, 1);
       }
       else {
-        window->setCityCurrentScene(line->severid, 0);
+        window->setCityCurrentScene(line->serverid, 0);
       }
     }
   }
@@ -86,7 +90,7 @@ int32_t World::lua_getcurrent_selectscene(LuaPlus::LuaState* luastate) {
 }
 
 int32_t World::lua_set_cityhover(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger()) {
     VENGINE_SHOW("vgui_luacontrol::window::map::World::lua_set_cityhover: "
                  "args[2] is a wrong param");
@@ -113,7 +117,7 @@ CEGUI::String World::get_scenename(int32_t id) {
   for (i = 0; i < number; ++i) {
     const define_t* line = reinterpret_cast<const define_t*>(
         scenedefine->search_line_equal(i));
-    if (line->serverid = id) return line->name;
+    if (line->serverid == id) return line->name;
   }
   return "";
 }
@@ -141,6 +145,6 @@ void World::updateplayer() {
 
 } //namespace map
 
-} //namespace world
+} //namespace window
 
 } //namespace vgui_luacontrol

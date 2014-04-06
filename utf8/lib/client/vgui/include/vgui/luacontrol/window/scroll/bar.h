@@ -32,7 +32,7 @@ class Bar : public Base {
  protected:
    friend class vgui_luacontrol::window::Base;
    Bar(CEGUI::Window* window) : Base(window) {}
-   virtual Bar() {}
+   virtual ~Bar() {}
 
  protected:
    static LuaPlus::LuaObject* metatable_;

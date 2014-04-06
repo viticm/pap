@@ -1,4 +1,4 @@
-#include "vgui/luacontrol/window/config.h"
+#include "vgui/string/system.h"
 #include "vgui/luacontrol/window/listbox/image/extend.h"
 
 namespace vgui_luacontrol {
@@ -15,8 +15,8 @@ LuaPlus::LuaObject* Extend::get_metatable() {
   return metatable_;
 }
 
-int32_t Base::lua_additem(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+int32_t Extend::lua_additem(LuaPlus::LuaState* luastate) {
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString() || !args[3].IsInteger() || !args[4].IsInteger()) 
     return 0;
   CEGUI::String text;
@@ -30,7 +30,7 @@ int32_t Base::lua_additem(LuaPlus::LuaState* luastate) {
   STRING mbcs = value;
   CEGUI::String str;
   vgui_string::System::mbcs_to_utf8(mbcs, str);
-  window->setProperty("AddItem", str);
+  window_->setProperty("AddItem", str);
   return 0;
 }
 

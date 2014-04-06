@@ -1,3 +1,6 @@
+#include "vgui/luacontrol/window/config.h"
+#include "vgui/icon/manager.h"
+#include "vgui/base/system.h"
 #include "vgui/luacontrol/window/complex.h"
 
 namespace vgui_luacontrol {
@@ -11,7 +14,7 @@ LuaPlus::LuaObject* Complex::get_metatable() {
 }
 
 int32_t Complex::lua_add_textelement(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   STRING mbcs = args[2].GetString();
   CEGUI::String32 str;
@@ -24,7 +27,7 @@ int32_t Complex::lua_add_textelement(LuaPlus::LuaState* luastate) {
     CEGUI::String32 fontstr;
     vgui_string::System::getself()->parsestring_runtime(mbcs_font, fontstr);
     CEGUI::FontManager* fontmanager = CEGUI::FontManager::getSingletonPtr();
-    font = fontmanager->getFont(fontstr);
+    font = fontmanager->getFont(fontstr.c_str());
   }
   uint8_t typeset = 4;
   STRING mbcs_extral;
@@ -32,7 +35,7 @@ int32_t Complex::lua_add_textelement(LuaPlus::LuaState* luastate) {
   const char* delimiter = strchr(temp, '@');
   if (delimiter) {
     mbcs.assign(delimiter + 2);
-    mbcs_extralassign(delimiter + 1, delimiter + 2);
+    mbcs_extral.assign(delimiter + 1, delimiter + 2);
     typeset = atoi(&mbcs_extral.at(0));
   }
   vgui_string::System::getself()->parsestring_runtime(mbcs, str);
@@ -43,7 +46,7 @@ int32_t Complex::lua_add_textelement(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Complex::lua_add_chatboard_element(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   STRING mbcs = args[2].GetString();
   CEGUI::String32 str;
@@ -56,7 +59,7 @@ int32_t Complex::lua_add_chatboard_element(LuaPlus::LuaState* luastate) {
     CEGUI::String32 fontstr;
     vgui_string::System::getself()->parsestring_runtime(mbcs_font, fontstr);
     CEGUI::FontManager* fontmanager = CEGUI::FontManager::getSingletonPtr();
-    font = fontmanager->getFont(fontstr);
+    font = fontmanager->getFont(fontstr.c_str());
   }
   uint8_t typeset = 4;
   STRING mbcs_extral;
@@ -64,7 +67,7 @@ int32_t Complex::lua_add_chatboard_element(LuaPlus::LuaState* luastate) {
   const char* delimiter = strchr(temp, '@');
   if (delimiter) {
     mbcs.assign(delimiter + 2);
-    mbcs_extralassign(delimiter + 1, delimiter + 2);
+    mbcs_extral.assign(delimiter + 1, delimiter + 2);
     typeset = atoi(&mbcs_extral.at(0));
   }
   vgui_string::System::getself()->parsestring_runtime(mbcs, str);
@@ -73,7 +76,7 @@ int32_t Complex::lua_add_chatboard_element(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Complex::lua_add_optionelement(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   STRING mbcs;
   STRING mbcs_extral;
   STRING mbcs_extra2;
@@ -118,7 +121,7 @@ int32_t Complex::lua_add_optionelement(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Complex::lua_add_itemelement(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger() || !args[3].IsInteger() || !args[4].IsInteger())
     return 0;
   int32_t itemid = args[2].GetInteger();
@@ -126,7 +129,7 @@ int32_t Complex::lua_add_itemelement(LuaPlus::LuaState* luastate) {
   bool radio = 1 == args[4].GetInteger();
   bool rearrange = false;
   if (args[5].IsInteger()) rearrange = 1 == args[5].GetInteger();
-  vengine_game::object::Item* item = g_game_objectsystem->finditem(itemid);
+  vengine_game::object::Item* item = g_game_objectsystem->getitem(itemid);
   if (NULL == item) return 0;
   STRING icon_fullname = vgui_icon::Manager::getself()->get_icon_fullname(
       item->geticon());
@@ -146,7 +149,7 @@ int32_t Complex::lua_add_itemelement(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Complex::lua_add_actionelement(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger() || !args[3].IsInteger() || !args[4].IsInteger())
     return 0;
   int32_t itemid = args[2].GetInteger();
@@ -154,7 +157,7 @@ int32_t Complex::lua_add_actionelement(LuaPlus::LuaState* luastate) {
   bool radio = 1 == args[4].GetInteger();
   bool rearrange = false;
   if (args[5].IsInteger()) rearrange = 1 == args[5].GetInteger();
-  vengine_game::object::Item* item = g_game_objectsystem->finditem(itemid);
+  vengine_game::action::Item* item = g_game_actionsystem->get(itemid);
   if (NULL == item) return 0;
   STRING icon_fullname = vgui_icon::Manager::getself()->get_icon_fullname(
       item->geticon());
@@ -188,28 +191,28 @@ int32_t Complex::lua_add_actionelement(LuaPlus::LuaState* luastate) {
       "ParentHidden", 
       CEGUI::Event::Subscriber(
         &vgui_base::System::handle_actionbutton_parenthidden, 
-        vgui_base::System::getself());
+        vgui_base::System::getself()));
   return 0;
 }
 
 int32_t Complex::lua_add_impactelement(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   STRING icon_fullname = 
     vgui_icon::Manager::getself()->get_icon_fullname(args[2].GetString());
   CEGUI::String iconname_str;
   vgui_string::System::mbcs_to_utf8(icon_fullname, iconname_str);
-  CEGUI::String32 description;
+  STRING description;
   vgui_string::System::mbcs_to_utf8("", description);
   CEGUI::IFalagardComplexWindow* complexwindow = 
     dynamic_cast<CEGUI::IFalagardComplexWindow*>(
       dynamic_cast<CEGUI::FalagardComplexWindow*>(window_));
-  complexwindow->AddChildElement_Item(iconname_str, description, 0, 0);
+  complexwindow->AddChildElement_Item(iconname_str, CEGUI::String32(description.c_str()), 0, 0);
   return 0;
 }
 
 int32_t Complex::lua_add_moneyelement(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   CEGUI::IFalagardComplexWindow* complexwindow = 
     dynamic_cast<CEGUI::IFalagardComplexWindow*>(
@@ -227,6 +230,10 @@ int32_t Complex::lua_clean_allelement(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Complex::lua_setcolor(LuaPlus::LuaState* luastate) {
+  return 0;
+}
+
+int32_t Complex::lua_set_textcolor(LuaPlus::LuaState* luastate) {
   return 0;
 }
 

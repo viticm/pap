@@ -13,7 +13,7 @@
 
 #include "vgui/config.h"
 #include "vgui/luacontrol/window/base.h"
-
+#include "vgui/luacontrol/window/listbox/base.h"
 
 namespace vgui_luacontrol {
 
@@ -29,7 +29,7 @@ class Extend : public vgui_luacontrol::window::listbox::Base {
    virtual LuaPlus::LuaObject* get_metatable();
 
  protected:
-   virtual lua_additem(LuaPlus::LuaState* luastate);
+   virtual int32_t lua_additem(LuaPlus::LuaState* luastate);
 
  protected:
    friend class vgui_luacontrol::window::Base;

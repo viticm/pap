@@ -18,8 +18,6 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\..\..\Run\Client\Game"
-			IntermediateDirectory="..\..\..\..\..\BuildOut\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
@@ -42,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\fairyCore;..\..\kylinengine\ogre1.7.1\OgreMain\include;..\..\ThirdParty\VSInclude\opcode;..\..\ThirdParty\VSInclude\expat;..\..\ThirdParty\VSInclude;..\..\..\Client\Helper\Helper\tinyxml;..\..\ThirdParty\VSInclude\Xerces\src;..\..\kylinengine\Ogre\Scorpio\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="false"
 				MinimalRebuild="true"
@@ -94,8 +92,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\..\..\Run\Client\Game"
-			IntermediateDirectory="..\..\..\..\..\BuildOut\$(ConfigurationName)\$(ProjectName)"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ProjectName).dir\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
@@ -124,7 +122,7 @@
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="..\fairyCore;..\..\kylinengine\ogre1.6.5\OgreMain\include;..\..\kylinengine\ogre1.6.5\PlugIns\Scorpio\include;..\..\kylinengine\ogre1.6.5\Dependencies\include;..\..\ThirdParty\VSInclude\opcode;..\..\ThirdParty\VSInclude\expat;..\..\ThirdParty\VSInclude;..\..\..\Client\Helper\Helper\tinyxml;..\..\ThirdParty\VSInclude\Xerces\src"
+				AdditionalIncludeDirectories="..\src;..\..\Ogre\OgreMain\include;..\..\Ogre\PlugIns\Scorpio\include;..\..\Ogre\Dependencies\include;..\..\Opcode\src;..\..\\expat\include;..\..\ThirdParty\VSInclude;..\..\tinyxml\include;..\..\Xerces\src;../../Ogre/vc_build/include/"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="false"
 				MinimalRebuild="true"
@@ -140,7 +138,7 @@
 				ForceConformanceInForLoopScope="false"
 				RuntimeTypeInfo="true"
 				ExpandAttributedSource="false"
-				ProgramDataBaseFileName="$(IntDir)/vc80.pdb"
+				ProgramDataBaseFileName="$(IntDir)/vc90.pdb"
 				WarningLevel="3"
 				WarnAsError="false"
 				Detect64BitPortabilityProblems="false"
@@ -159,7 +157,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/$(ProjectName).lib"
+				OutputFile="../lib/Release/$(ProjectName).lib"
 				AdditionalLibraryDirectories=""
 			/>
 			<Tool

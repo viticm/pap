@@ -1556,7 +1556,7 @@ namespace Fairy	{
 				//wangling-<<
                 else
 				{
-					mSkeletonEntity->_updateSkeletalAnimation();
+          mSkeletonEntity->_updateAnimation();
 				}
 				//david->>
 

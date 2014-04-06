@@ -31,6 +31,7 @@ class Pop : public Base {
    int32_t lua_setposition(LuaPlus::LuaState* luastate);
 
  protected:
+   friend class Base;
    Pop(CEGUI::Window* window) : Base(window) {}
    virtual ~Pop() {}
 

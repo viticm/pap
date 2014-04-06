@@ -1,4 +1,5 @@
-#include "vgui/luacontrol/window/config.h"
+#include "FalagardScrollInfo.h"
+#include "vgui/string/system.h"
 #include "vgui/luacontrol/window/scroll/info.h"
 
 namespace vgui_luacontrol {
@@ -14,7 +15,7 @@ LuaPlus::LuaObject* Info::get_metatable() {
 }
 
 int32_t Info::lua_set(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   CEGUI::IFalagardScrollInfo* window = 
     dynamic_cast<CEGUI::IFalagardScrollInfo*>(
@@ -33,7 +34,7 @@ int32_t Info::lua_set(LuaPlus::LuaState* luastate) {
     str += 0xFBFFFFFF;
   }
   vgui_string::System::getself()->parsestring_runtime(mbcs, str);
-  window_->setWaitingInfo(str);
+  window->setWaitingInfo(str);
   return 0;
 }
 

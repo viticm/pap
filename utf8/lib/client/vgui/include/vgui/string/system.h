@@ -57,7 +57,7 @@ class System {
    void parsestring_nocolor(const STRING& in, 
                             STRING& out, 
                             bool control = false);
-   STRING parsestring_no_varparam(const char* id);
+   STRING parsestring_no_varparam(const STRING& id);
 
    //物品传输系统
    void parsestring_reverseruntime(const CEGUI::String32& in, STRING& out);
@@ -80,7 +80,7 @@ class System {
    bool check_stringfilter(
        const STRING& in, 
        const vengine_ui::filtertype_enum type = vengine_ui::kFilterTypeNone);
-   bool check_stringcode(const STRING& in, const STRING& out);
+   bool check_stringcode(const STRING& in, STRING& out);
    //完全匹配过滤
    bool check_string_fullcompare(const STRING& in, 
                                  const STRING& filtertype = "all", 
@@ -110,7 +110,7 @@ class System {
 
  //variables
  protected:
-   System* self_;
+   static System* self_;
    dictionarymap dictionarytable_;
    codeconvert_map codeconvert_table_;
    filter_map filtertable_;

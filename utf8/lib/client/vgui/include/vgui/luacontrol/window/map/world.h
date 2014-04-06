@@ -33,7 +33,7 @@ class World : public Base {
 
  protected:
    friend class Base;
-   World(CEGUI::Window* windo) : Base(window) {}
+   World(CEGUI::Window* window) : Base(window) {}
    virtual ~World() {}
 
  protected:

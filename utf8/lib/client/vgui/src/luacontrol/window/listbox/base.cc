@@ -1,4 +1,7 @@
-#include "vgui/luacontrol/window/config.h"
+#include "CEGUIPropertyHelper.h"
+#include "elements/CEGUIListbox.h"
+#include "elements/CEGUIListboxTextItem.h"
+#include "vgui/string/system.h"
 #include "vgui/luacontrol/window/listbox/base.h"
 
 namespace vgui_luacontrol {
@@ -14,7 +17,7 @@ LuaPlus::LuaObject* Base::get_metatable() {
 }
 
 int32_t Base::lua_additem(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString() || !args[3].IsInteger()) return 0;
   STRING mbcs = args[2].GetString();
   STRING str;
@@ -34,7 +37,7 @@ int32_t Base::lua_additem(LuaPlus::LuaState* luastate) {
       CEGUI::PropertyHelper::stringToColour(args[5].GetString());
   }
   if (args[ 6 ].IsInteger()) {
-    item->->setHorzFomate(CEGUI::TextFormatting(args[6].GetInteger()));
+    item->setHorzFomate(CEGUI::TextFormatting(args[6].GetInteger()));
   }
   if (args[7].IsString() && args[8].IsString()) {
     item->setSelectionBrushImage(args[7].GetString(), args[8].GetString());
@@ -47,7 +50,7 @@ int32_t Base::lua_additem(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_set_tagtext(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger() || !args[3].IsString()) return 0;
   CEGUI::ListboxItem* item = 
     (dynamic_cast<CEGUI::Listbox*>(window_))->getListboxItemFromIndex(
@@ -57,14 +60,14 @@ int32_t Base::lua_set_tagtext(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_set_refindex(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger()) return 0;
   (dynamic_cast<CEGUI::Listbox*>(window_))->setRefIndex(args[2].GetInteger());
   return 0;
 }
 
-int32_t Base::lua_set_tooltip(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+int32_t Base::lua_set_item_tooptip(LuaPlus::LuaState* luastate) {
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger() || !args[3].IsString()) return 0;
   (dynamic_cast<CEGUI::Listbox*>(window_))->setItemTooltipsEnabled(true);
   CEGUI::ListboxItem* item = 
@@ -75,7 +78,7 @@ int32_t Base::lua_set_tooltip(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_set_item_tooptip_state(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger()) return 0;
   bool set = 0 == args[2].GetInteger() ? false : true;
   (dynamic_cast<CEGUI::Listbox*>(window_))->setItemTooltipsEnabled(set);
@@ -83,21 +86,21 @@ int32_t Base::lua_set_item_tooptip_state(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_set_itemtext(LuaPlus::LuaState* luastate) { 
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger() || !args[3].IsString()) return 0;
   CEGUI::ListboxItem* item = 
     (dynamic_cast<CEGUI::Listbox*>(window_))->getListboxItemFromIndex(
         args[2].GetInteger());
   STRING mbcs = args[3].GetString();
-  CEGUI::String32 str;
+  STRING str;
   vgui_string::System::mbcs_to_utf8(mbcs, str);
-  item->setText(str);
+  item->setText(CEGUI::String32(str.c_str()));
   (dynamic_cast<CEGUI::Listbox*>(window_))->requestRedraw();
   return 0;
 }
 
 int32_t Base::lua_deleteitem(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger()) return 0;
   CEGUI::ListboxItem* item = 
     (dynamic_cast<CEGUI::Listbox*>(window_))->getListboxItemFromIndex(
@@ -107,7 +110,7 @@ int32_t Base::lua_deleteitem(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_getitem(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger()) return 0;
   CEGUI::ListboxItem* item = 
     (dynamic_cast<CEGUI::Listbox*>(window_))->getListboxItemFromIndex(
@@ -156,16 +159,16 @@ int32_t Base::lua_getfirst_selectitem_string(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_setfirst_selectitem_string(LuaPlus::LuaState* luastate) { 
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   CEGUI::ListboxTextItem* item = 
     dynamic_cast<CEGUI::ListboxTextItem*>(
         (dynamic_cast<CEGUI::Listbox*>(window_))->getFirstSelectedItem());
   if (item != NULL) {
     STRING mbcs = args[2].GetString();
-    CEGUI::String32 str;
+    STRING str;
     vgui_string::System::mbcs_to_utf8(mbcs, str);
-    item->setText(str);
+    item->setText(CEGUI::String32(str.c_str()));
     (dynamic_cast<CEGUI::Listbox*>(window_))->requestRedraw();
   }
   return 0;
@@ -177,15 +180,15 @@ int32_t Base::lua_clear_allselections(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_set_itemselect(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger()) return 0;
   int32_t itemindex = args[2].GetInteger();
-  (dynamic_cast<CEGUI::Listbox*>(window_))->setItemSelectState(itemidex, true);
+  (dynamic_cast<CEGUI::Listbox*>(window_))->setItemSelectState(itemindex, true);
   return 0;
 }
 
 int32_t Base::lua_set_itemselect_byid(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger()) return 0;
   int32_t itemid = args[2].GetInteger();
   (dynamic_cast<CEGUI::Listbox*>(window_))->setItemSelectStateByItemID(itemid, 

@@ -40,7 +40,7 @@ class Filter {
    //替换函数，将非法字符替换成'?'
    void replace_tosign_normal(const STRING& in, STRING& out);
    //替换函数，将非法字符替换成乱序的符号排列
-   void replase_tosign_new(const STRING& in, STRING& out);
+   void replace_tosign_new(const STRING& in, STRING& out);
    bool is_include_or_fullmatch(const STRING& str);
 
  protected:

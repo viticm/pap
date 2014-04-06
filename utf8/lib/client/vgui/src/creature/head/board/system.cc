@@ -1,6 +1,8 @@
 #include "CEGUIWindowManager.h"
 #include "CEGUIPropertyHelper.h"
+#include "vgui/window/manager.h"
 #include "vgui/creature/head/board/base.h"
+#include "vgui/creature/head/board/behit_manager.h"
 #include "vgui/creature/head/board/system.h"
 
 namespace vgui_creature {
@@ -21,6 +23,14 @@ System::~System() {
   //do nothing
 }
 
+System* System::getself() {
+  return self_;
+}
+
+CEGUI::Window* System::get_clientscreen() {
+  return groundsheet_;
+}
+
 void System::init() {
   release();
   behit_count_ = 0;
@@ -29,8 +39,8 @@ void System::init() {
       (CEGUI::utf8*)"DefaultGUISheet", 
       (CEGUI::utf8*)"__CREATUREBOARDSHEET__");
   groundsheet_->setMouseHollow(true);
-  if (vgui_base::System::get_clientscreen()) {
-    vgui_base::System::get_clientscreen()->addChildWindow(groundsheet_);
+  if (vgui_window::Manager::get_clientscreen()) {
+    vgui_window::Manager::get_clientscreen()->addChildWindow(groundsheet_);
     groundsheet_->setProperty("RiseOnClick", "False");
     groundsheet_->moveToBack();
   }
@@ -87,7 +97,7 @@ void System::destroy(Base* board) {
   //从链表中删除
   std::list<Base*>::iterator base_iterator;
   for (base_iterator = boardlist_.begin();
-       base_iterator != behit_boardlist_.end();
+       base_iterator != boardlist_.end();
        ++base_iterator) {
     if ((*base_iterator) == board) {
       boardlist_.erase(base_iterator);
@@ -108,14 +118,14 @@ void System::add_new_behit(bool doublehit, //是否为重击
   if (behit_boardlist_.size() > 100) return;
   BeHit* behit = BeHitManager::getself()->get_freewindow();
   if (behit) {
-    if (doublehit_) {
+    if (doublehit) {
       type += 20;
       movetype += 20;
     }
     behit->doublehit_ = doublehit;
     behit->colortype_ = BeHitManager::getself()->colortype_[type];
     behit->back_colortype_ = BeHitManager::getself()->back_colortype_[type];
-    behit_data_t* behit_data = BeHitManager::getself()->behit_data_[movetype];
+    behit_data_t* behit_data = &BeHitManager::getself()->behit_data_[movetype];
     behit->xspeed_ = behit_data->xspeed;
     behit->yspeed_ = behit_data->yspeed;
     behit->xacceleration_ = behit_data->xacceleration;
@@ -124,9 +134,9 @@ void System::add_new_behit(bool doublehit, //是否为重击
     behit->alphamode_ = behit_data->alphamode;
     behit->movemode_ = behit_data->movemode;
     behit->usetemp_position_ = behit_data->usetemp_position;
-    behit->startx_ = behit_data->startx;
-    behit->starty_ = behit_data->starty;
-    behit->movetype_ = behit_data->movetype;
+    behit->startx_ = behit_data->xposition;
+    behit->starty_ = behit_data->yposition;
+    behit->movetype_ = movetype;
     if (behit->usetemp_position_) {
       //判断是不是已经占用位置了
       std::list<BeHit*>::iterator iterator;
@@ -177,6 +187,14 @@ void System::tick() {
       ++iterator;
     }
   }
+}
+
+float System::get_maxdistance() {
+  return maxdistance_;
+}
+
+float System::get_maxdispear_distance() {
+  return maxdispear_distance_;
 }
 
 } //namespace head_board

@@ -409,6 +409,11 @@ namespace Ogre {
 
 	}
     //-----------------------------------------------------------------------
+
+  DataStreamPtr PakFileSystemArchive::open(const String& filename, bool readOnly) const {
+    MemoryDataStream* stream = NULL;
+    return DataStreamPtr(stream);
+  }
 	bool PakFileSystemArchive::exists(const Ogre::String& filename)
 	{
 		// directory change requires locking due to saved returns

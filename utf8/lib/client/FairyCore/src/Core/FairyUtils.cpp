@@ -329,7 +329,7 @@ fixupProjectiveMaterial(const MaterialPtr& material, const Frustum* frustum)
 #endif
                 {
 					typedef std::multimap<TextureUnitState::TextureEffectType, TextureUnitState::TextureEffect> EffectMap;
-                    const EffectMap& effects = tus->getEffects();
+                    const EffectMap& effects = (const EffectMap&)(tus->getEffects());
                     if (effects.find(tus->ET_ENVIRONMENT_MAP) == effects.end())
                     {
                         tus->setProjectiveTexturing(true, frustum);

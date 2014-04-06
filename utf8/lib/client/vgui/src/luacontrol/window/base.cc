@@ -8,6 +8,7 @@
 #include "vgui/luacontrol/window/button/action.h"
 #include "vgui/luacontrol/window/button/check.h"
 #include "vgui/luacontrol/window/chat/channel.h"
+#include "vgui/luacontrol/window/chat/history.h"
 #include "vgui/luacontrol/window/combobox/base.h"
 #include "vgui/luacontrol/window/editbox/base.h"
 #include "vgui/luacontrol/window/editbox/multiline.h"
@@ -27,7 +28,7 @@
 #include "vgui/luacontrol/window/scroll/info.h"
 #include "vgui/luacontrol/window/tooltip/super.h"
 /* } controls */
-
+#include "vgui/window/manager.h"
 #include "vgui/luacontrol/window/base.h"
 
 namespace vgui_luacontrol {
@@ -50,6 +51,7 @@ Base* Base::create(CEGUI::Window* window) {
 
   if ("Falagard/ActionButton" == type) {
     return new button::Action(window);
+    return NULL;
   }
   else if ("Falagard/ProgressBar" == type) {
     return new progressbar::Base(window);
@@ -79,7 +81,7 @@ Base* Base::create(CEGUI::Window* window) {
     return new button::Check(window);
   }
   else if ("Falagard/Combobox" == type) {
-    return new combox::Base(window);
+    return new combobox::Base(window);
   }
   else if ("Falagard/StaticImage" == type) {
     return new image::Static(window);
@@ -134,7 +136,7 @@ Base* Base::create(CEGUI::Window* window) {
   }
 }
 
-void Base::destroy(CEGUI::Window* window) {
+void Base::destroy(Base* window) {
   SAFE_DELETE(window);
 }
 
@@ -147,53 +149,53 @@ void Base::register_metatable() {
       "MetaTable_Control_Window");
   Base::metatable_->SetObject("__index", *Base::metatable_);
   Base::metatable_->RegisterObjectFunctor("SetProperty", 
-                                          &Base::Base::lua_setproperty);
+                                          &Base::lua_setproperty);
   Base::metatable_->RegisterObjectFunctor("GetProperty", 
-                                          &Base::Base::lua_getproperty);
-  Base::metatable_->RegisterObjectFunctor("GetType", &Base::Base::lua_gettype);
-  Base::metatable_->RegisterObjectFunctor("GetText", &Base::Base::lua_gettext);
-  Base::metatable_->RegisterObjectFunctor("SetText", &Base::Base::lua_settext);
+                                          &Base::lua_getproperty);
+  Base::metatable_->RegisterObjectFunctor("GetType", &Base::lua_gettype);
+  Base::metatable_->RegisterObjectFunctor("GetText", &Base::lua_gettext);
+  Base::metatable_->RegisterObjectFunctor("SetText", &Base::lua_settext);
   Base::metatable_->RegisterObjectFunctor("SetTextOriginal", 
-                                          &Base::Base::lua_set_textoriginal);
+                                          &Base::lua_set_textoriginal);
   Base::metatable_->RegisterObjectFunctor("TransText", 
-                                          &Base::Base::lua_transtext);
-  Base::metatable_->RegisterObjectFunctor("Show", &Base::Base::lua_show);
-  Base::metatable_->RegisterObjectFunctor("Hide", &Base::Base::lua_hide);
-  Base::metatable_->RegisterObjectFunctor("Disable", &Base::Base::lua_disable);
-  Base::metatable_->RegisterObjectFunctor("Enable", &Base::Base::lua_enable);
+                                          &Base::lua_transtext);
+  Base::metatable_->RegisterObjectFunctor("Show", &Base::lua_show);
+  Base::metatable_->RegisterObjectFunctor("Hide", &Base::lua_hide);
+  Base::metatable_->RegisterObjectFunctor("Disable", &Base::lua_disable);
+  Base::metatable_->RegisterObjectFunctor("Enable", &Base::lua_enable);
   Base::metatable_->RegisterObjectFunctor("IsVisible", 
-                                          &Base::Base::lua_isvisiable);
+                                          &Base::lua_isvisible);
   Base::metatable_->RegisterObjectFunctor("SetForce", 
-                                          &Base::Base::lua_setforce);
+                                          &Base::lua_setforce);
   Base::metatable_->RegisterObjectFunctor("SetToolTip", 
-                                          &Base::Base::lua_set_tooltip);
+                                          &Base::lua_set_tooltip);
   Base::metatable_->RegisterObjectFunctor("CaptureInput", 
-                                          &Base::Base::lua_captureinput);
+                                          &Base::lua_captureinput);
   Base::metatable_->RegisterObjectFunctor("CenterWindow", 
-                                          &Base::Base::lua_center);
+                                          &Base::lua_center);
   Base::metatable_->RegisterObjectFunctor("SetWindowCenter", 
-                                          &Base::Base::lua_setcenter);
+                                          &Base::lua_setcenter);
   Base::metatable_->RegisterObjectFunctor("SetClippedByParent", 
-                                          &Base::Base::lua_setclipped_byparent);
+                                          &Base::lua_setclipped_byparent);
   Base::metatable_->RegisterObjectFunctor("AutoMousePosition", 
-                                          &Base::Base::lua_auto_mouseposition);
+                                          &Base::lua_auto_mouseposition);
   Base::metatable_->RegisterObjectFunctor("SetAlpha", 
-                                          &Base::Base::lua_setalpha);
+                                          &Base::lua_setalpha);
   Base::metatable_->RegisterObjectFunctor(
       "SetAreaAndTexCoord", 
-      &Base::Base::lua_setarea_and_texturecoord);
+      &Base::lua_setarea_and_texturecoord);
   Base::metatable_->RegisterObjectFunctor("CreateChildWindow",
-                                          &Base::Base::lua_createchild);
+                                          &Base::lua_createchild);
   Base::metatable_->RegisterObjectFunctor("RemoveChildWindow", 
-                                          &Base::Base::lua_removechild);
+                                          &Base::lua_removechild);
   Base::metatable_->RegisterObjectFunctor("DebugWindowInfo", 
-                                          &Base::Base::lua_debuginfo);
+                                          &Base::lua_debuginfo);
   Base::metatable_->RegisterObjectFunctor("SetEvent", 
-                                          &Base::Base::lua_setevent);
+                                          &Base::lua_setevent);
   Base::metatable_->RegisterObjectFunctor("SetPosition", 
-                                          &Base::Base::lua_setposition);
+                                          &Base::lua_setposition);
   Base::metatable_->RegisterObjectFunctor("GetPosition", 
-                                          &Base::Base::lua_getposition);
+                                          &Base::lua_getposition);
   /* } base */
 
   /* progress { */
@@ -222,43 +224,43 @@ void Base::register_metatable() {
   button::Action::metatable_->SetObject("__index", *button::Action::metatable_);
   button::Action::metatable_->RegisterObjectFunctor(
       "SetActionItem",
-      button::Action::lua_setitem);
+      &button::Action::lua_setitem);
   button::Action::metatable_->RegisterObjectFunctor(
       "DoAction",
-      button::Action::lua_do);
+      &button::Action::lua_do);
   button::Action::metatable_->RegisterObjectFunctor(
       "DoSubAction",
-      button::Action::lua_dosub);
+      &button::Action::lua_dosub);
   button::Action::metatable_->RegisterObjectFunctor(
       "SetPushed",
-      button::Action::lua_setpushed);
+      &button::Action::lua_setpushed);
   button::Action::metatable_->RegisterObjectFunctor(
       "SetFlash",
-      button::Action::lua_setflash);
+      &button::Action::lua_setflash);
   button::Action::metatable_->RegisterObjectFunctor(
       "Gloom",
-      button::Action::lua_gloom);
+      &button::Action::lua_gloom);
   button::Action::metatable_->RegisterObjectFunctor(
       "Bright",
-      button::Action::lua_bright);
+      &button::Action::lua_bright);
   button::Action::metatable_->RegisterObjectFunctor(
       "SetActionSystemKeyState",
-      button::Action::lua_keystate);
+      &button::Action::lua_set_keystate);
   button::Action::metatable_->RegisterObjectFunctor(
       "GetActionItemId",
-      button::Action::lua_get_itemid);
+      &button::Action::lua_get_itemid);
   button::Action::metatable_->RegisterObjectFunctor(
       "GetActionItemDefineId",
-      button::Action::lua_get_item_defineid);
+      &button::Action::lua_get_item_defineid);
   button::Action::metatable_->RegisterObjectFunctor(
       "SetLogicItemData",
-      button::Action::lua_set_logicitem_data);
+      &button::Action::lua_set_logicitem_data);
   button::Action::metatable_->RegisterObjectFunctor(
       "SetActionItemIconName",
-      button::Action::lua_set_item_iconname);
+      &button::Action::lua_set_item_iconname);
   button::Action::metatable_->RegisterObjectFunctor(
       "SetNormalImage",
-      button::Action::lua_set_normalimage);
+      &button::Action::lua_set_normalimage);
 
   //check button as check box use
   button::Check::metatable_ = new LuaPlus::LuaObject;
@@ -267,9 +269,9 @@ void Base::register_metatable() {
   button::Check::metatable_->SetMetaTable(*Base::metatable_);
   button::Check::metatable_->SetObject("__index", *button::Check::metatable_);
   button::Check::metatable_->RegisterObjectFunctor("SetCheck", 
-                                                   button::Check::lua_set);
+                                                   &button::Check::lua_set);
   button::Check::metatable_->RegisterObjectFunctor("GetCheck",
-                                                   button::Check::lua_get);
+                                                   &button::Check::lua_get);
   /* } button */
 
   /* menu { */
@@ -279,40 +281,40 @@ void Base::register_metatable() {
   menu::Pop::metatable_->SetMetaTable(*Base::metatable_);
   menu::Pop::metatable_->SetObject("__index", *menu::Pop::metatable_);
   menu::Pop::metatable_->RegisterObjectFunctor("OpenPopMenu", 
-                                               menu::Pop::lua_openit);
+                                               &menu::Pop::lua_openit);
   menu::Pop::metatable_->RegisterObjectFunctor("ClosePopMenu",
-                                               menu::Pop::lua_closeit);
+                                               &menu::Pop::lua_closeit);
   menu::Pop::metatable_->RegisterObjectFunctor("SetPopMenuPos",
-                                               menu::Pop::lua_setposition);
+                                               &menu::Pop::lua_setposition);
   /* } menu */
 
   /* complex { */
   Complex::metatable_ = new LuaPlus::LuaObject;
-  *Complex::metatable_->GetGlobals().CreateTable(
+  *Complex::metatable_ = luastate->GetGlobals().CreateTable(
       "MetaTable_Control_ComplexWindow");
   Complex::metatable_->SetMetaTable(*Base::metatable_);
   Complex::metatable_->SetObject("__index", *Complex::metatable_);
   Complex::metatable_->RegisterObjectFunctor("AddTextElement",
-                                             Complex::lua_add_textelement);
+                                             &Complex::lua_add_textelement);
   Complex::metatable_->RegisterObjectFunctor("AddOptionElement",
-                                             Complex::lua_add_optionelement);
+                                             &Complex::lua_add_optionelement);
   Complex::metatable_->RegisterObjectFunctor("AddItemElement",
-                                             Complex::lua_add_itemelement);
+                                             &Complex::lua_add_itemelement);
   Complex::metatable_->RegisterObjectFunctor("AddActionElement",
-                                             Complex::lua_add_actionelement);
+                                             &Complex::lua_add_actionelement);
   Complex::metatable_->RegisterObjectFunctor("AddMoneyElement",
-                                             Complex::lua_add_moneyelement);
+                                             &Complex::lua_add_moneyelement);
   Complex::metatable_->RegisterObjectFunctor("AddImpactElement",
-                                             Complex::lua_add_impactelement);
+                                             &Complex::lua_add_impactelement);
   Complex::metatable_->RegisterObjectFunctor("ClearAllElement",
-                                             Complex::lua_clean_allelement);
+                                             &Complex::lua_clean_allelement);
   Complex::metatable_->RegisterObjectFunctor("SetTextColour",
-                                             Complex::lua_set_textcolor);
+                                             &Complex::lua_set_textcolor);
   Complex::metatable_->RegisterObjectFunctor("PageEnd",
-                                             Complex::lua_pageend);
+                                             &Complex::lua_pageend);
   Complex::metatable_->RegisterObjectFunctor(
       "AddChatBoardElement",
-      Complex::lua_add_chatboard_element);
+      &Complex::lua_add_chatboard_element);
   /* } complex */
 
   /* map { */
@@ -324,28 +326,28 @@ void Base::register_metatable() {
                                           *map::scene::Base::metatable_);
   map::scene::Base::metatable_->RegisterObjectFunctor(
       "SetSceneFileName",
-      map::scene::Base::lua_set_filename);
+      &map::scene::Base::lua_set_filename);
   map::scene::Base::metatable_->RegisterObjectFunctor(
       "CloseSceneMap",
-      map::scene::Base::lua_closeit);
+      &map::scene::Base::lua_closeit);
   map::scene::Base::metatable_->RegisterObjectFunctor(
       "GetMouseScenePos",
-      map::scene::Base::lua_get_mouseposition);
+      &map::scene::Base::lua_get_mouseposition);
   map::scene::Base::metatable_->RegisterObjectFunctor(
       "UpdateSceneMap",
-      map::scene::Base::lua_update);
+      &map::scene::Base::lua_update);
   map::scene::Base::metatable_->RegisterObjectFunctor(
       "SetSceneZoomMode",
-      map::scene::Base::lua_set_zoommode);
+      &map::scene::Base::lua_set_zoommode);
   map::scene::Base::metatable_->RegisterObjectFunctor(
       "UpdateViewRect",
-      map::scene::Base::lua_update_viewrect);
+      &map::scene::Base::lua_update_viewrect);
   map::scene::Base::metatable_->RegisterObjectFunctor(
       "moveMapByDirection",
-      map::scene::Base::lua_move_bydirection);
+      &map::scene::Base::lua_move_bydirection);
   map::scene::Base::metatable_->RegisterObjectFunctor(
       "AddTeamPlayerPos",
-      map::scene::Base::lua_add_teamplayer_position);
+      &map::scene::Base::lua_add_teamplayer_position);
 
   map::scene::Mini::metatable_ = new LuaPlus::LuaObject;
   *map::scene::Mini::metatable_ = luastate->GetGlobals().CreateTable(
@@ -355,7 +357,7 @@ void Base::register_metatable() {
                                           *map::scene::Mini::metatable_);
   map::scene::Mini::metatable_->RegisterObjectFunctor(
       "UpdateFlag",
-      map::scene::Mini::lua_updateflag);
+      &map::scene::Mini::lua_updateflag);
 
   map::World::metatable_ = new LuaPlus::LuaObject;
   *map::World::metatable_ = luastate->GetGlobals().CreateTable(
@@ -384,52 +386,52 @@ void Base::register_metatable() {
   listbox::Base::metatable_->SetObject("__index", *listbox::Base::metatable_);
   listbox::Base::metatable_->RegisterObjectFunctor(
       "SetItemTooltip",
-      listbox::Base::lua_set_item_tooptip);
+      &listbox::Base::lua_set_item_tooptip);
   listbox::Base::metatable_->RegisterObjectFunctor(
       "SetItemTooltipState",
-      listbox::Base::lua_set_item_tooptip_state);
+      &listbox::Base::lua_set_item_tooptip_state);
   listbox::Base::metatable_->RegisterObjectFunctor(
       "AddItem",
-      listbox::Base::lua_additem);
+      &listbox::Base::lua_additem);
   listbox::Base::metatable_->RegisterObjectFunctor(
       "SetTagText",
-      listbox::Base::lua_set_tagtext);
+      &listbox::Base::lua_set_tagtext);
   listbox::Base::metatable_->RegisterObjectFunctor(
       "SetRefIndex",
-      listbox::Base::lua_set_refindex);
+      &listbox::Base::lua_set_refindex);
   listbox::Base::metatable_->RegisterObjectFunctor(
       "SetListItemText",
-      listbox::Base::lua_set_itemtext);
+      &listbox::Base::lua_set_itemtext);
   listbox::Base::metatable_->RegisterObjectFunctor(
       "GetItem",
-      listbox::Base::lua_getitem);
+      &listbox::Base::lua_getitem);
   listbox::Base::metatable_->RegisterObjectFunctor(
       "DelItem",
-      listbox::Base::lua_deleteitem);
+      &listbox::Base::lua_deleteitem);
   listbox::Base::metatable_->RegisterObjectFunctor(
       "ClearListBox",
-      listbox::Base::lua_clear);
+      &listbox::Base::lua_clear);
   listbox::Base::metatable_->RegisterObjectFunctor(
       "GetFirstSelectItem",
-      listbox::Base::lua_getfirst_selectitem);
+      &listbox::Base::lua_getfirst_selectitem);
   listbox::Base::metatable_->RegisterObjectFunctor(
       "GetFirstSelectItemString",
-      listbox::Base::lua_getfirst_selectitem_string);
+      &listbox::Base::lua_getfirst_selectitem_string);
   listbox::Base::metatable_->RegisterObjectFunctor(
       "SetFirstSelectItemString",
-      listbox::Base::lua_setfirst_selectitem_string);
+      &listbox::Base::lua_setfirst_selectitem_string);
   listbox::Base::metatable_->RegisterObjectFunctor(
       "SetItemSelect",
-      listbox::Base::lua_set_itemselect);
+      &listbox::Base::lua_set_itemselect);
   listbox::Base::metatable_->RegisterObjectFunctor(
       "SetItemSelectByItemID",
-      listbox::Base::lua_set_itemselect_byid);
+      &listbox::Base::lua_set_itemselect_byid);
   listbox::Base::metatable_->RegisterObjectFunctor(
       "ClearAllSelections",
-      listbox::Base::lua_clear_allselections);
+      &listbox::Base::lua_clear_allselections);
   listbox::Base::metatable_->RegisterObjectFunctor(
       "GetMouseMoveItem",
-      listbox::Base::lua_get_mousemove_item);
+      &listbox::Base::lua_get_mousemove_item);
 
   listbox::image::Base::metatable_ = new LuaPlus::LuaObject;
   *listbox::image::Base::metatable_ = luastate->GetGlobals().CreateTable(
@@ -508,7 +510,7 @@ void Base::register_metatable() {
   scroll::Info::metatable_ = new LuaPlus::LuaObject;
   *scroll::Info::metatable_ = luastate->GetGlobals().CreateTable(
       "MetaTable_Control_ScrollInfo");
-  scroll::Info::metatable_->SetMetaTable(&Base::metatable_);
+  scroll::Info::metatable_->SetMetaTable(*Base::metatable_);
   scroll::Info::metatable_->SetObject("__index", *scroll::Info::metatable_);
   scroll::Info::metatable_->RegisterObjectFunctor(
       "SetScrollInfo",
@@ -650,7 +652,7 @@ void Base::register_metatable() {
   SoftKey::metatable_->SetMetaTable(*Base::metatable_);
   SoftKey::metatable_->SetObject("__index", *SoftKey::metatable_);
   SoftKey::metatable_->RegisterObjectFunctor("SetAimEditBox",
-                                             SoftKey::lua_setaim_editbox);
+                                             &SoftKey::lua_setaim_editbox);
   /* } softkey */
 
   /* editbox { */
@@ -704,7 +706,7 @@ void Base::register_metatable() {
       &Tree::lua_setfirst_selectitem_string);
   Tree::metatable_->RegisterObjectFunctor(
       "SetItemSelectByItemID",
-      &Tree::lua_setitem_select_byid);
+      &Tree::lua_set_itemselect_byid);
   Tree::metatable_->RegisterObjectFunctor(
       "SetItemToggle",
       &Tree::lua_setitem_toggle);
@@ -735,7 +737,7 @@ void Base::destroy_metatable() {
   SAFE_DELETE(scroll::Info::metatable_);
   SAFE_DELETE(scroll::Bar::metatable_);
   //image
-  SAFE_DELETE(image::Static);
+  SAFE_DELETE(image::Static::metatable_);
   //combobox
   SAFE_DELETE(combobox::Base::metatable_);
   //listbox
@@ -761,7 +763,7 @@ void Base::destroy_metatable() {
 }
 
 int32_t Base::lua_setproperty(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString() || !args[3].IsString()) return 0;
   CEGUI::Window* window = window_;
   if (!args[4].IsNil()) {
@@ -802,7 +804,7 @@ int32_t Base::lua_setproperty(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_setevent(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString() || !args[3].IsString()) return 0;
   CEGUI::Window* window = window_;
   if (!args[4].IsNil()) {
@@ -825,8 +827,8 @@ int32_t Base::lua_setevent(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_center(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
-  CEGUI::Window* parent = window->getParent();
+  LuaPlus::LuaStack args(luastate);
+  CEGUI::Window* parent = window_->getParent();
   if (parent) {
     CEGUI::Point position;
     CEGUI::Rect rect = parent->getAbsoluteRect();
@@ -840,7 +842,7 @@ int32_t Base::lua_center(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_setcenter(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger() || !args[3].IsInteger()) return 0;
   CEGUI::Point position;
   position.d_x = 
@@ -852,7 +854,7 @@ int32_t Base::lua_setcenter(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_setclipped_byparent(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger()) return 0;
   uint8_t flag = args[2].GetInteger();
   if (0 == flag) {
@@ -866,7 +868,7 @@ int32_t Base::lua_setclipped_byparent(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_auto_mouseposition(LuaPlus::LuaState* luastate) { 
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString() || !args[3].IsString()) return 0;
   float x = args[2].GetFloat();
   float y = args[3].GetFloat();
@@ -897,7 +899,7 @@ int32_t Base::lua_auto_mouseposition(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_getproperty(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   CEGUI::Window* window = window_;
   if (!args[3].IsNil()) {
@@ -914,8 +916,8 @@ int32_t Base::lua_getproperty(LuaPlus::LuaState* luastate) {
   try {
     CEGUI::String str = window->getProperty(args[2].GetString());
     STRING out;
-    vgui_string::System::getself()->parsestring_runtime(str, out);
-    luastate->PushString(out);
+    vgui_string::System::utf8_to_mbcs(str, out);
+    luastate->PushString(out.c_str());
   }
   catch(...) {
     luastate->PushString("");
@@ -924,13 +926,13 @@ int32_t Base::lua_getproperty(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_settext(LuaPlus::LuaState* luastate) { 
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (args[2].IsInteger()) {
     char value[128] = {0};
     sprintf(value, "%d", args[2].GetInteger());
     STRING str;
-    vgui_string::System::getself()->parsestring_runtime(value, str);
-    window_->setText((CEGUI::String32)(CEGUI::utf8*)(str.c_str()));
+    vgui_string::System::mbcs_to_utf8(value, str);
+    window_->setText(CEGUI::String32(str.c_str()));
   }
   else if (args[2].IsString()) {
     STRING mbcs = args[2].GetString();
@@ -950,15 +952,15 @@ int32_t Base::lua_hide(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_gettext(LuaPlus::LuaState* luastate) {
-  STRING mbcs = window_->getText().c_str();
-  STRING str;
-  vgui_string::System::getself()->parsestring_runtime(mbcs, str);
+  STRING str = window_->getText().c_str();
+  STRING mbcs;
+  vgui_string::System::utf8_to_mbcs(mbcs, str);
   luastate->PushString(str.c_str());
   return 1;
 }
 
 int32_t Base::lua_set_textoriginal(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   STRING mbcs = args[2].GetString();
   CEGUI::String32 str;
@@ -968,7 +970,7 @@ int32_t Base::lua_set_textoriginal(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_setalpha(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsNumber()) return 0;
   float value = args[2].GetFloat();
   window_->setAlpha(value);
@@ -981,7 +983,7 @@ int32_t Base::lua_setforce(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_setarea_and_texturecoord(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger() || !args[4].IsInteger()) return 0;
   if (!args[3].IsNumber() || !args[5].IsNumber()) return 0;
   window_->setAreaAndTexCoord(args[2].GetInteger(),
@@ -992,7 +994,7 @@ int32_t Base::lua_setarea_and_texturecoord(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_createchild(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString() || !args[3].IsString()) return 0;
   STRING windowtype = args[2].GetString();
   STRING windowname = args[3].GetString();
@@ -1004,7 +1006,7 @@ int32_t Base::lua_createchild(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_removechild(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   STRING windowname = args[2].GetString();
   CEGUI::Window* window =  
@@ -1014,7 +1016,7 @@ int32_t Base::lua_removechild(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_debuginfo(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   //do something in here
   return 0;
 }
@@ -1026,12 +1028,12 @@ int32_t Base::lua_getposition(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_setposition(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger() || !args[3].IsInteger() || !args[4].IsInteger())
     return 0;
   CEGUI::Point position;
-  position.d_x = args[3].GetInteger();
-  position.d_y = args[4].GetInteger();
+  position.d_x = static_cast<float>(args[3].GetInteger());
+  position.d_y = static_cast<float>(args[4].GetInteger());
   CEGUI::MetricsMode metricsmode;
   if (0 == args[2].GetInteger()) {
     metricsmode = CEGUI::Relative;
@@ -1047,7 +1049,7 @@ int32_t Base::lua_setposition(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_set_tooltip(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (args[2].IsString()) return 0;
   STRING mbcs = args[2].GetString();
   CEGUI::String32 str;
@@ -1059,8 +1061,8 @@ int32_t Base::lua_set_tooltip(LuaPlus::LuaState* luastate) {
 int32_t Base::lua_transtext(LuaPlus::LuaState* luastate) {
   CEGUI::String32 str = window_->getTextOriginal();
   if (!str.empty()) {
-    STRING mbsc;
-    vgui_string::System::utf8_to_mbcs(str.c_st(), mbcs);
+    STRING mbcs;
+    vgui_string::System::utf8_to_mbcs(str.c_str(), mbcs);
     CEGUI::String32 out;
     vgui_string::System::getself()->parsestring_runtime(mbcs, out);
     window_->setText(out);

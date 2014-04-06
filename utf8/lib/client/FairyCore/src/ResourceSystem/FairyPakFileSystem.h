@@ -123,12 +123,13 @@ namespace Ogre {
        Ogre::StringVectorPtr find(const Ogre::String& pattern, bool recursive = true,bool dirs = false);
 
         /// @copydoc Archive::findFileInfo
-        FileInfoListPtr findFileInfo(const Ogre::String& pattern, bool recursive = true, bool dirs = false);
+       FileInfoListPtr findFileInfo(const Ogre::String& pattern, bool recursive = true, bool dirs = false);
 
-		time_t getModifiedTime(const String& filename);
+		   time_t getModifiedTime(const String& filename);
+       DataStreamPtr open(const String& filename, bool readOnly = true) const;
 
         /// @copydoc Archive::exists
-		bool exists(const Ogre::String& filename);
+		   bool exists(const Ogre::String& filename);
 
     };
 

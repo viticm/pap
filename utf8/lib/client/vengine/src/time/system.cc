@@ -77,4 +77,12 @@ time_t System::get_servertime() {
   return servertime_ + currenttime - localtime_;
 }
 
+uint32_t System::get_nowtime() const {
+  return nowtime_;
+}
+
+float System::get_lastframe_time() const {
+  return lastframe_time_;
+}
+
 } //namespace vengine_time

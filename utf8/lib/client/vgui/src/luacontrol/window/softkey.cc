@@ -1,4 +1,5 @@
-#include "vgui/luacontrol/window/config.h"
+#include "FalagardSoftKeyBoard.h"
+#include "IFalagardSoftKeyBoard.h"
 #include "vgui/luacontrol/window/softkey.h"
 
 namespace vgui_luacontrol {
@@ -12,12 +13,12 @@ LuaPlus::LuaObject* SoftKey::get_metatable() {
 }
 
 int32_t SoftKey::lua_setaim_editbox(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   CEGUI::IFalagardSoftKeyBoard* window = 
     dynamic_cast<CEGUI::IFalagardSoftKeyBoard*>(
       dynamic_cast<CEGUI::FalagardSoftKeyBoard*>(window_));
-  window->SetActiveEditBox(args[2].GetString());
+  window->SetActiveEditBox(CEGUI::String(args[2].GetString()));
   return 0;
 }
 

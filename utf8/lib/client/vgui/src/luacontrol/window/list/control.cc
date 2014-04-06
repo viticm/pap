@@ -1,4 +1,8 @@
-#include "vgui/luacontrol/window/config.h"
+#include "CEGUIPropertyHelper.h"
+#include "elements/CEGUIListbox.h"
+#include "elements/CEGUIListboxTextItem.h"
+#include "elements/CEGUIMultiColumnList.h"
+#include "vgui/string/system.h"
 #include "vgui/luacontrol/window/list/control.h"
 
 namespace vgui_luacontrol {
@@ -14,7 +18,7 @@ LuaPlus::LuaObject* Control::get_metatable() {
 }
 
 int32_t Control::lua_addcolumn(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString() || !args[3].IsInteger() || !args[4].IsNumber()) 
     return 0;
   STRING mbcs = args[2].GetString();
@@ -28,7 +32,7 @@ int32_t Control::lua_addcolumn(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Control::lua_insertcolumn(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString() || 
       !args[3].IsInteger() || 
       !args[4].IsNumber() ||
@@ -37,7 +41,7 @@ int32_t Control::lua_insertcolumn(LuaPlus::LuaState* luastate) {
   STRING mbcs = args[2].GetString();
   CEGUI::String32 str;
   vgui_string::System::getself()->parsestring_runtime(mbcs, str);
-  (dynamic_cast<CEGUI::MultiColumnList*>(window_))->addColumn(
+  (dynamic_cast<CEGUI::MultiColumnList*>(window_))->insertColumn(
       str,
       args[3].GetInteger(),
       args[4].GetFloat(),
@@ -46,7 +50,7 @@ int32_t Control::lua_insertcolumn(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Control::lua_removecolumn(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger()) return 0;
   (dynamic_cast<CEGUI::MultiColumnList*>(window_))->removeColumn(
       args[2].GetInteger());
@@ -54,7 +58,7 @@ int32_t Control::lua_removecolumn(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Control::lua_add_newitem(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString() || !args[3].IsInteger() || !args[4].IsInteger())
     return 0;
   STRING mbcs = args[2].GetString();
@@ -71,7 +75,7 @@ int32_t Control::lua_add_newitem(LuaPlus::LuaState* luastate) {
   }
   if (args[6].IsString()) {
     item->setSelectionColours(CEGUI::PropertyHelper::stringToColour(
-          args[6].GetString());
+          args[6].GetString()));
   }
 
   if (args[7].IsString()) {
@@ -116,7 +120,7 @@ int32_t Control::lua_add_newitem(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Control::lua_set_itemtext(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger() || !args[3].IsInteger()) return 0;
   CEGUI::MCLGridRef grid_ref(args[2].GetInteger(), args[3].GetInteger());
   CEGUI::ListboxItem* item = NULL;
@@ -139,7 +143,7 @@ int32_t Control::lua_set_itemtext(LuaPlus::LuaState* luastate) {
 
 int32_t Control::lua_set_itemdata(LuaPlus::LuaState* luastate) {
   //old do nothing, last I will delete it -- viticm
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger() || !args[3].IsInteger()) return 0;
   CEGUI::MCLGridRef grid_ref(args[2].GetInteger(), args[3].GetInteger());
   CEGUI::ListboxItem* item = NULL;
@@ -161,7 +165,7 @@ int32_t Control::lua_set_itemdata(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Control::lua_deleteitem(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger()) return 0;
   (dynamic_cast<CEGUI::MultiColumnList*>(window_))->removeRow(
       args[2].GetInteger());
@@ -174,7 +178,7 @@ int32_t Control::lua_remove_allitem(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Control::lua_get_itemtext(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger() || !args[3].IsInteger()) return 0;
   CEGUI::MCLGridRef grid_ref(args[2].GetInteger(), args[3].GetInteger());
   CEGUI::ListboxItem* item = NULL;
@@ -190,7 +194,7 @@ int32_t Control::lua_get_itemtext(LuaPlus::LuaState* luastate) {
     STRING str = item->getText().c_str();
     STRING out;
     vgui_string::System::utf8_to_mbcs(str, out);
-    luastate->PushString(out);
+    luastate->PushString(out.c_str());
   }
   else {
     luastate->PushString("");
@@ -224,7 +228,7 @@ int32_t Control::lua_get_selectitem(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Control::lua_set_selectitem(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger()) return 0;
   CEGUI::MultiColumnList* multilist = 
     dynamic_cast<CEGUI::MultiColumnList*>(window_);
@@ -235,8 +239,8 @@ int32_t Control::lua_set_selectitem(LuaPlus::LuaState* luastate) {
   }
 
   CEGUI::MCLGridRef grid_ref(rowindex, 0);
-  CEGUI::ListboxItem* item = item->getItemAtGridReference(grid_ref);
-  if (item) item->setItemSelectState(grid_ref, true);
+  CEGUI::ListboxItem* item = multilist->getItemAtGridReference(grid_ref);
+  if (item) multilist->setItemSelectState(grid_ref, true);
   return 0;
 }
 

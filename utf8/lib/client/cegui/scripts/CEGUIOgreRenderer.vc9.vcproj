@@ -147,7 +147,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib CEGUIBase.lib"
+				AdditionalDependencies="..\..\Ogre\vc_build\lib\Release\OgreMain.lib ..\..\CEGUI\bin\Release\cegui_base.lib"
 				OutputFile="..\bin\Release\$(ProjectName).dll"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"

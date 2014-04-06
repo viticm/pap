@@ -29,7 +29,7 @@ class Tree : public Base {
    int32_t lua_getfirst_selectitem(LuaPlus::LuaState* luastate);
    int32_t lua_getfirst_selectitem_string(LuaPlus::LuaState* luastate);
    int32_t lua_setfirst_selectitem_string(LuaPlus::LuaState* luastate);
-   int32_t lua_setitem_select_byid(LuaPlus::LuaState* luastate);
+   int32_t lua_set_itemselect_byid(LuaPlus::LuaState* luastate);
    int32_t lua_setitem_toggle(LuaPlus::LuaState* luastate);
 
  protected:

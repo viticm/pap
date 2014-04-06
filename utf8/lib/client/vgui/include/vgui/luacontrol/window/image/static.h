@@ -30,7 +30,13 @@ class Static : public vgui_luacontrol::window::Base {
    int32_t lua_setcolor(LuaPlus::LuaState* luastate);
 
  protected:
+   friend class Base;
+   Static(CEGUI::Window* window) : Base(window) {}
+   virtual ~Static() {}
+
+ protected:   
    static LuaPlus::LuaObject* metatable_;
+
 
 };
 

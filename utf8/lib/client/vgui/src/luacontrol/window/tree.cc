@@ -1,4 +1,6 @@
-#include "vgui/luacontrol/window/config.h"
+#include "CEGUIPropertyHelper.h"
+#include "FalTree.h"
+#include "vgui/string/system.h"
 #include "vgui/luacontrol/window/tree.h"
 
 namespace vgui_luacontrol {
@@ -13,12 +15,12 @@ LuaPlus::LuaObject* Tree::get_metatable() {
 
 int32_t Tree::lua_clear(LuaPlus::LuaState* luastate) {
   CEGUI::FalagardTree* window = dynamic_cast<CEGUI::FalagardTree*>(window_);
-  window->->resetList();
+  window->resetList();
   return 0;
 }
 
 int32_t Tree::lua_additem(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString() || !args[3].IsInteger()) return 0;
   STRING mbcs = args[2].GetString();
   int32_t index = args[3].GetInteger();
@@ -81,7 +83,7 @@ int32_t Tree::lua_getfirst_selectitem_string(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Tree::lua_setfirst_selectitem_string(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   CEGUI::FalagardTree* window = dynamic_cast<CEGUI::FalagardTree*>(window_);
   CEGUI::TreeItem* item = window->getFirstSelectedItem();
@@ -96,7 +98,7 @@ int32_t Tree::lua_setfirst_selectitem_string(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Tree::lua_set_itemselect_byid(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger()) return 0;
   int32_t id = args[2].GetInteger();
   CEGUI::FalagardTree* window = dynamic_cast<CEGUI::FalagardTree*>(window_);
@@ -110,7 +112,7 @@ int32_t Tree::lua_setitem_toggle(LuaPlus::LuaState* luastate) {
   if (!item) return 0;
   if (0 == item->getItemCount()) return 0;
   item->toggleIsOpen();
-  item->requestRedraw();
+  window->requestRedraw();
   return 0;
 }
 

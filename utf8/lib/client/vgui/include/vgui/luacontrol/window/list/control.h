@@ -8,8 +8,8 @@
  * @date 2014-4-2 15:37:47
  * @uses vgui luacontrol control info window class
  */
-#ifndef VGUI_LUACONTROL_WINDOW_LIST_INFO_H_
-#define VGUI_LUACONTROL_WINDOW_LIST_INFO_H_
+#ifndef VGUI_LUACONTROL_WINDOW_LIST_CONTROL_H_
+#define VGUI_LUACONTROL_WINDOW_LIST_CONTROL_H_
 
 #include "vgui/config.h"
 #include "vgui/luacontrol/window/base.h"
@@ -56,4 +56,4 @@ class Control : public Base {
 
 }; //namespace vgui_luacontrol
 
-#endif //VGUI_LUACONTROL_WINDOW_LIST_INFO_H_
+#endif //VGUI_LUACONTROL_WINDOW_LIST_CONTROL_H_

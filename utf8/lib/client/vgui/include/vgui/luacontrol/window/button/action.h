@@ -11,6 +11,12 @@
 #ifndef VGUI_LUACONTROL_WINDOW_BUTTON_ACTION_H_
 #define VGUI_LUACONTROL_WINDOW_BUTTON_ACTION_H_
 
+//for bugs
+#ifdef VENGINE_API
+#undef VENGINE_API
+#define VENGINE_API
+#endif
+
 #include "vengine/game/action/reference.h"
 #include "vgui/config.h"
 #include "vgui/luacontrol/window/base.h"
@@ -21,7 +27,7 @@ namespace window {
 
 namespace button {
 
-class Action : public Base, vengine_game::action::Reference {
+class Action : public Base, public vengine_game::action::Reference {
 
  public:
    virtual LuaPlus::LuaObject* get_metatable();
@@ -42,14 +48,14 @@ class Action : public Base, vengine_game::action::Reference {
    int32_t lua_get_item_defineid(LuaPlus::LuaState* luastate);
 
  public:
-   virtual void bedestoryed(); //逻辑Action已经被销毁
+   virtual void bedestroyed(); //逻辑Action已经被销毁
    virtual void setcheck(bool check); //按钮按下
    virtual void enterflash(bool flash); //进入闪烁
    virtual void setdefault(bool flag); //将按钮设置为默认状态
    virtual void enter_cooldown(int32_t time, float percent); //进入冷却
    virtual void set_cornerchar(cornernumber_position_enum position, 
                                const char* _char);
-   virtual void update();
+   virtual void update(int32_t itemid);
    virtual void disable();
    virtual void enable();
    virtual void gloom();

@@ -28,8 +28,8 @@ class VENGINE_API CreatureHeadBoard {
    virtual void showtitle(bool flag, uint16_t type) = 0; //显示称号
    virtual void settitle(const char* name, uint8_t type) = 0; //设置称号
    virtual void setname(const char* name) = 0; //设置名称
-   virtual void set_HPProgress(uint32_t now, uint32_t max) = 0; //设置血量
-   virtual void set_HPProgress(float percent) = 0; //血量百分比
+   virtual void set_HPprogress(uint32_t now, uint32_t max) = 0; //设置血量
+   virtual void set_HPprogress(float percent) = 0; //血量百分比
    virtual void setlevel(uint8_t level, uint8_t type) = 0; //设置等级
    virtual void set_countryflag(uint8_t flag) = 0; //国家标记--以后变为阵营
    virtual void set_leaderflag(bool flag, uint8_t type) = 0; //队长标记

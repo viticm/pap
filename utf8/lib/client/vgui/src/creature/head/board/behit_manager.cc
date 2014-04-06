@@ -62,6 +62,10 @@ BeHitManager::~BeHitManager() {
   windowlist_.clear();
 }
 
+BeHitManager* BeHitManager::getself() {
+  return self_;
+}
+
 //一个没有用得窗口
 BeHit* BeHitManager::get_freewindow() {
   std::list<BeHit*>::iterator iterator;
@@ -105,6 +109,18 @@ BeHit* BeHitManager::newwindow() {
   windowlist_.push_back(behit);
   ++count_;
   return behit;
+}
+
+float BeHitManager::get_normalsize() {
+  return normalsize_;
+}
+
+float BeHitManager::get_doublesize() {
+  return doublesize_;
+}
+
+float BeHitManager::get_doubleend_size() {
+  return doubleend_size_;
 }
 
 } //namespace head_board

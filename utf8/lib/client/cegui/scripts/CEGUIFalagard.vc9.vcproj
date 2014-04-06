@@ -157,7 +157,7 @@
 				SubSystem="2"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/$(TargetName).lib"
+				ImportLibrary="../bin/$(OutDir)/$(TargetName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

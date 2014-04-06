@@ -55,7 +55,7 @@ namespace vgui_window {
 class Item {
 
  public:
-   Item(const vengine_db::structs::ui::layoutdefine_t layoutdefine);
+   Item(const vengine_db::structs::ui::layoutdefine_t* layoutdefine);
    virtual ~Item();
 
  public:
@@ -66,15 +66,15 @@ class Item {
    void pre_loadwindow(); //预加载
    void loadwindow(); //窗口加载
    void show(bool flag); //显示/隐藏窗口
-   bool is_windowshow(); //窗口是否正在显示
-   bool is_child_windowshow() const; //子窗口是否正在显示
-   const char* get_windowname(); //得到窗口名
+   bool is_windowshow() const; //窗口是否正在显示
+   bool is_childwindow_show(const char* uiname) const; //子窗口是否正在显示
+   const char* get_windowname() const; //得到窗口名
    void moveto(CEGUI::Point& position); //将窗口移动到某一位置
    void positionself(); //窗口位置自适应
-   static bool callback_property(CEGUI::Window* window, 
-                                 CEGUI::String& propname, 
-                                 CEGUI::String& propvalue, 
-                                 void* userdata); //加载窗口属性回调
+   static bool callbackproperty(CEGUI::Window* window, 
+                                CEGUI::String& propname, 
+                                CEGUI::String& propvalue, 
+                                void* userdata); //加载窗口属性回调
    void set_openclose_sound(uint16_t open, uint16_t close); //设置打开关闭声音
    void on_sizechange(); //窗口大小改变,调整窗口到合适的位置
    void reloadscript(); //重新加载脚本
@@ -112,7 +112,7 @@ class Item {
    void on_windowhide();
    static void WINAPI on_gameevent(const vengine_game::event_t* event, 
                                    uint32_t userdata);
-   void registercontrol_toscript(CEGUI::Window* window); //控件注册
+   void register_control_toscript(CEGUI::Window* window); //控件注册
    void transtext(CEGUI::Window* window);
 
 };

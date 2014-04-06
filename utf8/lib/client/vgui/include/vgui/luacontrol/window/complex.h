@@ -33,6 +33,8 @@ class Complex : public Base {
    int32_t lua_clean_allelement(LuaPlus::LuaState* luastate);
    int32_t lua_set_textcolor(LuaPlus::LuaState* luastate); //设置字体颜色
    int32_t lua_pageend(LuaPlus::LuaState* luastate);
+   int32_t lua_add_itemelement(LuaPlus::LuaState* luastate);
+   int32_t lua_setcolor(LuaPlus::LuaState* luastate);
 
  protected:
    friend class Base;

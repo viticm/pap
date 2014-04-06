@@ -42,8 +42,8 @@ typedef enum {
 
 //static
 const uint16_t kHelpStringMax = 200;
-const char* kHelpStringKey = "help"; //this if have problem 
-                                     //then change it to macros
+static const char* kHelpStringKey = "help"; //this if have problem 
+                                            //then change it to macros
 
 //interface for ui system
 class VENGINE_API System : public vengine_kernel::Node{ 

@@ -1,28 +1,10 @@
 #include "CEGUIWindow.h"
 #include "CEGUIWindowManager.h"
 
-#include "FalActionButton.h"
-#include "FalSuperTooltip.h"
-#include "FalagardMeshWindow.h"
-#include "FalagardComplexWindow.h"
-#include "FalChatHistory.h"
-
-#include "LuaPlus.h"
-
 #include "vengine/kernel/base.h"
 #include "vengine/db/system.h"
-#include "vengine/db/structs/all.h"
-#include "vengine/script/system.h"
-#include "vengine/capability/profile.h"
-#include "vengine/game/object/basesystem.h"
+#include "vengine/db/struct/all.h"
 #include "vengine/game/eventdefine.h"
-#include "vengine/variable/system.h"
-#include "vengine/sound/system.h"
-
-#include "vgui/script/base.h"
-#include "vgui/luacontrol/all.h"
-#include "vgui/string/system.h"
-#include "vgui/base/system.h"
 
 #include "vgui/window/manager.h"
 
@@ -47,6 +29,10 @@ Manager::~Manager() {
   itemlist_.clear();
 }
 
+Manager* Manager::getself() {
+  return self_;
+}
+
 void Manager::init() { //窗口管理器初始化
 	background_sheet_ = CEGUI::WindowManager::getSingleton().createWindow(
       (CEGUI::utf8*)"DefaultGUISheet", 
@@ -68,7 +54,7 @@ void Manager::init() { //窗口管理器初始化
        i < static_cast<uint32_t>(layoutdefine->get_record_number()); 
        ++i) {
     const layoutdefine_t* line = 
-      reinterpret_cast<layoutdefine_t*>(layoutdefine->search_line_equal(i));
+      reinterpret_cast<const layoutdefine_t*>(layoutdefine->search_line_equal(i));
     //产生一个新的window item
     Item* item = new Item(line);
     item->set_openclose_sound(line->opensound, line->closesound);
@@ -94,7 +80,7 @@ bool Manager::isshow(const char* uiname, const char* childname) {
         return (*iterator)->is_windowshow();
       }
       else {
-        return (*iterator)->is_child_windowshow(childname);
+        return (*iterator)->is_childwindow_show(childname);
       }
     }
   }
@@ -227,7 +213,5 @@ bool Manager::reloadscript(const char* uiname) {
 CEGUI::Window* Manager::get_clientscreen() {
   return background_sheet_;
 }
-
-
 
 } //namespace vgui_window

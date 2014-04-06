@@ -7,7 +7,9 @@
 #define VGUI_STDAFX_H_
 
 #define VC_EXTRALEAN    // Exclude rarely-used stuff from Windows headers
+#ifndef STRICT
 #define STRICT
+#endif
 
 // Works with Windows 2000 and later and Windows 98 or later
 #undef _WIN32_IE
@@ -21,7 +23,9 @@
 #include <windows.h>
 
 // TODO: reference additional headers your program requires here
+#ifdef min
 #undef min
 #undef max
+#endif
 
 #endif //VGUI_STDAFX_H_

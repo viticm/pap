@@ -12,8 +12,6 @@
 #ifndef VGUI_LUACONTROL_WINDOW_CONFIG_H_
 #define VGUI_LUACONTROL_WINDOW_CONFIG_H_
 
-#include "vgui/config.h"
-
 #include "CEGUIPropertyHelper.h"
 #include "CEGUIFontManager.h"
 #include "CEGUIImageset.h"
@@ -31,7 +29,6 @@
 #include "FalActionButton.h"
 #include "FalagardComplexWindow.h"
 #include "FalagardEditbox.h"
-#include "FalMultiIMEEditBox.h"
 #include "FalMultiIMEEditBox.h"
 #include "FalSuperTooltip.h"
 #include "FalagardInfoList.h"

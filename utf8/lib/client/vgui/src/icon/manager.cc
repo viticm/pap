@@ -35,7 +35,7 @@ void Manager::init() {
     const CEGUI::String name = iterator.getCurrentKey();
     const CEGUI::Imageset* imageset = iterator.getCurrentValue();
     const CEGUI::String& texturename = imageset->getTextureFilename();
-    if (CEGUI::String("Icons") == texturename->substr(0, 5)) {
+    if (CEGUI::String("Icons") == texturename.substr(0, 5)) {
       CEGUI::Imageset::ImageIterator imageiterator = imageset->getIterator();
       for (imageiterator.toStart(); 
            !imageiterator.isAtEnd(); 
@@ -62,16 +62,16 @@ STRING Manager::get_icon_fullname(const char* iconname) {
 }
 
 int32_t Manager::lua_get_icon_fullname(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[1].IsString()) return 0;
-  luastate->PushString(getself()->get_icon_fullname(args[1].GetString()));
+  luastate->PushString(getself()->get_icon_fullname(args[1].GetString()).c_str());
   return 1;
 }
 
 const CEGUI::Image* Manager::geticon(const char* iconname) {
   iconmap::iterator iconmap_iterator = iconmap_.find(iconname);
   if (iconmap_.end() == iconmap_iterator) return NULL;
-  const CEGUI::Imageset* imageset = iconmap_iterator->scenod;
+  const CEGUI::Imageset* imageset = iconmap_iterator->second;
   return &(imageset->getImage(iconname));
 }
 
@@ -82,7 +82,7 @@ HCURSOR Manager::create_as_windowscursor(const char* iconname) {
     //CEGUI ImageSet
     CEGUI::Imageset* imageset = 
       CEGUI::ImagesetManager::getSingleton().getImageset(
-          iconmage->getImagesetName());
+          iconimage->getImagesetName());
     if (!imageset) return NULL;
     //CEGUI Ogre Texture
     CEGUI::OgreCEGUITexture* cegui_ogretexture = 
@@ -94,7 +94,7 @@ HCURSOR Manager::create_as_windowscursor(const char* iconname) {
     //Ogre HardwarePixelBuffer
     Ogre::HardwarePixelBuffer* ogre_hardware_pixelbuffer = 
       ogretexture->getBuffer().get();
-    if (!ogre_pixelbuffer) return NULL;
+    if (!ogre_hardware_pixelbuffer) return NULL;
     //Blt to Ogre PixelBox
     const static int32_t cursorwidth = 32;
     const static int32_t cursorheight = 32;
@@ -112,7 +112,7 @@ HCURSOR Manager::create_as_windowscursor(const char* iconname) {
                          static_cast<int32_t>(rect_atimage.d_top), 
                          static_cast<int32_t>(rect_atimage.d_right), 
                          static_cast<int32_t>(rect_atimage.d_bottom)), 
-        thePixBox);
+        pixelbox);
     HDC maindc = ::GetDC(NULL);
     HDC xor_maskdc = ::CreateCompatibleDC(maindc);
     HBITMAP xormask = ::CreateCompatibleBitmap(maindc, 

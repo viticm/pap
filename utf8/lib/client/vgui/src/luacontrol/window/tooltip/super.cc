@@ -1,4 +1,6 @@
-#include "vgui/luacontrol/window/config.h"
+#include "elements/CEGUIPopupMenu.h"
+#include "FalSuperTooltip.h"
+#include "vgui/window/manager.h"
 #include "vgui/luacontrol/window/tooltip/super.h"
 
 namespace vgui_luacontrol {
@@ -14,7 +16,7 @@ LuaPlus::LuaObject* Super::get_metatable() {
 }
 
 int32_t Super::lua_positionself(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString() || !args[3].IsString()) return 0;
   //强制重新计算大小
   (dynamic_cast<CEGUI::IFalagardSuperTooltip*>(

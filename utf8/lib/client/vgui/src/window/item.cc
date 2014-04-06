@@ -11,19 +11,20 @@
 
 #include "vengine/kernel/base.h"
 #include "vengine/db/system.h"
-#include "vengine/db/structs/all.h"
+#include "vengine/db/struct/all.h"
 #include "vengine/script/system.h"
 #include "vengine/capability/profile.h"
 #include "vengine/game/object/basesystem.h"
 #include "vengine/game/eventdefine.h"
-#include "vengine/variable/system.h"
+#include "vengine/variable/base.h"
 #include "vengine/sound/system.h"
 
 #include "vgui/script/base.h"
-#include "vgui/luacontrol/all.h"
+#include "vgui/luacontrol/window/base.h"
 #include "vgui/string/system.h"
 #include "vgui/base/system.h"
 
+#include "vgui/window/manager.h"
 #include "vgui/window/item.h"
 
 namespace vgui_window {
@@ -49,7 +50,7 @@ Item::~Item() {
   uint32_t i;
   for (i = 0; i < static_cast<uint32_t>(controls_.size()); ++i) {
     if (controls_[i]) {
-      luacontrol::Window::destroycontrol(controls_[i]);
+      vgui_luacontrol::window::Base::destroy(controls_[i]);
       controls_[i] = NULL;
     }
   }
@@ -58,16 +59,24 @@ Item::~Item() {
   window_ = NULL;
 }
 
+uint8_t Item::get_demisetype() {
+  return is_candemise_;
+}
+
+bool Item::is_candemise() {
+  return is_candemise_ > 0;
+}
+
 bool Item::callbackproperty(CEGUI::Window* window, 
                             CEGUI::String& propname, 
                             CEGUI::String& propvalue, 
                             void* userdata) {
-  if ((CEGUI::utf8*)"Text" == propname && !propvalue.empty()) {
+  if ("Text" == propname && !propvalue.empty()) {
     CEGUI::String32 str; //字符串转化
     STRING mbcs;
     vgui_string::System::utf8_to_mbcs(STRING(propvalue.c_str()), mbcs);
     vgui_string::System::getself()->parsestring_runtime(mbcs, str);
-    propvalue = str;
+    propvalue = str.c_str();
   }
   return true;
 }
@@ -80,11 +89,11 @@ void Item::pre_loadwindow() {
   scriptenvironment_->executescript(script_filename_.c_str());
   //注册引用函数
   //注册"this"对象
-  LuaObject metatable_ui_windowitem = g_scriptsystem->
-                                      get_luastate()->
-                                      GetGlobals().
-                                      GetByName("MetaTable_UIWindowItem");
-  LuaObject objectthis = g_scriptsystem->get_luastate()->BoxPointer(this);
+  LuaPlus::LuaObject metatable_ui_windowitem = g_scriptsystem->
+                                               get_luastate()->
+                                               GetGlobals().
+                                               GetByName("MetaTable_UIWindowItem");
+  LuaPlus::LuaObject objectthis = g_scriptsystem->get_luastate()->BoxPointer(this);
   objectthis.SetMetaTable(metatable_ui_windowitem);
   scriptenvironment_->get_luaobject()->SetObject("this", objectthis);
   //执行其中的***_PreLoad函数
@@ -95,7 +104,7 @@ void Item::pre_loadwindow() {
 }
 
 void Item::loadwindow() {
-  VENGINE_ASSERT(NULL == window_);
+  VENGINE_ASSERT(window_ == NULL);
   if (layoutloaded_) return;
   //加载布局文件
   window_ = CEGUI::WindowManager::getSingleton().loadWindowLayout(
@@ -107,7 +116,7 @@ void Item::loadwindow() {
   window_->hide();
   Manager::get_clientscreen()->addChildWindow(window_);
   //注册控件
-  registercontrol_toscript(window_);
+  register_control_toscript(window_);
   //执行其中的***_OnLoad函数
   char temp[MAX_PATH];
   snprintf(temp, sizeof(temp) - 1, "%s_OnLoad", windowname_.c_str());
@@ -115,11 +124,11 @@ void Item::loadwindow() {
   layoutloaded_ = true;
 }
 
-void Item::registercontrol_toscript(CEGUI::Window* window) {
+void Item::register_control_toscript(CEGUI::Window* window) {
   //设置UserData,用于回朔调用
   window->setUserData(this);
-  luacontrol::Window* tempcontrol = luacontrol::Window::createctrol(window);
-  LuaObject objectthis = g_scriptsystem->GetLuaState()->BoxPointer(tempcontrol);
+  vgui_luacontrol::window::Base* tempcontrol = vgui_luacontrol::window::Base::create(window);
+  LuaPlus::LuaObject objectthis = g_scriptsystem->get_luastate()->BoxPointer(tempcontrol);
   objectthis.SetMetaTable(*(tempcontrol->get_metatable()));
   CEGUI::String temp = window->getName();
   scriptenvironment_->get_luaobject()->SetObject(temp.c_str(), objectthis);
@@ -132,7 +141,7 @@ void Item::registercontrol_toscript(CEGUI::Window* window) {
 
     //DrawStarted
     actionbutton->subscribeDragDropStartedEvent(CEGUI::Event::Subscriber(
-          &vgui_base::System::handle_actiondrag_dropstarted, 
+      &vgui_base::System::handle_action_dragdrop_started, 
           vgui_base::System::getself()));
     //MouseEnter
     actionbutton->subscribeMouseEnterEvent(CEGUI::Event::Subscriber(
@@ -185,7 +194,7 @@ void Item::registercontrol_toscript(CEGUI::Window* window) {
     chathistory_window->subscribInfoItemMoveInEvent(CEGUI::Event::Subscriber(
           &vgui_base::System::handle_chathistory_infoelement_movein, 
           vgui_base::System::getself()));
-    chathistory_eindow->subscribInfoItemMoveOutEvent(CEGUI::Event::Subscriber(
+    chathistory_window->subscribInfoItemMoveOutEvent(CEGUI::Event::Subscriber(
           &vgui_base::System::handle_chathistory_infoelement_moveout, 
           vgui_base::System::getself()));
   }
@@ -219,7 +228,7 @@ void Item::transtext(CEGUI::Window* window) {
   }
 }
 
-bool Item::is_chiladwindow_show(const char* uiname) const {
+bool Item::is_childwindow_show(const char* uiname) const {
   CEGUI::String name(uiname);
   try {
     CEGUI::Window* child = CEGUI::WindowManager::getSingleton().getWindow(name);
@@ -255,7 +264,7 @@ void Item::on_windowhide() {
 }
 
 int32_t Item::lua_registerevent(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!(args[2].IsString())) return 0;
   if (layoutloaded_) {
     VENGINE_SHOW("%s must register event in \"***PreLoad\" function ",
@@ -305,7 +314,7 @@ int32_t Item::lua_trans_alltext(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Item::lua_careobject(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!(args[2].IsInteger())) {
     VENGINE_SHOW("lua: vgui_window::Item::lua_careobject:args[2] "
                  "is wrong param!");
@@ -330,9 +339,9 @@ int32_t Item::lua_careobject(LuaPlus::LuaState* luastate) {
 void WINAPI Item::on_gameevent(const vengine_game::event_t* event,
                                uint32_t ownerdata) {
   //分发
-  Item* windowitem = (*Item)(uint32_t*)ownerdata;
+  Item* windowitem = (Item*)(uint32_t*)ownerdata;
   if (!windowitem) return;
-  if (!loadWindowLayout) windowitem->loadwindow();
+  if (!windowitem->layoutloaded_) windowitem->loadwindow();
   uint32_t i;
   for (i = 0; i < static_cast<uint32_t>(event->args.size()); ++i) {
     char temp[MAX_PATH];
@@ -370,7 +379,7 @@ void Item::positionself() {
   if (window_) {
     CEGUI::MouseCursor& cursor = CEGUI::MouseCursor::getSingleton();
     CEGUI::Rect screen(CEGUI::System::getSingleton().getRenderer()->getRect());
-    CEGUI::Rect tipRect(m_pWindow->getUnclippedPixelRect());
+    CEGUI::Rect tipRect(window_->getUnclippedPixelRect());
     const CEGUI::Image* mouseImage = cursor.getImage();
 
     CEGUI::Point mousePos(cursor.getPosition());
@@ -412,7 +421,7 @@ void Item::on_sizechange() {
 void Item::reloadscript() {
   //清空已注册事件
   registered_eventname_list::iterator iterator = eventname_list_.begin();
-  for (; iterator !+ eventname_list_.end(); ++iterator) {
+  for (; iterator != eventname_list_.end(); ++iterator) {
     g_game_eventsystem->unregisterhandle(*iterator, 
                                          on_gameevent, 
                                          (DWORD)(DWORD_PTR)this);
@@ -422,7 +431,7 @@ void Item::reloadscript() {
   vengine_script::Environment* scriptenvironment = 
     g_scriptsystem->getenvironment(windowname_.c_str());
   if (scriptenvironment) {
-    scriptenvironment_->executescript(script_filename_);
+    scriptenvironment_->executescript(script_filename_.c_str());
     //执行preload
     char temp[MAX_PATH] = {0};
     snprintf(temp, sizeof(temp) - 1, "%s_PreLoad", windowname_.c_str());

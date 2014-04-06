@@ -15,7 +15,8 @@ namespace Ogre
     class RibbonRenderer : public ParticleSystemRenderer
     {
     public:
-
+        void _updateRenderQueue(RenderQueue* queue, 
+          list<Particle*>::type& currentParticles, bool cullIndividually) {};
         class _OgrePrivate CmdRibbonHeadAlpha : public ParamCommand
         {
         public:

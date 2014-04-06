@@ -1,4 +1,5 @@
-#include "vgui/luacontrol/window/config.h"
+#include "FalChatChannel.h"
+#include "vgui/string/system.h"
 #include "vgui/luacontrol/window/chat/channel.h"
 
 namespace vgui_luacontrol {
@@ -20,7 +21,7 @@ int32_t Channel::lua_clearall(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Channel::lua_add(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString() || !args[3].IsString() || !args[4].IsString())
     return 0;
   STRING mbcs_type = args[2].GetString();

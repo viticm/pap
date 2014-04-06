@@ -61,7 +61,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(BaseSystem);
    //关心某物体的指定事件 id-物体ID bCare-关心或者取消关心
    virtual void care(int32_t id, bool care, STRING szSign) = 0;
    //从本地资源表中读取物品名字
-   virtual void get_local_itemname(uint32_t id_oftable) = 0;
+   virtual const char* get_local_itemname(uint32_t id_oftable) = 0;
    virtual void init_actoravatar() = 0;
    virtual void destroy_actoravatar() = 0;
    virtual const char* get_selfor_targetname(bool target = false) = 0;

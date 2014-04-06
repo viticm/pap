@@ -12,8 +12,8 @@ LuaPlus::LuaObject* Animation::get_metatable() {
 }
 
 int32_t Animation::lua_play(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
-  if (!args[2].IsBoolean) return 0;
+  LuaPlus::LuaStack args(luastate);
+  if (!args[2].IsBoolean()) return 0;
   CEGUI::IFalagardAnimate* window = dynamic_cast<CEGUI::IFalagardAnimate*>(
       dynamic_cast<CEGUI::FalagardAnimate*>(window_));
   window->Play(args[2].GetBoolean());

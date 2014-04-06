@@ -76,6 +76,14 @@ System::~System() {
   //do nothing
 }
 
+System* System::getself() {
+  return self_;
+}
+
+vgui_icon::Manager* System::get_iconmanager() {
+  return iconmanager_;
+}
+
 void System::injectinput() {
   CEGUI::System& cegui_system = CEGUI::System::getSingleton();
   vengine_input::eventqueue& eventqueue = g_inputsystem->get_eventqueue();
@@ -271,7 +279,7 @@ bool System::is_mousehover() {
   return false;
 }
 
-bool is_mousehover_chatboard(int64_t x, int64_t y) {
+bool System::is_mousehover_chatboard(int64_t x, int64_t y) {
   CEGUI::System& cegui_system = CEGUI::System::getSingleton();
   CEGUI::Window* window = cegui_system.getTargetWindow(
       CEGUI::Point(
@@ -1236,6 +1244,12 @@ void System::set_ctrlinfo_enable(bool enable) {
 
 bool System::is_paopao_active() {
   return active_paopao_;
+}
+
+void System::debug_push_chatstring(const char* name, 
+                           const char* message) {
+  USE_PARAM(name);
+  USE_PARAM(message);
 }
 
 } //namespace vgui_base

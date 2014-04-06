@@ -28,7 +28,7 @@ class Base {
 
  public:
    static Base* create(CEGUI::Window* window);
-   static void destroy(CEGUI::Window* window);
+   static void destroy(Base* window);
 
  public:
    static void register_metatable();
@@ -53,7 +53,6 @@ class Base {
    int32_t lua_disable(LuaPlus::LuaState* luastate);
    int32_t lua_enable(LuaPlus::LuaState* luastate);
    int32_t lua_setalpha(LuaPlus::LuaState* luastate);
-   int32_t lua_isvisiable(LuaPlus::LuaState* luastate);
    int32_t lua_set_tooltip(LuaPlus::LuaState* luastate);
    int32_t lua_captureinput(LuaPlus::LuaState* luastate);
    int32_t lua_center(LuaPlus::LuaState* luastate);
@@ -65,6 +64,7 @@ class Base {
    int32_t lua_debuginfo(LuaPlus::LuaState* luastate);
    int32_t lua_getposition(LuaPlus::LuaState* luastate);
    int32_t lua_setposition(LuaPlus::LuaState* luastate);
+   int32_t lua_isvisible(LuaPlus::LuaState* luastate);
 
  protected:
    CEGUI::Window* window_;

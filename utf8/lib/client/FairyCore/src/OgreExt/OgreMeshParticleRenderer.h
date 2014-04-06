@@ -30,6 +30,8 @@ namespace Ogre	{
 	{
 	public:
 
+    void _updateRenderQueue(RenderQueue* queue, 
+      list<Particle*>::type& currentParticles, bool cullIndividually) {};
 		/** Command object for mesh name (see ParamCommand).*/
 		class _OgrePrivate CmdMeshName : public ParamCommand
 		{

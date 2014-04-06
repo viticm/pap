@@ -33,6 +33,10 @@ class Base : public vgui_luacontrol::window::Base {
    int32_t lua_set_itemtext(LuaPlus::LuaState* luastate);
 
  protected:
+   friend class vgui_luacontrol::window::Base;
+   Base(CEGUI::Window* window) : vgui_luacontrol::window::Base(window) {}
+   virtual ~Base() {}
+ protected:
    static LuaPlus::LuaObject* metatable_;
 
 };

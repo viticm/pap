@@ -1,4 +1,5 @@
-#include "vgui/luacontrol/window/config.h"
+#include "FalIMEEditBox.h"
+#include "vgui/string/system.h"
 #include "vgui/luacontrol/window/editbox/base.h"
 
 namespace vgui_luacontrol {
@@ -14,7 +15,7 @@ LuaPlus::LuaObject* Base::get_metatable() {
 }
 
 int32_t Base::lua_set_item_elementstring(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   CEGUI::IFalagardIMEEditBox* window = 
     dynamic_cast<CEGUI::IFalagardIMEEditBox*>(
@@ -27,20 +28,20 @@ int32_t Base::lua_set_item_elementstring(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Base::lua_setselected(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger() || !args[3].IsInteger()) return 0;
   int32_t start = args[2].GetInteger();
   int32_t end = args[3].GetInteger();
   CEGUI::Editbox* window = dynamic_cast<CEGUI::Editbox*>(window_);
-  if (-1 == end) end = static_cast<int32_t>(winow->getText().length());
+  if (-1 == end) end = static_cast<int32_t>(window->getText().length());
   window->setSelection(start, end);
   return 0;
 }
 
 int32_t Base::lua_set_blinktext(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (args[2].IsInteger()) {
-    CEGUI::IFalagardIMEEditBox window = 
+    CEGUI::IFalagardIMEEditBox* window = 
       dynamic_cast<CEGUI::IFalagardIMEEditBox*>(
           dynamic_cast<CEGUI::FalagardIMEEditBox*>(window_));
     char value[128] = {0};

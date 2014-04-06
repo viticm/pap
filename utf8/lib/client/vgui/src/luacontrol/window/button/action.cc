@@ -1,4 +1,9 @@
-#include "vgui/luacontrol/window/config.h"
+#include "FalActionButton.h"
+#include "vengine/capability/ax/trace.h"
+#include "vengine/game/eventsystem.h"
+#include "vengine/game/eventdefine.h"
+#include "vgui/icon/manager.h"
+#include "vgui/base/system.h"
 #include "vgui/luacontrol/window/button/action.h"
 
 namespace vgui_luacontrol {
@@ -14,7 +19,7 @@ LuaPlus::LuaObject* Action::get_metatable() {
 }
 
 int32_t Action::lua_setitem(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger()) return 0;
   int32_t itemid = args[2].GetInteger();
   update(itemid);
@@ -22,7 +27,7 @@ int32_t Action::lua_setitem(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Action::lua_set_keystate(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger() || !args[3].IsInteger()) return 0;
   int32_t keystate = args[2].GetInteger();
   bool isfirst = args[3].GetInteger() > 0;
@@ -32,7 +37,7 @@ int32_t Action::lua_set_keystate(LuaPlus::LuaState* luastate) {
 
 int32_t Action::lua_get_itemid(LuaPlus::LuaState* luastate) {
   if (!item_ || NULL == item_) {
-    luastate->->PushInteger(-1);
+    luastate->PushInteger(-1);
     return 1;
   }
   int32_t id = item_->getid();
@@ -42,7 +47,7 @@ int32_t Action::lua_get_itemid(LuaPlus::LuaState* luastate) {
 
 int32_t Action::lua_get_item_defineid(LuaPlus::LuaState* luastate) {
   if (!item_ || NULL == item_) {
-    luastate->->PushInteger(-1);
+    luastate->PushInteger(-1);
     return 1;
   }
   int32_t defineid = item_->get_defineid();
@@ -65,7 +70,7 @@ int32_t Action::lua_dosub(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Action::lua_setpushed(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger()) return 0;
   bool check = 1 == args[2].GetInteger();
   setcheck(check);
@@ -73,7 +78,7 @@ int32_t Action::lua_setpushed(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Action::lua_setflash(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger()) return 0;
   bool flash = 1 == args[2].IsInteger();
   enterflash(flash);
@@ -81,7 +86,7 @@ int32_t Action::lua_setflash(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Action::lua_set_item_iconname(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   STRING iconname(args[2].GetString());
   if (item_) item_->seticon(iconname);
@@ -89,7 +94,7 @@ int32_t Action::lua_set_item_iconname(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Action::lua_set_logicitem_data(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsInteger()) return 0;
   int32_t id = args[2].GetInteger();
   (dynamic_cast<CEGUI::IFalagardActionButton*>(
@@ -99,7 +104,7 @@ int32_t Action::lua_set_logicitem_data(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Action::lua_set_normalimage(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   window_->show();
   window_->setProperty("Empty", "False");
@@ -121,7 +126,7 @@ void Action::unlock() {
   window_->requestRedraw();
 }
 
-void Action::bedestoryed() {
+void Action::bedestroyed() {
   window_->setProperty("Empty", "True");
   (dynamic_cast<CEGUI::IFalagardActionButton*>(
     dynamic_cast<CEGUI::FalagardActionButton*>(window_)))
@@ -138,20 +143,20 @@ void Action::bedestoryed() {
   item_ = NULL;
 }
 
-void Action::update(uint32_t itemid) {
-  vengine_game::action::Item* item = g_game_actionsystem()->get(itemid);
+void Action::update(int32_t itemid) {
+  vengine_game::action::Item* item = g_game_actionsystem->get(itemid);
   //断开和原来的Action的联系
   if (item && item != item_) {
     item->removereference(this);
   }
   if (NULL == item) {
     //如果逻辑项为空, 清空显示
-    bedestoryed();
+    bedestroyed();
     window_->setProperty("ShowTooltip", "True");
     return;
   }
   //不显示默认tooltip
-  window_setProperty("ShowTooltip", "False");
+  window_->setProperty("ShowTooltip", "False");
   //设置有效无效标记
   if (item->isenable()) {
     bright();

@@ -1,3 +1,4 @@
+#include <cmath>
 #include "vgui/luacontrol/window/config.h"
 #include "vgui/luacontrol/window/mesh.h"
 
@@ -12,7 +13,7 @@ LuaPlus::LuaObject* Mesh::get_metatable() {
 }
 
 int32_t Mesh::lua_set_fakeobject(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   int32_t windowwidth = window_->getAbsoluteWidth();
   int32_t windowheight = window_->getAbsoluteHeight();
@@ -28,14 +29,14 @@ int32_t Mesh::lua_set_fakeobject(LuaPlus::LuaState* luastate) {
       args[2].GetString(),
       windowwidth,
       windowheight,
-      window_->->getProperty("BackgroundName").c_str());
+      window_->getProperty("BackgroundName").c_str());
   //通知UI
   window_->setProperty("FakeObject", args[2].GetString());
   return 0;
 }
 
 int32_t Mesh::lua_rotatestart(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsNumber()) return 0;
   float angle = args[2].GetFloat();
   //通知FakeObject系统
@@ -52,13 +53,13 @@ int32_t Mesh::lua_rotateend(LuaPlus::LuaState* luastate) {
 }
 
 int32_t Mesh::lua_get_objectname(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   luastate->PushString("CreateRole_Man");
   return 1;
 }
 
 int32_t Mesh::lua_set_unfake_object(LuaPlus::LuaState* luastate) {
-  LuaStack args(luastate);
+  LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) return 0;
   g_game_fake_objectsystem->on_ui_unhook(args[2].GetString());
   return 0;

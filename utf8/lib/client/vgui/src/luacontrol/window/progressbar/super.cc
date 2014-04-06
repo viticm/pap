@@ -1,4 +1,3 @@
-#include "vgui/luacontrol/window/config.h"
 #include "vgui/luacontrol/window/progressbar/super.h"
 namespace vgui_luacontrol {
 

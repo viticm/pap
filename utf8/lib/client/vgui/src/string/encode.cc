@@ -61,11 +61,11 @@ int32_t get_code_page() {
 
 // return the number of utf8 code units required to encode the given utf32 code point
 int32_t encoded_size(wchar_t code_point) {
-  if ((static_cast<unsigned int32_t>(code_point)) < 0x80)
+  if ((static_cast<uint32_t>(code_point)) < 0x80)
     return 1;
-  else if ((static_cast<unsigned int32_t>(code_point)) < 0x0800)
+  else if ((static_cast<uint32_t>(code_point)) < 0x0800)
     return 2;
-  else if ((static_cast<unsigned int32_t>(code_point)) < 0x10000)
+  else if ((static_cast<uint32_t>(code_point)) < 0x10000)
     return 3;
   else
     return 4;
@@ -126,7 +126,7 @@ int32_t encode_utf8_to_ucs(const unsigned char* src,
                            int32_t src_len) {
   // count length for null terminated source...
   if (0 == src_len) {
-    src_len = static_cast<int>(strlen(src));
+    src_len = static_cast<int>(strlen((const char*)src));
   }
 
   int32_t destCapacity = dest_len;
@@ -208,7 +208,7 @@ void mbcs_to_utf8(const std::string& in, std::string& out) {
   }
   memset(g_pMem_mbcs_to_utf8, 0, sizeof(char) * g_nMem_mbcs_to_utf8);
   encode_ucs_to_utf8(g_pwMem_mbcs_to_utf8, 
-                    static_cast<unsigned char*>(g_pMem_mbcs_to_utf8), 
+                    (unsigned char*)g_pMem_mbcs_to_utf8, 
                     utf8size, 
                     0);
 

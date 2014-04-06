@@ -31,7 +31,7 @@ class Info : public Base {
  protected:
    friend class Base;
    Info(CEGUI::Window* window) : Base(window) {}
-   virtual Info() {}
+   virtual ~Info() {}
 
  protected:
    static LuaPlus::LuaObject* metatable_;

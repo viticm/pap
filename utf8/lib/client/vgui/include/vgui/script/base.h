@@ -12,6 +12,7 @@
 #define VGUI_SCRIPT_BASE_H_
 
 #include <CEGUIScriptModule.h>
+#include "vengine/config.h"
 #include "vgui/config.h"
 
 namespace vgui_script {
@@ -28,7 +29,7 @@ class Base : public CEGUI::ScriptModule {
    //执行某个全局脚本函数
    virtual int32_t execute_globalfunction(const CEGUI::String& functionname);
    //响应UI事件
-   virtual void execute_eventhandler(const CEGUI::String& handlername,
+   virtual bool execute_eventhandler(const CEGUI::String& handlername,
                                      const CEGUI::EventArgs& eventargs);
    virtual void executestring(const CEGUI::String& str);
    virtual void startbindings(); //开始脚本绑定
