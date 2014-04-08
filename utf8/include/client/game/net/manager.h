@@ -47,11 +47,11 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
    virtual void release();
 
  public:
-   enum netmanager_status_enum {
-     kNetManagerStatusConnectSuccess = 0,
-     kNetManagerStatusCreateSocketError,
-     kNetManagerStatusConnectError,
-     kNetManagerStatusConnectTimeOut,
+   enum status_enum {
+     kStatusConnectSuccess = 0,
+     kStatusCreateSocketError,
+     kStatusConnectError,
+     kStatusConnectTimeOut,
    };
    //流程 ~
    void tick_loginprocedure();
@@ -67,7 +67,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
 
  protected:
    //连接服务器专用线程
-   static uint32_t CALLBACK connectthread_forserver();
+   static uint32_t CALLBACK connectthread_forserver(LPVOID param);
    int32_t connectthread();
    //连接线程句柄
    HADLE connectthread_handle_;
@@ -80,6 +80,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
    fd_set readfd_;
    fd_set writefd_;
    fd_set exceptfd_;
+   pap_common_net::socket::Base socket_;
    pap_common_net::socket::InputStream inputstream_;
    pap_common_net::socket::OutputStream outputstream_;
    pap_common_net::packet::FactoryManager packet_factorymanager_;

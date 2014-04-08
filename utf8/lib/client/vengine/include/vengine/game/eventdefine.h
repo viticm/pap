@@ -55,6 +55,9 @@ enum _enum {
                           // "xinfa", "pet_skill"
                           // arg2, arg3 鼠标位置
 
+  kNewDebugMessage, // -- 新的调试消息
+  kNetClose, // --关闭网络
+
 };
 
 }; //namespace event_id

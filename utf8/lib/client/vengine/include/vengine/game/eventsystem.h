@@ -54,6 +54,8 @@ class VENGINE_API EventSystem : public vengine_kernel::Node {
 VENGINE_KERNEL_DECLARE_DYNAMIC(EventSystem);
 
  public:
+   virtual void push(vengine_game::event_id::_enum id, 
+                     std::vector<STRING> param) = 0;
    virtual void push(event_id::_enum id) = 0;
    virtual void push(event_id::_enum id, int32_t arg0) = 0;
    virtual void push(event_id::_enum id, const char* arg0) = 0;

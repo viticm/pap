@@ -16,6 +16,7 @@ namespace id { //the define model namespace
 #include "common/game/define/id/ability.h"
 #include "common/game/define/id/impact.h"
 #include "common/game/define/id/skill.h"
+#include "common/game/define/id/packet/all.h"
 
 }; //namespace id
 
