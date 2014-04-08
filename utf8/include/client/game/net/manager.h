@@ -38,7 +38,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
    void connect(const char* ip, uint16_t port);
    void sendpacket(pap_common_net::packet::Base* packet);
    void close();
-   void processinput(pap_common_net::socket::InputStream);
+   void processinput(pap_common_net::socket::InputStream inputstream);
    pap_common_net::packet::FactoryManager get_packet_factorymanager();
 
  public:
@@ -81,8 +81,8 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
    fd_set writefd_;
    fd_set exceptfd_;
    pap_common_net::socket::Base socket_;
-   pap_common_net::socket::InputStream inputstream_;
-   pap_common_net::socket::OutputStream outputstream_;
+   pap_common_net::socket::InputStream socket_inputstream_;
+   pap_common_net::socket::OutputStream socket_outputstream_;
    pap_common_net::packet::FactoryManager packet_factorymanager_;
 
  private:
@@ -94,6 +94,9 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
    bool processoutput();
    bool processexcept();
    bool processcommand();
+
+   uint32_t executepacket_cppexception(pap_common_net::packet::Base* packet);
+   uint32_t executepacket_genexception(pap_common_net::packet::Base* packet);
 
 };
 

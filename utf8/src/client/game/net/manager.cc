@@ -22,13 +22,17 @@ Manager* Manager::self_ = NULL;
 extern char error[128];
 
 Manager::Manager() {
-  inputstream_ = outputstream_ = &socket_;
+  socket_inputstream_ = socket_outputstream_ = &socket_;
   self_ = this;
   connectthread_handle_ = NULL;
 }
 
 Manager::~Manager() {
   //do nothing
+}
+
+Manager* Manager::getself() {
+ return self_;
 }
 
 void Manager::init(void*) {
@@ -230,9 +234,9 @@ void Manager::connect(const char* ip, uint16_t port) {
 void Manager::sendpacket(pap_common_net::packet::Base* packet) {
   //如果是处于等待切换场景流程中，则返回 --暂时不做
   if (socket_.isvalid()) {
-    uint32_t beforesize = outputstream_.length();
-    outputstream_.writepacket(packet);
-    uint32_t aftersize = outputstream_.length();
+    uint32_t beforesize = socket_outputstream_.length();
+    socket_outputstream_.writepacket(packet);
+    uint32_t aftersize = socket_outputstream_.length();
     if (packet->getsize() != aftersize - beforesize - 6) {
       VENGINE_SHOW("net::Manager::sendpacket: size error "
                    "[id = %d, stream = %d, size = %d]",
@@ -264,7 +268,216 @@ bool Manager::select() {
   FD_ZERO(&readfd_);
   FD_ZERO(&writefd_);
 
-  FD_SET(socket_.get);
+  FD_SET(socket_.getid(), &exceptfd_);
+  FD_SET(socket_.getid(), &readfd_);
+  FD_SET(socket_.getid(), &writefd_);
+
+  timeval timeout;
+  timeout.tv_sec = 0;
+  timeout.tv_usec = 0;
+ 
+  if (SOCKET_ERROR == pap_common_net::socket::Base::select(
+        0,
+        &readfd_,
+        &writefd_,
+        &exceptfd_,
+        &timeout)) {
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+
+bool Manager::processinput() {
+  if (FD_ISSET(socket_.getid(), &readfd_)) {
+    uint32_t result = socket_inputstream_.fill();
+    if (static_cast<int32_t>(result) <= SOCKET_ERROR) {
+      socket_.close();
+      return false;
+    }
+  }
+  return true;
+}
+
+bool Manager::processoutput() {
+  //如果是处于等待切换场景流程中则不处理 --暂时不做
+  if (FD_ISSET(socket_.getid(), &writefd_)) {
+    uint32_t result = socket_outputstream_.flush();
+    if (static_cast<int32_t>(result) <= SOCKET_ERROR) {
+      socket_.close();
+      return false;
+    }
+  }
+  return true;
+}
+
+void Manager::processinput(pap_common_net::socket::InputStream& inputstream) {
+  bool result = false;
+  char header[PACKET_HEADERSIZE] = {0};
+  uint16_t packetid;
+  uint32_t packetcheck, packetsize, packetindex;
+  pap_common_net::packet::Base* packet = NULL;
+  //same as the server, see the connections
+  for (;;) {
+    if (!socket_inputstream_.peek(&header[0], PACKET_HEADERSIZE)) {
+      break;
+    }
+    memcpy(&packetid, &packetheader[0], sizeof(uint16_t));
+    memcpy(&packetcheck, &packetheader[sizeof(uint16_t)], sizeof(uint32_t));
+    packetsize = GET_PACKETLENGTH(packetcheck);
+    packetindex = GET_PACKETINDEX(packetcheck);
+    if (!pap_common_net::packet::FactoryManager::isvalid_packetid(packetid)) {
+      VENGINE_SHOW("net::Manager::processinput: invalid packet id: %d", 
+                   packetid);
+      return;
+    }
+    
+    if (socket_inputstream_.reallength() < PACKET_HEADERSIZE + packetsize) {
+      break;
+    }
+    
+    if (packetsize > packet_factorymanager_.getpacket_maxsize(packetid)) {
+      VENGINE_SHOW("net::Manager::processinput:: packet size error!"
+                   "packet id: %d, receive size: %d, max size: %d",
+                   packetid,
+                   packetsize,
+                   packet_factorymanager_.getpacket_maxsize(packetid));
+      break;
+    }
+    packet = g_packetfactory_manager.createpacket(packetid);
+    Assert(packet);
+    if (NULL == packet) {
+      VENGINE_SHOW("net::Manager::processinput:: packet create error, id: %d",
+                   packetid);
+      return;
+    }
+
+    packet->setindex(static_cast<int8_t>(packetindex));
+    
+    reslut = socket_inputstream_.readpacket(packet);
+
+    if (false == result) {
+      VENGINE_SHOW("net::Manager::processinput:: packet read error, id: %d",
+                   packetid);
+      continue;
+    }
+
+    //执行
+    result = executepacket_genexception(packet);
+    if (result != pap_common_net::kPacketExecuteStatusNotRemove) {
+      packet_factorymanager_.removepacket(packet);
+    }
+
+  } //for loop
+
+}
+
+uint32_t Manager::executepacket_genexception(
+    pap_common_net::packet::Base* packet) {
+  char title[MAX_PATH] = {0};
+  snprintf(title, sizeof(title) - 1, "packet id: %d", packet->getid());
+  __try {
+    return executepacket_cppexception(packet);
+  }
+  __except(vengine_exception::base::processinner(
+        GetExceptionInformation(), 
+        g_mainwindow_handle, 
+        title), 
+      EXCEPTION_EXECUTE_HANDLER) {
+
+  }
+  return pap_common_net::kPacketExecuteStatusContinue;
+}
+
+uint32_t Manager::executepacket_cppexception(
+    pap_common_net::packet::Base* packet) {
+  try {
+    return packet->execute(dynamic_cast<??>(this));
+  }
+  catch(const std::exception& exception) {
+    static STRIN cppexception;
+    cppexception = exception.what();
+    LPVOID exceptionpointer = &cppexception;
+    ::RaiseException(
+        0XE000C0DE,
+        EXCEPTION_NONCONTINUABLE,
+        1,
+        (const ULONG_PTR*)&exceptionpointer);
+  }
+  catch(...) {
+    throw;
+  }
+  return pap_common_net::kPacketExecuteStatusContinue;
+}
+
+void Manager::processcommand() {
+  processinput(socket_inputstream_);
+}
+
+bool Manager::processexcept() {
+  if (FD_ISSET(socket_.getid(), &exceptfd_)) {
+    socket_.close();
+    return false;
+  }
+  return true;
+}
+
+void Manager::send_heartbeat() {
+  static last_sendtime = 0;
+  const uint32_t kSendInterval = 60 * 1000; //1 Minutes
+  uint32_t nowtime = procedure::Base::timesystem_->get_nowtime();
+  if (nowtime - last_sendtime > kSendInterval) {
+    pap_common_net::packets::client_toserver::HeartBeat message;
+    this->sendpacket(message);
+    last_sendtime = nowtime;
+  }
+}
+
+void Manager::close() {
+  socket_.close();
+}
+
+void Manager::setstatus(status_enum status) {
+  if (procedure::Base::getactive() == 
+      dynamic_cast<procedure::Base*>(procedure::Base::login_)) {
+    set_loginstatus(status);
+  }
+}
+
+void Manager::set_loginstatus(status_enum status) {
+  switch (status) {
+    case kStatusSuccess: {
+      procedure::Base::login_->setstatus(
+          procedure::Login::kStatusConnectSuccess);
+      break;
+    }
+    case kStatusCreateSocketError: {
+      procedure::Base::login_->setstatus(
+          procedure::Login::kStatusConnectFailed);
+      break;
+    }
+    case kStatusConnectFailed: {
+      procedure::Base::login_->setstatus(
+          procedure::Login::kStatusConnectFailed);
+      break;
+    }
+    case kStatusConnectTimeOut: {
+      procedure::Base::login_->setstatus(
+          procedure::Login::kStatusConnectFailed);
+      break;
+    }
+    default:
+      break;
+  }
+}
+
+void Manager::set_mainstatus(status_enum status) {
+  //do nothing
+}
+
+pap_common_net::packet::FactoryManager Manager::get_packet_factorymanager() {
+  return packet_factorymanager_;
 }
 
 } //namespace net
