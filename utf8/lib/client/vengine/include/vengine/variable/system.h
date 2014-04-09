@@ -1,15 +1,15 @@
 /**
  * PAP Engine ( https://github.com/viticm/pap )
- * $Id base.h
+ * $Id system.h
  * @link https://github.com/viticm/pap for the canonical source repository
  * @copyright Copyright (c) 2013-2014 viticm( viticm@126.com )
  * @license
  * @user viticm<viticm@126.com/viticm.ti@gmail.com>
  * @date 2014-3-19 16:27:01
- * @uses vengine variable base module
+ * @uses vengine variable system module
  */
-#ifndef VENGINE_VARIABLE_BASE_H_
-#define VENGINE_VARIABLE_BASE_H_
+#ifndef VENGINE_VARIABLE_SYSTEM_H_
+#define VENGINE_VARIABLE_SYSTEM_H_
 
 #include "vengine/config.h"
 #include "vengine/kernel/node.h"
@@ -17,9 +17,9 @@
 
 namespace vengine_variable {
 
-class VENGINE_API Base : public vengine_kernel::Node {
+class VENGINE_API System : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(Base);
+VENGINE_KERNEL_DECLARE_DYNAMIC(System);
 
  public:
    //得到某个变量的值，如果不存在，则返回false
@@ -69,4 +69,4 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Base);
 
 }; //namespace vengine_variable
 
-#endif //VENGINE_VARIABLE_BASE_H_
+#endif //VENGINE_VARIABLE_SYSTEM_H_

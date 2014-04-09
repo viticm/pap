@@ -18,6 +18,7 @@
 namespace vengine_sound {
 
 class VENGINE_API Source {
+
  public:
    typedef enum {
      kTypeBackground, //背景音乐

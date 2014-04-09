@@ -16,7 +16,7 @@
 #include "vengine/capability/profile.h"
 #include "vengine/game/object/basesystem.h"
 #include "vengine/game/eventdefine.h"
-#include "vengine/variable/base.h"
+#include "vengine/variable/system.h"
 #include "vengine/sound/system.h"
 
 #include "vgui/script/base.h"

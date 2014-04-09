@@ -393,7 +393,8 @@ uint32_t Manager::executepacket_genexception(
 uint32_t Manager::executepacket_cppexception(
     pap_common_net::packet::Base* packet) {
   try {
-    return packet->execute(dynamic_cast<??>(this));
+    return packet->execute(
+        dynamic_cast<pap_server_common_net::connection::Base*>(this));
   }
   catch(const std::exception& exception) {
     static STRIN cppexception;

@@ -18,7 +18,7 @@ namespace vengine_sound {
 class VENGINE_API Buffer {
 
  public:
-   virtual void read_wavbuffer(const STRING& name) = 0;
+   virtual bool read_wavbuffer(const STRING& name) = 0;
    virtual void release() = 0;
 
 };

@@ -58,6 +58,8 @@ enum _enum {
   kNewDebugMessage, // -- 新的调试消息
   kNetClose, // --关闭网络
 
+  kVariableChanged, // --前端变量改变了
+
 };
 
 }; //namespace event_id

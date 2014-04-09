@@ -69,7 +69,7 @@ class File;
 }; //namespace vengine_db
 
 namespace vengine_variable {
-class Base;
+class System;
 }; //namespace vengine_variable
 
 namespace vengine_capability {

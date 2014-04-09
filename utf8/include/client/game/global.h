@@ -15,7 +15,7 @@
 #include "vengine/kernel/base.h"
 
 extern vengine_capability::Debuger* g_debuger;
-extern vengine_variable::Base* g_variablesystem;
+extern vengine_variable::System* g_variablesystem;
 extern vengine_sound::System* g_soundsystem;
 extern vengine_game::WorldSystem* g_worldsystem;
 extern vengine_game::EventSystem* g_eventsystem;
@@ -27,5 +27,9 @@ extern HINSTANCE g_hinstance;
 extern const char versioninfo[];
 extern const char gametitle[];
 extern bool g_debugmode; //是否为调试模式
+
+#ifndef SAFE_DELETE
+#define SAFE_DELETE(p) if (p) { delete (p); (p) = NULL; }
+#endif
 
 #endif //CLIENT_GAME_GLOBAL_H_

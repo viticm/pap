@@ -1,7 +1,7 @@
 #include "client/game/global.h"
 
 vengine_capability::Debuger* g_debuger = NULL;
-vengine_variable::Base* g_variablesystem = NULL;
+vengine_variable::System* g_variablesystem = NULL;
 vengine_sound::System* g_soundsystem = NULL;
 vengine_game::WorldSystem* g_worldsystem = NULL;
 vengine_game::EventSystem* g_eventsystem = NULL;

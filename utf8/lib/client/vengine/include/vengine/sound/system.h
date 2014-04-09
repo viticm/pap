@@ -29,7 +29,8 @@ class VENGINE_API System : public vengine_kernel::Node {
 VENGINE_KERNEL_DECLARE_DYNAMIC(System);
 
  public:
-   virtual void createbuffer(int32_t id) = 0; //创建一个声音资源
+   virtual Buffer* createbuffer(int32_t id) = 0; //创建一个声音资源
+   virtual Buffer* createbuffer(const char* filename) = 0; //创建一个声音资源
    //创建/删除播放源
    //3D模式 - 音量会随着位置变化
    //自动删除模式 - 只播放一遍,然后自动释放
@@ -41,6 +42,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
                                 bool autodestroy,
                                 Source** reference) = 0;
    virtual void destroysource(Source* source) = 0;
+   virtual void destroysource(int32_t id) = 0;
    virtual void play_UIsound(int32_t id) = 0;
 
    //收听者

@@ -51,7 +51,7 @@ VENGINE_API float get_squaredistance(
     const vengine_math::base::threefloat_vector_t& position2);
 
 template<class T, class U, class V>  
-  inline void KLU_Clamp(T &v, const U &min, const V &max) {
+  inline void clamp(T &v, const U &min, const V &max) {
   v = (v < min) ? min : v;
   v = (v > max) ? max : v;
 }

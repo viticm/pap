@@ -43,7 +43,7 @@
 #include "vengine/game/worldsystem.h"
 #include "vengine/ui/creature_headboard.h"
 #include "vengine/db/system.h"
-#include "vengine/variable/base.h"
+#include "vengine/variable/system.h"
 
 #include "vgui/script/base.h"
 #include "vgui/icon/manager.h"
@@ -349,7 +349,7 @@ void System::init(void*) {
   g_game_fake_objectsystem = dynamic_cast<vengine_game::object::FakeSystem*>(
       g_kernel->getnode("bin\\fake"));
   VENGINE_ASSERT(g_game_fake_objectsystem);
-  g_variablesystem = dynamic_cast<vengine_variable::Base*>( 
+  g_variablesystem = dynamic_cast<vengine_variable::System*>( 
       g_kernel->getnode("bin\\var"));
   VENGINE_ASSERT(g_variablesystem);
   g_databasesystem = dynamic_cast<vengine_db::System*>(

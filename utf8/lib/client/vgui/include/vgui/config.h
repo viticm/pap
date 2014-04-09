@@ -100,7 +100,7 @@ extern vengine_cursor::System* g_cursorsystem;
 extern vengine_capability::Debuger* g_capability_debuger;
 extern vengine_time::System* g_timesystem;
 extern vengine_game::object::FakeSystem* g_game_fake_objectsystem;
-extern vengine_variable::Base* g_variablesystem;
+extern vengine_variable::System* g_variablesystem;
 extern vengine_game::Interface* g_gameinterface;
 extern vengine_db::System* g_databasesystem;
 extern vengine_game::ItemTransferSystem* g_game_itemtransfer_system;
