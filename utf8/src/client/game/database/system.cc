@@ -35,6 +35,8 @@ void System::open() {
   dbdefine_t filedb_toload[] = {
     //UI 布局定义
     {vengine_db::structs::ui::kLayoutDefineId, "ui_layoutdefine.txt"},
+    //声音
+    {vengine_db::structs::sound::kInfoId, "soundinfo.txt"},
   };
 
   int32_t count = sizeof(filedb_toload) / sizeof(dbdefine_t);
@@ -55,6 +57,25 @@ void System::open() {
     }
     database_map_.insert(std::make_pair(filedb_toload[i].id, db));
   }
+}
+
+void System::close() {
+  std::map<int32_t, File*>::iterator iterator;
+  for (iterator = database_map_.begin();
+       iterator != database_map_.end();
+       ++iterator) {
+    SAFE_DELETE(iterator->second);
+  }
+  database_map_.clear();
+}
+
+const File* System::get(int32_t id) const {
+  const File* filedb = NULL;
+  std::map<int32_t, File*>::const_iterator find_iterator;
+  find_iterator = database_map_.find(id);
+  if (find_iterator != database_map_.end())
+    filedb = dynamic_cast<const File*>(find_iterator->second);
+  return filedb;
 }
 
 } //namespace database
