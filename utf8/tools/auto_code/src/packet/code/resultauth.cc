@@ -28,6 +28,7 @@ bool ResultAuth::read(pap_common_net::socket::InputStream& inputstream) {
     inputstream.read((char*)&ismac_bind_, sizeof(ismac_bind_) - 1);
     inputstream.read((char*)&is_realname_bind_, sizeof(is_realname_bind_) - 1);
     inputstream.read((char*)&is_inputname_bind_, sizeof(is_inputname_bind_) - 1);
+    return true;
   __LEAVE_FUNCTION
     return false;
 }
@@ -47,6 +48,7 @@ bool ResultAuth::write(pap_common_net::socket::OutputStream& outputstream) const
     outputstream.write((char*)&ismac_bind_, sizeof(ismac_bind_) - 1);
     outputstream.write((char*)&is_realname_bind_, sizeof(is_realname_bind_) - 1);
     outputstream.write((char*)&is_inputname_bind_, sizeof(is_inputname_bind_) - 1);
+    return true;
   __LEAVE_FUNCTION
     return false;
 }

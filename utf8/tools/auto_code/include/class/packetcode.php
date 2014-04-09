@@ -259,7 +259,7 @@ EOF;
  * PAP Engine ( https://github.com/viticm/pap )
  * \$Id {$filename}.h
  * @link https://github.com/viticm/pap for the canonical source repository
- * @copyright Copyright (c) 2013-2013 viticm( viticm@126.com )
+ * @copyright Copyright (c) 2013-2014 viticm( viticm@126.com )
  * @license
  * @user viticm<viticm@126.com>
  * @date {$datestring}
