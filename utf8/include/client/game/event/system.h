@@ -9,8 +9,8 @@
  * @uses client game event system class
  *       cn: 游戏事件处理器
  */
-#ifndef CLIENT_GAME_EVENT_SYSTEM_H_
-#define CLIENT_GAME_EVENT_SYSTEM_H_
+#ifndef PAP_CLIENT_GAME_EVENT_SYSTEM_H_
+#define PAP_CLIENT_GAME_EVENT_SYSTEM_H_
 
 #include <queue.h>
 #include "vengine/game/eventsystem.h"
@@ -112,4 +112,4 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
 
 }; //namespace event
 
-#endif //CLIENT_GAME_EVENT_SYSTEM_H_
+#endif //PAP_CLIENT_GAME_EVENT_SYSTEM_H_

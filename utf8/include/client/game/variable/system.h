@@ -72,10 +72,12 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    virtual void setvariable_default(const char* name, const char* value);
    virtual void load_privateconfig();
    virtual void getvariable_infile(const char* filename,  
+                                   const char* title,
                                    const char* key,
                                    char* save,
                                    uint16_t size);
    virtual void setvariable_infile(const char* filename,
+                                   const char* title,
                                    const char* key,
                                    const char* value);
    virtual void reset();

@@ -123,7 +123,7 @@ typedef int16_t connectionid_t;
 #endif
 #endif
 //根据指针值删除数组类型内存 
-//其中注意_CrtIsValidHeapPointer前的定义，在relase需要定义NDEBUG
+//其中注意_CrtIsValidHeapPointer前的定义，在release需要定义NDEBUG
 #ifndef SAFE_DELETE_ARRAY
 #if defined(__WINDOWS__)
 #define SAFE_DELETE_ARRAY(x) if ((x) != NULL) { \

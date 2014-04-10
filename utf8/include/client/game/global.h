@@ -11,6 +11,7 @@
 #ifndef CLIENT_GAME_GLOBAL_H_
 #define CLIENT_GAME_GLOBAL_H_
 
+#include "common/base/type.h"
 #include "vengine/classes.h"
 #include "vengine/kernel/base.h"
 
@@ -27,9 +28,5 @@ extern HINSTANCE g_hinstance;
 extern const char versioninfo[];
 extern const char gametitle[];
 extern bool g_debugmode; //是否为调试模式
-
-#ifndef SAFE_DELETE
-#define SAFE_DELETE(p) if (p) { delete (p); (p) = NULL; }
-#endif
 
 #endif //CLIENT_GAME_GLOBAL_H_

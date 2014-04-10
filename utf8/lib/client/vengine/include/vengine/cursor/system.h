@@ -20,6 +20,7 @@ typedef enum {
   kTypeWinBase = 0,
   kTypeNormal, //普通
   kTypeAutoRun, //自动行走中
+  kTypeAttack, //攻击中
   kTypePickup, //拾取物品
   kTypeUnreachable, //区域无法访问
   kTypeMine, //采矿
