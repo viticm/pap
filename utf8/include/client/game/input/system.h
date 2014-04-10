@@ -38,10 +38,10 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    //获得传输的队列
    virtual eventqueue& get_eventqueue();
    //查询队列中是否有某事件存在
-   virtual bool is_eventexist(eventid_enum id);
+   virtual bool is_eventexist(vengine_input::eventid_enum id);
    //捕获状态
    virtual capturestatus_enum getcapture();
-   virtual void setcapture(capturestatus_enum type);
+   virtual void setcapture(vengine_input::capturestatus_enum type);
    //处理windows消息
    virtual bool messageprocess(HWND hwnd, 
                                uint32_t message, 
@@ -50,11 +50,11 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
 
  public: //implement for abstract 
    //某个键是否被按下
-   virtual bool is_keydown(keycode_enum key);
+   virtual bool is_keydown(vengine_input::keycode_enum key);
    //某个键是否刚被按下
-   virtual bool is_keypress(keycode_enum key);
+   virtual bool is_keypress(vengine_input::keycode_enum key);
    //某个键是否刚被抬起
-   virtual bool is_keypressed(keycode_enum key);
+   virtual bool is_keypressed(vengine_input::keycode_enum key);
    //判断某个系统键是否按下
    virtual bool is_ctrldown();
    virtual bool is_shiftdown();
@@ -79,11 +79,12 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
 
  public:
    void on_windowactive(bool active); //窗口激活时
+   bool is_mouse_inclient() const;
 
  protected:
    static System* self_;
    HWND windowhandle_;
-   capturestatus_enum capturestatus_;
+   vengine_input::capturestatus_enum capturestatus_;
    bool firstactive_; //本桢是否是激活后的第一桢
    LPDIRECTINPUT8 directinput_;
    LPDIRECTINPUTDEVICE8 directinput_device_;
@@ -95,7 +96,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    //WM_KEYDOWN保存区，用来处理键盘自动Repeat
    bool catch_keydown_;
    std::pair<WPARAM, LPARAM> buffer_wm_keydown_;
-   eventqueue eventqueue_;
+   vengine_input::eventqueue eventqueue_;
    POINT mouseposition_;
    POINT mouse_oldposition_;
    uint32_t mouseflag_;
@@ -112,7 +113,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    void keyboard_flushdata(); //清空键盘数据
    void keyboard_tick(); //键盘逻辑
    void mousetick(); //鼠标逻辑
-   void addevent(eventid_enum id, int32_t index = 0x00);
+   void addevent(vengine_input::eventid_enum id, int32_t index = 0x00);
 
  private:
    POINT mouse_nowposition_;

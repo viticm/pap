@@ -166,7 +166,7 @@ void System::tick() {
     firstactive_ = false;
     return;
   }
-  capturestatus_enum capturestatus = getcapture();
+  vengine_input::capturestatus_enum capturestatus = getcapture();
   switch (capturestatus) {
     case kCaptureStatusNone: {
       if (procedure::Base::uisystem_)
@@ -355,7 +355,178 @@ void System::mousetick() {
   if ((mouseflag_ & kMouse_LBDOWN) && (mouse_oldflag_ & kMouse_LBDOWN)) {
     LB_putdown_time_ = procedure::Base::timesystem_->get_difftime();
   }
+  //左键拖动状态
+  if ((mouseflag_ & kMouse_LBDOWN) && (mouse_oldflag_ & kMouse_LBDOWN)) {
+    if (mousemove) addevent(kEventId_MOUSE_LDRAG_MOVE);
+    //左键长按
+    if (LB_putdown_time_ > kMouseRepeatDown) {
+      addevent(kEventId_MOUSE_LBDOWNREPEAT);
+      L_repeatdown_mode = true;
+    }
+  }
+  
+  //右键拖动事件
+  if ((mouseflag_ & kMouse_RBDOWN) && (mouse_oldflag_ & kMouse_RBDOWN)) {
+    if (mousemove) addevent(kEventId_MOUSE_RDRAG_MOVE);
+  }
 
+  //检测是否为双击
+  static uint32_t doubleclick_time = ::GetDoubleClickTime();
+  if (mouseflag_ & kMouse_LBCLICKED) { //左键
+    static uint32_t clicked = 0;
+    if (nowtime < clicked + doubleclick_time) {
+      //保存"双击"事件
+      addevent(kEventId_MOUSE_LDBCLICK);
+      mouseflag_ |= kMouse_LBDBLCLK;
+    }
+    clicked = nowtime;
+    LB_putdown_time_ = 0;
+  }
+  
+  if (mouseflag_ & kMouse_MBCLICKED)  { //中键
+    static uint32_t clicked = 0;
+    if (nowtime < clicked + doubleclick_time) {
+      addevent(kEventId_MOUSE_MDBCLICK);
+      mouseflag_ |= kMouse_MBDBLCLK;
+    }
+    clicked = nowtime;
+  }
+
+  if (mouseflag_ & kMouse_RBCLICKED) { //右键
+    static uint32_t clicked = 0;
+    if (nowtime < clicked + doubleclick_time) {
+      addevent(kEventId_MOUSE_RDBCLICK);
+      mouseflag_ |= kMouse_RDBCLICK;
+    }
+    clicked = nowtime;
+  }
+
+  //计算拖拽盒
+  if (mouseflag_ & kMouse_RBCLICK) {
+    //右键被按下 拖拽框左上
+    RB_dragrect_.left = mouseposition_.x;
+    RB_dragrect_.top = mouseposition_.y;
+  }
+
+  if (mouse_oldflag_ & kMouse_RBCLICKED) {
+    //右键抬起
+    RB_dragrect_.right = mouseposition_.x;
+    RB_dragrect_.bottom = mouseposition_.y;
+  }
+
+  //滚轮
+  if (mouse_oldflag_ & kMouse_WHEELUP) {
+    addevent(kEventId_MOUSE_WHEEL_UP);
+  }
+
+  if (mouse_oldflag_ & kMouse_WHEELDOWN) {
+    addevent(kEventId_MOUSE_WHEEL_DOWN);
+  }
+}
+
+bool System::is_eventexist(vengine_input::eventid_enum id) {
+  vengine_input::eventqueue::iterator iterator;
+  if (iterator = eventqueue_.begin();
+      iterator != eventqueue_.end();
+      ++iterator) {
+    if (iterator->id == id) return true;
+  }
+  return false;
+}
+
+void System::release() {
+  if (directinput_device_) {
+    directinput_device_->Unacquire();
+    directinput_device_->Release();
+    directinput_device_ = NULL;
+  }
+  if (directinput_) directinput_->Release();
+  directinput_ = NULL;
+}
+
+void System::setcapture(vengine_input::capturestatus_enum status) {
+  capturestatus_ = status;  
+}
+
+void System::addevent(vengine_input::eventid_enum id, int32_t index) {
+  vengine_input::event_t event;
+  event.id = id;
+  event.keyindex = static_cast<vengine_input::keycode_enum>(index);
+  event.processed = false;
+  eventqueue_.push_back(event);
+}
+
+vengine_input::capturestatus_enum System::getcapture() const {
+  return capturestatus_;
+}
+
+bool System::is_keydown(vengine_input::keycode_enum index) {
+  bool result = (currentkeys_[index] & 0x80) != 0;
+  return result;
+}
+
+bool System::is_keypress(vengine_input::keycode_enum index) {
+  bool result = keypresses_[index];
+  return result;
+}
+
+bool System::is_keypressed(vengine_input::keycode_enum index) {
+  bool result = keypresseds_[index];
+  return result;
+}
+
+bool System::is_ctrldown() {
+  bool result = is_keydown(vengine_input::kKeyCode_LCONTROL) || 
+    is_keydown(vengine_input::kKeyCode_RCONTROL);
+  return result;
+}
+
+bool System::is_shiftdown() {
+  bool result = is_keydown(vengine_input::kKeyCode_LSHIFT) || 
+    is_keydown(vengine_input::kKeyCode_RSHIFT);
+  return result;
+}
+
+bool System::is_altdown() {
+  bool result = is_keydown(vengine_input::kKeyCode_LMENU) || 
+    is_keydown(vengine_input::kKeyCode_RMENU);
+  return result;
+}
+
+POINT System::get_mousepostion() {
+  return mouseposition_;
+}
+
+POINT System::get_mouse_oldpostion() {
+  return mouse_oldposition_;
+}
+
+RECT System::get_mouse_LB_dragrect() {
+  return LB_dragrect_;
+}
+
+RECT System::get_mouse_MB_dragrect() {
+  return MB_dragrect_;
+}
+
+RECT System::get_mouse_RB_dragrect() {
+  return RB_dragrect_;
+}
+
+uint32_t System::get_mouseflag() {
+  return mouseflag_;
+}
+
+uint32_t System::get_mouse_oldflag() {
+  return mouse_oldflag_;
+}
+
+bool System::is_mouse_inclient() const {
+  return mouse_inclient_;
+}
+
+uint32_t System::get_L_putdown_time() {
+  return LB_putdown_time_;
 }
 
 }; //namespace input
