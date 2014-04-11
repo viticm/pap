@@ -63,7 +63,7 @@ void Manager::remove(uint32_t id) {
 }
 
 void Manager::remove(timer_function function) {
-  param2_iterator iterator1;
+  param1_iterator iterator1;
   for (iterator1 = map1_.begin();
        iterator1 != map1_.end();
        ++iterator1) {
@@ -72,6 +72,114 @@ void Manager::remove(timer_function function) {
       return;
     }
   }
+}
+
+void Manager::remove(const STRING& function) {
+  param2_iterator iterator1;
+  for (iterator2 = map2_.begin();
+       iterator2 != map2_.end();
+       ++iterator2) {
+    if (iterator2->second.function == function) {
+      iterator2 = map2_.erase(iterator2);
+      return;
+    }
+  }
+}
+
+void Manager::get_scriptenvironment(uint32_t id, 
+                                    STRING& environment, 
+                                    STRING& script) {
+  param2_iterator iterator1;
+  for (iterator2 = map2_.begin();
+       iterator2 != map2_.end();
+       ++iterator2) {
+    if (iterator2->first == id) {
+      environment = (*iterator2).environment;
+      script = (*iterator2).function;
+      return;
+    }
+  }
+}
+
+void __stdcall Manager::default_eventfunction(HWND, 
+                                              uint32_t, 
+                                              uint32_t id, 
+                                              uint64_t) {
+  if (Manager::getself()) {
+    STRING environment, script;
+    System::getself()->get_scriptenvironment(id, environment, script);
+    if (environment != "" && script != "") {
+      environment += "_Env";
+      try {
+        //保存旧环境名
+        STRING oldenvironment = 
+          script::System::getself()->get_activeenvironment();
+        //设定环境
+        script::System::getself()->set_activeenvironment(environment.c_str());
+        //执行函数
+        script::System::getself()->executestring(script.c_str());
+        //恢复环境
+        if (!oldenvironment.empty()) {
+          script::System::getself()->set_activeenvironment(
+              oldenvironment.c_str());
+        }
+      }
+      catch(...) {
+        STRING str = "执行环境:"+environment+",函数:"+script;
+        MessageBox(NULL, str.c_str(), "定时器使用错误", MB_ICONSTOP | MB_OK);
+      }
+    }
+  }
+}
+
+void Manager::clear() {
+  param1_iterator iterator1;
+  for (iterator1 = map1_.begin();
+       iterator1 != map1_.end();
+       ++iterator1) {
+    ::KillTimer(NULL, iterator1->first);
+  }
+  map1_.clear();
+  param2_iterator iterator2;
+  for (iterator2 = map2_.begin();
+       iterator2 != map2_.end();
+       ++iterator2) {
+    ::KillTimer(NULL, iterator2->first);
+  }
+  map2_.clear();
+}
+
+int32_t Manager::lua_set(LuaPlus::LuaState* luastate) {
+  LuaPlus::LuaStack args(luastate);
+  if (!args[1].IsString() || args[2].IsString() || !args[3].IsInteger()) {
+    luastate->PushInteger(-1);
+    return 1;
+  }
+  STRING environment = args[1].GetString();
+  STRING function = args[2].GetString();
+  uint32_t elapse = args[3].GetInteger();
+  int32_t id = add(environment, function, elapse);
+  luastate->PushInteger(id);
+  return 1;
+}
+
+int32_t Manager::lua_kill(LuaPlus::LuaState* luastate) {
+  LuaPlus::LuaStack args(luastate);
+  if (args[1].IsInteger()) {
+    uint32_t id = args[1].GetInteger();
+    remove(id);
+    luastate->PushBoolean(true);
+    return 1;
+  }
+
+  if (args[1].IsString()) {
+    STRING function = args[1].GetString();
+    remove(function);
+    luastate->PushBoolean(true);
+    return 1;
+  }
+  luastate->PushBoolean(false);
+  return 1;
 }
 
 } //namespace timer

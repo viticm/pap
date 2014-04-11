@@ -52,7 +52,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
 
  public:
    int32_t lua_set(LuaPlus::LuaState* luastate);
-   int32_t lua_get(LuaPlus::LuaState* luastate);
+   int32_t lua_kill(LuaPlus::LuaState* luastate);
 
  protected:
    typedef std::map<uint32_t, param1_t>::iterator param1_iterator;
@@ -62,6 +62,9 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
    std::map<uint32_t, param1_t> map1_;
    std::map<uint32_t, param2_t> map2_;
    static Manager* self_;
+   //默认的事件处理函数
+   static void __stdcall default_eventfunction(
+       HWND, uint32_t, uint32_t, uint64_t);
 
 };
 
