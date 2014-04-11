@@ -49,10 +49,13 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
 
  protected:
    static System* self_;
-   std::list<Environment*> scriptenvironment_list_;
+   std::list<Environment*> environmentlist_;
    bool enable_luacrash_; //lua有异常时是否抛出
    std::map<int32_t, STRING> questfile_map_;
    STRING environmentname_;
+
+ protected:
+   void load_qusetfile(); //加载任务数据
 
 };
 

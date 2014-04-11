@@ -23,23 +23,23 @@ enum _enum {
   kSceneCutover, //-- 场景切换
 
 /** 用户登陆{ **/
-  kGameLoginShowSystemInfoAndCloseNet, //-- 打开系统提示信息和关闭网络
-  kGameLoginShowSystemInfo, //-- 打开系统提示信息
-  kGameLoginCloseSystemInfo, //-- 关闭系统提示信息
-  kGameLoginOpenSelectServer, //-- 打开选择服务器
-  kGameLoginCloseSelectServer, //-- 关闭选择服务器
-  kGameLoginOpenAccountInput, //-- 打开账号输入界面
-  kGameLoginCloseAccountInput, //-- 关闭账号输入界面
-  kGameLoginShowSystemInfoNoButton, //-- 显示系统信息无按钮
-  kGameLoginShowSystemInfoYesOrNo, //-- 参数0, 提示的字符串
-                                   //-- 参数1, 对话框的类型
-                                   //-- 0 -- 是否退出游戏
-                                   //-- 1 -- 是否删除角色
-                                   //-- 2 -- 是否更换帐号
-  kGameLoginSelectLoginServer, //-- 选择一个login server
-                               //-- 参数0 区域索引 参数1 服务器索引
-  kGameLoginCleanAccount, //-- 清空显示的账号
-  kGameLoginSelectArea, //-- 选择大区
+  kLoginShowSystemInfoAndCloseNet, //-- 打开系统提示信息和关闭网络
+  kLoginShowSystemInfo, //-- 打开系统提示信息
+  kLoginCloseSystemInfo, //-- 关闭系统提示信息
+  kLoginOpenSelectServer, //-- 打开选择服务器
+  kLoginCloseSelectServer, //-- 关闭选择服务器
+  kLoginOpenAccountInput, //-- 打开账号输入界面
+  kLoginCloseAccountInput, //-- 关闭账号输入界面
+  kLoginShowSystemInfoNoButton, //-- 显示系统信息无按钮
+  kLoginShowSystemInfoYesOrNo, //-- 参数0, 提示的字符串
+                               //-- 参数1, 对话框的类型
+                               //-- 0 -- 是否退出游戏
+                               //-- 1 -- 是否删除角色
+                               //-- 2 -- 是否更换帐号
+  kLoginSelectLoginServer, //-- 选择一个login server
+                           //-- 参数0 区域索引 参数1 服务器索引
+  kLoginCleanAccount, //-- 清空显示的账号
+  kLoginSelectArea, //-- 选择大区
 
 /** }用户登陆 **/
 

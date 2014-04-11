@@ -4,7 +4,8 @@
 #@author viticm<viticm@126.com>
 paths="./ ../../../include/client/game ../../../include/common/
 ../../../lib/client/vengine/include ../../../lib/client/vgui/include
-../../../lib/client/fmod375/include ../../../lib/client/DirectX9/Include"
+../../../lib/client/fmod375/include ../../../lib/client/DirectX9/Include
+../../../lib/client/LuaPlus/Src"
 types="php lua h cpp c cc hpp"
 n=0
 for path in ${paths}

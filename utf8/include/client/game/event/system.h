@@ -65,9 +65,11 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
                                  uint32_t ownerdata);
   //extends
  public:
+   virtual void push(vengine_game::event_id::_enum id, float arg0);
    virtual void push(const STRING& eventname, std::vector<STRING> param);
    virtual void push(const STRING& eventname);
    virtual void push(const STRING& eventname, int32_t arg0);
+   virtual void push(const STRING& eventname, float arg0);
    virtual void push(const STRING& eventname, const char* arg0);
    virtual void push(const STRING& eventname, 
                      const char* arg0, 
@@ -105,8 +107,8 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    uint32_t last_tickcount_;
 
  protected:
-   void push(const vengine_game::event_t event); //压入事件
-   void process(const vengine_game::event_t event); //处理事件
+   void push(const vengine_game::event_t& event); //压入事件
+   void process(const vengine_game::event_t& event); //处理事件
 
 };
 

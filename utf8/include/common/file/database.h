@@ -58,7 +58,7 @@ class Database {
    bool open_from_txt(const char* filename);
    bool open_from_memory(const char* memory, 
                          const char* end, 
-                         const char* filename);
+                         const char* filename = NULL);
    virtual const field_data* search_index_equal(int32_t index) const;
    virtual const field_data* search_position(int32_t line, 
                                              int32_t column) const;

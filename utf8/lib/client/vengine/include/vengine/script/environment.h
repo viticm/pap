@@ -28,7 +28,7 @@ class Environment {
 
  public:
    virtual const char* getname() const = 0;
-   virtual void executescript(const char* filename) = 0;
+   virtual int32_t executescript(const char* filename) = 0;
    virtual void executefunction(const char* functionname, 
                                 const char* param = NULL) = 0;
    virtual void executestring(const char* str) = 0;

@@ -11,7 +11,6 @@
 #ifndef CLIENT_GAME_SCRIPT_ENVIRONMENT_H_
 #define CLIENT_GAME_SCRIPT_ENVIRONMENT_H_
 
-#include "LuaPlus.h"
 #include "vengine/script/environment.h"
 
 namespace script {
@@ -20,7 +19,7 @@ class Environment : public vengine_script::Environment {
 
  public:
    virtual const char* getname() const;
-   virtual void executescript(const char* filename);
+   virtual int32_t executescript(const char* filename);
    virtual void executefunction(const char* functionname, 
                                 const char* param = NULL);
    virtual void executestring(const char* str);
@@ -37,6 +36,10 @@ class Environment : public vengine_script::Environment {
  protected:
    Environment(const char* name, const char* filename);
    virtual ~Environment();
+
+ protected:
+   void executestring_withcpp_exception(const char* str);
+   void executestring_withgen_exception(const char* str);
 
 };
 
