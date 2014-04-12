@@ -153,7 +153,7 @@ typedef int16_t connectionid_t;
 #endif
 //根据指针调用Release接口
 #ifndef SAFE_RELEASE
-#define SAFE_RELEASE(x)	if ((x) != NULL) { (x)->Release(); (x) = NULL; }
+#define SAFE_RELEASE(x)	if ((x) != NULL) { (x)->release(); (x) = NULL; }
 #endif
 
 #ifndef ERRORPRINTF

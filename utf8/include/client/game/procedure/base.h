@@ -68,6 +68,7 @@ class Base {
    static vengine_cursor::System* cursorsystem_; //鼠标管理器
    static vengine_script::System* scriptsystem_; //脚本管理器
    static vengine_resource::Provider* resourceprovider_; //资源提供
+   static vengine_variable::System* variablesystem_; //变量管理器
 
  public:
    static void init_staticmember(); //静态成员初始化
@@ -95,6 +96,14 @@ class Base {
    static Base* active_; //当前游戏流程
    static Base* previous_; //前一个游戏流程
 
+ protected:
+   virtual void init() = 0;
+   virtual void tick();
+   virtual void render() = 0;
+   virtual void release() = 0;
+   virtual void processinput();
+   virtual void closerequest();
+   virtual LRESULT mainwindow_process(HWND, uint32_t, WPARAM, LPARAM);
 
  protected:
    static bool minimized_; //是否为最小化窗口
@@ -119,7 +128,7 @@ class Base {
  private:
    static void create_mainwindow();
    static void destroy_mainwindow();
-   static LRESULT CALLBACK mainwindow_process(HWND, UINT, WPARAM, LPARAM);
+   static LRESULT CALLBACK _mainwindow_process(HWND, UINT, WPARAM, LPARAM);
    static void keep_windowproportion(RECT* rect, 
                                      uint32_t changing, 
                                      uint32_t anchor);

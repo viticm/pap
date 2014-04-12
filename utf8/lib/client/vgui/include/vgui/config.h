@@ -20,7 +20,7 @@
 #define SAFE_DELETE(p) if (p) { delete (p); (p) = NULL; }
 #endif
 #ifndef SAFE_RELEASE
-#define SAFE_RELEASE(p) if (p) { (p)->Release(); delete (p); (p) = NULL; }
+#define SAFE_RELEASE(p) if (p) { (p)->release(); delete (p); (p) = NULL; }
 #endif
 /* }macros*/
 
