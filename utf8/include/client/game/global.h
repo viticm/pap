@@ -24,9 +24,9 @@ extern vengine_resource::Provider* g_resourceprovider;
 extern vengine_db::System* g_dbsystem;
 extern vengine_kernel::Base* g_kernel;
 extern HWND g_mainwindow_handle;
-extern HINSTANCE g_hinstance;
-extern const char versioninfo[];
-extern const char gametitle[];
+extern HINSTANCE g_instance_handle;
+extern const char kVersionInfo[];
+extern const char kGameTitle[];
 extern bool g_debugmode; //是否为调试模式
 
 #endif //CLIENT_GAME_GLOBAL_H_
