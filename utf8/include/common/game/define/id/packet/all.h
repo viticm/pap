@@ -14,6 +14,7 @@
 namespace packet {
 
 #include "common/game/define/id/packet/client_toserver.h"
+#include "common/game/define/id/packet/client_tologin.h"
 
 }; //namespace packet
 

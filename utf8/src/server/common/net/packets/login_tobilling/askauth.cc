@@ -189,7 +189,7 @@ void AskAuth::get_mibao_value(int32_t index,
   __ENTER_FUNCTION
     using namespace pap_common_game::define::size;
     if (index < 0 || index >= mibao::kUnitNumber) return;
-    snprintf(buffer, length, "%s", all_mibao_value[index]);
+    snprintf(buffer, length, "%s", all_mibao_value_[index]);
   __LEAVE_FUNCTION
 }
 
@@ -197,8 +197,10 @@ void AskAuth::set_mibao_value(int32_t index, const char* value) {
   __ENTER_FUNCTION
     using namespace pap_common_game::define::size;
     if (index < 0 || index >= mibao::kUnitNumber) return;
-    strncpy(all_mibao_value[index], value, sizeof(all_mibao_value[index]) - 1);
-    all_mibao_value[index][sizeof(all_mibao_value[index])] = '\0';
+    strncpy(all_mibao_value_[index], 
+            value, 
+            sizeof(all_mibao_value_[index]) - 1);
+    all_mibao_value_[index][sizeof(all_mibao_value_[index])] = '\0';
   __LEAVE_FUNCTION
 }
 

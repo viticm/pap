@@ -102,7 +102,7 @@ class Login : public Base {
    void select_oldserver();
 
  protected:
-   loginserver_status_enum status_;
+   status_enum status_;
    bool relogin_;
    vengine_sound::Source* soundsource_;
    int32_t prevarea_;

@@ -42,7 +42,7 @@ struct loginserver_info_t {
   char tooltip[128]; //描述
 };
 
-const uint8_t area_haveserver_max = 6; //每个大区拥有的服务器最大值
+const uint8_t kAreaHaveserverMax = 6; //每个大区拥有的服务器最大值
 //大区信息结构体
 struct areainfo_t {
   areainfo_t() {
@@ -50,7 +50,7 @@ struct areainfo_t {
   };
   char name[128];
   netprovide_enum provide;
-  loginserver_info_t[area_haveserver_max];
+  loginserver_info_t[kAreaHaveserverMax];
 };
 
 //typedef areainfo_t* areainfo_pointer;

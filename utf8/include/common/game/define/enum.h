@@ -33,4 +33,12 @@ typedef enum {
   kGmExcuteLevelAll,
 } gm_excute_level_enum; //GM命令模式
 
+enum netprovider_enum {
+  kNetProviderDefault = 0,
+  kNetProviderCNII, //电信
+  kNetProviderCNC, //联通
+  kNetProviderEDU, //教育网
+  kNetProviderUnkown, //未知
+};
+
 #endif //PAP_COMMON_GAME_DEFINE_ENUM_H_
