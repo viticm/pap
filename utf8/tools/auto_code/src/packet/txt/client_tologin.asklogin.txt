@@ -1,0 +1,34 @@
+﻿/** 注释行 可以用来描述该文件的作用 **/
+/* author: viticm */
+/* date: 2014-4-14 14:43:28 */
+/* desc: 客户端向登陆服务器请求登陆 */
+
+ModelType: Common /* Server 服务器专用 Common 客户端与服务器公用 */
+ModelName: client_tologin /* 模块名 */
+PacketName: AskLogin /* 包名 将作为类名使用 */
+FileName: asklogin /* 文件名 */
+/* 0 不用包含 1 服务器与公用 2 服务器 3 公用 --包括定义文件define/all.h
+ * 服务器为pap_server_game_common::define 公用为pap_game_common::define
+ */ 
+IncludeDefineFile: 3
+
+ 
+/* 数据名称将作为变量名，数据类型可用c99所有整型以及字符和数组，不允许使用指针 
+   不使用指针的原因是在32位与64位之间长度大小有区别
+ */
+/** 
+[数据名称] [数据类型] [长度] [描述?]
+如果长度为0，对于字符和float等来说就只是单纯的字符或者float，
+否则为对应的数组，多维数组以逗号分开。
+多维数组的示例：[account] [char] [10,20] 
+长度可以为数字也可以为相应的宏或者枚举，不过你要确保它的存在
+描述将作为注释生成在头文件中如 uint16_t playerid_; //玩家ID，描述可以为空
+**/
+
+/*packet define begin {*/ 
+[account] [char] [ACCOUNTLENGTH_MAX] [账号名]
+[password] [char] [MD5SIZE_MAX] [密码]
+[version] [uint32_t] [0] [客户端版本]
+[all_mibao_value] [char] [pap_common_game::define::size::mibao::kUnitNumber][pap_common_game::define::size::mibao::kUnitValueLength] [密保值]
+[mac_address] [char] [MD5SIZE_MAX] [MAC地址]
+/*packet define end }*/

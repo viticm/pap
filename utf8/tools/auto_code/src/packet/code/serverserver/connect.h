@@ -2,10 +2,10 @@
  * PAP Engine ( https://github.com/viticm/pap )
  * $Id connect.h
  * @link https://github.com/viticm/pap for the canonical source repository
- * @copyright Copyright (c) 2013-2013 viticm( viticm@126.com )
+ * @copyright Copyright (c) 2013-2014 viticm( viticm@126.com )
  * @license
  * @user viticm<viticm@126.com>
- * @date 2014-04-08 15:58:59
+ * @date 2014-04-14 14:53:21
  * @uses packet Connect class
  */
 #ifndef PAP_SERVER_COMMON_NET_PACKETS_SERVERSERVER_CONNECT_H_

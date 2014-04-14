@@ -63,6 +63,7 @@
      foreach ($temp as $line) {
        if (strlen(trim($line)) != 0) {
          $linearray = explode(' ', trim($line));
+		 $param0 = $param1 = $param2 = $param3 = null;
          $arraycount = count($linearray);
          if (2 == $arraycount) {
            list($param0, $param1) = $linearray;
@@ -157,6 +158,10 @@
      $packetname = $this->formatcode_['packetname'];
      $filename = $this->formatcode_['filename'];
      $values = $this->formatcode_['values'];
+	 $outdir = $directory.$modelname.'/';
+	 if (!file_exists($outdir)) {
+       if (!mkdir($outdir)) return false;
+	 }
      
      if (NULL == $filename) return false;
      //header model define
@@ -324,7 +329,7 @@ class {$packetname}Handler {
 
 #endif //PAP{$hmd}_COMMON_NET_PACKETS{$hmnd}{$hfd}_H_
 EOF;
-     if (false === file_put_contents($directory.$filename.'.h', $headerinfo))
+     if (false === file_put_contents($outdir.$filename.'.h', $headerinfo))
        return false;
      return true;
    }
@@ -341,6 +346,10 @@ EOF;
      $packetname = $this->formatcode_['packetname'];
      $filename = $this->formatcode_['filename'];
      $values = $this->formatcode_['values'];
+	 $outdir = $directory.$modelname.'/';
+	 if (!file_exists($outdir)) {
+       if (!mkdir($outdir)) return false;
+	 }
      
      if (NULL == $filename) return false;
      $twospace = '  ';
@@ -679,7 +688,7 @@ uint16_t {$packetname}Factory::get_packetid() const {
 
 } //namespace pap{$namespacemodel}_common_net
 EOF;
-     if (false === file_put_contents($directory.$filename.'.cc', $sourceinfo))
+     if (false === file_put_contents($outdir.$filename.'.cc', $sourceinfo))
        return false;
      return true;
    }
