@@ -1,14 +1,20 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="Plugin_OctreeSceneManager"
 	ProjectGUID="{8BD6356E-9340-4421-B6DF-811CB054368C}"
-	Keyword="Win32Proj">
+	RootNamespace="Plugin_OctreeSceneManager"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="0"
+	>
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Win32"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
@@ -16,50 +22,63 @@
 			IntermediateDirectory="Plugin_OctreeSceneManager.dir\Debug"
 			ConfigurationType="2"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
-				AssemblerListingLocation="Debug/"
-				BasicRuntimeChecks="3"
-				CompileAs="2"
-				DebugInformationFormat="3"
-				EnableIntrinsicFunctions="TRUE"
-				ExceptionHandling="1"
-				FloatingPointModel="2"
-				InlineFunctionExpansion="0"
-				Optimization="0"
-				RuntimeLibrary="3"
-				RuntimeTypeInfo="TRUE"
-				WarningLevel="3"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;OGRE_TERRAINPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;Debug\&quot;;Plugin_OctreeSceneManager_EXPORTS"
-				ObjectFile="$(IntDir)\"
-/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;OGRE_TERRAINPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;Debug\&quot;;Plugin_OctreeSceneManager_EXPORTS"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
-				MkTypLibCompatible="FALSE"
+				MkTypLibCompatible="false"
 				TargetEnvironment="1"
-				GenerateStublessProxies="TRUE"
+				GenerateStublessProxies="true"
 				TypeLibraryName="$(InputName).tlb"
 				OutputDirectory="$(IntDir)"
 				HeaderFileName="$(InputName).h"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="$(InputName)_i.c"
-				ProxyFileName="$(InputName)_p.c"/>
+				ProxyFileName="$(InputName)_p.c"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				InlineFunctionExpansion="0"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;OGRE_TERRAINPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;Debug\&quot;;Plugin_OctreeSceneManager_EXPORTS"
+				ExceptionHandling="1"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				FloatingPointModel="2"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="Debug/"
+				ObjectFile="$(IntDir)\"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+				CompileAs="2"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;OGRE_TERRAINPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;Debug\&quot;;Plugin_OctreeSceneManager_EXPORTS"
+				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
@@ -69,9 +88,31 @@
 				Version="0.0"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\..\Dependencies\lib\$(OutDir),..\..\..\Dependencies\lib"
+				GenerateDebugInformation="true"
 				ProgramDatabaseFile="..\..\bin\Debug\Plugin_OctreeSceneManager_d.pdb"
-				GenerateDebugInformation="TRUE"
-				ImportLibrary="..\..\lib\Debug\Plugin_OctreeSceneManager_d.lib"/>
+				ImportLibrary="..\..\lib\Debug\Plugin_OctreeSceneManager_d.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -79,47 +120,60 @@
 			IntermediateDirectory="Plugin_OctreeSceneManager.dir\Release"
 			ConfigurationType="2"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
-				AssemblerListingLocation="Release/"
-				CompileAs="2"
-				ExceptionHandling="1"
-				FloatingPointModel="2"
-				InlineFunctionExpansion="2"
-				Optimization="2"
-				RuntimeLibrary="2"
-				RuntimeTypeInfo="TRUE"
-				WarningLevel="3"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_TERRAINPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;Release\&quot;;Plugin_OctreeSceneManager_EXPORTS"
-				ObjectFile="$(IntDir)\"
-/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_TERRAINPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;Release\&quot;;Plugin_OctreeSceneManager_EXPORTS"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
-				MkTypLibCompatible="FALSE"
+				MkTypLibCompatible="false"
 				TargetEnvironment="1"
-				GenerateStublessProxies="TRUE"
+				GenerateStublessProxies="true"
 				TypeLibraryName="$(InputName).tlb"
 				OutputDirectory="$(IntDir)"
 				HeaderFileName="$(InputName).h"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="$(InputName)_i.c"
-				ProxyFileName="$(InputName)_p.c"/>
+				ProxyFileName="$(InputName)_p.c"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="2"
+				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_TERRAINPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;Release\&quot;;Plugin_OctreeSceneManager_EXPORTS"
+				ExceptionHandling="1"
+				RuntimeLibrary="2"
+				FloatingPointModel="2"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="Release/"
+				ObjectFile="$(IntDir)\"
+				WarningLevel="3"
+				CompileAs="2"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_TERRAINPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;Release\&quot;;Plugin_OctreeSceneManager_EXPORTS"
+				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
@@ -130,7 +184,30 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\Dependencies\lib\$(OutDir),..\..\..\Dependencies\lib"
 				ProgramDatabaseFile="..\..\bin\Release\Plugin_OctreeSceneManager.pdb"
-				ImportLibrary="..\..\lib\Release\Plugin_OctreeSceneManager.lib"/>
+				ImportLibrary="..\..\lib\Release\Plugin_OctreeSceneManager.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="xcopy ..\..\lib\$(ConfigurationName)\$(ProjectName).lib  .\..\..\..\..\kernelengine\lib\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;xcopy ..\..\bin\$(ConfigurationName)\$(ProjectName).dll  .\..\..\..\..\kernelengine\dll\$(ConfigurationName)\ /S /R /Y"
+			/>
 		</Configuration>
 		<Configuration
 			Name="MinSizeRel|Win32"
@@ -138,47 +215,60 @@
 			IntermediateDirectory="Plugin_OctreeSceneManager.dir\MinSizeRel"
 			ConfigurationType="2"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
-				AssemblerListingLocation="MinSizeRel/"
-				CompileAs="2"
-				ExceptionHandling="1"
-				FloatingPointModel="2"
-				InlineFunctionExpansion="1"
-				Optimization="1"
-				RuntimeLibrary="2"
-				RuntimeTypeInfo="TRUE"
-				WarningLevel="3"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_TERRAINPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;;Plugin_OctreeSceneManager_EXPORTS"
-				ObjectFile="$(IntDir)\"
-/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_TERRAINPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;;Plugin_OctreeSceneManager_EXPORTS"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
-				MkTypLibCompatible="FALSE"
+				MkTypLibCompatible="false"
 				TargetEnvironment="1"
-				GenerateStublessProxies="TRUE"
+				GenerateStublessProxies="true"
 				TypeLibraryName="$(InputName).tlb"
 				OutputDirectory="$(IntDir)"
 				HeaderFileName="$(InputName).h"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="$(InputName)_i.c"
-				ProxyFileName="$(InputName)_p.c"/>
+				ProxyFileName="$(InputName)_p.c"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				Optimization="1"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_TERRAINPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;;Plugin_OctreeSceneManager_EXPORTS"
+				ExceptionHandling="1"
+				RuntimeLibrary="2"
+				FloatingPointModel="2"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="MinSizeRel/"
+				ObjectFile="$(IntDir)\"
+				WarningLevel="3"
+				CompileAs="2"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_TERRAINPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;;Plugin_OctreeSceneManager_EXPORTS"
+				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
@@ -189,7 +279,29 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\Dependencies\lib\$(OutDir),..\..\..\Dependencies\lib"
 				ProgramDatabaseFile="..\..\bin\MinSizeRel\Plugin_OctreeSceneManager.pdb"
-				ImportLibrary="..\..\lib\MinSizeRel\Plugin_OctreeSceneManager.lib"/>
+				ImportLibrary="..\..\lib\MinSizeRel\Plugin_OctreeSceneManager.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
 			Name="RelWithDebInfo|Win32"
@@ -197,48 +309,61 @@
 			IntermediateDirectory="Plugin_OctreeSceneManager.dir\RelWithDebInfo"
 			ConfigurationType="2"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
-				AssemblerListingLocation="RelWithDebInfo/"
-				CompileAs="2"
-				DebugInformationFormat="3"
-				ExceptionHandling="1"
-				FloatingPointModel="2"
-				InlineFunctionExpansion="1"
-				Optimization="2"
-				RuntimeLibrary="2"
-				RuntimeTypeInfo="TRUE"
-				WarningLevel="3"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_TERRAINPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;;Plugin_OctreeSceneManager_EXPORTS"
-				ObjectFile="$(IntDir)\"
-/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_TERRAINPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;;Plugin_OctreeSceneManager_EXPORTS"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
-				MkTypLibCompatible="FALSE"
+				MkTypLibCompatible="false"
 				TargetEnvironment="1"
-				GenerateStublessProxies="TRUE"
+				GenerateStublessProxies="true"
 				TypeLibraryName="$(InputName).tlb"
 				OutputDirectory="$(IntDir)"
 				HeaderFileName="$(InputName).h"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="$(InputName)_i.c"
-				ProxyFileName="$(InputName)_p.c"/>
+				ProxyFileName="$(InputName)_p.c"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_TERRAINPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;;Plugin_OctreeSceneManager_EXPORTS"
+				ExceptionHandling="1"
+				RuntimeLibrary="2"
+				FloatingPointModel="2"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="RelWithDebInfo/"
+				ObjectFile="$(IntDir)\"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+				CompileAs="2"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_TERRAINPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;;Plugin_OctreeSceneManager_EXPORTS"
+				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\OctreeSceneManager\include;"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
@@ -248,96 +373,146 @@
 				Version="0.0"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\..\Dependencies\lib\$(OutDir),..\..\..\Dependencies\lib"
+				GenerateDebugInformation="true"
 				ProgramDatabaseFile="..\..\bin\RelWithDebInfo\Plugin_OctreeSceneManager.pdb"
-				GenerateDebugInformation="TRUE"
-				ImportLibrary="..\..\lib\RelWithDebInfo\Plugin_OctreeSceneManager.lib"/>
+				ImportLibrary="..\..\lib\RelWithDebInfo\Plugin_OctreeSceneManager.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="">
+			>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreHeightmapTerrainPageSource.cpp">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreHeightmapTerrainPageSource.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreOctree.cpp">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreOctree.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreOctreeCamera.cpp">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreOctreeCamera.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreOctreeNode.cpp">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreOctreeNode.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreOctreePlugin.cpp">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreOctreePlugin.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreOctreeSceneManager.cpp">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreOctreeSceneManager.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreOctreeSceneManagerDll.cpp">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreOctreeSceneManagerDll.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreOctreeSceneQuery.cpp">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreOctreeSceneQuery.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreTerrainPage.cpp">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreTerrainPage.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreTerrainPageSource.cpp">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreTerrainPageSource.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreTerrainRenderable.cpp">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreTerrainRenderable.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreTerrainSceneManager.cpp">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreTerrainSceneManager.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreTerrainVertexProgram.cpp">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\src\OgreTerrainVertexProgram.cpp"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			Filter="">
+			>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreHeightmapTerrainPageSource.h">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreHeightmapTerrainPageSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreOctree.h">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreOctree.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreOctreeCamera.h">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreOctreeCamera.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreOctreeNode.h">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreOctreeNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreOctreePlugin.h">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreOctreePlugin.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreOctreeSceneManager.h">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreOctreeSceneManager.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreOctreeSceneQuery.h">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreOctreeSceneQuery.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreTerrainPage.h">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreTerrainPage.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreTerrainPageSource.h">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreTerrainPageSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreTerrainPrerequisites.h">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreTerrainPrerequisites.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreTerrainRenderable.h">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreTerrainRenderable.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreTerrainSceneManager.h">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreTerrainSceneManager.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreTerrainVertexProgram.h">
+				RelativePath="..\..\..\PlugIns\OctreeSceneManager\include\OgreTerrainVertexProgram.h"
+				>
 			</File>
 		</Filter>
 	</Files>

@@ -347,11 +347,11 @@
 						Name="base"
 						>
 						<File
-							RelativePath="..\..\common\base\config.cc"
+							RelativePath="..\..\..\common\base\io.cc"
 							>
 						</File>
 						<File
-							RelativePath="..\..\..\common\base\io.cc"
+							RelativePath="..\..\common\base\config.cc"
 							>
 						</File>
 						<File
@@ -892,13 +892,25 @@
 								>
 							</File>
 							<File
-								RelativePath="..\..\..\..\include\common\game\define\id\packet.h"
-								>
-							</File>
-							<File
 								RelativePath="..\..\..\..\include\common\game\define\id\skill.h"
 								>
 							</File>
+							<Filter
+								Name="packet"
+								>
+								<File
+									RelativePath="..\..\..\..\include\common\game\define\id\packet\all.h"
+									>
+								</File>
+								<File
+									RelativePath="..\..\..\..\include\common\game\define\id\packet\client_tologin.h"
+									>
+								</File>
+								<File
+									RelativePath="..\..\..\..\include\common\game\define\id\packet\client_toserver.h"
+									>
+								</File>
+							</Filter>
 						</Filter>
 						<Filter
 							Name="index"

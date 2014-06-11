@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="tinyxml"
-	ProjectGUID="{3B8B63F1-9EEB-4644-A5CE-EF59F09C1797}"
+	ProjectGUID="{066D3925-1CB2-4D7C-9028-AF2BCE44AC29}"
 	RootNamespace="tinyxml"
 	TargetFrameworkVersion="131072"
 	>
@@ -98,6 +98,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="xcopy ..\lib\$(ConfigurationName)\$(ProjectName).lib .\..\..\kernelengine\lib\$(ConfigurationName)\ /S /R /Y"
 			/>
 		</Configuration>
 		<Configuration

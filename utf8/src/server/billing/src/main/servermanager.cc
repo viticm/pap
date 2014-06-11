@@ -535,7 +535,7 @@ bool ServerManager::connectserver() {
     bool result = false;
     pap_server_common_net::packets::serverserver::Connect* connectpacket = NULL;
     pap_common_net::socket::Base* billingsocket = NULL;
-	const char *kServerIp = "192.168.200.100";
+	const char *kServerIp = "127.0.0.1";
 	const uint16_t kServerPort = 12680;
     billingsocket = billing_serverconnection_.getsocket();
     try {

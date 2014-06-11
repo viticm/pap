@@ -115,7 +115,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				OmitFramePointers="true"
-				AdditionalIncludeDirectories="..\include\CGAL\auxiliary\gmp\include;..\include\;..\include\CGAL\config\msvc7;..\..\..\EngineSDK\ThirdParty\VSInclude\;..\..\Ogre\Dependencies\include"
+				AdditionalIncludeDirectories="..\include\CGAL\CORE;..\include\;..\include\CGAL\config\msvc7;..\..\..\EngineSDK\ThirdParty\VSInclude\;..\..\Ogre\Dependencies\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -157,6 +157,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="xcopy ..\lib\$(ConfigurationName)\$(ProjectName).lib  .\..\..\kernelengine\lib\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;xcopy ..\include\*.h  .\..\..\kernelengine\include\CGAL3.2.1\include\ /S /R /Y&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

@@ -308,15 +308,17 @@ wxDynamicLibraryDetailsArray wxDynamicLibrary::ListLoaded()
         params.dlls = &dlls;
         params.verDLL = &verDLL;
 
+    /**
         if ( !wxDbgHelpDLL::EnumerateLoadedModules
                             (
                                 ::GetCurrentProcess(),
-                                wxDynamicLibraryDetailsCreator::EnumModulesProc,
+                                &wxDynamicLibraryDetailsCreator::EnumModulesProc,
                                 &params
                             ) )
         {
             wxLogLastError(_T("EnumerateLoadedModules"));
         }
+    **/
     }
 #endif // wxUSE_DBGHELP
 

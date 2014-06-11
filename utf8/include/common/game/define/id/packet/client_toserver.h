@@ -11,6 +11,8 @@
 #ifndef PAP_COMMON_GAME_DEFINE_ID_PACKET_CLIENT_TOSERVER_H_
 #define PAP_COMMON_GAME_DEFINE_ID_PACKET_CLIENT_TOSERVER_H_
 
+#include "common/game/define/macros.h" //must include this
+
 namespace client_toserver {
 
 enum packetid_enum {

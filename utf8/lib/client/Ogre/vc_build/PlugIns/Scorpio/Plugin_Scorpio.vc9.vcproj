@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="Plugin_Scorpio"
-	ProjectGUID="{B7DE461C-7BBC-42B8-A603-81F924FCE0BD}"
+	ProjectGUID="{5C186213-98E6-445C-96D9-334768855478}"
 	RootNamespace="Plugin_Scorpio"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
@@ -97,8 +97,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(BuildOut)\$(ConfigurationName)"
-			IntermediateDirectory="$(BuildOut)\$(ConfigurationName)\$(ProjectName)"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ProjectName).dir\$(ConfigurationName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			>
@@ -120,7 +120,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../interface;../include;..\..\OgreMain\include;..\..\..\..\ThirdParty\VSInclude"
+				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\..\Dependencies\include;..\..\..\PlugIns\Scorpio\include;..\..\..\vc_build\include"
 				PreprocessorDefinitions="NDEBUG;PLUGIN_Scorpio_EXPORTS"
 				StringPooling="false"
 				MinimalRebuild="true"
@@ -146,9 +146,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				OutputFile="..\..\bin\$(ConfigurationName)\$(ProjectName).dll"
 				IgnoreDefaultLibraryNames=""
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
+				ImportLibrary="..\..\lib\$(ConfigurationName)\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -170,6 +172,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="xcopy ..\..\lib\$(ConfigurationName)\$(ProjectName).lib  .\..\..\..\..\kernelengine\lib\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;xcopy ..\..\bin\$(ConfigurationName)\$(ProjectName).dll  .\..\..\..\..\kernelengine\dll\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration

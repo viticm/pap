@@ -56,9 +56,7 @@ PostFilter* PostFilterManager::getPostFilter(const Ogre::String& name) const
     PostFilterList::const_iterator i = mPostFilters.find(name);
     if (i == mPostFilters.end())
     {
-        OGRE_EXCEPT(Ogre::Exception::ERR_ITEM_NOT_FOUND,
-            "PostFilter with name '" + name + "' doesn't exists.",
-            "PostFilterManager::getPostFilter");
+        return NULL;
     }
 
     return i->second;

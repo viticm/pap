@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="Plugin_ParticleFX2"
-	ProjectGUID="{D2F4B49A-5C1E-4A91-9044-73F23E802C38}"
+	ProjectGUID="{340FC2FA-24A4-442C-ABF2-5D7E686D6B01}"
 	RootNamespace="Plugin_ParticleFX2"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
@@ -98,8 +98,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(BuildOut)\$(ConfigurationName)"
-			IntermediateDirectory="$(BuildOut)\$(ConfigurationName)\$(ProjectName)"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ProjectName).dir\$(ConfigurationName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			>
@@ -126,7 +126,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="..\..\..\PlugIns\ParticleFX2\include;..\..\..\OgreMain\include;..\..\..\..\..\ThirdParty\VSInclude"
+				AdditionalIncludeDirectories="..\..\..\PlugIns\ParticleFX2\include;..\..\..\OgreMain\include;..\..\..\Dependencies\include;..\..\..\vc_build\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;PLUGIN_ParticleFX2_EXPORTS"
 				StringPooling="false"
 				MinimalRebuild="true"
@@ -154,9 +154,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				OutputFile="..\..\bin\$(ConfigurationName)\$(ProjectName).dll"
 				IgnoreDefaultLibraryNames=""
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
+				ImportLibrary="..\..\lib\$(ConfigurationName)\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -178,6 +180,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="xcopy ..\..\lib\$(ConfigurationName)\$(ProjectName).lib  .\..\..\..\..\kernelengine\lib\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;xcopy ..\..\bin\$(ConfigurationName)\$(ProjectName).dll  .\..\..\..\..\kernelengine\dll\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration

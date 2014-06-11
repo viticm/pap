@@ -4,6 +4,7 @@
 	Version="9.00"
 	Name="RenderSystem_Direct3D9"
 	ProjectGUID="{6ECF3A6F-76EF-423E-BF50-74F7B773AF60}"
+	RootNamespace="RenderSystem_Direct3D9"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="0"
 	>
@@ -205,6 +206,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="xcopy ..\..\lib\$(ConfigurationName)\$(ProjectName).lib  .\..\..\..\..\kernelengine\lib\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;xcopy ..\..\bin\$(ConfigurationName)\$(ProjectName).dll  .\..\..\..\..\kernelengine\dll\$(ConfigurationName)\ /S /R /Y"
 			/>
 		</Configuration>
 		<Configuration

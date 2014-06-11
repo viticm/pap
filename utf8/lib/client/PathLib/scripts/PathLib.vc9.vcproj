@@ -153,6 +153,7 @@
 				GenerateDebugInformation="true"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
+				ImportLibrary="..\lib\$(ConfigurationName)\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -174,6 +175,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="xcopy ..\lib\$(ConfigurationName)\$(ProjectName).lib  .\..\..\kernelengine\lib\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;xcopy ..\bin\$(ConfigurationName)\$(ProjectName).dll  .\..\..\kernelengine\dll\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;xcopy ..\include\*.h  .\..\..\kernelengine\include\PathLib\include\ /S /R /Y&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

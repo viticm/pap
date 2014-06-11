@@ -4,6 +4,7 @@
 	Version="9.00"
 	Name="OgreMain"
 	ProjectGUID="{6CECADEF-C6B4-4A19-8A70-F30C161682C9}"
+	RootNamespace="OgreMain"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="0"
 	>
@@ -209,6 +210,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="xcopy ..\lib\$(ConfigurationName)\$(ProjectName).lib  .\..\..\..\kernelengine\lib\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;xcopy ..\bin\$(ConfigurationName)\$(ProjectName).dll  .\..\..\..\kernelengine\dll\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;xcopy ..\..\..\Ogre\OgreMain\Include\*.h  .\..\..\..\kernelengine\include\Ogre\OgreMain\include\ /S /R /Y&#x0D;&#x0A;xcopy ..\..\..\Ogre\OgreMain\src\*.h  .\..\..\..\kernelengine\include\Ogre\OgreMain\src\ /S /R /Y&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration

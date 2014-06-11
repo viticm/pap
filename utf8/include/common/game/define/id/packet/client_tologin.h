@@ -11,7 +11,9 @@
 #ifndef PAP_COMMON_GAME_DEFINE_ID_PACKET_CLIENT_TOLOGIN_H_
 #define PAP_COMMON_GAME_DEFINE_ID_PACKET_CLIENT_TOLOGIN_H_
 
-namespace client_toserver {
+#include "common/game/define/macros.h" //must include this
+
+namespace client_tologin {
 
 enum packetid_enum {
   kFirst = CLIENT_TOLOGIN_PACKETID_MIN,

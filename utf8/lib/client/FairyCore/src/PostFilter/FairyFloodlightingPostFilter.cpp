@@ -123,6 +123,7 @@ private:
             // receive default parameters from material script
             if (!pass->getMaterial().isNull())
             {
+                /**
                 GpuProgramParametersSharedPtr parameters = pass->getMaterial()->getTechnique(0)->getPass(0)->getFragmentProgramParameters();
 
 				//david-<<
@@ -164,6 +165,7 @@ private:
 				mModulateColor = pModulateColorFloat[0];
 
 				//david->>
+                **/
 				
             }
         }

@@ -72,7 +72,7 @@ class System;
 }; //namespace vengine_time
 
 namespace vengine_variable {
-class Base;
+class System;
 }; //namespace vengine_variable
 
 namespace vengine_db {

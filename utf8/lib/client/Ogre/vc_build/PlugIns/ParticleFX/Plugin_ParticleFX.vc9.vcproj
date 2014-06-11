@@ -1,14 +1,20 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="Plugin_ParticleFX"
 	ProjectGUID="{803469AC-4658-491C-8A04-9BF2A1C28B8F}"
-	Keyword="Win32Proj">
+	RootNamespace="Plugin_ParticleFX"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="0"
+	>
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Win32"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
@@ -16,50 +22,63 @@
 			IntermediateDirectory="Plugin_ParticleFX.dir\Debug"
 			ConfigurationType="2"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
-				AssemblerListingLocation="Debug/"
-				BasicRuntimeChecks="3"
-				CompileAs="2"
-				DebugInformationFormat="3"
-				EnableIntrinsicFunctions="TRUE"
-				ExceptionHandling="1"
-				FloatingPointModel="2"
-				InlineFunctionExpansion="0"
-				Optimization="0"
-				RuntimeLibrary="3"
-				RuntimeTypeInfo="TRUE"
-				WarningLevel="3"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;OGRE_PARTICLEFXPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;Debug\&quot;;Plugin_ParticleFX_EXPORTS"
-				ObjectFile="$(IntDir)\"
-/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;OGRE_PARTICLEFXPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;Debug\&quot;;Plugin_ParticleFX_EXPORTS"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
-				MkTypLibCompatible="FALSE"
+				MkTypLibCompatible="false"
 				TargetEnvironment="1"
-				GenerateStublessProxies="TRUE"
+				GenerateStublessProxies="true"
 				TypeLibraryName="$(InputName).tlb"
 				OutputDirectory="$(IntDir)"
 				HeaderFileName="$(InputName).h"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="$(InputName)_i.c"
-				ProxyFileName="$(InputName)_p.c"/>
+				ProxyFileName="$(InputName)_p.c"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				InlineFunctionExpansion="0"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;OGRE_PARTICLEFXPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;Debug\&quot;;Plugin_ParticleFX_EXPORTS"
+				ExceptionHandling="1"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				FloatingPointModel="2"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="Debug/"
+				ObjectFile="$(IntDir)\"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+				CompileAs="2"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;OGRE_PARTICLEFXPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;Debug\&quot;;Plugin_ParticleFX_EXPORTS"
+				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
@@ -69,9 +88,31 @@
 				Version="0.0"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\..\Dependencies\lib\$(OutDir),..\..\..\Dependencies\lib"
+				GenerateDebugInformation="true"
 				ProgramDatabaseFile="..\..\bin\Debug\Plugin_ParticleFX_d.pdb"
-				GenerateDebugInformation="TRUE"
-				ImportLibrary="..\..\lib\Debug\Plugin_ParticleFX_d.lib"/>
+				ImportLibrary="..\..\lib\Debug\Plugin_ParticleFX_d.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -79,47 +120,60 @@
 			IntermediateDirectory="Plugin_ParticleFX.dir\Release"
 			ConfigurationType="2"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
-				AssemblerListingLocation="Release/"
-				CompileAs="2"
-				ExceptionHandling="1"
-				FloatingPointModel="2"
-				InlineFunctionExpansion="2"
-				Optimization="2"
-				RuntimeLibrary="2"
-				RuntimeTypeInfo="TRUE"
-				WarningLevel="3"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_PARTICLEFXPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;Release\&quot;;Plugin_ParticleFX_EXPORTS"
-				ObjectFile="$(IntDir)\"
-/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_PARTICLEFXPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;Release\&quot;;Plugin_ParticleFX_EXPORTS"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
-				MkTypLibCompatible="FALSE"
+				MkTypLibCompatible="false"
 				TargetEnvironment="1"
-				GenerateStublessProxies="TRUE"
+				GenerateStublessProxies="true"
 				TypeLibraryName="$(InputName).tlb"
 				OutputDirectory="$(IntDir)"
 				HeaderFileName="$(InputName).h"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="$(InputName)_i.c"
-				ProxyFileName="$(InputName)_p.c"/>
+				ProxyFileName="$(InputName)_p.c"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="2"
+				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_PARTICLEFXPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;Release\&quot;;Plugin_ParticleFX_EXPORTS"
+				ExceptionHandling="1"
+				RuntimeLibrary="2"
+				FloatingPointModel="2"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="Release/"
+				ObjectFile="$(IntDir)\"
+				WarningLevel="3"
+				CompileAs="2"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_PARTICLEFXPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;Release\&quot;;Plugin_ParticleFX_EXPORTS"
+				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
@@ -130,7 +184,30 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\Dependencies\lib\$(OutDir),..\..\..\Dependencies\lib"
 				ProgramDatabaseFile="..\..\bin\Release\Plugin_ParticleFX.pdb"
-				ImportLibrary="..\..\lib\Release\Plugin_ParticleFX.lib"/>
+				ImportLibrary="..\..\lib\Release\Plugin_ParticleFX.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="xcopy ..\..\lib\$(ConfigurationName)\$(ProjectName).lib  .\..\..\..\..\kernelengine\lib\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;xcopy ..\..\bin\$(ConfigurationName)\$(ProjectName).dll  .\..\..\..\..\kernelengine\dll\$(ConfigurationName)\ /S /R /Y"
+			/>
 		</Configuration>
 		<Configuration
 			Name="MinSizeRel|Win32"
@@ -138,47 +215,60 @@
 			IntermediateDirectory="Plugin_ParticleFX.dir\MinSizeRel"
 			ConfigurationType="2"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
-				AssemblerListingLocation="MinSizeRel/"
-				CompileAs="2"
-				ExceptionHandling="1"
-				FloatingPointModel="2"
-				InlineFunctionExpansion="1"
-				Optimization="1"
-				RuntimeLibrary="2"
-				RuntimeTypeInfo="TRUE"
-				WarningLevel="3"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_PARTICLEFXPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;;Plugin_ParticleFX_EXPORTS"
-				ObjectFile="$(IntDir)\"
-/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_PARTICLEFXPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;;Plugin_ParticleFX_EXPORTS"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
-				MkTypLibCompatible="FALSE"
+				MkTypLibCompatible="false"
 				TargetEnvironment="1"
-				GenerateStublessProxies="TRUE"
+				GenerateStublessProxies="true"
 				TypeLibraryName="$(InputName).tlb"
 				OutputDirectory="$(IntDir)"
 				HeaderFileName="$(InputName).h"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="$(InputName)_i.c"
-				ProxyFileName="$(InputName)_p.c"/>
+				ProxyFileName="$(InputName)_p.c"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				Optimization="1"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_PARTICLEFXPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;;Plugin_ParticleFX_EXPORTS"
+				ExceptionHandling="1"
+				RuntimeLibrary="2"
+				FloatingPointModel="2"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="MinSizeRel/"
+				ObjectFile="$(IntDir)\"
+				WarningLevel="3"
+				CompileAs="2"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_PARTICLEFXPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;;Plugin_ParticleFX_EXPORTS"
+				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
@@ -189,7 +279,29 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\Dependencies\lib\$(OutDir),..\..\..\Dependencies\lib"
 				ProgramDatabaseFile="..\..\bin\MinSizeRel\Plugin_ParticleFX.pdb"
-				ImportLibrary="..\..\lib\MinSizeRel\Plugin_ParticleFX.lib"/>
+				ImportLibrary="..\..\lib\MinSizeRel\Plugin_ParticleFX.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
 			Name="RelWithDebInfo|Win32"
@@ -197,48 +309,61 @@
 			IntermediateDirectory="Plugin_ParticleFX.dir\RelWithDebInfo"
 			ConfigurationType="2"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
-				AssemblerListingLocation="RelWithDebInfo/"
-				CompileAs="2"
-				DebugInformationFormat="3"
-				ExceptionHandling="1"
-				FloatingPointModel="2"
-				InlineFunctionExpansion="1"
-				Optimization="2"
-				RuntimeLibrary="2"
-				RuntimeTypeInfo="TRUE"
-				WarningLevel="3"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_PARTICLEFXPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;;Plugin_ParticleFX_EXPORTS"
-				ObjectFile="$(IntDir)\"
-/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_PARTICLEFXPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;;Plugin_ParticleFX_EXPORTS"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
-				MkTypLibCompatible="FALSE"
+				MkTypLibCompatible="false"
 				TargetEnvironment="1"
-				GenerateStublessProxies="TRUE"
+				GenerateStublessProxies="true"
 				TypeLibraryName="$(InputName).tlb"
 				OutputDirectory="$(IntDir)"
 				HeaderFileName="$(InputName).h"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="$(InputName)_i.c"
-				ProxyFileName="$(InputName)_p.c"/>
+				ProxyFileName="$(InputName)_p.c"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_PARTICLEFXPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;;Plugin_ParticleFX_EXPORTS"
+				ExceptionHandling="1"
+				RuntimeLibrary="2"
+				FloatingPointModel="2"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="RelWithDebInfo/"
+				ObjectFile="$(IntDir)\"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+				CompileAs="2"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;OGRE_PARTICLEFXPLUGIN_EXPORTS;_USRDLL;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;;Plugin_ParticleFX_EXPORTS"
+				AdditionalIncludeDirectories="..\..\..\OgreMain\include;..\..\include;..\..\..\Dependencies\include;..\..\..\Dependencies\include\OIS;..\..\..\Dependencies\include\Cg;E:\develop\sources\test\DirectX9\Include;..\..\..\OgreMain\include\Threading;..\..\..\PlugIns\ParticleFX\include;"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
@@ -248,171 +373,246 @@
 				Version="0.0"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\..\Dependencies\lib\$(OutDir),..\..\..\Dependencies\lib"
+				GenerateDebugInformation="true"
 				ProgramDatabaseFile="..\..\bin\RelWithDebInfo\Plugin_ParticleFX.pdb"
-				GenerateDebugInformation="TRUE"
-				ImportLibrary="..\..\lib\RelWithDebInfo\Plugin_ParticleFX.lib"/>
+				ImportLibrary="..\..\lib\RelWithDebInfo\Plugin_ParticleFX.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="">
+			>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreAreaEmitter.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreAreaEmitter.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreBoxEmitter.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreBoxEmitter.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreColourFaderAffector2.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreColourFaderAffector.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreColourFaderAffector.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreColourFaderAffector2.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreColourImageAffector.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreColourImageAffector.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreColourInterpolatorAffector.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreColourInterpolatorAffector.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreCylinderEmitter.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreCylinderEmitter.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreDeflectorPlaneAffector.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreDeflectorPlaneAffector.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreDirectionRandomiserAffector.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreDirectionRandomiserAffector.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreEllipsoidEmitter.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreEllipsoidEmitter.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreHollowEllipsoidEmitter.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreHollowEllipsoidEmitter.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreLinearForceAffector.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreLinearForceAffector.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreParticleFX.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreParticleFX.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreParticleFXPlugin.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreParticleFXPlugin.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgrePointEmitter.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgrePointEmitter.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreRingEmitter.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreRingEmitter.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreRotationAffector.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreRotationAffector.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreScaleAffector.cpp">
+				RelativePath="..\..\..\PlugIns\ParticleFX\src\OgreScaleAffector.cpp"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			Filter="">
+			>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreAreaEmitter.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreAreaEmitter.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreBoxEmitterFactory.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreBoxEmitter.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreBoxEmitter.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreBoxEmitterFactory.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreColourFaderAffector2.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreColourFaderAffector.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreColourFaderAffectorFactory2.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreColourFaderAffector2.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreColourFaderAffectorFactory.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreColourFaderAffectorFactory.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreColourFaderAffector.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreColourFaderAffectorFactory2.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreColourImageAffectorFactory.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreColourImageAffector.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreColourImageAffector.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreColourImageAffectorFactory.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreColourInterpolatorAffectorFactory.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreColourInterpolatorAffector.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreColourInterpolatorAffector.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreColourInterpolatorAffectorFactory.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreCylinderEmitterFactory.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreCylinderEmitter.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreCylinderEmitter.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreCylinderEmitterFactory.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreDeflectorPlaneAffectorFactory.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreDeflectorPlaneAffector.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreDeflectorPlaneAffector.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreDeflectorPlaneAffectorFactory.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreDirectionRandomiserAffectorFactory.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreDirectionRandomiserAffector.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreDirectionRandomiserAffector.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreDirectionRandomiserAffectorFactory.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreEllipsoidEmitterFactory.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreEllipsoidEmitter.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreEllipsoidEmitter.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreEllipsoidEmitterFactory.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreHollowEllipsoidEmitterFactory.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreHollowEllipsoidEmitter.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreHollowEllipsoidEmitter.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreHollowEllipsoidEmitterFactory.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreLinearForceAffectorFactory.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreLinearForceAffector.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreLinearForceAffector.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreLinearForceAffectorFactory.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreParticleFXPlugin.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreParticleFXPlugin.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreParticleFXPrerequisites.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreParticleFXPrerequisites.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgrePointEmitterFactory.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgrePointEmitter.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgrePointEmitter.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgrePointEmitterFactory.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreRingEmitterFactory.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreRingEmitter.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreRingEmitter.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreRingEmitterFactory.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreRotationAffectorFactory.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreRotationAffector.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreRotationAffector.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreRotationAffectorFactory.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreScaleAffectorFactory.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreScaleAffector.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreScaleAffector.h">
+				RelativePath="..\..\..\PlugIns\ParticleFX\include\OgreScaleAffectorFactory.h"
+				>
 			</File>
 		</Filter>
 	</Files>
