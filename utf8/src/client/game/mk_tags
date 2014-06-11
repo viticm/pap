@@ -5,7 +5,8 @@
 paths="./ ../../../include/client/game ../../../include/common/
 ../../../lib/client/vengine/include ../../../lib/client/vgui/include
 ../../../lib/client/fmod375/include ../../../lib/client/DirectX9/Include
-../../../lib/client/LuaPlus/Src ../../../lib/client/Ogre/OgreMain/include"
+../../../lib/client/LuaPlus/Src ../../../lib/client/Ogre/OgreMain/include
+../../../lib/client/FairyCore/src/"
 types="php lua h cpp c cc hpp"
 n=0
 for path in ${paths}

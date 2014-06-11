@@ -59,12 +59,13 @@
 #include "vengine/game/worldsystem.h"
 #include "vengine/game/eventsystem.h"
 #include "vengine/game/eventdefine.h"
+#include "vengine/db/system.h"
 #include "vengine/variable/system.h"
 #include "vengine/time/system.h"
 #include "vengine/resource/provider.h"
 #include "client/game/resource/loadlistener.h"
 #include "client/game/stdafx.h" //Precompiled not use like this, i will fix it
-#include "client/game/globa.h"
+#include "client/game/global.h"
 #include "client/game/engine/interface.h"
 
 namespace Ogre {
@@ -113,5 +114,198 @@ Interface::Interface() {
   offsettag_ = kCameraOffsetNone;
   fairysystem_ = new Fairy::System();
 }
+
+Interface::~Interface() {
+  release();
+}
+
+void Interface::release() {
+  if (terraingrid_) {
+    delete terraingrid_;
+    terraingrid_ = NULL;
+  }
+
+  if (ray_scenequery_) {
+    fairysystem_->getSceneManager()->destroyQuery(ray_scenequery_);
+    ray_scenequery_ = NULL;
+  }
+
+  if (fairysystem_) {
+    delete fairysystem_;
+    fairysystem_ = NULL;
+  }
+}
+
+void Interface::init(void* param) {
+#if (_MSC_VER >= 1400)
+  setlocale( LC_CTYPE, "" );
+#endif
+  VENGINE_ASSERT(param);
+  HWND main_window = *((HWND*))param; //vc pointers can use like this
+  g_mainwindow_handle = main_window;
+  g_variablesystem = 
+    dynamic_cast<vengine_variable::System*>(g_root_kernel.getnode("bin\\var"));
+  VENGINE_ASSERT(g_variablesystem);
+  g_eventsystem = dynamic_cast<vengine_game::EventSystem*>(
+      g_root_kernel.getnode("bin\\event"));
+  VENGINE_ASSERT(g_eventsystem);
+  Ogre::SystemSetting::forcePixelShader(false);
+  fairysystem_.init("Resources.cfg", "", "", "Engine.log"); //load resources
+  
+  g_debuger = dynamic_cast<vengine_capability::Debuger*>(
+      g_root_kernel.getnode("bin\\debuger"));
+
+  g_soundsystem = 
+    dynamic_cast<vengine_sound::System*>(g_root_kernel.getnode("bin\\snd"));
+  VENGINE_ASSERT(g_soundsystem);
+
+  g_worldsystem = dynamic_cast<vengine_game::WorldSystem*>(
+      g_root_kernel.getnode("bin\\worldman"));
+  VENGINE_ASSERT(g_worldsystem);
+
+  g_timesystem = 
+    dynamic_cast<vengine_time::System*>(g_root_kernel.getnode("bin\\time"));
+  VENGINE_ASSERT(g_timesystem);
+
+  g_resourceprovider = dynamic_cast<vengine_resource::Provider*>(
+      g_root_kernel.getnode("bin\\resprovider"));
+  VENGINE_ASSERT(g_resourceprovider);
+
+  g_databasesystem = 
+    dynamic_cast<vengine_db::System*>(g_root_kernel.getnode("bin\\dbc"));
+  VENGINE_ASSERT(g_databasesystem);
+
+  STRING str = g_variablesystem->getstring("Gfx_API");
+  Ogre::Root* ogre_root = &(Ogre::Root::getSingleton());
+
+  //select render system
+  if ("Direct3D" == str) {
+#ifdef USEOGRELIB /* { */
+    Ogre::InstallD3D9Plugin();
+#else /* }{ */
+    ogre_root->loadPlugin("RenderSystem_Direct3D9.dll");
+    ogre_root->setRenderSystem(
+        ogre_root->getRenderSystemByName("Direct3D9 Rendering Subsystem"));
+#endif/* } */
+  }
+  else if ("OpenGL" == str) {
+#ifdef USEOGRELIB /* { */
+    
+#else /* }{ */
+    ogre_root->loadPlugin("RenderSystem_GL.dll");
+    ogre_root->setRenderSystem(
+        ogre_root->getRenderSystemByName("OpenGL Rendering Subsystem"));
+#endif/* } */
+  }
+  else {
+    VENGINE_SHOW("unkown render system!");
+  }
+
+#ifdef USEOGRELIB /* { */
+  Ogre::InstallParticleFXPlugin();
+  Ogre::InstallParticleFX2Plugin();
+  Ogre::InstallOctreeScenePlugin();
+  Ogre::InstallCgProgramManagerPlugin();
+#else /* }{ */
+  ogre_root->loadPlugin("Plugin_ParticleFX.dll");
+  ogre_root->loadPlugin("Plugin_ParticleFX2.dll");
+  ogre_root->loadPlugin("Plugin_OctreeSceneManager.dll");
+  ogre_root->loadPlugin("Plugin_CgProgramManager.dll");
+#endif/* } */
+  resource::LoadListener resource_listener;
+  try {
+    //传入渲染窗口句柄
+    Ogre::NameValuePairList view_setting;
+    int32_t FSAA_value = g_variablesystem->getint32(kFSAAVar);
+    int32_t vsync_value = g_variablesystem->getint32(kVsyncVar);
+    switch (FSAA_value) {
+      case 0: {
+        view_setting["FSAA"] = Ogre::StringConverter::toString(0);
+        break;
+      }
+      case 1: {
+        view_setting["FSAA"] = Ogre::StringConverter::toString(1);
+        break;
+      }
+      case 2: {
+        view_setting["FSAA"] = Ogre::StringConverter::toString(2);
+        break;
+      }
+      default: {
+        view_setting["FSAA"] = Ogre::StringConverter::toString(0);
+        break;
+      }
+    } //switch
+
+    if (1 == vsync_value) {
+      view_setting["vsync"] = "true";
+    }
+    else {
+      view_setting["vsync"] = "false";
+    }
+    fairysystem_->setup(
+        (Fairy::ulong)(uint32_t *)g_mainwindow_handle, &view_setting);
+    //close ogre logo
+    fairysystem_->getFrameStatsListener()->showLogoPanel(false);
+    //状态板
+    fairysystem_->getFrameStatsListener()->showStatPanel(false);
+    //创建射线交集
+    ray_scenequery_ = 
+      fairysystem_->getSceneManager()->createRayQuery(Ogre::Ray());
+    ray_scenequery_->setSortByDistance(true);
+
+    {//camera
+
+    }
+    //初始化PostFilter系统
+    postfilter_manager_ = fairysystem_->getPostFilterManager();
+
+    //注册所有全局渲染器
+    Fairy::registerAllPostFilterFactories(postfilter_manager_);
+    postfilter_manager_->createPostFilter("Floodlighting", 
+                                          fairysystem_->getViewport());
+    postfilter_manager_->createPostFilter("Bloom", fairysystem_->getViewport());
+    postfilter_manager_->createPostFilter("HeatVision", 
+                                          fairysystem_->getViewport());
+    postfilter_manager_->createPostFilter("Fade", fairysystem_->getViewport());
+    postfilter_manager_->createPostFilter("MotionBlur", 
+                                          fairysystem_->getViewport());
+    //reinterpret_cast ???
+    Fairy::LogicModel::SetPlaySoundFuncton(
+        (OnPlaySound)(g_soundsystem->get_playfunction()));
+    Fairy::LogicModel::SetStopSoundFunction(
+        (OnStopSound)(g_soundsystem->get_stopfunction()));
+    Fairy::BulletSystem::SetPlaySoundFuncton(
+        (OnPlaySound)(g_soundsystem->get_playfunction()));
+    Fairy::BulletSystem::SetStopSoundFunction(
+        (OnStopSound)(g_soundsystem->get_stopfunction()));
+    Fairy::LogicModel::SetGetHeightInWorldListener(
+        (GetHeightInWorld)(g_worldsystem->get_terrainheight_function()));
+
+    //init fake object --
+    
+    Ogre::ParticleSystem::setDefaultIterationInterval(0.033f);
+    //系统设置接口挂接变量控制系统
+    g_eventsystem->registerhandle("VARIABLE_CHANGED", on_variablechange_event);
+
+    //恢复上次颜色设置
+    g_eventsystem->push(vengine_game::eventdefine::kVariableChanged, 
+                        k32BitTexturesVar, 
+                        g_variablesystem->(k32BitTexturesVar).c_str());
+
+    //加载人物阴影配置
+    bool have = false;
+    int32_t human_light_map = g_variablesystem->getfloat(kShadowTechniqueVar, 
+                                                         &have);
+    if (have) scene_set_shadowtechnique(human_light_map > 0 ? true : false);
+    //加载全局泛光配置
+
+
+  }
+  catch(...) {
+
+  }
+}
+
 
 } //namespace engine

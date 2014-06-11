@@ -73,49 +73,49 @@ HANDLE Base::tickevent_ = NULL;
 void Base::init_staticmember() {
   srand((unsigned)timeGetTime());
   //注册本地类
-  g_kernel->registerclass(VENGINE_KERNEL_GETCLASS(vengine_kernel::Node));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(vengine_kernel::Node));
   //网络管理器
-  g_kernel->registerclass(VENGINE_KERNEL_GETCLASS(net::Manager));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(net::Manager));
   //场景管理器
-  //g_kernel->registerclass(VENGINE_KERNEL_GETCLASS());
+  //g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS());
   //图形系统
-  //g_kernel->registerclass();
+  //g_root_kernel.registerclass();
   //输入管理器
-  g_kernel->registerclass(VENGINE_KERNEL_GETCLASS(input::System));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(input::System));
   //时间管理器
-  g_kernel->registerclass(VENGINE_KERNEL_GETCLASS(vengine_time::System));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(vengine_time::System));
   //声音管理器
-  g_kernel->registerclass(VENGINE_KERNEL_GETCLASS(sound::System));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(sound::System));
   //数据库管理器
-  g_kernel->registerclass(VENGINE_KERNEL_GETCLASS(database::System));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(database::System));
   //UI操作接口
-  //g_kernel->registerclass();
+  //g_root_kernel.registerclass();
   //UI数据池
-  //g_kernel->registerclass();
-  //g_kernel->registerclass();
+  //g_root_kernel.registerclass();
+  //g_root_kernel.registerclass();
   //UI鼠标操作类
-  g_kernel->registerclass(VENGINE_KERNEL_GETCLASS(cursor::System));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(cursor::System));
   //脚本系统
-  g_kernel->registerclass(VENGINE_KERNEL_GETCLASS(script::System));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(script::System));
   //事件系统
-  g_kernel->registerclass(VENGINE_KERNEL_GETCLASS(event::System));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(event::System));
   //操作管理
-  //g_kernel->registerclass();
+  //g_root_kernel.registerclass();
   //UI模型显示管理
-  //g_kernel->registerclass();
+  //g_root_kernel.registerclass();
   //外接帮助系统
-  //g_kernel->registerclass();
+  //g_root_kernel.registerclass();
   //资源
-  g_kernel->registerclass(VENGINE_KERNEL_GETCLASS(resoure::Provider));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(resoure::Provider));
   //物品传输系统
-  //g_kernel->registerclass();
+  //g_root_kernel.registerclass();
   //定时器
-  g_kernel->registerclass(VENGINE_KERNEL_GETCLASS(timer::Manager));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(timer::Manager));
 
 #ifdef USEOGRELIB
   extern void install_uisystem(vengine_kernel::Base* kernel);
 #else
-  g_kernel->loadplugin("vgui.dll", g_kernel);
+  g_root_kernel.loadplugin("vgui.dll", g_kernel);
 #endif
 
   //初始化所有的循环实例
@@ -123,35 +123,35 @@ void Base::init_staticmember() {
   //初始化数据核心
   //0.输入管理器
   inputsystem_ = dynamic_cast<vengine_input::System*>(
-      g_kernel->newnode("input::System", "bin", "input"));
+      g_root_kernel.newnode("input::System", "bin", "input"));
   //1.时间管理器
   timesystem_ = dynamic_cast<vengine_time::System*>(
-      g_kernel->newnode("vengine_time::System", "bin", "time"));
+      g_root_kernel.newnode("vengine_time::System", "bin", "time"));
   //2.网络管理器
   netmanager_ = dynamic_cast<net::Manager*>(
-      g_kernel->newnode("net::Manager", "bin", "net"));
+      g_root_kernel.newnode("net::Manager", "bin", "net"));
   //3.声音管理器
   soundsystem_ = dynamic_cast<vengine_sound::System*>(
-      g_kernel->newnode("sound::System", "bin", "sound"));
+      g_root_kernel.newnode("sound::System", "bin", "sound"));
   //4.渲染器节点
 
   //5.调试器节点
   debuger_ = dynamic_cast<vengine_capability::Debuger*>(
-      g_kernel->newnode("vengine_capability::Debuger", "bin", "debuger"));
+      g_root_kernel.newnode("vengine_capability::Debuger", "bin", "debuger"));
   //6.物体管理器
   
   //7.UI管理器
   uisystem_ = dynamic_cast<vengine_ui::System*>(
-      g_kernel->newnode("vengine_ui::System", "bin", "ui"));
+      g_root_kernel.newnode("vengine_ui::System", "bin", "ui"));
 
   //8.数据库管理器
   dbsystem_ = dynamic_cast<vengine_db::System*>(
-      g_kernel->newnode("database::System", "bin", "db"));
+      g_root_kernel.newnode("database::System", "bin", "db"));
   //9.世界管理器
   
   //10.变量管理器
   variablesystem_ = dynamic_cast<vengine_variable::System*>(
-      g_kernel->newnode("variable::System", "bin", "var"));
+      g_root_kernel.newnode("variable::System", "bin", "var"));
 
   //11.接口管理器
   
@@ -159,14 +159,14 @@ void Base::init_staticmember() {
   
   //13.鼠标管理器
   cursorsystem_ = dynamic_cast<vengine_cursor::System*>(
-      g_kernel->newnode("cursor::System", "bin", "cursor"));
+      g_root_kernel.newnode("cursor::System", "bin", "cursor"));
 
   //14.脚本系统
   scriptsystem_ = dynamic_cast<vengine_script::System*>(
-      g_kernel->newnode("script::System", "bin", "script"));
+      g_root_kernel.newnode("script::System", "bin", "script"));
   //15.事件系统
   eventsystem_ = dynamic_cast<vengine_game::EventSystem*>(
-      g_kernel->newnode("event::System", "bin", "event"));
+      g_root_kernel.newnode("event::System", "bin", "event"));
   //16.操作管理
 
   //17.UI模型显示管理
@@ -175,10 +175,10 @@ void Base::init_staticmember() {
 
   //19.资源
   resourceprovider_ = dynamic_cast<vengine_resource::Provider*>(
-      g_kernel->newnode("resource::Provider", "bin", "resource_provider"));
+      g_root_kernel.newnode("resource::Provider", "bin", "resource_provider"));
   //20.时间管理器
   timesystem_ = dynamic_cast<vengine_time::System*>(
-      g_kernel->newnode("TimeSystem", "bin", "time"));
+      g_root_kernel.newnode("TimeSystem", "bin", "time"));
   //21.物品传输系统
 
   //创建主窗口前初始化变量系统
@@ -283,7 +283,7 @@ void Base::release_staticmemeber() {
   SAFE_RELEASE(inputsystem_);
 
   //关闭核心
-  g_kernel->shutdown();
+  g_root_kernel.shutdown();
   //销毁主窗口
   destroy_mainwindow();
 }

@@ -95,8 +95,8 @@ SET (SOURCEFILES_SERVER_COMMON_NET_LIST
 )
 
 SET (SOURCEFILES_SERVER_COMMON_BASE_LIST
-	../../common/base/config.cc
 	../../../common/base/io.cc
+	../../common/base/config.cc
 	../../common/base/log.cc
 	../../common/base/time_manager.cc
 )
@@ -311,11 +311,16 @@ SET (HEADERFILES_COMMON_GAME_DEFINE_GROUP_LIST
 	../../../../include/common/game/define/group/relation.h
 )
 
+SET (HEADERFILES_COMMON_GAME_DEFINE_ID_PACKET_LIST
+	../../../../include/common/game/define/id/packet/all.h
+	../../../../include/common/game/define/id/packet/client_tologin.h
+	../../../../include/common/game/define/id/packet/client_toserver.h
+)
+
 SET (HEADERFILES_COMMON_GAME_DEFINE_ID_LIST
 	../../../../include/common/game/define/id/ability.h
 	../../../../include/common/game/define/id/all.h
 	../../../../include/common/game/define/id/impact.h
-	../../../../include/common/game/define/id/packet.h
 	../../../../include/common/game/define/id/skill.h
 )
 
@@ -495,6 +500,7 @@ if (WIN32)
 	source_group(HeaderFiles\\common\\game\\define\\attribute FILES ${HEADERFILES_COMMON_GAME_DEFINE_ATTRIBUTE_LIST})
 	source_group(HeaderFiles\\common\\game\\define\\error FILES ${HEADERFILES_COMMON_GAME_DEFINE_ERROR_LIST})
 	source_group(HeaderFiles\\common\\game\\define\\group FILES ${HEADERFILES_COMMON_GAME_DEFINE_GROUP_LIST})
+	source_group(HeaderFiles\\common\\game\\define\\id\\packet FILES ${HEADERFILES_COMMON_GAME_DEFINE_ID_PACKET_LIST})
 	source_group(HeaderFiles\\common\\game\\define\\id FILES ${HEADERFILES_COMMON_GAME_DEFINE_ID_LIST})
 	source_group(HeaderFiles\\common\\game\\define\\index FILES ${HEADERFILES_COMMON_GAME_DEFINE_INDEX_LIST})
 	source_group(HeaderFiles\\common\\game\\define\\result FILES ${HEADERFILES_COMMON_GAME_DEFINE_RESULT_LIST})
@@ -580,6 +586,7 @@ ADD_EXECUTABLE(billing
 	${HEADERFILES_COMMON_GAME_DEFINE_ATTRIBUTE_LIST}
 	${HEADERFILES_COMMON_GAME_DEFINE_ERROR_LIST}
 	${HEADERFILES_COMMON_GAME_DEFINE_GROUP_LIST}
+	${HEADERFILES_COMMON_GAME_DEFINE_ID_PACKET_LIST}
 	${HEADERFILES_COMMON_GAME_DEFINE_ID_LIST}
 	${HEADERFILES_COMMON_GAME_DEFINE_INDEX_LIST}
 	${HEADERFILES_COMMON_GAME_DEFINE_RESULT_LIST}

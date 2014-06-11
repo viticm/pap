@@ -2,7 +2,7 @@
 #@desc this script can auto create cscope file and ctags
 #@date 2013-12-9 13:53:44
 #@author viticm<viticm@126.com>
-paths="./ ../common ../../include"
+paths="./ ../common ../../include/common ../../include/server"
 types="php lua h cpp c cc hpp erl"
 n=0
 for path in ${paths}
