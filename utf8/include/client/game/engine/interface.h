@@ -36,8 +36,8 @@ enum objecttype_enum {
   kObjectTypeTerrainGrid = 1 << 2, //4
   kObjectTypeEffect = 1 << 3, //8
   kObjectTypeBullet = 1 << 4, //16
-  kObjectTypeLoginModel = 1 << 5, //32
-  kObjectTypeNumber = (1 << 6) - 1,
+  kObjectTypeLogicModel = 1 << 5, //32
+  kObjectTypeAll = (1 << 6) - 1,
 };
 
 class Interface : public vengine_render::System {
@@ -52,13 +52,13 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Interface);
    //渲染loading画面
    virtual void render_loadingframe(const char* loading);
    //响应WM_PAINT消息
-   virtual void onpaint();
+   virtual void OnPaint();
    //窗口大小改变事件
-   virtual void on_windowsize_change(uint32_t message, 
-                                     WPARAM wparam, 
-                                     LPARAM lparam);
+   virtual void OnSizeChange(UINT message, 
+                             WPARAM wparam, 
+                             LPARAM lparam);
    //取得渲染窗口
-   virtual HWND getwindow();
+   virtual HWND getwindow() const;
    //保存当前屏幕截图到文件中
    virtual void printscreen(const char* buffer, int32_t size);
  
@@ -72,7 +72,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Interface);
    virtual void set_hitobjet_string(const char* str);
    //检查物体的透明度
    virtual void check_objecttransparent();
-   virtual void set_shoeobject_bytype(const char* name);
+   virtual void set_showobject_bytype(const char* name);
 
  public: //implement from abstract 
    //将一种坐标转化为另一种坐标,转化成成功返回true
@@ -82,6 +82,10 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Interface);
        const vengine_math::base::threefloat_vector_t& source,
        axistype_enum targettype,
        const vengine_math::base::threefloat_vector_t& target);
+   vengine_math::base::threefloat_vector_t getscale() const;
+   virtual bool axis_checkvalid(
+       axistype_enum type,
+       const vengine_math::base::threefloat_vector_t& axis);
 
  //camera
  public: //implement from abstract
@@ -97,11 +101,11 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Interface);
    //缩放相机视口 [0.0f, 1.0f]  0-最近距离 1-最远距离
    virtual void camera_setzoom(float zoom);
    virtual void camera_setzoom(bool up, int32_t multiple);
-   virtual float camera_setzoom();
+   virtual float camera_getzoom() const;
    //设置相机方向 (0, 2л)， 以z轴指向的方向为0度，逆时针为正方向
    virtual void camera_setdirection(float direction);
    virtual void camera_adddirection(float multiple);
-   virtual void camera_getdirection() const;
+   virtual float camera_getdirection() const;
    //取得屏幕射线
    virtual void camera_getwindow_to_viewpointray(
        int32_t x,
@@ -148,7 +152,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Interface);
    //设置全屏泛光效果
    virtual void scene_set_postfilter_enable(bool flag);
    //设置人物实时阴影
-   virtual void scene_set_shadowtechnique(bool flag);
+   virtual void scene_set_shadowtechnique(uint8_t flag);
    //显示地形网格切换
    virtual void scene_show_girdswitch(int32_t zonesize);
    

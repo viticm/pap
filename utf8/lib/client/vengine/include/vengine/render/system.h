@@ -31,15 +31,15 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    //渲染loading画面
    virtual void render_loadingframe(const char* loading) = 0;
    //响应WM_PAINT消息
-   virtual void onpaint() = 0;
+   virtual void OnPaint() = 0;
    //窗口大小改变事件
-   virtual void on_windowsize_change(uint32_t message, 
-                                     WPARAM wparam, 
-                                     LPARAM lparam) = 0;
+   virtual void OnSizeChange(uint32_t message, 
+                             WPARAM wparam, 
+                             LPARAM lparam) = 0;
    //取得渲染窗口
-   virtual HWND getwindow() = 0;
+   virtual HWND getwindow() const = 0;
    //保存当前屏幕截图到文件中
-   virtual void printscreen(const char* buffer, int32_t size) = 0;
+   virtual bool printscreen(const char* buffer, int32_t size) = 0;
  
  //debugs
  public:
@@ -67,6 +67,9 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
        const vengine_math::base::threefloat_vector_t& source,
        axistype_enum targettype,
        const vengine_math::base::threefloat_vector_t& target) = 0;
+   virtual bool axis_checkvalid(
+       axistype_enum type,
+       const vengine_math::base::threefloat_vector_t& axis) = 0;
 
  //camera
  public:
@@ -91,11 +94,11 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    //缩放相机视口 [0.0f, 1.0f]  0-最近距离 1-最远距离
    virtual void camera_setzoom(float zoom) = 0;
    virtual void camera_setzoom(bool up, int32_t multiple) = 0;
-   virtual float camera_setzoom() = 0;
+   virtual float camera_getzoom() const = 0;
    //设置相机方向 (0, 2л)， 以z轴指向的方向为0度，逆时针为正方向
    virtual void camera_setdirection(float direction) = 0;
    virtual void camera_adddirection(float multiple) = 0;
-   virtual void camera_getdirection() const = 0;
+   virtual float camera_getdirection() const = 0;
    //取得屏幕射线
    virtual void camera_getwindow_to_viewpointray(
        int32_t x,
@@ -142,7 +145,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    //设置全屏泛光效果
    virtual void scene_set_postfilter_enable(bool flag) = 0;
    //设置人物实时阴影
-   virtual void scene_set_shadowtechnique(bool flag) = 0;
+   virtual void scene_set_shadowtechnique(uint8_t flag) = 0;
    //显示地形网格切换
    virtual void scene_show_girdswitch(int32_t zonesize) = 0;
    

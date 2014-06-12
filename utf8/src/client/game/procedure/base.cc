@@ -106,7 +106,7 @@ void Base::init_staticmember() {
   //外接帮助系统
   //g_root_kernel.registerclass();
   //资源
-  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(resoure::Provider));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(resource::Provider));
   //物品传输系统
   //g_root_kernel.registerclass();
   //定时器
