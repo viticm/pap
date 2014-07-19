@@ -78,7 +78,7 @@ struct aicommand_t : public command_t {
 
 struct datapool_command_t : public command_t {
   datapool_command_t() {
-    type = kCommandTypeUI
+    type = kCommandTypeUI;
   };
 };
 

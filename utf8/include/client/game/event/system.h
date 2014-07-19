@@ -12,7 +12,7 @@
 #ifndef PAP_CLIENT_GAME_EVENT_SYSTEM_H_
 #define PAP_CLIENT_GAME_EVENT_SYSTEM_H_
 
-#include <queue.h>
+//#include <queue.h>
 #include "vengine/game/eventsystem.h"
 #include "vengine/game/eventdefine.h"
 
@@ -100,10 +100,10 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
  protected:
    static System* self_;
    std::map<STRING, vengine_game::eventdefine_t*> index_asname_map_;
-   str::map<vengine_game::event_id::_enum, vengine_game::eventdefine_t*>
+   std::map<vengine_game::event_id::_enum, vengine_game::eventdefine_t*>
      index_asid_map_;
-   std::list<event_t> queue_;
-   std::list<event_t> delayquene_; //慢速队列
+   std::list<vengine_game::event_t> queue_;
+   std::list<vengine_game::event_t> delayquene_; //慢速队列
    uint32_t last_tickcount_;
 
  protected:

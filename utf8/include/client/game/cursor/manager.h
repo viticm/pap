@@ -38,8 +38,9 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
  
  //implement from abstract
  public:
-   virtual void set(type_enum type);
+   virtual void set(vengine_cursor::type_enum type);
    virtual HCURSOR get();
+   virtual void init(void *handle);
 
    /* enter ui control model */
    virtual void enterui(HCURSOR hcursor);
@@ -54,7 +55,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
    int32_t getstate();
    virtual void mousecommand_set(
        bool hover_inui, 
-       const vengine_math::base::threefloat_vector position, 
+       const vengine_math::base::threefloat_vector_t position, 
        vengine_game::action::Item* activeskill);
    virtual mousecommand_t& mousecommand_getleft();
    virtual mousecommand_t& mousecommand_getright();
@@ -65,7 +66,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
    static Manager* self_;
    bool show_;
    int32_t state_;
-   HCURSOR cursorhandles_[kTypeNumber];
+   HCURSOR cursorhandles_[vengine_cursor::kTypeNumber];
    HCURSOR uicursor_handle_;
    mousecommand_t current_mousecommand_left_; //左键待触发指令
    mousecommand_t current_mousecommand_right_; //右键待触发指令

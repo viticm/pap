@@ -16,7 +16,7 @@ Manager* Manager::self_ = NULL;
 Manager::Manager() {
   self_ = this;
   show_ = true;
-  state_ = kTypeNormal;
+  state_ = vengine_cursor::kTypeNormal;
   uicursor_handle_ = NULL;
   current_mousecommand_left_.cleanup();
   current_mousecommand_right_.cleanup();
@@ -32,7 +32,7 @@ Manager* Manager::getself() {
   return self_;
 }
 
-void Manager::set(type_enum type) {
+void Manager::set(vengine_cursor::type_enum type) {
   state_ = type;
   ::PostMessage(g_mainwindow_handle, WM_SETCURSOR, 0, HTCLIENT);
 }
@@ -64,50 +64,50 @@ void Manager::show(bool flag) {
 }
 
 void Manager::mousecommand_active(mousecommand_t& cmd) {
-  USE_PARAM(cmd);
+  //USE_PARAM(cmd);
   //... 以后再做
 }
 
 void Manager::init(void* handle) {
   HINSTANCE instance_handle = *(reinterpret_cast<HINSTANCE*>(handle));
-  cursorhandles_[kTypeWinBase] = //系统标准的
+  cursorhandles_[vengine_cursor::kTypeWinBase] = //系统标准的
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_ARROW));
-  cursorhandles_[kTypeNormal] = //普通状态
+  cursorhandles_[vengine_cursor::kTypeNormal] = //普通状态
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_NORMAL));
-  cursorhandles_[kTypeAttack] = //攻击
+  cursorhandles_[vengine_cursor::kTypeAttack] = //攻击
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_ATTACK));
-  cursorhandles_[kTypeAutoRun] = //自动寻路中
+  cursorhandles_[vengine_cursor::kTypeAutoRun] = //自动寻路中
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_AUTORUN));
-  cursorhandles_[kTypePickup] = //拾取物品
+  cursorhandles_[vengine_cursor::kTypePickup] = //拾取物品
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_PICKUP));
-  cursorhandles_[kTypeUnreachable] = //无法到达的区域
+  cursorhandles_[vengine_cursor::kTypeUnreachable] = //无法到达的区域
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_UNREACHABLE));
-  cursorhandles_[kTypeMine] = //采矿
+  cursorhandles_[vengine_cursor::kTypeMine] = //采矿
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_MINE));
-  cursorhandles_[kTypeHerbs] = //采药
+  cursorhandles_[vengine_cursor::kTypeHerbs] = //采药
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_HERBS));
-  cursorhandles_[kTypeSpeak] = //对话
+  cursorhandles_[vengine_cursor::kTypeSpeak] = //对话
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_SPEAK));
-  cursorhandles_[kTypeInteract] = //齿轮
+  cursorhandles_[vengine_cursor::kTypeInteract] = //齿轮
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_INTERACT));
-  cursorhandles_[kTypeRepiar] = //修理
+  cursorhandles_[vengine_cursor::kTypeRepiar] = //修理
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_REPAIR));
-  cursorhandles_[kTypeHover] = //鼠标挂接物品
+  cursorhandles_[vengine_cursor::kTypeHover] = //鼠标挂接物品
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_HOVER));
-  cursorhandles_[kTypeIdentify] = //鉴定
+  cursorhandles_[vengine_cursor::kTypeIdentify] = //鉴定
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_IDENFITY));
-  cursorhandles_[kTypeRing] = //技能环
+  cursorhandles_[vengine_cursor::kTypeRing] = //技能环
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_RING));
-  cursorhandles_[kTypeDirection] = //方向技能
+  cursorhandles_[vengine_cursor::kTypeDirection] = //方向技能
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_DIRECTION));
 }
 
 void Manager::mousecommand_set(
        bool hover_inui, 
-       const vengine_math::base::threefloat_vector position, 
+       const vengine_math::base::threefloat_vector_t position, 
        vengine_game::action::Item* activeskill) {
   USE_PARAM(hover_inui);
-  USE_PARAM(position);
+  //USE_PARAM(position);
   USE_PARAM(activeskill);
 }
 

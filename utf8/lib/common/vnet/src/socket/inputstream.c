@@ -23,7 +23,7 @@ uint32_t socket_inputstream_encoderead(
     }
     else {
       if (headlength < taillength) {
-        memcpy(tempbuffer, &buffer[headlength], length);
+        memcpy(tempbuffer, &packetbuffer[headlength], length);
       }
       else {
         uint32_t rightlength = bufferlength - headlength;
@@ -165,8 +165,8 @@ bool socket_inputstream_encodeskip(struct packet_t* packet,
 
 int32_t socket_inputstream_fill(int32_t socketid, struct packet_t* packet) {
   int32_t fillcount = 0;
-	int32_t receivecount = 0;
-	uint32_t freecount = 0;
+  int32_t receivecount = 0;
+  uint32_t freecount = 0;
   uint32_t bufferlength = (*packet).bufferlength;
   uint32_t bufferlength_max = (*packet).bufferlength_max;
   uint32_t headlength = (*packet).headlength;
@@ -248,13 +248,12 @@ bool socket_inputstream_resize(struct packet_t* packet, int32_t size) {
   taillength = (*packet).taillength;
   newbuffer_length = bufferlength + size;
   length = socket_inputstream_reallength(*packet);
-  buffer = (char*)malloc(bufferlength);
+  newbuffer = (char*)malloc(bufferlength);
   size = max(size, (int32_t)(bufferlength >> 1));
-  memset(buffer, '\0', bufferlength);
-  memcpy(buffer, (*packet).buffer, bufferlength);
+  memset(newbuffer, '\0', bufferlength);
+  memcpy(newbuffer, (*packet).buffer, bufferlength);
   if (size < 0 && (newbuffer_length < 0 || newbuffer_length < length))
     return false;
-  newbuffer = (char*)malloc(sizeof(char) * newbuffer_length);
   if (headlength < taillength) {
     memcpy(newbuffer, &buffer[headlength], taillength - headlength);
   }

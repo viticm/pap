@@ -14,6 +14,7 @@
 
 #include "socket/config.h"
 
+
 #if defined(__LINUX__)
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -21,12 +22,16 @@
 #include <sys/socket.h>
 #elif defined(__WINDOWS__)
 #include <winsock.h>
+#include <WS2tcpip.h>
 #endif
+#include <errno.h>
+#define EINPROGRESS	WSAEINPROGRESS
+
 
 #define SOCKET_ERROR_WOULD_BLOCK -100
 
 int32_t socketapi_socketex(int32_t domain, int32_t type, int32_t protocol);
-
+EINPROGRESS
 bool socketapi_bindex(int32_t socketid, 
                       const struct sockaddr* name, 
                       uint32_t namelength);
