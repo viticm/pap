@@ -25,3 +25,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 VERSION 1.7.4
+
+addings:
+
+opencode add source file: 
+OgreControlSystemSetting.h 
+OgreControlSystemSetting.cpp

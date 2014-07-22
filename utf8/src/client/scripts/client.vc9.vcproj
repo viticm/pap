@@ -103,7 +103,7 @@
 			Name="Release|Win32"
 			OutputDirectory="$(ConfigurationName)"
 			IntermediateDirectory="$(ProjectName).dir\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			>
@@ -128,8 +128,8 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\..\lib\client\vengine\include;..\..\..\lib\client\vgui\include;..\src"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_DEPRECATE;VENGINE_BUILD_AS_DLL;VENGINE_LIB"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\..\lib\client\kernelengine\include\vengine\include;..\..\..\lib\client\kernelengine\include\vgui\include\vgui;..\src;..\scripts;..\..\..\include\client\game;..\..\..\lib\client\kernelengine\include\Ogre\OgreMain\include;..\..\..\lib\client\Ogre\Dependencies\include;..\..\..\lib\client\Ogre\vc_build\include;..\..\..\lib\client\FairyCore\src;..\..\..\lib\client\kernelengine\include\LuaPlus\include;..\..\..\lib\client\DirectX9\Include;..\..\..\lib\client\fmod375\include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;__WINDOWS__;_USRDLL;_CRT_SECURE_NO_DEPRECATE;_PAP_NET_CLIENT;_PAP_CLIENT;VENGINE_BUILD_AS_DLL"
 				StringPooling="false"
 				MinimalRebuild="true"
 				RuntimeLibrary="2"
@@ -139,7 +139,7 @@
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4819"
+				DisableSpecificWarnings="4819;4127;4201"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -152,9 +152,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="..\bin\$(ConfigurationName)\$(ProjectName).dll"
+				AdditionalDependencies="winmm.lib PathLib.lib opcode.lib vengine.lib vgui.lib OgreMain.lib LuaPlus.lib fairycore.lib libvnet.lib ws2_32.lib fmodvc.lib tinyxml.lib expat.lib Plugin_Scorpio.lib"
+				OutputFile="..\bin\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\lib\client\kernelengine\lib\Release;..\..\..\lib\client\DirectX9\Lib\x86;..\..\..\lib\common\vnet\link;..\..\..\lib\client\fmod375\lib\Release;..\..\..\lib\client\dependencies\lib\Release"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)/$(TargetName).pdb"
 				SubSystem="2"
@@ -162,7 +163,7 @@
 				EnableCOMDATFolding="2"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary="..\lib\$(ConfigurationName)\$(ProjectName).lib"
+				ImportLibrary="..\bin\$(ConfigurationName)\$(ProjectName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -185,7 +186,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="xcopy ..\lib\$(ConfigurationName)\$(ProjectName).lib .\..\..\kernelengine\lib\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;xcopy ..\bin\$(ConfigurationName)\$(ProjectName).dll .\..\..\kernelengine\dll\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;xcopy ..\include\*.h  .\..\..\kernelengine\include\vengine\include\ /S /R /Y&#x0D;&#x0A;"
+				CommandLine="xcopy ..\bin\$(ConfigurationName)\$(ProjectName).exe  .\..\..\..\run\client\ /S /R /Y"
 			/>
 		</Configuration>
 		<Configuration
@@ -284,6 +285,10 @@
 				RelativePath="..\game\main.cc"
 				>
 			</File>
+			<File
+				RelativePath="..\game\stdafx.cc"
+				>
+			</File>
 			<Filter
 				Name="cursor"
 				>
@@ -347,6 +352,30 @@
 					RelativePath="..\game\net\manager.cc"
 					>
 				</File>
+				<Filter
+					Name="handler"
+					>
+					<Filter
+						Name="client_tologin"
+						>
+						<File
+							RelativePath="..\game\net\handler\client_tologin\asklogin.cc"
+							>
+						</File>
+						<File
+							RelativePath="..\game\net\handler\client_tologin\connect.cc"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="client_toserver"
+						>
+						<File
+							RelativePath="..\game\net\handler\client_toserver\heartbeat.cc"
+							>
+						</File>
+					</Filter>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="procedure"
@@ -436,6 +465,14 @@
 			</File>
 			<File
 				RelativePath="..\..\..\include\client\game\main.h"
+				>
+			</File>
+			<File
+				RelativePath=".\resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\resource1.h"
 				>
 			</File>
 			<File
@@ -593,15 +630,315 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
-				RelativePath="..\game\game.rc"
+				RelativePath=".\resources\attack.cur"
 				>
 			</File>
 			<File
-				RelativePath="..\game\resource.h"
+				RelativePath=".\resources\autorun.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\game.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\Game.rc"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\herbs.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\hover.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\identify.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\interact.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\mine.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\normal.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\pickup.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\repair.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\small.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\speak.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\unreachable.cur"
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="common"
+			>
+			<Filter
+				Name="src"
+				>
+				<Filter
+					Name="net"
+					>
+					<Filter
+						Name="socket"
+						>
+						<File
+							RelativePath="..\..\common\net\socket\base.cc"
+							>
+						</File>
+						<File
+							RelativePath="..\..\common\net\socket\inputstream.cc"
+							>
+						</File>
+						<File
+							RelativePath="..\..\common\net\socket\outputstream.cc"
+							>
+						</File>
+					</Filter>
+				</Filter>
+				<Filter
+					Name="file"
+					>
+					<File
+						RelativePath="..\..\common\file\database.cc"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="packet"
+					>
+					<File
+						RelativePath="..\..\common\net\packet\base.cc"
+						>
+					</File>
+					<File
+						RelativePath="..\..\common\net\packet\factorymanager.cc"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="packets"
+					>
+					<Filter
+						Name="client_tologin"
+						>
+						<File
+							RelativePath="..\..\common\net\packets\client_tologin\asklogin.cc"
+							>
+						</File>
+						<File
+							RelativePath="..\..\common\net\packets\client_tologin\connect.cc"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="client_toserver"
+						>
+						<File
+							RelativePath="..\..\common\net\packets\client_toserver\heartbeat.cc"
+							>
+						</File>
+					</Filter>
+				</Filter>
+				<Filter
+					Name="sys"
+					>
+					<File
+						RelativePath="..\..\common\sys\thread.cc"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="server"
+					>
+					<Filter
+						Name="net"
+						>
+						<Filter
+							Name="connection"
+							>
+							<File
+								RelativePath="..\..\server\common\net\connection\base.cc"
+								>
+							</File>
+						</Filter>
+					</Filter>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="include"
+				>
+				<Filter
+					Name="file"
+					>
+					<File
+						RelativePath="..\..\..\include\common\file\config.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\include\common\file\database.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="net"
+					>
+					<File
+						RelativePath="..\..\..\include\common\net\config.h"
+						>
+					</File>
+					<Filter
+						Name="socket"
+						>
+						<File
+							RelativePath="..\..\..\include\common\net\socket\base.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\include\common\net\socket\inputstream.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\include\common\net\socket\outputstream.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="packet"
+						>
+						<File
+							RelativePath="..\..\..\include\common\net\packet\base.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\include\common\net\packet\factory.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\include\common\net\packet\factorymanager.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="packets"
+						>
+						<Filter
+							Name="client_tologin"
+							>
+							<File
+								RelativePath="..\..\..\include\common\net\packets\client_tologin\asklogin.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\..\include\common\net\packets\client_tologin\connect.h"
+								>
+							</File>
+						</Filter>
+						<Filter
+							Name="client_toserver"
+							>
+							<File
+								RelativePath="..\..\..\include\common\net\packets\client_toserver\heartbeat.h"
+								>
+							</File>
+						</Filter>
+					</Filter>
+				</Filter>
+				<Filter
+					Name="game"
+					>
+					<Filter
+						Name="define"
+						>
+						<File
+							RelativePath="..\..\..\include\common\game\define\all.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\include\common\game\define\enum.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\include\common\game\define\macros.h"
+							>
+						</File>
+						<Filter
+							Name="id"
+							>
+							<Filter
+								Name="packet"
+								>
+								<File
+									RelativePath="..\..\..\include\common\game\define\id\packet\all.h"
+									>
+								</File>
+								<File
+									RelativePath="..\..\..\include\common\game\define\id\packet\client_tologin.h"
+									>
+								</File>
+								<File
+									RelativePath="..\..\..\include\common\game\define\id\packet\client_toserver.h"
+									>
+								</File>
+							</Filter>
+						</Filter>
+					</Filter>
+				</Filter>
+				<Filter
+					Name="sys"
+					>
+					<File
+						RelativePath="..\..\..\include\common\sys\config.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\include\common\sys\thread.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="server"
+					>
+					<Filter
+						Name="net"
+						>
+						<Filter
+							Name="connection"
+							>
+							<File
+								RelativePath="..\..\..\include\server\common\net\connection\base.h"
+								>
+							</File>
+						</Filter>
+					</Filter>
+				</Filter>
+			</Filter>
+		</Filter>
 	</Files>
 	<Globals>
+		<Global
+			Name="RESOURCE_FILE"
+			Value="Game.rc"
+		/>
 	</Globals>
 </VisualStudioProject>

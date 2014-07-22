@@ -1,3 +1,4 @@
+#pragma warning(disable : 4127)
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index/indexed_by.hpp>
 #include <boost/multi_index/sequenced_index.hpp>
@@ -24,20 +25,19 @@
 #include "OgreSceneManager.h"
 #include "OgreStringConverter.h"
 #include "OgreGpuProgramManager.h"
+#include "OgreControlSystemSetting.h"
 
 #include "Core/FairySystem.h"
 #include "Core/TerrainData.h"
 #include "Core/FrameStatsListener.h"
 #include "Core/FairyObjectProxy.h"
-#include "Camera/Camera_CharSel.h"
-#include "Camera/Camera_Scene.h"
+//#include "Camera/Camera_CharSel.h"
+//#include "Camera/Camera_Scene.h"
 #include "Core/FairySceneInfo.h"
 #include "Core/Terrain.h"
 #include "Core/FairyResourceSolverHelper.h"
 #include "Core/utf.h"
 #include "Core/FairyResources.h"
-#include "PostFilter/FairyPostFilters.h"
-#include "PostFilter/FairyPostFilterManager.h"
 #include "Core/FairyExpatParser.h"
 #include "Core/FairySceneInfo.h"
 #include "Core/FairyEnviromentObject.h"
@@ -49,11 +49,18 @@
 #include "Core/FairyLightObject.h"
 #include "Core/FairyActorObject.h"
 #include "Core/FairyModelObject.h"
+#include "Core/FairyLogicModelObject.h"
+#include "PostFilter/FairyPostFilters.h"
+#include "PostFilter/FairyPostFilterManager.h"
+#include "EffectSystem/FairyBulletSystem.h"
+#include "ModelSystem/FairyLogicModel.h"
+#include "ModelSystem/FairyLogicModelManager.h"
 
-#include "vengine/exceiption/base.h"
+#include "vengine/exception/base.h"
 #include "vengine/base/util.h"
 #include "vengine/capability/profile.h"
 #include "vengine/capability/ax/trace.h"
+#include "vengine/capability/debuger.h"
 #include "vengine/kernel/base.h"
 #include "vengine/sound/system.h"
 #include "vengine/game/worldsystem.h"
@@ -128,7 +135,7 @@ void Interface::init(void* param) {
   setlocale( LC_CTYPE, "" );
 #endif
   VENGINE_ASSERT(param);
-  HWND main_window = *((HWND*))param; //vc pointers can use like this
+  HWND main_window = *((HWND*)param); //vc pointers can use like this
   g_mainwindow_handle = main_window;
   g_variablesystem = 
     dynamic_cast<vengine_variable::System*>(g_root_kernel.getnode("bin\\var"));
@@ -137,7 +144,7 @@ void Interface::init(void* param) {
       g_root_kernel.getnode("bin\\event"));
   VENGINE_ASSERT(g_eventsystem);
   Ogre::SystemSetting::forcePixelShader(false);
-  fairysystem_.init("Resources.cfg", "", "", "Engine.log"); //load resources
+  fairysystem_->init("Resources.cfg", "", "", "Engine.log"); //load resources
   
   g_debuger = dynamic_cast<vengine_capability::Debuger*>(
       g_root_kernel.getnode("bin\\debuger"));
@@ -158,9 +165,9 @@ void Interface::init(void* param) {
       g_root_kernel.getnode("bin\\resprovider"));
   VENGINE_ASSERT(g_resourceprovider);
 
-  g_databasesystem = 
+  g_dbsystem = 
     dynamic_cast<vengine_db::System*>(g_root_kernel.getnode("bin\\dbc"));
-  VENGINE_ASSERT(g_databasesystem);
+  VENGINE_ASSERT(g_dbsystem);
 
   STRING str = g_variablesystem->getstring("Gfx_API");
   Ogre::Root* ogre_root = &(Ogre::Root::getSingleton());
@@ -275,15 +282,15 @@ void Interface::init(void* param) {
     g_eventsystem->registerhandle("VARIABLE_CHANGED", on_variablechange_event);
 
     //恢复上次颜色设置
-    g_eventsystem->push(vengine_game::eventdefine::kVariableChanged, 
+    g_eventsystem->push(vengine_game::event_id::kVariableChanged, 
                         k32BitTexturesVar, 
-                        g_variablesystem->(k32BitTexturesVar).c_str());
+                        g_variablesystem->getstring(k32BitTexturesVar).c_str());
 
     //加载人物阴影配置
     bool have = false;
     int32_t human_light_map = g_variablesystem->getint32(kShadowTechniqueVar, 
                                                          &have);
-    if (have) scene_set_shadowtechnique(human_light_map);
+    if (have) scene_set_shadowtechnique((uint8_t)human_light_map);
     //加载全局泛光配置
     int32_t full_screen_light = g_variablesystem->getint32(
         kPostFilterEnabledVar,
@@ -292,10 +299,10 @@ void Interface::init(void* param) {
     //初始化小地图探灯功能 --以后做
   }
   catch(const Ogre::Exception& e) {
-    bool isthrow = true;
+    //bool isthrow = true;
     if (e.getNumber() == Ogre::Exception::ERR_DUPLICATE_ITEM) {
       if ("ResourceManager::add" == e.getSource()) {
-        if (Ogre::StringUtil::endsWith(listener._scriptName, 
+        if (Ogre::StringUtil::endsWith(resource_listener._scriptName, 
                                        ".material", 
                                        true)) {
           char materialName[256] = {0}; 
@@ -307,11 +314,11 @@ void Interface::init(void* param) {
             if (!material.isNull()) {
               char message[1024] = {0};
               Ogre::StringVectorPtr currentNames = 
-                Fairy::findResourceFilenames(listener._groupName, 
-                                             listener._scriptName);
+                Fairy::findResourceFilenames(resource_listener._groupName, 
+                                             resource_listener._scriptName);
               const Ogre::String& currentName = 
                 currentNames.isNull() || currentNames->empty() ? 
-                listener._scriptName : 
+                resource_listener._scriptName : 
                 currentNames->front();
               if (material->getOrigin().empty()) {
                 _snprintf(message, 
@@ -394,7 +401,7 @@ void Interface::renderframe() {
   Ogre::Root::getSingleton().renderOneFrame();
 }
 
-void Interface::OnPaint() { //windows function
+void Interface::onpaint() { //windows function
   renderframe();
 }
 
@@ -402,7 +409,7 @@ void Interface::render_loadingframe(const char* loading) {
   renderframe();
 }
 
-void Interface::OnSizeChange(UINT message, WPARAM wParam, LPARAM lParam) {
+void Interface::on_windowsize_change(UINT message, WPARAM wParam, LPARAM lParam) {
   if (WM_SIZE == message) {
     fairysystem_->resizeWindow(LOWORD(lParam), HIWORD(lParam));
   }
@@ -417,9 +424,10 @@ HWND Interface::getwindow() const {
   return g_mainwindow_handle;
 }
 
-bool Interface::printscreen(const char* buffer, int32_t size) {
+bool Interface::printscreen(char* buffer, int32_t size) {
   const char* kScreenShortPath = "..\\ScreenShots";
   char filename[MAX_PATH] = {0};
+  char full_filename[MAX_PATH] = {0};
   try {
     SYSTEMTIME nowtime;
     ::GetLocalTime(&nowtime);
@@ -434,7 +442,6 @@ bool Interface::printscreen(const char* buffer, int32_t size) {
               nowtime.wSecond);
     ::CreateDirectory(kScreenShortPath, 0);
     //full path
-    char full_filename[MAX_PATH] = {0};
     _snprintf(full_filename, 
               sizeof(full_filename) - 1, 
               "%s\\%s", 
@@ -472,20 +479,20 @@ void Interface::set_showobject_bytype(const char* name) {
   static bool effect = true;
   static bool liquid = true;
   static bool pareticle = true;
-  static uint64_t show_type = objecttype_enum::kObjectTypeAll;
+  static uint64_t show_type = kObjectTypeAll;
   Ogre::String currentName = name;
   if ("lm" == currentName) show_type ^= (logic << 5);
   if ("se" == currentName) show_type ^= static_entity;
   if ("sl" == currentName) show_type ^= (liquid << 2);
   if ("ef" == currentName) show_type ^= (effect << 3);
   if ("ps" == currentName) show_type ^= (effect << 1);
-  if ("all" == currentName) show_type = objecttype_enum::kObjectTypeAll;
+  if ("all" == currentName) show_type = kObjectTypeAll;
   Fairy::LogicModelManager::LogicModelMap logicmap = 
     Fairy::LogicModelManager::getSingleton().getModelMap();
   Fairy::LogicModelManager::LogicModelMap::iterator iterator;
   for (iterator = logicmap.begin(); iterator != logicmap.end(); ++iterator) {
     Fairy::LogicModel* model = iterator->second;
-    model->setVisible(show_type & objecttype_enum::kObjectTypeLogicModel);
+    model->setVisible(show_type & kObjectTypeLogicModel);
   }
   //对象以后再做
 }
@@ -494,12 +501,12 @@ bool Interface::axistrans(
        axistype_enum type,
        const vengine_math::base::threefloat_vector_t& source,
        axistype_enum targettype,
-       const vengine_math::base::threefloat_vector_t& target) {
+       vengine_math::base::threefloat_vector_t& target) {
   register Fairy::TerrainData* terraindata = fairysystem_->getTerrainData();
   //资源未完全加载
   if (terraindata && 
       (0 == terraindata->getXSize() || 
-      0 == terraindata->getYSize())) {
+      0 == terraindata->getZSize())) {
     terraindata = NULL;
   }
   vengine_math::base::threefloat_vector_t scale = getscale();
@@ -508,9 +515,9 @@ bool Interface::axistrans(
   if (!axis_checkvalid(type, source)) return false;
   if (type == targettype) return true;
   switch (type) {
-    case axistype_enum::kAxisTypeGame: {
-      if (axistype_enum::kAxisTypePlan == targettype) return true;
-      if (axistype_enum::kAxisTypeRender == targettype) {
+    case kAxisTypeGame: {
+      if (kAxisTypePlan == targettype) return true;
+      if (kAxisTypeRender == targettype) {
         if (terraindata) {
           target.x = 
             terraindata->mPosition.x + source.x * terraindata->mScale.x;
@@ -526,28 +533,29 @@ bool Interface::axistrans(
         }
         return true;
       }
-      else if (axistype_enum::kAxisTypeScreen == targettype) {
+      else if (kAxisTypeScreen == targettype) {
         if (!terraindata) return false;
         //相机以后再做
 
         return true;
       }
     }
-    case axistype_enum::kAxisTypeScreen: {
+    case kAxisTypeScreen: {
       if (!terraindata) return false;
       Ogre::Vector3 render_position;
       bool result = fairysystem_->getTerrainIntersects(
-          Fairy::Point((source.x, source.y), render_position));
+          Fairy::Point((source.x, source.y)), render_position);
       if (!result) return false;
-      if (axistype_enum::kAxisTypeGame == targettype || 
-          axistype_enum::kAxisTypePlan == targettype) {
+      if (kAxisTypeGame == targettype || 
+          kAxisTypePlan == targettype) {
         return axistrans(
-            axistype_enum::kAxisTypeRender,
+            kAxisTypeRender,
             vengine_math::base::threefloat_vector_t(
               render_position.x, render_position.y, render_position.z),
-            render_position);
+              kAxisTypeGame,
+            target);
       }
-      else if (axistype_enum::kAxisTypeRender == targettype) {
+      else if (kAxisTypeRender == targettype) {
         target = vengine_math::base::threefloat_vector_t(
             render_position.x,
             render_position.y,
@@ -566,7 +574,7 @@ vengine_math::base::threefloat_vector_t Interface::getscale() const {
   register Fairy::TerrainData* terraindata = fairysystem_->getTerrainData();
   if (terraindata && 
       terraindata->getXSize() > 0 && 
-      terraindata->getYSize() > 0) {
+      terraindata->getZSize() > 0) {
     return vengine_math::base::threefloat_vector_t(terraindata->mScale.x,
                                                    terraindata->mScale.y,
                                                    terraindata->mScale.z);
@@ -580,14 +588,14 @@ bool Interface::axis_checkvalid(
   register Fairy::TerrainData* terraindata = fairysystem_->getTerrainData();
   bool result = false;
   if (terraindata && 
-      (0 == terraindata->getXSize() || 0 == terraindata->getYSize())) {
+      (0 == terraindata->getXSize() || 0 == terraindata->getZSize())) {
     terraindata = 0;
   }
   switch (type) {
-    case axistype_enum::kAxisTypeGame: {
+    case kAxisTypeGame: {
       break;
     }
-    case axistype_enum::kAxisTypePlan: {
+    case kAxisTypePlan: {
       if (terraindata) {
         result = terraindata->isValidGrid(
             std::make_pair(static_cast<int32_t>(axis.x), 
@@ -598,7 +606,7 @@ bool Interface::axis_checkvalid(
       }
       break;
     }
-    case axistype_enum::kAxisTypeRender: {
+    case kAxisTypeRender: {
       if (terraindata) {
         result = terraindata->isValidCoord(axis.x, axis.z);
       }
@@ -607,12 +615,12 @@ bool Interface::axis_checkvalid(
       }
       break;
     }
-    case axistype_enum::kAxisTypeScreen: {
+    case kAxisTypeScreen: {
       RECT rect;
       ::GetClientRect(g_mainwindow_handle, &rect);
       POINT point;
-      point.x = static_cast<int32_t>(rect.x);
-      point.y = static_cast<int32_t>(rect.y);
+      point.x = static_cast<int32_t>(axis.x);
+      point.y = static_cast<int32_t>(axis.y);
       result = ::PtInRect(&rect, point);
       break;
     }
@@ -658,7 +666,7 @@ void Interface::camera_adddirection(float multiple) {
 
 }
   
-void float Interface::camera_getdirection() const {
+float Interface::camera_getdirection() const {
   return .0f;
 }
 
@@ -761,17 +769,17 @@ void Interface::debug_toggleshow_boundingbox() {
 
 }
 
-EntityNode* Interface::new_entityobject(EntityNode::type_enum type) {
+vengine_render::EntityNode* Interface::new_entityobject(vengine_render::EntityNode::type_enum type) {
   return NULL;
 }
 
-EntityNode* Interface::find_hitfairy_object(int32_t x, int32_t y) {
+vengine_render::EntityNode* Interface::find_hitfairy_object(int32_t x, int32_t y) {
   return NULL;
 }
 
 void Interface::fakeobject_create(const char* name,
-                                  EntityNode* node,
-                                  EntityNode* parentnode,
+                                  vengine_render::EntityNode* node,
+                                  vengine_render::EntityNode* parentnode,
                                   const char* cameraname,
                                   int32_t textuewidth,
                                   int32_t textueheight,
@@ -789,8 +797,8 @@ void Interface::fakeobject_show(const char* name,
 
 }
 
-bool Interface::fakeobject_setattach(EntityNode* node, 
-                                     EntityNode* attachnode) {
+bool Interface::fakeobject_setattach(vengine_render::EntityNode* node, 
+                                     vengine_render::EntityNode* attachnode) {
   return true;
 }
 

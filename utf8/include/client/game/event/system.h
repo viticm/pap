@@ -45,6 +45,10 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
                      int32_t arg0,
                      int32_t arg1);
    virtual void push(vengine_game::event_id::_enum id,
+                     int32_t arg0,
+                     int32_t arg1,
+                     int32_t arg2);
+   virtual void push(vengine_game::event_id::_enum id,
                      const char* arg0,
                      const char* arg1,
                      int32_t arg2,

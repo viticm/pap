@@ -12,6 +12,7 @@
 #define CLIENT_GAME_SCRIPT_ENVIRONMENT_H_
 
 #include "vengine/script/environment.h"
+#include "LuaPlus.h"
 
 namespace script {
 

@@ -23,7 +23,7 @@ class LoadListener : public Ogre::ResourceGroupListener {
    size_t _scriptIndex;
    Ogre::String _scriptName;
 
-   ScriptParsingListener(VOID)
+   LoadListener()
      : _groupName()
      , _scriptCount()
      , _scriptIndex()
@@ -31,7 +31,7 @@ class LoadListener : public Ogre::ResourceGroupListener {
       Ogre::ResourceGroupManager::getSingleton().addResourceGroupListener(this);
     }
 
-   ~ScriptParsingListener() {
+   ~LoadListener() {
       Ogre::ResourceGroupManager::getSingleton().
         removeResourceGroupListener(this);
     }

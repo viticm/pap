@@ -2,6 +2,7 @@
 #include "common/net/packets/client_tologin/asklogin.h"
 #include "vengine/variable/system.h"
 #include "vengine/input/system.h"
+#include "vengine/render/system.h"
 #include "vengine/ui/system.h"
 #include "vengine/capability/ax/profile.h"
 #include "client/game/event/system.h"
@@ -37,7 +38,7 @@ Login::Login() {
 }
 
 Login::~Login() {
-  SAFE_DELETE_ARRAY(areainfo_);
+  //SAFE_DELETE_ARRAY(areainfo_);
 }
 
 void Login::firstlogin() {
@@ -53,7 +54,7 @@ void Login::init() {
   int64_t style = ::GetWindowLong(g_mainwindow_handle, GWL_STYLE);
   style &= ~WS_THICKFRAME;
   style &= ~WS_MAXIMIZEBOX;
-  ::SetWindowLong(g_mainwindow_handle, GWL_STYLE, style);
+  ::SetWindowLong(g_mainwindow_handle, GWL_STYLE, (LONG)style);
   ::PostMessage(g_mainwindow_handle, WM_NCACTIVATE, true, 0);
   Base::variablesystem_->set_twofloat_vector("View_Resoution", 
                                              1024, 
@@ -78,7 +79,7 @@ void Login::select_oldserver() {
   int32_t pre_current_selectarea = variablesystem_->getint32("Login_Area");
   int32_t pre_current_selectserver = variablesystem_->getint32("Login_Server");
   if (pre_current_selectarea >= 0 && pre_current_selectarea < areacount_) {
-    int32_t servercount = get_area_servercount();
+    int32_t servercount = get_area_servercount(pre_current_selectarea);
     if (pre_current_selectserver >= 0 && 
         pre_current_selectserver < servercount) {
       eventsystem_->push(vengine_game::event_id::kLoginSelectArea,
@@ -110,7 +111,7 @@ void Login::tick() {
       break;
     }
     case kStatusDisconnect: {
-      rendersystem_->push_debugstring("connect to login server %s:%d...",
+      rendersystem_->debug_pushstring("connect to login server %s:%d...",
                                       serverip_,
                                       serverport_);
       setstatus(kStatusConnecting); //开始连接

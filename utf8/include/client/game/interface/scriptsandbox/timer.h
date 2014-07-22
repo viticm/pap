@@ -11,9 +11,11 @@
 #ifndef PAP_CLIENT_GAME_INTERFACE_SCRIPTSANDBOX_TIMER_H_
 #define PAP_CLIENT_GAME_INTERFACE_SCRIPTSANDBOX_TIMER_H_
 
-#include "LuaPlus.h"
+//#include "LuaPlus.h"
 
-namespace interface {
+namespace _interface {
+
+namespace scriptsandbox {
 
 namespace timer {
 
@@ -23,6 +25,8 @@ int32_t lua_clear(LuaPlus::LuaState* luastate);
 
 }; //namespace timer
 
-}; //namespace interface
+}; //namespace scriptsandbox
+
+}; //namespace _interface
 
 #endif //PAP_CLIENT_GAME_INTERFACE_SCRIPTSANDBOX_TIMER_H_

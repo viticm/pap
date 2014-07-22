@@ -527,6 +527,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\OgreMain\src\OgreControlSystemSetting.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\OgreMain\src\OgreConvexBody.cpp"
 				>
 			</File>
@@ -1364,6 +1368,10 @@
 			</File>
 			<File
 				RelativePath="..\..\OgreMain\include\OgreControllerManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\OgreMain\include\OgreControlSystemSetting.h"
 				>
 			</File>
 			<File

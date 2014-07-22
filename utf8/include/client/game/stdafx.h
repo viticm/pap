@@ -31,6 +31,7 @@
 //
 //TODO: reference additional headers your program requires here
 #include "vengine/config.h"
+#include "common/base/type.h"
 #include "vengine/capability/ax/trace.h"
 
 #endif //PAP_CLIENT_GAME_STDAFX_H_

@@ -12,14 +12,14 @@
 #ifndef PAP_CLIENT_GAME_INPUT_SYSTEM_H_
 #define PAP_CLIENT_GAME_INPUT_SYSTEM_H_
 
+#define DIRECTINPUT_VERSION 0x0800
+
 #include <dinput.h>
 #include <queue>
 #include "vengine/input/system.h"
 
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
-
-#define DIRECTINPUT_VERSION 0x0800
 
 namespace input {
 
@@ -36,11 +36,11 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
 
  public: //implement for abstract
    //获得传输的队列
-   virtual eventqueue& get_eventqueue();
+   virtual vengine_input::eventqueue& get_eventqueue();
    //查询队列中是否有某事件存在
    virtual bool is_eventexist(vengine_input::eventid_enum id);
    //捕获状态
-   virtual capturestatus_enum getcapture();
+   virtual vengine_input::capturestatus_enum getcapture() const;
    virtual void setcapture(vengine_input::capturestatus_enum type);
    //处理windows消息
    virtual bool messageprocess(HWND hwnd, 

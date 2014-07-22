@@ -11,6 +11,8 @@
 #ifndef CLIENT_GAME_PROCEDURE_LOGINDATA_H_
 #define CLIENT_GAME_PROCEDURE_LOGINDATA_H_
 
+#include "client/game/global.h"
+
 namespace procedure {
 
 const uint8_t kLoginServerInAreaCount = 6;
@@ -50,7 +52,7 @@ struct areainfo_t {
   };
   char name[128];
   netprovide_enum provide;
-  loginserver_info_t[kAreaHaveserverMax];
+  loginserver_info_t loginserver_info[kAreaHaveserverMax];
 };
 
 //typedef areainfo_t* areainfo_pointer;

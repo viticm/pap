@@ -15,13 +15,13 @@ void LoadListener::scriptParseStarted(const Ogre::String& scriptName,
   _scriptName = scriptName;
 }
 
-void ScriptParsingListener::scriptParseEnded(const Ogre::String& scriptName, 
+void LoadListener::scriptParseEnded(const Ogre::String& scriptName, 
                                              bool skipped) {
   _scriptName.clear();
   ++_scriptIndex;
 }
 
-void ScriptParsingListener::resourceGroupScriptingEnded(
+void LoadListener::resourceGroupScriptingEnded(
     const Ogre::String& groupName) {
   _groupName.clear();
   _scriptCount = 0;

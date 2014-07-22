@@ -34,7 +34,7 @@ class File : public vengine_db::File {
  //implement from abstract
  public:
    virtual const pap_common_file::Database* get_databasefile() const;
-   virtual uint32_t get_id() const;
+   virtual int32_t get_id() const;
    virtual int32_t get_field_number() const;
    virtual int32_t get_record_number() const;
 

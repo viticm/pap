@@ -12,7 +12,7 @@
 #define PAP_COMMON_NET_PACKETS_CLIENT_TOSERVER_HEARTBEAT_H_
 
 #include "common/net/config.h"
-#include "common/net/connection/base.h"
+#include "server/common/net/connection/base.h"
 #include "common/net/packet/base.h"
 #include "common/net/packet/factory.h"
 #include "common/game/define/all.h"
@@ -37,7 +37,7 @@ class HeartBeat : public packet::Base {
  public:  
    virtual bool read(socket::InputStream& inputstream);
    virtual bool write(socket::OutputStream& outputstream) const;
-   virtual uint32_t execute(connection::Base* connection);
+   virtual uint32_t execute(pap_server_common_net::connection::Base* connection);
    virtual uint16_t getid() const;
    virtual uint32_t getsize() const;
    

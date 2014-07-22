@@ -1,3 +1,4 @@
+#include "resource1.h"
 #include "vengine/game/action/system.h"
 #include "vengine/time/system.h"
 #include "vengine/base/util.h"
@@ -86,7 +87,7 @@ void Manager::init(void* handle) {
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_MINE));
   cursorhandles_[vengine_cursor::kTypeHerbs] = //采药
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_HERBS));
-  cursorhandles_[vengine_cursor::kTypeSpeak] = //对话
+  cursorhandles_[vengine_cursor::kTypeTalk] = //对话
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_SPEAK));
   cursorhandles_[vengine_cursor::kTypeInteract] = //齿轮
     ::LoadCursor(instance_handle, MAKEINTRESOURCE(IDC_CURSOR_INTERACT));

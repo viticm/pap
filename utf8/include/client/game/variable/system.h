@@ -30,6 +30,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
 
  public:
    static System* self_;
+   static System* getself() { return self_; }
 
  public:
    virtual void init(void*);
@@ -50,16 +51,17 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
 
    /* 快速设置方法 */
    virtual void setint32(const char* name, 
-                         const char* value, 
+                         int32_t value, 
                          bool temp = true);
    virtual void setuint32(const char* name, 
-                          const char* value, 
+                          uint32_t value, 
                           bool temp = true);
    virtual void setfloat(const char* name, 
-                         const char* value, 
+                         float value, 
                          bool temp = true);
    virtual void set_twofloat_vector(const char* name,
-                                    const char* value,
+                                    float value1,
+                                    float value2,
                                     bool temp = true);
 
    /* 快速获取方法 */
@@ -83,11 +85,10 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    virtual void reset();
 
  public: //for exports
-   int32_t lua_setglobal(LuaPlus::LuaState* luastate);
-   int32_t lua_getglobal(LuaPlus::LuaState* luastate);
+   int32_t lua_setglobal_value(LuaPlus::LuaState* luastate);
+   int32_t lua_getglobal_value(LuaPlus::LuaState* luastate);
 
  protected:
-   static System* self_;
    LuaPlus::LuaObject* metatable_;
    struct variable_t {
      STRING value;

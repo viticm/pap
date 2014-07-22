@@ -1,3 +1,4 @@
+#include "resource1.h"
 #include "vengine/capability/profile.h"
 #include "vengine/capability/ax/profile.h"
 #include "vengine/capability/debuger.h"
@@ -12,11 +13,13 @@
 #include "client/game/sound/system.h"
 #include "client/game/database/system.h"
 #include "client/game/variable/system.h"
-#include "client/game/cursor/system.h"
+#include "client/game/event/system.h"
+#include "client/game/cursor/manager.h"
 #include "client/game/script/system.h"
 #include "client/game/timer/manager.h"
-#include "client/resource/loadlistener.h"
-#include "client/resource/provider.h"
+#include "client/game/resource/loadlistener.h"
+#include "client/game/resource/provider.h"
+#include "client/game/procedure/login.h"
 #include "client/game/procedure/base.h"
 
 namespace procedure {
@@ -46,7 +49,7 @@ vengine_capability::Debuger* Base::debuger_ = NULL;
 vengine_render::System* Base::rendersystem_ = NULL;
 vengine_ui::System* Base::uisystem_ = NULL;
 vengine_time::System* Base::timesystem_ = NULL;
-vengine_sound::System* Base::timesystem_ = NULL;
+vengine_sound::System* Base::soundsystem_ = NULL;
 vengine_db::System* Base::dbsystem_ = NULL;
 vengine_cursor::System* Base::cursorsystem_ = NULL;
 vengine_script::System* Base::scriptsystem_ = NULL;
@@ -94,7 +97,7 @@ void Base::init_staticmember() {
   //g_root_kernel.registerclass();
   //g_root_kernel.registerclass();
   //UI鼠标操作类
-  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(cursor::System));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(cursor::Manager));
   //脚本系统
   g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(script::System));
   //事件系统
@@ -115,11 +118,11 @@ void Base::init_staticmember() {
 #ifdef USEOGRELIB
   extern void install_uisystem(vengine_kernel::Base* kernel);
 #else
-  g_root_kernel.loadplugin("vgui.dll", g_kernel);
+  g_root_kernel.loadplugin("vgui.dll", &g_root_kernel);
 #endif
 
   //初始化所有的循环实例
-  login_ = new Login(); //登陆循环
+  login_ = new procedure::Login(); //登陆循环
   //初始化数据核心
   //0.输入管理器
   inputsystem_ = dynamic_cast<vengine_input::System*>(
@@ -288,11 +291,11 @@ void Base::release_staticmemeber() {
   destroy_mainwindow();
 }
 
-void CALLBACK Base::eventtimer(uint32_t timeid, 
-                               uint32_t message,
-                               uint64_t user,
-                               uint64_t param1,
-                               uint64_t param2) {
+VOID CALLBACK Base::eventtimer(UINT timeid, 
+                               UINT message,
+                               DWORD user,
+                               DWORD param1,
+                               DWORD param2) {
   ::SetEvent(tickevent_);
 }
 
@@ -590,7 +593,7 @@ LRESULT Base::mainwindow_process(HWND hwnd,
       ::OffsetRect(&framerect, position->x, position->y);
       RECT newframe_rect;
       ::CopyRect(&newframe_rect, &framerect);
-      keep_windowproportion(&newframe_rect, -1, WMSZ_TOPLEFT);
+      keep_windowproportion(&newframe_rect, (uint32_t)-1, WMSZ_TOPLEFT);
       if (::EqualRect(&framerect, &newframe_rect)) //相同则不处理
         break;
       position->x = newframe_rect.left;
@@ -647,7 +650,7 @@ LRESULT Base::mainwindow_process(HWND hwnd,
                 0, 
                 ::GetSystemMetrics(SM_CXSCREEN), 
                 ::GetSystemMetrics(SM_CYSCREEN));
-      ::AdjustWindowRect(&rect, ::GetWindowStyle(g_mainwindow_handle), false);
+      ::AdjustWindowRect(&rect, GetWindowStyle(g_mainwindow_handle), false);
       minmaxinfo->ptMaxSize.x = rect.right - rect.left;
       minmaxinfo->ptMaxSize.y = rect.bottom - rect.top;
       minmaxinfo->ptMaxTrackSize.x = rect.right - rect.left;

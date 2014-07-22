@@ -44,6 +44,10 @@ class Interface : public vengine_render::System {
 
 VENGINE_KERNEL_DECLARE_DYNAMIC(Interface);
 
+ public:
+   Interface();
+   ~Interface();
+
  public: //implement from abstract
    virtual void init(void*);
    virtual void release();
@@ -52,15 +56,15 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Interface);
    //渲染loading画面
    virtual void render_loadingframe(const char* loading);
    //响应WM_PAINT消息
-   virtual void OnPaint();
+   virtual void onpaint();
    //窗口大小改变事件
-   virtual void OnSizeChange(UINT message, 
-                             WPARAM wparam, 
-                             LPARAM lparam);
+   virtual void on_windowsize_change(UINT message, 
+                                     WPARAM wparam, 
+                                     LPARAM lparam);
    //取得渲染窗口
    virtual HWND getwindow() const;
    //保存当前屏幕截图到文件中
-   virtual void printscreen(const char* buffer, int32_t size);
+   virtual bool printscreen(char* buffer, int32_t size);
  
  //debugs
  public: //implement from abstract 
@@ -81,7 +85,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Interface);
        axistype_enum type,
        const vengine_math::base::threefloat_vector_t& source,
        axistype_enum targettype,
-       const vengine_math::base::threefloat_vector_t& target);
+       vengine_math::base::threefloat_vector_t& target);
    vengine_math::base::threefloat_vector_t getscale() const;
    virtual bool axis_checkvalid(
        axistype_enum type,
@@ -155,6 +159,9 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Interface);
    virtual void scene_set_shadowtechnique(uint8_t flag);
    //显示地形网格切换
    virtual void scene_show_girdswitch(int32_t zonesize);
+
+ public:
+   virtual void set_shoeobject_bytype(const char *name) {}
    
  //debugs
  public: //implement from abstract 
@@ -169,16 +176,17 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Interface);
 
  public: //implement from abstract 
    //创建一个可渲染实体
-   virtual EntityNode* new_entityobject(EntityNode::type_enum type);
+   virtual vengine_render::EntityNode* new_entityobject(
+     vengine_render::EntityNode::type_enum type);
    //寻找和鼠标接触的实体
-   virtual EntityNode* find_hitfairy_object(int32_t x, int32_t y);
+   virtual vengine_render::EntityNode* find_hitfairy_object(int32_t x, int32_t y);
 
  //UI显示模型相关
  public: //implement from abstract 
    //创建一个fake渲染对象
    virtual void fakeobject_create(const char* name,
-                                  EntityNode* node,
-                                  EntityNode* parentnode,
+                                  vengine_render::EntityNode* node,
+                                  vengine_render::EntityNode* parentnode,
                                   const char* cameraname,
                                   int32_t textuewidth,
                                   int32_t textueheight,
@@ -189,8 +197,9 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Interface);
    virtual void fakeobject_show(const char* name,
                                 bool visible,
                                 float aspectratio);
-   virtual bool fakeobject_setattach(EntityNode* node, 
-                                     EntityNode* attachnode);
+   virtual bool fakeobject_setattach(vengine_render::EntityNode* node, 
+                                     vengine_render::EntityNode* attachnode);
+   static VOID	WINAPI on_variablechange_event(const vengine_game::event_t* event, uint32_t data) {};
 
  public:
    static const char k32BitTexturesVar[]; //颜色质量，比特数(16/32位)

@@ -1,6 +1,7 @@
 #include "fmod.h"
 #include "fmod_errors.h"
 #include "vengine/exception/base.h"
+#include "vengine/db/struct/all.h"
 #include "client/game/procedure/base.h"
 #include "client/game/database/system.h"
 #include "client/game/event/system.h"
@@ -18,12 +19,16 @@ const char System::the3dsound_var_[] = "Enable3DSound"; //环境音效
 const char System::skillsound_var_[] = "EnableSKSound";
 const char System::uisound_var_[] = "EnableUISound";
 
-const char System::background_volumevar[] = "VOLUME_BG";
+const char System::background_volumevar_[] = "VOLUME_BG";
 const char System::the3dvolume_var_[] = "VOLUME_3D";
 const char System::skillvolume_var_[] = "VOLUME_SK";
 const char System::uivolume_var_[] = "VOLUME_UI";
 
-VENGINE_KERNEL_IMPLEMENT_DYNAMIC(System);
+VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
+  System,
+  VENGINE_KERNEL_GETCLASS(vengine_sound::System));
+
+System* System::self_ = NULL;
 
 System::System() {
   self_ = this;
@@ -75,10 +80,10 @@ void System::init(void*) {
   event::System::getself()->registerhandle("VARIABLE_CHANGED",
                                            on_variablechange_event);
   //设置如果未定义变量初始值
-  variable::System::getself()->setvariable_default(background_soundvar_, 1);
-  variable::System::getself()->setvariable_default(the3dsound_var_, 1);
-  variable::System::getself()->setvariable_default(skillsound_var_, 1);
-  variable::System::getself()->setvariable_default(uisound_var_, 1);
+  variable::System::getself()->setvariable_default(background_soundvar_, "1");
+  variable::System::getself()->setvariable_default(the3dsound_var_, "1");
+  variable::System::getself()->setvariable_default(skillsound_var_, "1");
+  variable::System::getself()->setvariable_default(uisound_var_, "1");
   //for lua
   metatable_ = new LuaPlus::LuaObject;
   *metatable_ = script::System::getself()
@@ -135,7 +140,7 @@ bool System::is_typeenable(vengine_sound::Source::type_enum type) {
       result = 1 == variablesystem->getint32(background_soundvar_);
       break;
     }
-    case vengine_sound::Source::kTypeEnvironment {
+    case vengine_sound::Source::kTypeEnvironment: {
       result = 1 == variablesystem->getint32(the3dsound_var_);
       break;
     }
@@ -162,7 +167,7 @@ float System::get_typevolume(vengine_sound::Source::type_enum type) {
       gain = variablesystem->getfloat(background_volumevar_);;
       break;
     }
-    case vengine_sound::Source::kTypeEnvironment {
+    case vengine_sound::Source::kTypeEnvironment: {
       gain = variablesystem->getfloat(the3dvolume_var_);
       break;
     }
@@ -182,8 +187,9 @@ float System::get_typevolume(vengine_sound::Source::type_enum type) {
 
 void System::tick() {
   //对象系统未做，所以这里没有3D模式的设置
-  set_listenerposition(
-      vengine_math::base::threefloat_vector_t(0.0f, 0.0f, 0.0f));
+  vengine_math::base::threefloat_vector_t _value;
+  memset(&_value, 0, sizeof(_value));
+  set_listenerposition(_value);
   //更新声音源音量
   std::list<source_t>::iterator source_iterator, nextsource_iterator;
   for (source_iterator = sourcelist_.begin();
@@ -254,8 +260,8 @@ vengine_sound::Buffer* System::createbuffer(int32_t id) {
 vengine_sound::Buffer* System::createbuffer(const char* filename) {
   if (!filename) return NULL;
   std::map<STRING, buffer_t*>::iterator iterator;
-  iterator = filemap_.find(id);
-  if (iterator == idmap_.end()) {
+  iterator = filemap_.find(filename);
+  if (iterator == filemap_.end()) {
     VENGINE_SHOW("sound::System::createbuffer: invalid sound file: %s", 
                  filename);
     return NULL;
@@ -263,7 +269,7 @@ vengine_sound::Buffer* System::createbuffer(const char* filename) {
   return sourceload(*(iterator->second)); 
 }
 
-vengine_sound::Source* System::sourceload(buffer_t& buffer) {
+vengine_sound::Buffer* System::sourceload(buffer_t& buffer) {
   if (NULL == buffer.buffer) {
     Buffer* _buffer = new Buffer();
     if (!_buffer->read_wavbuffer(buffer.define->file)) {
@@ -345,9 +351,9 @@ void System::destroysource(int32_t id) {
 void System::play_uisound_function(int32_t id) {
   //创建3d声音播放源
   if (variable::System::getself()->getint32(uisound_var_) != 1) return;
-  vengine_sound::Buffer* buffer = createbuffer(id);
+  vengine_sound::Buffer* buffer = getself()->createbuffer(id);
   if (!buffer) return;
-  vengine_sound::Source* source = createsource(Source::kTypeUI, false, true);
+  vengine_sound::Source* source = getself()->createsource(Source::kTypeUI, false, true);
   if (!source) return;
   source->setbuffer(buffer);
   source->setlooping(false);
@@ -371,9 +377,9 @@ int32_t System::_playfunction(const char* filename,
   }
   **/ //暂时不做
   
-  vengine_sound::Buffer* buffer = createbuffer(filename);
+  vengine_sound::Buffer* buffer = getself()->createbuffer(filename);
   if (!buffer) return -1;
-  vengine_sound::Source* source = createsource(Source::kTypeSkill, true, true);
+  vengine_sound::Source* source = getself()->createsource(Source::kTypeSkill, true, true);
   if (!source) return -1;
   source->setbuffer(buffer);
   source->setposition(gfx_vector);
@@ -405,8 +411,8 @@ void System::_stopfunction(int32_t handle) {
 void WINAPI System::on_variablechange_event(const vengine_game::event_t* event,
                                             uint32_t ownerdata) {
   if (event && 
-      event->define && 
-      vengine_game::event_id::kVariableChanged == event->define->id) {
+      event->eventdefine && 
+      vengine_game::event_id::kVariableChanged == event->eventdefine->id) {
     const STRING& variable = event->args[0];
     const STRING& value = event->args[1];
     bool enable = "1" == value;
@@ -419,7 +425,7 @@ void WINAPI System::on_variablechange_event(const vengine_game::event_t* event,
       }
     }
     else {
-      if (variable == background_volumevar) {
+      if (variable == background_volumevar_) {
         getself()->stopspecial(Source::kTypeBackground);
       }
       else if (variable == the3dsound_var_) {
@@ -497,24 +503,24 @@ int32_t System::lua_stop(LuaPlus::LuaState* luastate) {
   return 0;
 }
 
-vengine_math::base::threefloat_vector_t& get_listenerposition() {
+vengine_math::base::threefloat_vector_t& System::get_listenerposition() {
   return listenerposition_;
 }
 
 vengine_sound::function_play System::get_playfunction() {
-  return _playfunction;
+  return playfunction;
 }
 
 vengine_sound::function_stop System::get_stopfunction() {
-  return _stopfunction;
+  return stopfunction;
 }
 
-int32_t WINAPI playfunction(const char* filename, float* position, bool loop) {
+int32_t WINAPI System::playfunction(const char* filename, float* position, bool loop) {
   return getself()->_playfunction(filename, position, loop);
 }
 
-int32_t WINAPI stopfunction(int32_t handle) {
-  return getself()->_stopfunction(handle);
+void WINAPI System::stopfunction(int32_t handle) {
+  getself()->_stopfunction(handle);
 }
 
 } //namespace sound

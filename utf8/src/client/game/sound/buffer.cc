@@ -35,7 +35,7 @@ bool Buffer::read_wavbuffer(const STRING& name) {
                                       address,
                                       FSOUND_HW3D | FSOUND_LOADMEMORY,
                                       0,
-                                      size);
+                                      (int32_t)size);
     procedure::Base::resourceprovider_->unloadresource(address, size);
   }
   
@@ -49,10 +49,12 @@ bool Buffer::read_wavbuffer(const STRING& name) {
 }
 
 void Buffer::add_reference(Source* source) {
+  USE_PARAM(source);
   ++reference_count_;
 }
 
 void Buffer::reduce_reference(Source* source) {
+  USE_PARAM(source);
   --reference_count_;
 }
 

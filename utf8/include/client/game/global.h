@@ -22,6 +22,7 @@ extern vengine_game::WorldSystem* g_worldsystem;
 extern vengine_game::EventSystem* g_eventsystem;
 extern vengine_resource::Provider* g_resourceprovider;
 extern vengine_db::System* g_dbsystem;
+extern vengine_time::System* g_timesystem;
 extern vengine_kernel::Base g_root_kernel; //区分vgui中的核心
 extern HWND g_mainwindow_handle;
 extern HINSTANCE g_instance_handle;

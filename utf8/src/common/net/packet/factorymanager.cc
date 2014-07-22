@@ -2,11 +2,19 @@
 #include "common/net/packet/base.h"
 #include "server/common/game/define/all.h"
 
+#ifndef _PAP_NET_CLIENT
 #include "server/common/net/packets/serverserver/connect.h"
+#endif
 
 #if defined(_PAP_NET_BILLING) || defined(_PAP_NET_LOGIN) /* { */
 #include "server/common/net/packets/login_tobilling/askauth.h"
 #include "server/common/net/packets/billing_tologin/resultauth.h"
+#endif /* } */
+
+#if defined(_PAP_NET_LOGIN) || defined(_PAP_NET_CLIENT) /* { */
+#include "common/net/packets/client_tologin/connect.h"
+#include "common/net/packets/client_tologin/asklogin.h"
+#include "common/net/packets/client_toserver/heartbeat.h"
 #endif /* } */
 
 pap_common_net::packet::FactoryManager* g_packetfactory_manager = NULL;
@@ -20,7 +28,9 @@ FactoryManager::FactoryManager() {
     using namespace pap_server_common_game::define::id::packet; //every need it
     factories_ = NULL;
     size_ = 0;
+#ifndef _PAP_NET_CLIENT
     size_ = serverserver::kLast - serverserver::kFirst; //common for server
+#endif
 #if defined(_PAP_NET_BILLING) || defined(_PAP_NET_LOGIN)
     size_ += billinglogin::kLast - billinglogin::kFirst - 1;
     size_ += billing_tologin::kLast - billing_tologin::kFirst - 1;
@@ -152,6 +162,7 @@ void FactoryManager::addfactories_for_billinglogin() {
 
 void FactoryManager::addfactories_for_clientlogin() {
 #if defined(_PAP_NET_LOGIN) || defined(_PAP_NET_CLIENT)
+  
 
 #endif
 }
@@ -176,8 +187,10 @@ void FactoryManager::addfactories_for_clientserver() {
 
 void FactoryManager::addfactories_for_serverserver() {
   __ENTER_FUNCTION
+#ifndef _PAP_NET_CLIENT
     using namespace pap_server_common_net::packets;
     addfactory(new serverserver::ConnectFactory());
+#endif
   __LEAVE_FUNCTION
 }
 

@@ -8,7 +8,7 @@ namespace event {
 using namespace vengine_game::event_id; //using in source, not redefined 
 
 //具体说明查看ID定义
-eventdefine_t g_eventdefine[] = {
+vengine_game::eventdefine_t g_eventdefine[] = {
   {kApplicationInit, "ApplicationInit"},
   {kSceneCutover, "SceneCutover"},
   {kLoginShowSystemInfoAndCloseNet, "LoginShowSystemInfoAndCloseNet"},
@@ -71,7 +71,7 @@ void System::tick() {
 
 void System::push(const vengine_game::event_t& event) {
   if (!event.eventdefine) return;
-  if (event.eventdefine.delayprocess) { //慢速处理队列
+  if (event.eventdefine->delayprocess) { //慢速处理队列
     delayquene_.push_back(event);
   }
   else {
@@ -184,6 +184,19 @@ void System::push(_enum id,
   event.args.push_back(temp);
   snprintf(temp, sizeof(temp) - 1, "%d", arg3);
   event.args.push_back(temp);
+  push(event);
+}
+
+void System::push(_enum id, 
+                  const char* arg0, 
+                  const char* arg1, 
+                  const char* arg2) {
+  if (index_asid_map_.find(id) == index_asid_map_.end()) return;
+  vengine_game::event_t event;
+  event.eventdefine = index_asid_map_[id];
+  event.args.push_back(arg0);
+  event.args.push_back(arg1);
+  event.args.push_back(arg2);
   push(event);
 }
 
@@ -303,7 +316,7 @@ void System::registerhandle(const STRING& name,
                             vengine_game::function_eventhandle handle,
                             uint32_t ownerdata) {
   if (!handle) return;
-  vengine_game::eventdefine_t eventdefine = index_asname_map_[name];
+  vengine_game::eventdefine_t* eventdefine = index_asname_map_[name];
   if (!eventdefine) return;
   eventdefine->listenfunction_notify.push_back(
       std::make_pair(handle, ownerdata));
@@ -319,7 +332,7 @@ void System::processall() {
     if (step_tickcount > kWorkStep) {
       last_tickcount_ = now_tickcount;
       const vengine_game::event_t& event = *(delayquene_.begin());
-      processevent(event);
+      process(event);
       delayquene_.erase(delayquene_.begin());
     }
   }
@@ -338,12 +351,12 @@ void System::processall() {
       }
     } //for loop
     if (multipushed) continue;
-    processevent(event);
+    process(event);
   } //for loop
   queue_.clear(); //普通队列一帧内处理完
 }
 
-void System::processevent(const vengine_game::event_t& event) {
+void System::process(const vengine_game::event_t& event) {
   vengine_game::eventdefine_t* eventdefine = event.eventdefine;
   if (!eventdefine) return;
   if (!eventdefine->listenfunction_notify.empty()) {
@@ -362,7 +375,7 @@ void System::unregisterhandle(const STRING& name,
                             vengine_game::function_eventhandle handle,
                             uint32_t ownerdata) {
   if (!handle) return;
-  vengine_game::eventdefine_t eventdefine = index_asname_map_[name];
+  vengine_game::eventdefine_t* eventdefine = index_asname_map_[name];
   if (!eventdefine) return;
   eventdefine->listenfunction_notify.remove(
       std::make_pair(handle, ownerdata));

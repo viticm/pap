@@ -13,7 +13,7 @@ namespace sound {
 Source::Source(int32_t id, type_enum type, bool is_3dmode) {
   id_ = id;
   sample_ = NULL;
-  status = kStatusStoped;
+  status_ = kStatusStoped;
   loop_ = false;
   is_3dmode_ = is_3dmode;
   alpha_ = 0.0f;
@@ -56,7 +56,7 @@ void Source::setlooping(bool flag) {
 
 void Source::play() {
   stop();
-  if (sample_ && Source::getself()->is_typeenable(gettype())) {
+  if (sample_ && System::getself()->is_typeenable(gettype())) {
     Buffer* buffer = dynamic_cast<Buffer*>(sample_);
     status_ = kStatusPlaying;
     if (buffer->FMod_sample_) {
@@ -91,9 +91,9 @@ bool Source::isstoped() const {
   return kStatusSilencing == status_ || kStatusStoped == status_;
 }
 
-void Source::setposition(vengine_math::base::threefloat_vector_t& position) {
+void Source::setposition(const vengine_math::base::threefloat_vector_t& position) {
   position_ = position;
-  if (is_3dmode) {
+  if (is_3dmode_) {
     updatevolume();
   }
 }
@@ -171,7 +171,7 @@ int32_t Source::getid() const {
   return id_;
 }
 
-int32_t Source::islooping() const {
+bool Source::islooping() const {
   return loop_;
 }
 
@@ -179,7 +179,7 @@ const vengine_math::base::threefloat_vector_t& Source::getposition() {
   return position_;
 }
 
-Source::type_enum Source::gettype() {
+Source::type_enum Source::gettype() const {
   return type_;
 }
 

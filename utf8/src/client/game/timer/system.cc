@@ -2,7 +2,7 @@
 
 namespace timer {
 
-VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
+VENGINE_KERNEL_IMPLEMENT_VIRTUAL_DYNAMIC(
     System,
     VENGINE_KERNEL_GETCLASS(vengine_kernel::Node));
 

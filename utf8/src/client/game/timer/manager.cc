@@ -22,6 +22,14 @@ Manager::~Manager() {
   clear();
 }
 
+void Manager::init(void* pointer) {
+  //do nothing
+}
+
+Manager* Manager::getself() {
+  return self_;
+}
+
 int32_t Manager::add(timer_function function, uint32_t elapse) {
   uint32_t id = static_cast<uint32_t>(
       ::SetTimer(NULL,(UINT_PTR)0, elapse, function));
@@ -38,7 +46,7 @@ int32_t Manager::add(const STRING& environment,
                      const STRING& function,
                      uint32_t elapse) {
   uint32_t id = static_cast<uint32_t>(
-      ::SetTimer(NULL,(UINT_PTR)0, elapse, function));
+    ::SetTimer(NULL,(UINT_PTR)0, elapse, Manager::default_eventfunction));
   AssertEx(id > 0, "timer::Manager::add: ::SetTimer failed!");
   if (0 == id) return id;
   param2_t param;
@@ -75,7 +83,7 @@ void Manager::remove(timer_function function) {
 }
 
 void Manager::remove(const STRING& function) {
-  param2_iterator iterator1;
+  param2_iterator iterator2;
   for (iterator2 = map2_.begin();
        iterator2 != map2_.end();
        ++iterator2) {
@@ -89,25 +97,25 @@ void Manager::remove(const STRING& function) {
 void Manager::get_scriptenvironment(uint32_t id, 
                                     STRING& environment, 
                                     STRING& script) {
-  param2_iterator iterator1;
+  param2_iterator iterator2;
   for (iterator2 = map2_.begin();
        iterator2 != map2_.end();
        ++iterator2) {
     if (iterator2->first == id) {
-      environment = (*iterator2).environment;
-      script = (*iterator2).function;
+      environment = iterator2->second.environment;
+      script = iterator2->second.function;
       return;
     }
   }
 }
 
 void __stdcall Manager::default_eventfunction(HWND, 
-                                              uint32_t, 
-                                              uint32_t id, 
-                                              uint64_t) {
+                                              UINT, 
+                                              UINT id, 
+                                              DWORD) {
   if (Manager::getself()) {
     STRING environment, script;
-    System::getself()->get_scriptenvironment(id, environment, script);
+    Manager::getself()->get_scriptenvironment(id, environment, script);
     if (environment != "" && script != "") {
       environment += "_Env";
       try {
@@ -117,7 +125,7 @@ void __stdcall Manager::default_eventfunction(HWND,
         //设定环境
         script::System::getself()->set_activeenvironment(environment.c_str());
         //执行函数
-        script::System::getself()->executestring(script.c_str());
+        script::System::getself()->get_luastate()->DoString(script.c_str());
         //恢复环境
         if (!oldenvironment.empty()) {
           script::System::getself()->set_activeenvironment(
@@ -126,7 +134,8 @@ void __stdcall Manager::default_eventfunction(HWND,
       }
       catch(...) {
         STRING str = "执行环境:"+environment+",函数:"+script;
-        MessageBox(NULL, str.c_str(), "定时器使用错误", MB_ICONSTOP | MB_OK);
+        throw str;
+        //MessageBox(NULL, str.c_str(), "定时器使用错误" ,MB_ICONSTOP|MB_OK);
       }
     }
   }

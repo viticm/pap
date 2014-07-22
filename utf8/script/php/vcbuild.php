@@ -88,6 +88,7 @@ $g_scriptdirs = array(
   "login src/server/login/scripts",
   "world src/server/world/scripts",
   "server src/server/server/scripts",
+  "client src/client/scripts",
   
   "vnet lib/common/vnet/scripts",
   "vengine lib/client/vengine/scripts",

@@ -82,11 +82,11 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
        vengine_sound::Source** reference);
    virtual void destroysource(vengine_sound::Source* source);
    virtual void destroysource(int32_t id);
-   virtual void play_UIsound(int32_t id);
+   virtual void play_UIsound(int32_t id) {};
 
    //收听者
    virtual void set_listenerposition(
-       vengine_math::base::threefloat_vector_t& position);
+     vengine_math::base::threefloat_vector_t& position) {};
    virtual vengine_math::base::threefloat_vector_t& 
      get_listenerposition();
    
@@ -119,7 +119,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    bool muteall_; //全部静音
    struct buffer_t {
      const vengine_db::structs::sound::info_t* define;
-     Buffer* buffer;
+     vengine_sound::Buffer* buffer;
    };
    std::list<buffer_t> bufferlist_; //资源列表
    std::map<int32_t, buffer_t*> idmap_; //以ID作为索引
@@ -142,7 +142,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    void _play_uisound_function(int32_t id);
    void muteall(bool mute);
    void stopspecial(vengine_sound::Source::type_enum type);
-   vengine_sound::Source* sourceload(buffer_t& buffer);
+   vengine_sound::Buffer* sourceload(buffer_t& buffer);
 
 };
 

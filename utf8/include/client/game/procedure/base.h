@@ -14,6 +14,7 @@
 
 #include "vengine/classes.h"
 #include "vengine/ui/system.h"
+#include "vengine/input/system.h"
 
 //all use classes
 namespace procedure {
@@ -72,7 +73,7 @@ class Base {
 
  public:
    static void init_staticmember(); //静态成员初始化
-   static void setactive();
+   static void setactive(Base* active);
    static void tickactive();
    static void processevent(); //事件处理
    static void process_activeinput(); //键盘事件和鼠标事件的处理
@@ -118,11 +119,11 @@ class Base {
    static float FPS_; //帧率
    static MMRESULT eventtimer_; //系统驱动事件（windows)
    static HANDLE tickevent_; //tick通知事件
-   static void CALLBACK eventtimer(uint32_t timeid, 
-                                   uint32_t message,
-                                   uint64_t user,
-                                   uint64_t param1,
-                                   uint64_t param2); //系统Tick驱动函数
+   static VOID CALLBACK eventtimer(UINT timeid, 
+                                   UINT message,
+                                   DWORD user,
+                                   DWORD param1,
+                                   DWORD param2); //系统Tick驱动函数
    static HANDLE renderevent_; //渲染事件
    
  private:

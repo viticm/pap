@@ -19,7 +19,7 @@ namespace sound {
 class Source : public vengine_sound::Source {
 
  public: //implement from abstract
-   virtual int32_t getid();
+   virtual int32_t getid() const;
    //播放中不立即生效，需要stop后重新play
    virtual void setbuffer(vengine_sound::Buffer* buffer);
    virtual vengine_sound::Buffer* getbuffer();
@@ -65,6 +65,8 @@ class Source : public vengine_sound::Source {
    double alpha_;
    vengine_math::base::threefloat_vector_t position_;
    type_enum type_;
+
+   friend class System;
 
 };
 

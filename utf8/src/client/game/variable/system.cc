@@ -28,7 +28,9 @@ int32_t convertsection_invector(const char* sectionstr,
 
 System* System::self_ = NULL;
 
-VENGINE_KERNEL_IMPLEMENT_DYNAMIC(System);
+VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
+  System,
+  VENGINE_KERNEL_GETCLASS(vengine_variable::System));
 
 System::System() {
   self_ = this;
@@ -37,10 +39,6 @@ System::System() {
 
 System::~System() {
   SAFE_DELETE(metatable_);
-}
-
-System* System::getself() {
-  return self_;
 }
 
 void System::load(const char* filename, variablemap& buffer) {
@@ -53,7 +51,7 @@ void System::load(const char* filename, variablemap& buffer) {
                                    FILE_ATTRIBUTE_NORMAL,
                                    NULL);
   if (INVALID_HANDLE_VALUE == filehandle) return;
-  uint64_t high;
+  DWORD high;
   uint64_t filesize = ::GetFileSize(filehandle, &high);
   ::CloseHandle(filehandle); filehandle = NULL;
   if (0 == filesize) return;
@@ -136,19 +134,19 @@ void System::setvariable(const char* name,
 void System::setfloat(const char* name, float value, bool temp) {
   char _temp[33] = {0};
   snprintf(_temp, sizeof(_temp) - 1, "%f", value);
-  setvariable(name, value, temp);
+  setvariable(name, _temp);
 }
 
 void System::setint32(const char* name, int32_t value, bool temp) {
   char _temp[33] = {0};
   snprintf(_temp, sizeof(_temp) - 1, "%d", value);
-  setvariable(name, value, temp);
+  setvariable(name, _temp);
 }
 
 void System::setuint32(const char* name, uint32_t value, bool temp) {
   char _temp[33] = {0};
   snprintf(_temp, sizeof(_temp) - 1, "%u", value);
-  setvariable(name, value, temp);
+  setvariable(name, _temp);
 }
 
 void System::set_twofloat_vector(const char* name, 
@@ -157,11 +155,11 @@ void System::set_twofloat_vector(const char* name,
                                  bool temp) {
   char _temp[64] = {0};
   snprintf(_temp, sizeof(_temp) - 1, "%f, %f", x, y);
-  setvariable(name, value, temp);
+  setvariable(name, _temp);
 }
 
 void System::setvariable_delay(const char* name, const char* value) {
-  needsave_map_[name] = value;
+  needsave_map_[name].value = value;
 }
 
 void System::init(void*) {
@@ -176,8 +174,8 @@ void System::init(void*) {
                 ->get_luastate()
                 ->GetGlobals().CreateTable("Variable");
   metatable_->SetObject("__index", *metatable_);
-  metatable_->RegisterObjectFunctor("GetVariable", &System::lua_getglobal);
-  metatable_->RegisterObjectFunctor("SetVariable", &System::lua_setglobal);
+  metatable_->RegisterObjectFunctor("GetVariable", &System::lua_getglobal_value);
+  metatable_->RegisterObjectFunctor("SetVariable", &System::lua_setglobal_value);
   LuaPlus::LuaObject variableobject = script::System::getself()
                                       ->get_luastate()
                                       ->BoxPointer(this);
@@ -290,7 +288,7 @@ int32_t System::getint32(const char* name, bool* have) {
     return result;
   }
   if (have) *have = true;
-  result = atoi(find_iterator->second.value);
+  result = atoi((find_iterator->second.value).c_str());
   return result;
 }
 
@@ -302,7 +300,7 @@ uint32_t System::getuint32(const char* name, bool* have) {
     return result;
   }
   if (have) *have = true;
-  sscanf(find_iterator->second.value, "%d", &result);
+  sscanf(find_iterator->second.value.c_str(), "%d", &result);
   return result;
 }
 
@@ -314,7 +312,7 @@ float System::getfloat(const char* name, bool* have) {
     return result;
   }
   if (have) *have = true;
-  result = atof(find_iterator->second.value);
+  result = atof(find_iterator->second.value.c_str());
   return result;
 }
 
@@ -328,7 +326,7 @@ vengine_math::base::twofloat_vector_t System::get_twofloat_vector(
     return result;
   }
   char temp[64] = {0};
-  strncpy (temp, find_iterator->second.value, sizeof(temp) - 1);
+  strncpy (temp, find_iterator->second.value.c_str(), sizeof(temp) - 1);
   char* position = strchr(temp, ',');
   if (!position) return result;
   *position = '\0'; //截断
@@ -338,7 +336,7 @@ vengine_math::base::twofloat_vector_t System::get_twofloat_vector(
   return result;
 }
 
-int32_t System::lua_setglobal(LuaPlus::LuaState* luastate) {
+int32_t System::lua_setglobal_value(LuaPlus::LuaState* luastate) {
   LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString() || !args[3].IsString() || !args[4].IsInteger()) {
     VENGINE_SHOW("variable::System::lua_setglobal: param error!");
@@ -358,7 +356,7 @@ int32_t System::lua_setglobal(LuaPlus::LuaState* luastate) {
   return 0;
 }
 
-int32_t System::lua_getglobal(LuaPlus::LuaState* luastate) {
+int32_t System::lua_getglobal_value(LuaPlus::LuaState* luastate) {
   LuaPlus::LuaStack args(luastate);
   if (!args[2].IsString()) {
     luastate->PushNil();
@@ -429,7 +427,7 @@ void System::getvariable_infile(const char* filename,
            "../accounts/%s/%s.cfg", 
            deststr.c_str(), 
            deststr.c_str());
-  GetPrivateProfileString(title, key, "", value, size, temp);
+  GetPrivateProfileString(title, key, "", save, size, temp);
 }
 
 void System::setvariable_infile(const char* filename,
@@ -475,20 +473,20 @@ void System::convert_oldsaving_cfg(const STRING& account) {
   STRING sourcedir = temp;
   snprintf(temp, sizeof(temp) - 1, dirfromat.c_str(), accountencrypt.c_str());
   STRING destinationdir = temp;
-  ::MoveFile(sourcedir, destinationdir); //重命名
+  ::MoveFile(sourcedir.c_str(), destinationdir.c_str()); //重命名
   snprintf(temp, 
            sizeof(temp) - 1, 
-           filefromat.c_str(), 
+           fileformat.c_str(), 
            account.c_str(), 
            account.c_str());
   STRING sourcefile = temp;
   snprintf(temp, 
            sizeof(temp) - 1, 
-           filefromat.c_str(), 
+           fileformat.c_str(), 
            accountencrypt.c_str(), 
            accountencrypt.c_str());
   STRING destinationfile = temp;
-  ::MoveFile(sourcefile, destinationfile);
+  ::MoveFile(sourcefile.c_str(), destinationfile.c_str());
 }
 
 void System::convert_oldsaving_pfc(const STRING& account, 
@@ -502,22 +500,22 @@ void System::convert_oldsaving_pfc(const STRING& account,
   STRING sourcedir = temp;
   snprintf(temp, sizeof(temp) - 1, dirfromat.c_str(), accountencrypt.c_str());
   STRING destinationdir = temp;
-  ::MoveFile(sourcedir, destinationdir); //重命名
+  ::MoveFile(sourcedir.c_str(), destinationdir.c_str()); //重命名
   STRING characterencrypt = "";
   stringencrypt(character, characterencrypt);
   snprintf(temp, 
            sizeof(temp) - 1, 
-           filefromat.c_str(), 
+           fileformat.c_str(), 
            account.c_str(), 
            character.c_str());
   STRING sourcefile = temp;
   snprintf(temp, 
            sizeof(temp) - 1, 
-           filefromat.c_str(), 
+           fileformat.c_str(), 
            accountencrypt.c_str(), 
            characterencrypt.c_str());
   STRING destinationfile = temp;
-  ::MoveFile(sourcefile, destinationfile);
+  ::MoveFile(sourcefile.c_str(), destinationfile.c_str());
 }
 
 int32_t convertsection_invector(const char* sectionstr, 

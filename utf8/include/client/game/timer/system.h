@@ -20,7 +20,7 @@ class LuaObject;
 
 namespace timer {
 
-typedef void (__stdcall* timer_function)(HWND, uint32_t, uint32_t, uint64_t);
+typedef void (__stdcall* timer_function)(HWND, UINT, UINT, DWORD);
 
 class System : public vengine_kernel::Node {
 

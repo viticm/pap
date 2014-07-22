@@ -1,8 +1,11 @@
+#include "vengine/db/struct/all.h"
 #include "client/game/database/system.h"
 
 namespace database {
 
-VENGINE_KERNEL_IMPLEMENT_DYNAMIC(System);
+VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
+  System,
+  VENGINE_KERNEL_GETCLASS(vengine_db::System));
 
 System* System::self_ = NULL;
 

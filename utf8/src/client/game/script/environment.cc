@@ -1,5 +1,7 @@
 #include "LuaPlus.h"
+#include "vengine/resource/provider.h"
 #include "vengine/exception/base.h"
+#include "client/game/global.h"
 #include "client/game/procedure/base.h"
 #include "client/game/script/system.h"
 #include "client/game/script/environment.h"
@@ -21,12 +23,12 @@ Environment::~Environment() {
   //do nothing
 }
 
-void Environment::executescript(const char* filename) {
+int32_t Environment::executescript(const char* filename) {
   char* address = NULL;
   uint64_t size = procedure::Base::resourceprovider_->loadresource(
       filename, address, "General");
   if (size > 0) {
-    int32_t result = System::getself()->executestring(address);
+    int32_t result = System::getself()->get_luastate()->DoString(address);
     procedure::Base::resourceprovider_->unloadresource(address, size);
     return result;
   }

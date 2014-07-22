@@ -51,7 +51,7 @@ uint64_t Provider::loadresource(const char* filename,
   return 0;
 }
 
-bool Provider::unloadresource(const char* memoryaddress, uint64_t size) {
+bool Provider::unloadresource(char* memoryaddress, uint64_t size) {
   SAFE_DELETE_ARRAY(memoryaddress);
   return true;
 }

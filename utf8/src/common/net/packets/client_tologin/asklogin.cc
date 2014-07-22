@@ -1,5 +1,5 @@
 #include "common/net/packets/client_tologin/asklogin.h"
-#include "server/common/net/connection.h"
+#include "server/common/net/connection/base.h"
 namespace pap_common_net {
 
 namespace packets {
@@ -51,7 +51,7 @@ bool AskLogin::write(socket::OutputStream& outputstream) const {
     return false;
 }
 
-uint32_t AskLogin::execute(connection::Base* connection) {
+uint32_t AskLogin::execute(pap_server_common_net::connection::Base* connection) {
   __ENTER_FUNCTION
     uint32_t result = 0;
     result = AskLoginHandler::execute(this, connection);
@@ -113,7 +113,7 @@ void AskLogin::get_all_mibao_value(int32_t index,
 }
 void AskLogin::set_all_mibao_value(int32_t index, const char* value) {
   __ENTER_FUNCTION
-    strncpy(all_mibao_value_[index], value, sizeof(all_mibao_value_[i]) - 1);
+    strncpy(all_mibao_value_[index], value, sizeof(all_mibao_value_[index]) - 1);
     all_mibao_value_[index][sizeof(all_mibao_value_[index])] = 0;
   __LEAVE_FUNCTION
 }
@@ -145,7 +145,7 @@ uint32_t AskLoginFactory::get_packet_maxsize() const {
   uint32_t result = sizeof(char) * ACCOUNTLENGTH_MAX +
                     sizeof(char) * MD5SIZE_MAX +
                     sizeof(uint32_t) +
-                    sizeof(char) * pap_common_game::define::size::mibao::kUnitNumber][pap_common_game::define::size::mibao::kUnitValueLength +
+                    sizeof(char) * pap_common_game::define::size::mibao::kUnitNumber * pap_common_game::define::size::mibao::kUnitValueLength +
                     sizeof(char) * MD5SIZE_MAX;
   return result;
 }

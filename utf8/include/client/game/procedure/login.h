@@ -64,40 +64,40 @@ class Login : public Base {
 
  public:   
    int32_t auto_selectserver(int32_t provide);
-   int32_t build_autoselect_table(); //构造自动选择login server需要的数据表
+   int32_t build_autoselect_table() {} //构造自动选择login server需要的数据表
    int32_t open_accountinput(); //打开账号输入界面
    int32_t open_selectcharacter(); //打开选择角色界面
    int32_t change_to_selectcharacter(); //切换到选择角色界面
-   int32_t send_connectmessage(); //发送同步消息
+   int32_t send_connectmessage() {}; //发送同步消息
    int32_t checkaccount(const char* username, const char* password);
    int32_t send_checnaccount_message();
 
  public:
-   status_enum getstatus();
-   void setstatus(status_enum status);
+   status_enum getstatus() { return status_; }
+   void setstatus(status_enum status) { status_ = status; }
    void set_relogin(bool flag);
    void firstlogin();
    void changescene();
    void set_serverip(const char* ip);
    void set_serverport(uint16_t port);
-   virtual void processinput(); //处理输入
-   int32_t load_serverinfo(STRING configfile = "../patch/serverlist.txt");
+   virtual void processinput() {}; //处理输入
+   int32_t load_serverinfo(STRING configfile = "../patch/serverlist.txt") {};
    int32_t read_areainfo(); //读取区域信息
    int32_t read_serverinfo(); //读取服务器信息
    void init_areainfo(); //初始化区域信息
    int32_t get_areacount(); //获取区域数量
    const char* get_areaname(int32_t index);
    areainfo_t* get_areainfo(int32_t index);
-   uint16_t get_area_servercount(int32_t index);
+   uint16_t get_area_servercount(int32_t index) { return 1; };
    loginserver_info_t* get_area_serverinfo(int32_t areaindex, 
                                            int32_t serverindex);
    int32_t connect_toserver(int32_t areaindex, int32_t serverindex);
    int32_t connect_toserver();
    int32_t get_gameversion();
-   int32_t selectserver(int32_t areaindex, int32_t serverindex);
+   int32_t selectserver(int32_t areaindex, int32_t serverindex) { return 0; }
    void get_lastarea_andserver_index(int32_t area, 
                                      int32_t server, 
-                                     STRING& name);
+                                     STRING& name) {};
    void get_last_serverid();
    void select_oldserver();
 
@@ -111,8 +111,8 @@ class Login : public Base {
  protected:
    virtual void init();
    virtual void tick();
-   virtual void render();
-   virtual void release();
+   virtual void render() {};
+   virtual void release() {};
 
 };
 

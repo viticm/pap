@@ -11,7 +11,7 @@
 #ifndef PAP_CLIENT_GAME_NET_MANAGER_H_
 #define PAP_CLIENT_GAME_NET_MANAGER_H_
 
-#include <winsock2.h>
+//#include <winsock2.h>
 
 #include "vengine/kernel/node.h"
 
@@ -38,7 +38,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
    void connect(const char* ip, uint16_t port);
    void sendpacket(pap_common_net::packet::Base* packet);
    void close();
-   void processinput(pap_common_net::socket::InputStream inputstream);
+   void processinput(pap_common_net::socket::InputStream& inputstream);
    pap_common_net::packet::FactoryManager get_packet_factorymanager();
 
  public:
@@ -51,6 +51,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
      kStatusConnectSuccess = 0,
      kStatusCreateSocketError,
      kStatusConnectError,
+     kStatusConnectFailed,
      kStatusConnectTimeOut,
    };
    //流程 ~
@@ -61,20 +62,21 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
    void tick_createcharacter_procedure();
    void tick_enterprocedure();
    //网络状态设置
-   void setstatus(netmanager_status_enum status);
-   void set_loginstatus(netmanager_status_enum status);
-   void set_mainstatus(netmanager_status_enum status);
+   void setstatus(status_enum status);
+   void set_loginstatus(status_enum status);
+   void set_mainstatus(status_enum status);
 
  protected:
    //连接服务器专用线程
    static uint32_t CALLBACK connectthread_forserver(LPVOID param);
    int32_t connectthread();
    //连接线程句柄
-   HADLE connectthread_handle_;
+   HANDLE connectthread_handle_;
    uint32_t beginconnect_time_; //开始连接时间
    static Manager* self_;
-   STRING ip_;
-   uint16_t port_;
+   STRING serverip_;
+   uint16_t serverport_;
+   status_enum status_;
 
  private:
    fd_set readfd_;
@@ -93,7 +95,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
    bool processinput();
    bool processoutput();
    bool processexcept();
-   bool processcommand();
+   void processcommand();
 
    uint32_t executepacket_cppexception(pap_common_net::packet::Base* packet);
    uint32_t executepacket_genexception(pap_common_net::packet::Base* packet);

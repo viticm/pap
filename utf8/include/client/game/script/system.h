@@ -36,11 +36,11 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(System);
    virtual vengine_script::Environment* getenvironment(const char* name);
 
  public:
-   STRING get_activeenvironment() const; 
+   STRING get_activeenvironment() const { return environmentname_;}; 
    void set_activeenvironment(const char* name);
-   bool isenable_luacrash() const;
+   bool isenable_luacrash() const {  return enable_luacrash_; };
    const STRING& get_questfile(int32_t id);
-   LuaPlus::LuaState* _get_luastate();
+   static LuaPlus::LuaState* _get_luastate();
 
  public:
    virtual void init(void*);

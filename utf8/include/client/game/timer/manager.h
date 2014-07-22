@@ -64,7 +64,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
    static Manager* self_;
    //默认的事件处理函数
    static void __stdcall default_eventfunction(
-       HWND, uint32_t, uint32_t, uint64_t);
+       HWND, UINT, UINT, DWORD);
 
 };
 

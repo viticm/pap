@@ -6,6 +6,8 @@
 #include "procedure/base.h"
 #include "client/game/database/file.h"
 
+#pragma warning(disable : 4996)
+
 namespace database {
 
 File::File(int32_t id) {
@@ -16,31 +18,31 @@ File::~File() {
   SAFE_DELETE(filedb_);
 }
 const File::field_data* File::search_index_equal(int32_t index) const {
-  field_data* data = filedb_->search_index_equal(index);
+  field_data* data = (field_data*)filedb_->search_index_equal(index);
   return data;
 }
 
 const File::field_data* File::search_line_equal(int32_t line) const {
-  field_data* data = filedb_->search_line_equal(line);
+  field_data* data = (field_data*)filedb_->search_position(line, 0);
   return data;
 }
 
 const File::field_data* File::search_position(int32_t line, 
                                               int32_t column) const {
-  field_data* data = filedb_->search_position(line, column);
+  field_data* data = (field_data*)filedb_->search_position(line, column);
   return data;
 }
 
 const File::field_data* File::search_first_column_equal(
     int32_t column, 
     const field_data &value) const {
-  field_data* data = filedb_->search_first_column_equal(column, 
-                                                        value.int_value);
+  field_data* data = 
+    (field_data*)filedb_->search_first_column_equal(column, value.int_value);
   return data;
 }
 
-int32_t File::getid() const {
-  int32_t id = filedb_->getid();
+int32_t File::get_id() const {
+  int32_t id = filedb_->get_id();
   return id;
 }
 
@@ -58,21 +60,21 @@ bool File::open_fromtxt(const char* filename,
                         pap_common_file::Database* filedb) {
   VENGINE_ASSERT(filename && filedb);
   bool result = false;
-  STRING filename = "../../public/config/";
-  filename += filename;
-  if (::PathFileExists(filename)) {
-    result = filedb->open_from_txt(filename.c_str());
+  STRING _filename = "../../public/config/";
+  _filename += filename;
+  if (::PathFileExists(_filename.c_str())) {
+    result = filedb->open_from_txt(_filename.c_str());
     return result;
   }
-  filename = "../data/config/";
-  filename += filename;
-  if (::PathFileExists(filename)) {
-    result = filedb->open_from_txt(filename.c_str());
+  _filename = "../data/config/";
+  _filename += filename;
+  if (::PathFileExists(_filename.c_str())) {
+    result = filedb->open_from_txt(_filename.c_str());
     return result;
   }
   char* address = NULL;
   uint64_t size = procedure::Base::resourceprovider_->loadresource(
-      filename,
+      _filename.c_str(),
       address,
       "General");
   if (size > 0) {
@@ -83,7 +85,7 @@ bool File::open_fromtxt(const char* filename,
 }
 
 bool File::open_fromtxt(const char* filename) {
-  open_fromtxt(filename, filedb_);
+  return open_fromtxt(filename, filedb_);
 }
 
 bool File::get_splitdata(const char* data, uint32_t count, char* out) {
@@ -121,7 +123,7 @@ int32_t File::get_charposition(const char* str,
   for (i = 0; i < size; ++i) {
     if (_char == str[i]) {
       ++number;
-      if (number >= count) return i;
+      if ((uint32_t)number >= count) return i;
     }
   }
   return -1;

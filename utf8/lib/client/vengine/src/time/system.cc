@@ -85,4 +85,8 @@ float System::get_lastframe_time() const {
   return lastframe_time_;
 }
 
+uint32_t System::get_tickcount() const {
+  return tickcount_;
+}
+
 } //namespace vengine_time

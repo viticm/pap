@@ -74,12 +74,14 @@ bool Base::processinput() {
         socket_inputstream_->getsocket()->getlast_errormessage(
             errormessage, 
             static_cast<uint16_t>(sizeof(errormessage) - 1));
+#ifndef _PAP_CLIENT
         Log::save_log(g_kModelName,
                       "[net](%d) connection::Base::processinput()"
                       " socket_inputstream_->fill() result: %d %s",
                       g_time_manager->tm_todword(), 
                       fillresult,
                       errormessage);
+#endif
         result = false;
       }
       else {
@@ -87,7 +89,9 @@ bool Base::processinput() {
       }
     }
     catch(...) {
+#ifndef _PAP_CLIENT
       SaveErrorLog();
+#endif
     }
     return result;
   __LEAVE_FUNCTION
@@ -109,12 +113,14 @@ bool Base::processoutput() {
         socket_inputstream_->getsocket()->getlast_errormessage(
             errormessage, 
             static_cast<uint16_t>(sizeof(errormessage) - 1));
+#ifndef _PAP_CLIENT
         Log::save_log(g_kModelName,
                       "[net](%d) Base::processoutput()"
                       " socket_outputstream_->flush() result: %d %s",
                       g_time_manager->tm_todword(), 
                       flushresult,
                       errormessage);
+#endif
         result = false;
       }
       else {
@@ -122,7 +128,9 @@ bool Base::processoutput() {
       }
     }
     catch(...) {
+#ifndef _PAP_CLIENT
       SaveErrorLog();
+#endif
     }
     return result;
   __LEAVE_FUNCTION
@@ -193,7 +201,9 @@ bool Base::processcommand(bool option) {
               executestatus = packet->execute(this);
             }
             catch(...) {
+#ifndef _PAP_CLIENT
               SaveErrorLog();
+#endif
               executestatus = kPacketExecuteStatusError;
             }
             if (kPacketExecuteStatusError == executestatus) {
@@ -218,7 +228,9 @@ bool Base::processcommand(bool option) {
             }
           }
           catch(...) {
+#ifndef _PAP_CLIENT
             SaveErrorLog();
+#endif
             exception = true;
           }
           if (packet && needremove) 
@@ -226,13 +238,17 @@ bool Base::processcommand(bool option) {
           if (exception) return false;
         }
         catch(...) {
+#ifndef _PAP_CLIENT
           SaveErrorLog();
+#endif
           return false;
         }
       }
     }
     catch(...) {
+#ifndef _PAP_CLIENT
       SaveErrorLog();
+#endif
       return false;
     }
     return true;

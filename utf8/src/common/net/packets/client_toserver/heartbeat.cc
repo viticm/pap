@@ -1,5 +1,5 @@
 #include "common/net/packets/client_toserver/heartbeat.h"
-#include "server/common/net/connection.h"
+#include "server/common/net/connection/base.h"
 namespace pap_common_net {
 
 namespace packets {
@@ -25,7 +25,7 @@ bool HeartBeat::write(socket::OutputStream& outputstream) const {
     return false;
 }
 
-uint32_t HeartBeat::execute(connection::Base* connection) {
+uint32_t HeartBeat::execute(pap_server_common_net::connection::Base* connection) {
   __ENTER_FUNCTION
     uint32_t result = 0;
     result = HeartBeatHandler::execute(this, connection);
@@ -40,7 +40,8 @@ uint16_t HeartBeat::getid() const {
 }
 
 uint32_t HeartBeat::getsize() const {
-  uint32_t result =   return result;
+  uint32_t result = 0;
+  return result;
 }
 
 
@@ -57,7 +58,8 @@ uint16_t HeartBeatFactory::get_packetid() const {
 }
 
 uint32_t HeartBeatFactory::get_packet_maxsize() const {
-  uint32_t result =   return result;
+  uint32_t result = 0;
+  return result;
 }
 
 } //namespace client_toserver

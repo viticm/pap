@@ -18,6 +18,7 @@ namespace client_tologin {
 enum packetid_enum {
   kFirst = CLIENT_TOLOGIN_PACKETID_MIN,
   kConnect,
+  kAskLogin,
   kLast,
   kMax = CLIENT_TOLOGIN_PACKETID_MAX,
 };

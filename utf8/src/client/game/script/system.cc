@@ -1,5 +1,9 @@
 #include "LuaPlus.h"
-#include "clien/game/global.h"
+#include "vengine/variable/system.h"
+#include "vengine/time/system.h"
+#include "vengine/resource/provider.h"
+#include "common/file/database.h"
+#include "client/game/global.h"
 #include "client/game/procedure/base.h"
 #include "client/game/script/system.h"
 
@@ -15,6 +19,10 @@ System* System::self_ = NULL;
 
 System::System() {
   self_ = this;
+}
+
+System* System::getself() {
+  return self_;
 }
 
 System::~System() {
@@ -59,7 +67,7 @@ void System::init(void*) {
   load_qusetfile();
   //是否抛出异常
   bool have = false; //默认抛出
-  enable_luacrash_ = procedure::Base::variable_system_->getint32(
+  enable_luacrash_ = procedure::Base::variablesystem_->getint32(
       "EnableLuaCrash", &have);
   if (!have) enable_luacrash_ = true;
   LuaPlus::LuaState* luastate = _get_luastate();
@@ -108,19 +116,19 @@ struct loadquest_t {
 
 void System::load_qusetfile() {
   const char* kQuestFileIndexFile = "script.txt";
-  const char* kBlankString = "\t";
+  //const char* kBlankString = "\t";
   char* address = NULL;
   uint64_t size = procedure::Base::resourceprovider_->loadresource(
       kQuestFileIndexFile, address, "General");
+  int32_t i;
   if (size > 0) {
     pap_common_file::Database filedb(0);
     filedb.open_from_memory(address, address + size + 1);
     int32_t count = filedb.get_record_number();
     for (i = 0; i < count; ++i) {
-      loadquest_t* content = 
-        reinterpret_cast<loadquest_t*>(filedb.search_position(i, 0));
+      loadquest_t* content = (loadquest_t*)filedb.search_position(i, 0);
       if (content) {
-        questfile_map_.push_back(std::make_pair(content->id, content->str));
+        questfile_map_.insert(std::make_pair(content->id, content->str));
       }
     } //for loop
     procedure::Base::resourceprovider_->unloadresource(address, size);
@@ -142,6 +150,10 @@ vengine_script::Environment* System::getenvironment(const char* name) {
     }
   }
   return NULL;
+}
+
+LuaPlus::LuaState* System::get_luastate() {
+  return getself()->_get_luastate();
 }
 
 } //namespace script

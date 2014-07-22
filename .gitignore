@@ -242,6 +242,7 @@ tags
 */run/server/*.dll
 */run/server/*.so
 */run/server/test/*
+*/run/client/*
 utf8/lib/client/vengine/GameInterface/*
 utf8/lib/client/vgui/UI_CEGUI/*
 utf8/lib/client/Ogre/Dependencies/bin/*

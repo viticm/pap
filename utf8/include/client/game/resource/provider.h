@@ -35,7 +35,7 @@ VENGINE_KERNEL_DECLARE_DYNAMIC(Provider);
                                  const char* group = NULL);
    virtual bool unloadresource(char* memoryaddress, uint64_t size);
 
-}
+};
 
 }; //namespace resource
 

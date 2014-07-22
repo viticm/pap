@@ -1,3 +1,4 @@
+#include "client/game/stdafx.h"
 #include "vengine/game/eventsystem.h"
 #include "vengine/game/eventdefine.h"
 #include "vengine/render/system.h"
@@ -5,7 +6,6 @@
 #include "vengine/time/system.h"
 #include "vengine/ui/system.h"
 #include "vengine/capability/ax/profile.h"
-#include "client/game/stdafx.h"
 #include "client/game/global.h"
 #include "client/game/procedure/base.h"
 #include "client/game/input/system.h"
@@ -26,7 +26,7 @@ System::System() {
   directinput_ = NULL;
   directinput_device_ = NULL;
   windowhandle_ = NULL;
-  capturestatus_ = kCaptureStatusNone;
+  capturestatus_ = vengine_input::kCaptureStatusNone;
   catch_keydown_ = false;
   mouseflag_ = 0;
   mouse_oldflag_ = 0;
@@ -76,6 +76,10 @@ void System::acquire_keyboard() {
   }
 }
 
+vengine_input::eventqueue& System::get_eventqueue() {
+  return eventqueue_;
+}
+
 void System::keyboard_flushdata() {
   ::ZeroMemory(currentkeys_, sizeof(currentkeys_));
   ::ZeroMemory(oldkeys_, sizeof(oldkeys_));
@@ -119,9 +123,9 @@ bool System::messageprocess(HWND hwnd,
     }
     case WM_KEYUP: { //键盘放开
       if (VK_SNAPSHOT == wparam) { //截屏处理
-        if (procedure::Base::rendersytem_) {
+        if (procedure::Base::rendersystem_) {
           char filename[MAX_PATH] = {0};
-          if (procedure::Base::rendersytem_->printscreen(
+          if (procedure::Base::rendersystem_->printscreen(
                 filename, 
                 sizeof(filename) - 1)) {
             procedure::Base::eventsystem_->push(
@@ -168,19 +172,19 @@ void System::tick() {
   }
   vengine_input::capturestatus_enum capturestatus = getcapture();
   switch (capturestatus) {
-    case kCaptureStatusNone: {
+    case vengine_input::kCaptureStatusNone: {
       if (procedure::Base::uisystem_)
         procedure::Base::uisystem_->injectinput();
       capturestatus = getcapture(); //重新获取一次
-      if (capturestatus != kCaptureStatusUI) 
+      if (capturestatus != vengine_input::kCaptureStatusUI) 
         procedure::Base::process_activeinput();
       break;
     }
-    case kCaptureStatusUI: {
+    case vengine_input::kCaptureStatusUI: {
       procedure::Base::uisystem_->injectinput();
       break;
     }
-    case kCaptureStatusGame: {
+    case vengine_input::kCaptureStatusGame: {
       procedure::Base::process_activeinput();
       break;
     }
@@ -189,7 +193,7 @@ void System::tick() {
   } //switch
 }
 
-System::keyboard_tick() {
+void System::keyboard_tick() {
   using namespace vengine_input;
   if (!directinput_device_) return;
   //保留旧状态
@@ -205,7 +209,7 @@ System::keyboard_tick() {
       //该键刚刚被按下
       keypresses_[i]  = (!(oldkeys_[i] & 0x80) && (currentkeys_[i] & 0x80)); 
       //该键刚刚被释放
-      keypresseds_[i] = ((oldkeys_[i] & 0x80) && !(currentkeys_[i] & 0x80))
+      keypresseds_[i] = ((oldkeys_[i] & 0x80) && !(currentkeys_[i] & 0x80));
       //保存键盘输入事件
       if (keypresses_[i]) addevent(kEventId_KEY_DOWN, i);
       if (keypresseds_[i]) addevent(kEventId_KEY_UP, i);
@@ -353,7 +357,7 @@ void System::mousetick() {
   //处理拖动
   LB_putdown_time_ = 0;
   if ((mouseflag_ & kMouse_LBDOWN) && (mouse_oldflag_ & kMouse_LBDOWN)) {
-    LB_putdown_time_ = procedure::Base::timesystem_->get_difftime();
+    LB_putdown_time_ = procedure::Base::timesystem_->get_difftime(mouse_L_downtime_begin, nowtime);
   }
   //左键拖动状态
   if ((mouseflag_ & kMouse_LBDOWN) && (mouse_oldflag_ & kMouse_LBDOWN)) {
@@ -396,7 +400,7 @@ void System::mousetick() {
     static uint32_t clicked = 0;
     if (nowtime < clicked + doubleclick_time) {
       addevent(kEventId_MOUSE_RDBCLICK);
-      mouseflag_ |= kMouse_RDBCLICK;
+      mouseflag_ |= kMouse_RBDBLCLK;
     }
     clicked = nowtime;
   }
@@ -426,7 +430,7 @@ void System::mousetick() {
 
 bool System::is_eventexist(vengine_input::eventid_enum id) {
   vengine_input::eventqueue::iterator iterator;
-  if (iterator = eventqueue_.begin();
+  for (iterator = eventqueue_.begin();
       iterator != eventqueue_.end();
       ++iterator) {
     if (iterator->id == id) return true;

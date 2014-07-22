@@ -3,7 +3,7 @@ title rename for visual studio(pap)
 color 02
 cls
 echo select your need change model.
-echo (1)all (2)billing (3)sharememory (4)login (5)world (6)server
+echo (1)all (2)billing (3)sharememory (4)login (5)world (6)server (7)client
 set /p select=your select?
 echo revert to standard?
 set revert=-1
@@ -15,5 +15,6 @@ if 3 == %select% php ../php/vcbuild.php "sharememory" %revert%
 if 4 == %select% php ../php/vcbuild.php "login" %revert%
 if 5 == %select% php ../php/vcbuild.php "world" %revert%
 if 6 == %select% php ../php/vcbuild.php "server" %revert%
+if 7 == %select% php ../php/vcbuild.php "client" %revert%
 
 pause

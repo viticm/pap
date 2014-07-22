@@ -1,5 +1,5 @@
 #include "common/net/packets/client_tologin/connect.h"
-#include "server/common/net/connection.h"
+#include "server/common/net/connection/base.h"
 namespace pap_common_net {
 
 namespace packets {
@@ -29,7 +29,7 @@ bool Connect::write(socket::OutputStream& outputstream) const {
     return false;
 }
 
-uint32_t Connect::execute(connection::Base* connection) {
+uint32_t Connect::execute(pap_server_common_net::connection::Base* connection) {
   __ENTER_FUNCTION
     uint32_t result = 0;
     result = ConnectHandler::execute(this, connection);
