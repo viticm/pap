@@ -27,7 +27,7 @@ namespace vengine_script {
 
 class VENGINE_API System : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(System);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_script_System);
 
  public:
    virtual LuaPlus::LuaState* get_luastate() = 0; //获得lua状态

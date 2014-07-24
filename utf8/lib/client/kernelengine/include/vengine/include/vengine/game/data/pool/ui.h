@@ -20,7 +20,7 @@ namespace data_pool {
 
 class VENGINE_API Ui {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(Ui);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_game_data_pool_Ui);
 
 };
 

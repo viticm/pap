@@ -45,6 +45,10 @@ void Login::firstlogin() {
   Base::variablesystem_->setint32("Login_Mode", kStatusFirstLogin);
 }
 
+void Login::render() {
+  if (rendersystem_) rendersystem_->renderframe();
+}
+
 void Login::changescene() {
   Base::variablesystem_->setint32("Login_Mode", kStatusChangeScene);
 }

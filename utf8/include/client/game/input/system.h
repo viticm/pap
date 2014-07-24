@@ -25,7 +25,7 @@ namespace input {
 
 class System : public vengine_input::System {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(System);
+VENGINE_KERNEL_DECLARE_DYNAMIC(input_System);
 
  public:
    System();

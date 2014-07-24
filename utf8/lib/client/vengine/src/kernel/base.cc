@@ -173,6 +173,8 @@ bool Base::loadplugin(const char* name, void* param) {
     return false;
   }
 
+  (*dllinit_pointer)(param); //执行插件初始化方法
+
   //a valid dll, run load functions
   plugininfo_t plugininfo;
   plugininfo.hmodule = hmodule;

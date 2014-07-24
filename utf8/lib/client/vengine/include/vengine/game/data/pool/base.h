@@ -20,7 +20,7 @@ namespace data_pool {
 
 class VENGINE_API Base : public vengine_kernel::Node {
 
-  VENGINE_KERNEL_DECLARE_DYNAMIC(Base);
+  VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_game_data_pool_Base);
 
 };
 

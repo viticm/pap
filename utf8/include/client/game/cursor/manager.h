@@ -29,7 +29,7 @@ namespace cursor {
 
 class Manager : public vengine_cursor::System {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
+VENGINE_KERNEL_DECLARE_DYNAMIC(cursor_Manager);
 
  public:
    Manager();

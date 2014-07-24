@@ -29,7 +29,7 @@ static const char* kFakeRenderTexture = "_RenderTexture";
 
 class VENGINE_API FakeSystem : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(FakeSystem);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_game_object_FakeSystem);
 
  public:
    //创建/销毁在ui上显示的obj对象

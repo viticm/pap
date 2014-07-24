@@ -3,7 +3,8 @@
 namespace vengine_db {
 
 VENGINE_KERNEL_IMPLEMENT_VIRTUAL_DYNAMIC(
-    System,
-    VENGINE_KERNEL_GETCLASS(vengine_kernel::Node));
+    vengine_db::System,
+    VENGINE_KERNEL_GETCLASS(vengine_kernel::Node, vengine_kernel_Node),
+    vengine_db_System);
 
 } //namespace vengine_db

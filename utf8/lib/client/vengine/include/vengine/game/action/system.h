@@ -21,7 +21,7 @@ namespace action {
 
 class VENGINE_API System : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(System);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_game_action_System);
 
  public:
    virtual Item* get(int32_t id) = 0;

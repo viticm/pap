@@ -1,0 +1,3 @@
+  客户端只实现了基础的框架，场景、摄像机、物体对象、地图UI等都未实现
+  
+  vgui功能已完成，但需要game中实现一些功能才能完整的使用，如果地图功能已实现，请放开e:\develop\workspace\GitHub\pap\utf8\lib\client\vgui\src\base\lib_client_vgui_base_system.cc中相关注释的行。

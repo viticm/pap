@@ -23,7 +23,7 @@ namespace resource {
 
 class Provider : public vengine_resource::Provider {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(Provider);
+VENGINE_KERNEL_DECLARE_DYNAMIC(resource_Provider);
 
  public:
    Provider();

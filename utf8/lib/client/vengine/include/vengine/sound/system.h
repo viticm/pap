@@ -26,7 +26,7 @@ typedef void (__stdcall* function_stop)(int32_t id);
 
 class VENGINE_API System : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(System);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_sound_System);
 
  public:
    virtual Buffer* createbuffer(int32_t id) = 0; //创建一个声音资源

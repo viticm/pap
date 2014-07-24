@@ -19,7 +19,7 @@ namespace vengine_time {
 
 class VENGINE_API System : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(System);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_time_System);
 
  public:
    virtual void init(void*);

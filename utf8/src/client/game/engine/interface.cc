@@ -99,8 +99,9 @@ const char Interface::kVsyncVar[] = "View_Aplomb";
 Interface* Interface::self_ = NULL;
 
 VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
-    Interface,
-    VENGINE_KERNEL_GETCLASS(vengine_render::System));
+    engine::Interface,
+    VENGINE_KERNEL_GETCLASS(vengine_render::System, vengine_render_System),
+    engine_Interface);
 
 Interface::Interface() {
   self_ = this;
@@ -150,23 +151,23 @@ void Interface::init(void* param) {
       g_root_kernel.getnode("bin\\debuger"));
 
   g_soundsystem = 
-    dynamic_cast<vengine_sound::System*>(g_root_kernel.getnode("bin\\snd"));
+    dynamic_cast<vengine_sound::System*>(g_root_kernel.getnode("bin\\sound"));
   VENGINE_ASSERT(g_soundsystem);
 
   g_worldsystem = dynamic_cast<vengine_game::WorldSystem*>(
       g_root_kernel.getnode("bin\\worldman"));
-  VENGINE_ASSERT(g_worldsystem);
+  //VENGINE_ASSERT(g_worldsystem);
 
   g_timesystem = 
     dynamic_cast<vengine_time::System*>(g_root_kernel.getnode("bin\\time"));
   VENGINE_ASSERT(g_timesystem);
 
   g_resourceprovider = dynamic_cast<vengine_resource::Provider*>(
-      g_root_kernel.getnode("bin\\resprovider"));
+      g_root_kernel.getnode("bin\\resource_provider"));
   VENGINE_ASSERT(g_resourceprovider);
 
   g_dbsystem = 
-    dynamic_cast<vengine_db::System*>(g_root_kernel.getnode("bin\\dbc"));
+    dynamic_cast<vengine_db::System*>(g_root_kernel.getnode("bin\\db"));
   VENGINE_ASSERT(g_dbsystem);
 
   STRING str = g_variablesystem->getstring("Gfx_API");
@@ -273,8 +274,8 @@ void Interface::init(void* param) {
         (OnPlaySound)(g_soundsystem->get_playfunction()));
     Fairy::BulletSystem::SetStopSoundFunction(
         (OnStopSound)(g_soundsystem->get_stopfunction()));
-    Fairy::LogicModel::SetGetHeightInWorldListener(
-        (GetHeightInWorld)(g_worldsystem->get_terrainheight_function()));
+    //Fairy::LogicModel::SetGetHeightInWorldListener(
+        //(GetHeightInWorld)(g_worldsystem->get_terrainheight_function()));
 
     //init fake object --
     Ogre::ParticleSystem::setDefaultIterationInterval(0.033f);

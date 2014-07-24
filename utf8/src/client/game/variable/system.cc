@@ -7,7 +7,7 @@
 
 namespace variable {
 
-const char* kSystemConfigFile = "client.cfg";
+const char* kSystemConfigFile = "./game.cfg";
 const char* kUserConfigFile = "../accounts/user.cfg";
 const char* kSpecialSections[] = {
   "View_Fanhunjiao",
@@ -29,8 +29,9 @@ int32_t convertsection_invector(const char* sectionstr,
 System* System::self_ = NULL;
 
 VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
-  System,
-  VENGINE_KERNEL_GETCLASS(vengine_variable::System));
+  variable::System,
+  VENGINE_KERNEL_GETCLASS(vengine_variable::System, vengine_variable_System),
+  variable_System);
 
 System::System() {
   self_ = this;
@@ -66,7 +67,7 @@ void System::load(const char* filename, variablemap& buffer) {
   int32_t i;
   for (i = 0; i < static_cast<int32_t>(tempvector.size()); ++i) {
     STRING& line = tempvector[i];
-    STRING::size_type point = line.find_first_of("= \t");
+    STRING::size_type point = line.find_first_of('=');
     if (STRING::npos == point) continue;
     STRING name = line.substr(0, point);
     char _temp[1024] = {0};
@@ -74,7 +75,7 @@ void System::load(const char* filename, variablemap& buffer) {
                               name.c_str(), 
                               "", 
                               _temp, 
-                              sizeof(temp) - 1, 
+                              sizeof(_temp) - 1, 
                               filename);
     setvariable(name.c_str(), _temp, false);
   }

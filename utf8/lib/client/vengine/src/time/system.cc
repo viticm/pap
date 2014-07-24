@@ -9,8 +9,9 @@ static function_gettime g_gettime_pointer = ::timeGetTime;
 
 //节点部分实现
 VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
-    System, 
-    VENGINE_KERNEL_GETCLASS(vengine_kernel::Node));
+    vengine_time::System, 
+    VENGINE_KERNEL_GETCLASS(vengine_kernel::Node, vengine_kernel_Node),
+    vengine_time_System);
 
 void System::init(void*) {
   looptime_ = .0f;

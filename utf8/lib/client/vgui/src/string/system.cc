@@ -37,7 +37,7 @@ System* System::getself() {
 void System::init(const char* string_datbasefile) {
   //字符串字典
   vengine_db::System* filedb_system = 
-    dynamic_cast<vengine_db::System*>(g_kernel->getnode("bin\\dbc"));
+    dynamic_cast<vengine_db::System*>(g_kernel->getnode("bin\\db"));
   const vengine_db::File* stringdict = filedb_system->get(
       vengine_db::structs::other::kStringDictId);
   VENGINE_ASSERT(stringdict);
@@ -767,7 +767,7 @@ void System::utf8_to_mbcs(const STRING&in, STRING& out) {
 
 void System::generate_fullmatch_table() {
   vengine_db::System* filedb_system = dynamic_cast<vengine_db::System*>(
-      g_kernel->getnode("bin\\dbc"));
+      g_kernel->getnode("bin\\db"));
   VENGINE_ASSERT(filedb_system);
   const vengine_db::File* fullmatch_filter = filedb_system->get(
       vengine_db::structs::other::kFullMatchFilterId);

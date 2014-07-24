@@ -31,8 +31,9 @@ bool Database::open_from_txt(const char* filename) {
     fseek(fp, 0, SEEK_SET);
     //read in memory
     char* memory = new char[filesize + 1];
+    memset(memory, 0, filesize + 1);
     fread(memory, 1, filesize, fp);
-    memory[filesize + 1] = '\0';
+    //memory[filesize + 1] = '\0'; //记住这个错误，不要手动去改变内存数组，初始化使用memset即可
     bool result = open_from_memory(memory, memory + filesize + 1, filename);
     SAFE_DELETE_ARRAY(memory); memory = 0;
     return result;
@@ -44,13 +45,15 @@ bool Database::open_from_memory(const char* memory,
                                 const char* end, 
                                 const char* filename) {
   __ENTER_FUNCTION
+    bool result = true;
     if (end - memory >= static_cast<int32_t>(sizeof(file_head_t)) && 
         *((uint32_t*)memory) == 0XDDBBCC0) {
-      return open_from_memory_binary(memory, end, filename);
+      result = open_from_memory_binary(memory, end, filename);
     }
     else {
-      return open_from_memory_text(memory, end, filename);
+      result = open_from_memory_text(memory, end, filename);
     }
+    return result;
   __LEAVE_FUNCTION
     return false;
 }
@@ -288,8 +291,8 @@ bool Database::open_from_memory_text(const char* memory,
     //init
     int32_t record_number = 0;
     int32_t field_number = static_cast<int32_t>(_field_type.size());
-    std::vector<std::pair<std::string, int32_t> > string_buffer;
-    std::map<std::string, int32_t> map_string_buffer;
+    std::vector<std::pair<std::string, int32_t> > string_buffer; //临时字符串区
+    std::map<std::string, int32_t> map_string_buffer; //字符串map
     _memory = get_line_from_memory(line, sizeof(line) - 1, _memory, end);
     if (!_memory) return false;
     int32_t string_buffer_size = 0;
@@ -310,6 +313,7 @@ bool Database::open_from_memory_text(const char* memory,
       if (result[0].empty()) continue;
       for (i = 0; i < field_number; ++i) {
         field_data _field_data;
+        memset(&_field_data, 0, sizeof(_field_data));
         switch(_field_type[i]) {
           case kTypeInt: {
             _field_data.int_value = atoi(result[i].c_str());
@@ -369,6 +373,7 @@ bool Database::open_from_memory_text(const char* memory,
     field_number_ = field_number;
     string_buffer_size_ = string_buffer_size + 1;
     string_buffer_ = new char[string_buffer_size_];
+    memset(string_buffer_, 0, string_buffer_size_);
     type_ = _field_type;
     unsigned char blank = '\0';
     USE_PARAM(blank);
@@ -390,6 +395,7 @@ bool Database::open_from_memory_text(const char* memory,
       for (n = 0; n < record_number; ++n) {
         field_data &_field_data1 = data_buffer_[(n * field_number) + m];
         _field_data1.string_value = string_buffer_ + _field_data1.int_value;
+        printf("_field_data1.string_value: %s\n", _field_data1.string_value);
       }
     }
     create_index(0, filename);

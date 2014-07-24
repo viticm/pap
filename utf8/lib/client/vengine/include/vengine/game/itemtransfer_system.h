@@ -39,7 +39,7 @@ typedef enum {
 
 class VENGINE_API ItemTransferSystem : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(ItemTransferSystem);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_game_ItemTransferSystem);
 
  public:
    struct element_t {

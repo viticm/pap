@@ -1,8 +1,9 @@
 #include "vengine/kernel/node.h"
 
+VENGINE_KERNEL_IMPLEMENT_DYNAMIC(vengine_kernel::Node, NULL, vengine_kernel_Node); //类节点部分实现
+
 namespace vengine_kernel {
 
-VENGINE_KERNEL_IMPLEMENT_DYNAMIC(Node, NULL); //类节点部分实现
 
 Node::Node() : parent_(NULL) {
   //do nothing

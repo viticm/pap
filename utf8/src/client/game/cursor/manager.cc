@@ -9,8 +9,9 @@
 namespace cursor {
 
 VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
-    Manager, 
-    VENGINE_KERNEL_GETCLASS(vengine_cursor::System));
+    cursor::Manager, 
+    VENGINE_KERNEL_GETCLASS(vengine_cursor::System, vengine_cursor_System),
+    cursor_Manager);
 
 Manager* Manager::self_ = NULL;
 

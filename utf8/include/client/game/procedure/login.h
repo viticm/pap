@@ -111,7 +111,7 @@ class Login : public Base {
  protected:
    virtual void init();
    virtual void tick();
-   virtual void render() {};
+   virtual void render();
    virtual void release() {};
 
 };

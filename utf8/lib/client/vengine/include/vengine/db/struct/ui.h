@@ -16,13 +16,13 @@ namespace ui {
 
 const uint16_t kLayoutDefineId = 801;
 struct layoutdefine_t {
-  uint16_t id;
+  int32_t id;
   const char* name;
   const char* layout;
   int32_t demise;
   const char* script;
-  uint16_t opensound;
-  uint16_t closesound;
+  int32_t opensound;
+  int32_t closesound;
   const char* defaultposition;
   const char* help;
   const char* description;

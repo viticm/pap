@@ -7,8 +7,9 @@
 namespace timer {
 
 VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
-    Manager,
-    VENGINE_KERNEL_GETCLASS(System));
+    timer::Manager,
+    VENGINE_KERNEL_GETCLASS(timer::System, timer_System),
+    timer_Manager);
 
 Manager* Manager::self_ = NULL;
 

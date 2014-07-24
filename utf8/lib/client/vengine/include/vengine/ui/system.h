@@ -48,7 +48,7 @@ static const char* kHelpStringKey = "help"; //this if have problem
 //interface for ui system
 class VENGINE_API System : public vengine_kernel::Node{ 
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(System);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_ui_System);
 
  public:
    virtual void on_windowsize_change(uint32_t message,

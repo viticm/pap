@@ -14,7 +14,7 @@ vengine_game::eventdefine_t g_eventdefine[] = {
   {kLoginShowSystemInfoAndCloseNet, "LoginShowSystemInfoAndCloseNet"},
   {kLoginShowSystemInfo,"LoginShowSystemInfo"},
   {kLoginCloseSystemInfo, "LoginCloseSystemInfo"},
-  {kLoginOpenSelectServer, "LoginOpenSelectServer"},
+  {kLoginOpenSelectServer, "GAMELOGIN_OPEN_SELECT_SERVER"}, //"LoginOpenSelectServer"},
   {kLoginOpenAccountInput, "LoginOpenAccountInput"},
   {kLoginCloseAccountInput, "LoginCloseAccountInput"},
   {kLoginShowSystemInfoNoButton,"LoginShowSystemInfoNoButton"},
@@ -33,8 +33,9 @@ vengine_game::eventdefine_t g_eventdefine[] = {
 };
 
 VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
-    System,
-    VENGINE_KERNEL_GETCLASS(vengine_game::EventSystem));
+    event::System,
+    VENGINE_KERNEL_GETCLASS(vengine_game::EventSystem, vengine_game_EventSystem),
+    event_System);
 
 System* System::self_ = NULL;
 
@@ -372,8 +373,8 @@ void System::process(const vengine_game::event_t& event) {
 }
 
 void System::unregisterhandle(const STRING& name,
-                            vengine_game::function_eventhandle handle,
-                            uint32_t ownerdata) {
+                              vengine_game::function_eventhandle handle,
+                              uint32_t ownerdata) {
   if (!handle) return;
   vengine_game::eventdefine_t* eventdefine = index_asname_map_[name];
   if (!eventdefine) return;

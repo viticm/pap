@@ -12,7 +12,7 @@ Environment::Environment(const char* name, const char* filename) {
   VENGINE_ASSERT(name);
   name_ = name;
   filename_ = filename;
-  name_inlua_ = filename_+"_Env";
+  name_inlua_ = name_+"_Env";
   environmentobject_ = 
     System::getself()
     ->get_luastate()

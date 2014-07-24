@@ -44,7 +44,7 @@ void Manager::init() { //窗口管理器初始化
   
   //ui load
   vengine_db::System* filedb_system = 
-    dynamic_cast<vengine_db::System*>(g_kernel->getnode("bin\\dbc"));
+    dynamic_cast<vengine_db::System*>(g_kernel->getnode("bin\\db"));
   VENGINE_ASSERT(filedb_system);
   const vengine_db::File* layoutdefine = filedb_system->get(
       vengine_db::structs::ui::kLayoutDefineId);
@@ -53,8 +53,10 @@ void Manager::init() { //窗口管理器初始化
   for (i = 0; 
        i < static_cast<uint32_t>(layoutdefine->get_record_number()); 
        ++i) {
-    const layoutdefine_t* line = 
-      reinterpret_cast<const layoutdefine_t*>(layoutdefine->search_line_equal(i));
+    //这里困惑了我两个小时，强转为什么为产生了错误的内存字段呢？
+    //原来是内存段大小的问题，注意只要是从文件数据库中取出的INT其类型一定为int32_t，不能定义为其他的
+    const layoutdefine_t* line;
+    line = reinterpret_cast<const layoutdefine_t*>(layoutdefine->search_line_equal(i));
     //产生一个新的window item
     Item* item = new Item(line);
     item->set_openclose_sound(line->opensound, line->closesound);

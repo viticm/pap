@@ -936,8 +936,10 @@ int32_t Base::lua_settext(LuaPlus::LuaState* luastate) {
   }
   else if (args[2].IsString()) {
     STRING mbcs = args[2].GetString();
+    STRING utf8str;
+    vgui_string::System::utf8_to_mbcs(mbcs, utf8str);
     CEGUI::String32 str;
-    vgui_string::System::getself()->parsestring_runtime(mbcs, str);
+    vgui_string::System::getself()->parsestring_runtime(utf8str, str);
     window_->setText(str);
   }
   return 0;

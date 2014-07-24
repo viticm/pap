@@ -3,7 +3,8 @@
 namespace vengine_game {
 
 VENGINE_KERNEL_IMPLEMENT_VIRTUAL_DYNAMIC(
-    Interface,
-    VENGINE_KERNEL_GETCLASS(vengine_kernel::Node));
+    vengine_game::Interface,
+    VENGINE_KERNEL_GETCLASS(vengine_kernel::Node, vengine_kernel_Node),
+    vengine_game_Interface);
 
 } //namespace vengine_game

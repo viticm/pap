@@ -45,7 +45,7 @@ class Item;
 
 class VENGINE_API Interface : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(Interface);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_game_Interface);
 
  public:
    //物体操作系列

@@ -128,7 +128,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\..\lib\client\kernelengine\include\vengine\include;..\..\..\lib\client\kernelengine\include\vgui\include\vgui;..\src;..\scripts;..\..\..\include\client\game;..\..\..\lib\client\kernelengine\include\Ogre\OgreMain\include;..\..\..\lib\client\Ogre\Dependencies\include;..\..\..\lib\client\Ogre\vc_build\include;..\..\..\lib\client\FairyCore\src;..\..\..\lib\client\kernelengine\include\LuaPlus\include;..\..\..\lib\client\DirectX9\Include;..\..\..\lib\client\fmod375\include"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\..\lib\client\kernelengine\include\vengine\include;..\..\..\lib\client\kernelengine\include\vgui\include;..\src;..\scripts;..\..\..\include\client\game;..\..\..\lib\client\kernelengine\include\Ogre\OgreMain\include;..\..\..\lib\client\Ogre\Dependencies\include;..\..\..\lib\client\Ogre\vc_build\include;..\..\..\lib\client\FairyCore\src;..\..\..\lib\client\kernelengine\include\LuaPlus\include;..\..\..\lib\client\DirectX9\Include;..\..\..\lib\client\fmod375\include;..\..\..\lib\client\CEGUI\CEGUI\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;__WINDOWS__;_USRDLL;_CRT_SECURE_NO_DEPRECATE;_PAP_NET_CLIENT;_PAP_CLIENT;VENGINE_BUILD_AS_DLL"
 				StringPooling="false"
 				MinimalRebuild="true"
@@ -186,7 +186,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="xcopy ..\bin\$(ConfigurationName)\$(ProjectName).exe  .\..\..\..\run\client\ /S /R /Y"
+				CommandLine="xcopy ..\bin\$(ConfigurationName)\$(ProjectName).exe  .\..\..\..\run\client\game\ /S /R /Y"
 			/>
 		</Configuration>
 		<Configuration
@@ -289,14 +289,6 @@
 				RelativePath="..\game\stdafx.cc"
 				>
 			</File>
-			<Filter
-				Name="cursor"
-				>
-				<File
-					RelativePath="..\game\cursor\manager.cc"
-					>
-				</File>
-			</Filter>
 			<Filter
 				Name="database"
 				>
@@ -446,6 +438,14 @@
 				>
 				<File
 					RelativePath="..\game\variable\system.cc"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="cursor"
+				>
+				<File
+					RelativePath="..\game\cursor\manager.cc"
 					>
 				</File>
 			</Filter>

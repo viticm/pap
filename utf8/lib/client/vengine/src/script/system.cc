@@ -3,7 +3,8 @@
 namespace vengine_script {
 
 VENGINE_KERNEL_IMPLEMENT_VIRTUAL_DYNAMIC(
-    System,
-    VENGINE_KERNEL_GETCLASS(vengine_kernel::Node));
+    vengine_script::System,
+    VENGINE_KERNEL_GETCLASS(vengine_kernel::Node, vengine_kernel_Node),
+    vengine_script_System);
 
 } //namespace vengine_script

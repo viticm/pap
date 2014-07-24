@@ -44,6 +44,9 @@
 #include "vengine/ui/creature_headboard.h"
 #include "vengine/db/system.h"
 #include "vengine/variable/system.h"
+//defines in last, remember
+#include "vengine/game/eventdefine.h"
+#include "vengine/db/struct/all.h"
 
 #include "vgui/script/base.h"
 #include "vgui/icon/manager.h"
@@ -51,15 +54,12 @@
 #include "vgui/string/system.h"
 #include "vgui/creature/head/board/system.h"
 #include "vgui/base/system.h"
-//defines in last, remember
-#include "vengine/game/eventdefine.h"
-#include "vengine/db/struct/all.h"
-
 namespace vgui_base {
 
 VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
-  System,
-  VENGINE_KERNEL_GETCLASS(vengine_ui::System));
+  vgui_base::System,
+  VENGINE_KERNEL_GETCLASS(vengine_ui::System, vengine_ui_System),
+  vgui_base_System);
 
 System* System::self_ = NULL;
 
@@ -324,7 +324,7 @@ void System::init(void*) {
   VENGINE_ASSERT(g_game_eventsystem);
   g_game_actionsystem = dynamic_cast<vengine_game::action::System*>(
       g_kernel->getnode("bin\\action"));
-  VENGINE_ASSERT(g_game_actionsystem);
+ // VENGINE_ASSERT(g_game_actionsystem);
   g_inputsystem = dynamic_cast<vengine_input::System*>( 
       g_kernel->getnode("bin\\input"));
   VENGINE_ASSERT(g_inputsystem);
@@ -333,34 +333,34 @@ void System::init(void*) {
   VENGINE_ASSERT(g_rendersystem);
   g_game_objectsystem = dynamic_cast<vengine_game::object::BaseSystem*>(
       g_kernel->getnode("bin\\objman"));
-  VENGINE_ASSERT(g_game_objectsystem);
+  //VENGINE_ASSERT(g_game_objectsystem);
   g_cursorsystem = dynamic_cast<vengine_cursor::System*>(
       g_kernel->getnode("bin\\cursor"));
   VENGINE_ASSERT(g_cursorsystem);
   g_capability_debuger = dynamic_cast<vengine_capability::Debuger*>(
       g_kernel->getnode("bin\\debuger"));
-  VENGINE_ASSERT(g_capability_debuger);
+  //VENGINE_ASSERT(g_capability_debuger);
   g_game_worldsystem = dynamic_cast<vengine_game::WorldSystem*>(
       g_kernel->getnode("bin\\worldman"));
-  VENGINE_ASSERT(g_game_worldsystem);
+  //VENGINE_ASSERT(g_game_worldsystem);
   g_timesystem = dynamic_cast<vengine_time::System*>(
       g_kernel->getnode("bin\\time"));
   VENGINE_ASSERT(g_timesystem);
   g_game_fake_objectsystem = dynamic_cast<vengine_game::object::FakeSystem*>(
       g_kernel->getnode("bin\\fake"));
-  VENGINE_ASSERT(g_game_fake_objectsystem);
+  //VENGINE_ASSERT(g_game_fake_objectsystem);
   g_variablesystem = dynamic_cast<vengine_variable::System*>( 
       g_kernel->getnode("bin\\var"));
   VENGINE_ASSERT(g_variablesystem);
   g_databasesystem = dynamic_cast<vengine_db::System*>(
-      g_kernel->getnode("bin\\dbc"));
+      g_kernel->getnode("bin\\db"));
   VENGINE_ASSERT(g_databasesystem);
   g_soundsystem = dynamic_cast<vengine_sound::System*>(
-      g_kernel->getnode("bin\\snd"));
+      g_kernel->getnode("bin\\sound"));
   VENGINE_ASSERT(g_soundsystem);
   g_game_itemtransfer_system = dynamic_cast<vengine_game::ItemTransferSystem*>(
       g_kernel->getnode("bin\\transfer"));
-  VENGINE_ASSERT(g_game_itemtransfer_system);
+  //VENGINE_ASSERT(g_game_itemtransfer_system);
   g_mainwindow_handle = g_rendersystem->getwindow(); //渲染窗口
   
   //ogre init
@@ -426,6 +426,8 @@ void System::init(void*) {
   VENGINE_ASSERT(creature_headboard_system_);
   creature_headboard_system_->init();
 
+  //地图UI实现后放开此注释
+  /**
   //创建地图探灯
   const char* maplight_name = "MapLight_RenderTexture";
   CEGUI::Texture* rtt_maplight_texture =
@@ -444,6 +446,7 @@ void System::init(void*) {
       CEGUI::Size(rtt_maplight_texture->getWidth(), 
                   rtt_maplight_texture->getHeight()),
       CEGUI::Point(0.0f,0.0f));
+  **/
   buttonname_indragging_ = "";
   RECT rect;
   GetClientRect(g_mainwindow_handle, &rect);

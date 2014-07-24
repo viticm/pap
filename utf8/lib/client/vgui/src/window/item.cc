@@ -72,11 +72,13 @@ bool Item::callbackproperty(CEGUI::Window* window,
                             CEGUI::String& propvalue, 
                             void* userdata) {
   if ("Text" == propname && !propvalue.empty()) {
+    /**
     CEGUI::String32 str; //字符串转化
     STRING mbcs;
     vgui_string::System::utf8_to_mbcs(STRING(propvalue.c_str()), mbcs);
     vgui_string::System::getself()->parsestring_runtime(mbcs, str);
     propvalue = str.c_str();
+    **/
   }
   return true;
 }

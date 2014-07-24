@@ -62,7 +62,7 @@ typedef enum {
 
 class VENGINE_API WorldSystem : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(WorldSystem);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_game_WorldSystem);
 
  public:
    typedef enum {

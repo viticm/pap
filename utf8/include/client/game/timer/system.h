@@ -24,7 +24,7 @@ typedef void (__stdcall* timer_function)(HWND, UINT, UINT, DWORD);
 
 class System : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(System);
+VENGINE_KERNEL_DECLARE_DYNAMIC(timer_System);
 
  public:
    virtual int32_t add(timer_function, uint32_t elapse) = 0;

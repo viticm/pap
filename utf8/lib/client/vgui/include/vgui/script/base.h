@@ -34,6 +34,8 @@ class Base : public CEGUI::ScriptModule {
    virtual void executestring(const CEGUI::String& str);
    virtual void startbindings(); //开始脚本绑定
    virtual void stopbindings(); //停止脚本绑定
+   virtual void createBindings(); //继承CEGUI
+   virtual void destroyBindings(); //继承CEGUI
 
    // for abstract
    virtual void	executeScriptFile(const CEGUI::String& filename, 

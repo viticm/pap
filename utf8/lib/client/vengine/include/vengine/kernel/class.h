@@ -29,44 +29,48 @@ struct VENGINE_API class_t {
 
 }; //namespace vengine_kernel
 
+//variableflag 为命名空间准备的变量标识，
+//如name1::name2::class1 则此值在函数中为name1_name2_class1
+//如果不是命名空间直接填写类名即可
+
 //据类名取得定义类
-#define VENGINE_KERNEL_GETCLASS(classname) (&classname::class_##classname_)
+#define VENGINE_KERNEL_GETCLASS(classname, variableflag) (&classname::class_##variableflag##_)
 
 //定义声明宏
-#define VENGINE_KERNEL_DECLARE_DYNAMIC(classname) \
+#define VENGINE_KERNEL_DECLARE_DYNAMIC(variableflag) \
  public: \
-   static vengine_kernel::class_t class_##classname_; \
+   static vengine_kernel::class_t class_##variableflag##_; \
    virtual const vengine_kernel::class_t* getclass() const; \
    static vengine_kernel::Node* __stdcall newobject();
 
 //定义实现宏
-#define VENGINE_KERNEL_IMPLEMENT_DYNAMIC(classname, baseclass) \
-static char name_##classname[] = #classname; \
-vengine_kernel::class_t classname::class_##classname_ = { \
-  name_##classname, sizeof(classname), classname::newobject, baseclass, NULL \
+#define VENGINE_KERNEL_IMPLEMENT_DYNAMIC(classname, baseclass, variableflag) \
+static char name_##variableflag[] = #classname; \
+vengine_kernel::class_t classname::class_##variableflag##_ = { \
+  name_##variableflag, sizeof(classname), classname::newobject, baseclass, NULL \
 }; \
 const vengine_kernel::class_t* classname::getclass() const { \
-  return &classname::class_##classname_; \
+  return &classname::class_##variableflag##_; \
 }; \
 vengine_kernel::Node* classname::newobject() { \
   return new classname; \
 }
 
 //纯虚类类定义实现宏
-#define VENGINE_KERNEL_IMPLEMENT_VIRTUAL_DYNAMIC(classname, baseclass) \
-static char name_##classname[] = #classname; \
-vengine_kernel::class_t classname::class_##classname_ = { \
-  name_##classname, sizeof(classname), classname::newobject, baseclass, NULL \
+#define VENGINE_KERNEL_IMPLEMENT_VIRTUAL_DYNAMIC(classname, baseclass, variableflag) \
+static char name_##variableflag[] = #classname; \
+vengine_kernel::class_t classname::class_##variableflag##_ = { \
+  name_##variableflag, sizeof(classname), classname::newobject, baseclass, NULL \
 }; \
 const vengine_kernel::class_t* classname::getclass() const { \
-  return &classname::class_##classname_; \
+  return &classname::class_##variableflag##_; \
 }; \
 vengine_kernel::Node* classname::newobject() { \
   VENGINE_SHOW("pure a virtual class"); \
   return NULL; \
 }
 
-#define VENGINE_KERNEL_DECLARE_LOGICAL( havelogical ) \
+#define VENGINE_KERNEL_DECLARE_LOGICAL(havelogical) \
  public: \
    virtual inline bool is_havelogical() { return havelogical; }
 

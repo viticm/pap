@@ -18,7 +18,7 @@ namespace script {
 
 class System : public vengine_script::System {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(System);
+VENGINE_KERNEL_DECLARE_DYNAMIC(script_System);
 
  public:
    System();

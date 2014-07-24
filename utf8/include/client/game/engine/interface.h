@@ -42,7 +42,7 @@ enum objecttype_enum {
 
 class Interface : public vengine_render::System {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(Interface);
+VENGINE_KERNEL_DECLARE_DYNAMIC(engine_Interface);
 
  public:
    Interface();

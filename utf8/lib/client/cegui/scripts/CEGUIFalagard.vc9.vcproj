@@ -179,7 +179,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="xcopy ..\lib\$(ConfigurationName)\$(ProjectName).lib .\..\kernelengine\lib\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;xcopy ..\bin\$(ConfigurationName)\$(ProjectName).dll .\..\kernelengine\dll\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;"
+				CommandLine="xcopy ..\lib\$(ConfigurationName)\$(ProjectName).lib .\..\..\kernelengine\lib\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;xcopy ..\bin\$(ConfigurationName)\$(ProjectName).dll .\..\..\kernelengine\dll\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration

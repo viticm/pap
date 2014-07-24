@@ -29,7 +29,7 @@ struct param2_t {
 
 class Manager : public System {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
+VENGINE_KERNEL_DECLARE_DYNAMIC(timer_Manager);
 
  public:
    Manager();

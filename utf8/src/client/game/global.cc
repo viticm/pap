@@ -12,5 +12,5 @@ vengine_kernel::Base g_root_kernel;
 HWND g_mainwindow_handle = NULL;
 HINSTANCE g_instance_handle = NULL;
 const char kVersionInfo[] = "0.0.1";
-const char kGameTitle[] = "前世-今生";
+const char kGameTitle[] = "pap";
 bool g_debugmode = false;

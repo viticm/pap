@@ -7,8 +7,9 @@
 namespace resource {
 
 VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
-    Provider,
-    VENGINE_KERNEL_GETCLASS(vengine_resource::Provider));
+    resource::Provider,
+    VENGINE_KERNEL_GETCLASS(vengine_resource::Provider, vengine_resource_Provider),
+    resource_Provider);
 
 Provider::Provider() {
   //do nothing

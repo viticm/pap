@@ -1,10 +1,10 @@
 #include <CEGUIPropertyHelper.h>
 #include "LuaPlus.h"
 #include "vengine/script/system.h"
-#include "vgui/script/base.h"
 #include "vgui/icon/manager.h"
 #include "vgui/luacontrol/window/base.h"
 #include "vgui/window/item.h"
+#include "vgui/script/base.h"
 
 namespace vgui_script {
 
@@ -178,6 +178,14 @@ void Base::stopbindings() {
   g_eventargs.metatable_ = NULL;
   //释放控件注册
   vgui_luacontrol::window::Base::destroy_metatable();
+}
+
+void Base::createBindings() {
+  startbindings();
+}
+
+void Base::destroyBindings() {
+  stopbindings();
 }
 
 void Base::executeScriptFile(const CEGUI::String& filename, 

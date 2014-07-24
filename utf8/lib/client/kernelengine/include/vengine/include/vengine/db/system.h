@@ -19,7 +19,7 @@ namespace vengine_db {
 
 class VENGINE_API System : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(System);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_db_System);
 
  public:
    virtual void open() = 0; //打开所有数据

@@ -11,13 +11,13 @@ extern "C" uint32_t DllMagicCode = VENGINE_DLL_MAGIC_CODE | VENGINE_VERSION;
 extern "C" void __stdcall DllInit(vengine_kernel::Base* kernel) {
 	VENGINE_ASSERT(kernel);
 	g_kernel = kernel;
-  kernel->registerclass(VENGINE_KERNEL_GETCLASS(vgui_base::System));
+  kernel->registerclass(VENGINE_KERNEL_GETCLASS(vgui_base::System, vgui_base_System));
 }
 
 extern VOID instll_uisystem(vengine_kernel::Base* kernel) {
 	VENGINE_ASSERT(kernel);
 	g_kernel = kernel;
-	kernel->registerclass(VENGINE_KERNEL_GETCLASS(vgui_base::System));
+	kernel->registerclass(VENGINE_KERNEL_GETCLASS(vgui_base::System, vgui_base_System));
 }
 
 // 插件释放

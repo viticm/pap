@@ -41,7 +41,7 @@ class Source;
 
 class System : public vengine_sound::System {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(System);
+VENGINE_KERNEL_DECLARE_DYNAMIC(sound_System);
 
  public:
    System();

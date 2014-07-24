@@ -18,7 +18,7 @@ namespace vengine_resource {
 
 class VENGINE_API Provider : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(Provider);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_resource_Provider);
 
  public:
    virtual uint64_t loadresource(const char* filename, 

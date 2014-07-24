@@ -147,7 +147,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\Ogre\vc_build\lib\Release\OgreMain.lib ..\..\CEGUI\bin\Release\cegui_base.lib"
+				AdditionalDependencies="..\..\Ogre\vc_build\lib\Release\OgreMain.lib ..\..\CEGUI\lib\Release\cegui_base.lib"
 				OutputFile="..\bin\Release\$(ProjectName).dll"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -176,7 +176,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="xcopy ..\bin\$(ConfigurationName)\$(ProjectName).lib .\..\kernelengine\lib\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;xcopy ..\bin\$(ConfigurationName)\$(ProjectName).dll .\..\kernelengine\dll\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;"
+				CommandLine="xcopy ..\bin\$(ConfigurationName)\$(ProjectName).lib .\..\..\kernelengine\lib\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;xcopy ..\bin\$(ConfigurationName)\$(ProjectName).dll .\..\..\kernelengine\dll\$(ConfigurationName)\ /S /R /Y&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration

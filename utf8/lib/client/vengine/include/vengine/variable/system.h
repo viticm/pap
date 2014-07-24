@@ -19,7 +19,7 @@ namespace vengine_variable {
 
 class VENGINE_API System : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(System);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_variable_System);
 
  public:
    //得到某个变量的值，如果不存在，则返回false

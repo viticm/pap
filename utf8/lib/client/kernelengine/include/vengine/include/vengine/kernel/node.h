@@ -46,7 +46,7 @@ class VENGINE_API Node {
    //释放资源
    virtual void release();
  
-VENGINE_KERNEL_DECLARE_DYNAMIC(Node); //类节点自动定义实现
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_kernel_Node); //类节点自动定义实现
 
  protected:
    typedef std::list<Node*> childlist;

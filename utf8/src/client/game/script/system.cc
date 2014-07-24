@@ -12,8 +12,9 @@
 namespace script {
 
 VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
-    System,
-    VENGINE_KERNEL_GETCLASS(vengine_script::System));
+    script::System,
+    VENGINE_KERNEL_GETCLASS(vengine_script::System, vengine_script_System),
+    script_System);
 
 System* System::self_ = NULL;
 
@@ -105,7 +106,7 @@ void System::set_activeenvironment(const char* name) {
   snprintf(set_environmentscript, 
            sizeof(set_environmentscript) - 1, 
            "setmetatable(_G, {__index = %s});", 
-           environmentname_);
+           environmentname_.c_str());
   get_luastate()->DoString(set_environmentscript);
 }
 
@@ -115,7 +116,7 @@ struct loadquest_t {
 };
 
 void System::load_qusetfile() {
-  const char* kQuestFileIndexFile = "script.txt";
+  const char* kQuestFileIndexFile = "Script.tab";
   //const char* kBlankString = "\t";
   char* address = NULL;
   uint64_t size = procedure::Base::resourceprovider_->loadresource(

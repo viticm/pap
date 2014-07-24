@@ -51,7 +51,7 @@ struct event_t {
 
 class VENGINE_API EventSystem : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(EventSystem);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_game_EventSystem);
 
  public:
    virtual void push(vengine_game::event_id::_enum id, 

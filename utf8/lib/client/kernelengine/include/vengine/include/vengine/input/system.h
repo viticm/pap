@@ -221,7 +221,7 @@ typedef enum {
 
 class VENGINE_API System : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(System);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_input_System);
 
  public:
    //获得传输的队列

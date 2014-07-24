@@ -17,8 +17,9 @@ namespace net {
 const uint32_t kConnectTimeMax = 10 * 100000; //最大连接时间 10s
 
 VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
-    Manager,
-    VENGINE_KERNEL_GETCLASS(vengine_kernel::Node));
+    net::Manager,
+    VENGINE_KERNEL_GETCLASS(vengine_kernel::Node, vengine_kernel_Node),
+    net_Manager);
 
 Manager* Manager::self_ = NULL;
 

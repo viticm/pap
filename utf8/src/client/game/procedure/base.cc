@@ -15,6 +15,7 @@
 #include "client/game/variable/system.h"
 #include "client/game/event/system.h"
 #include "client/game/cursor/manager.h"
+#include "client/game/engine/interface.h"
 #include "client/game/script/system.h"
 #include "client/game/timer/manager.h"
 #include "client/game/resource/loadlistener.h"
@@ -25,11 +26,11 @@
 namespace procedure {
 
 const char kMainWindowClass[] = "pap windowclass";
-const uint16_t kDefaultWindowHeight = 1024;
-const uint16_t kDefaultWindowWidth = 768;
+const uint16_t kDefaultWindowHeight = 768;
+const uint16_t kDefaultWindowWidth = 1024;
 
-const uint16_t kMiniWindowHeight = 800;
-const uint16_t kMiniWindowWidth = 600;
+const uint16_t kMiniWindowHeight = 600;
+const uint16_t kMiniWindowWidth = 800;
 
 const uint32_t kDefaultWindowStyle = //默认的窗口样式
   WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
@@ -76,32 +77,34 @@ HANDLE Base::tickevent_ = NULL;
 void Base::init_staticmember() {
   srand((unsigned)timeGetTime());
   //注册本地类
-  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(vengine_kernel::Node));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(vengine_kernel::Node, vengine_kernel_Node));
   //网络管理器
-  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(net::Manager));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(net::Manager, net_Manager));
   //场景管理器
   //g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS());
   //图形系统
-  //g_root_kernel.registerclass();
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(engine::Interface, engine_Interface));
   //输入管理器
-  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(input::System));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(input::System, input_System));
   //时间管理器
-  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(vengine_time::System));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(vengine_time::System, vengine_time_System));
   //声音管理器
-  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(sound::System));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(sound::System, sound_System));
   //数据库管理器
-  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(database::System));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(database::System, database_System));
+  //变量系统
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(variable::System, variable_System));
   //UI操作接口
   //g_root_kernel.registerclass();
   //UI数据池
   //g_root_kernel.registerclass();
   //g_root_kernel.registerclass();
   //UI鼠标操作类
-  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(cursor::Manager));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(cursor::Manager, cursor_Manager));
   //脚本系统
-  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(script::System));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(script::System, script_System));
   //事件系统
-  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(event::System));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(event::System, event_System));
   //操作管理
   //g_root_kernel.registerclass();
   //UI模型显示管理
@@ -109,11 +112,11 @@ void Base::init_staticmember() {
   //外接帮助系统
   //g_root_kernel.registerclass();
   //资源
-  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(resource::Provider));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(resource::Provider, resource_Provider));
   //物品传输系统
   //g_root_kernel.registerclass();
   //定时器
-  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(timer::Manager));
+  g_root_kernel.registerclass(VENGINE_KERNEL_GETCLASS(timer::Manager, timer_Manager));
 
 #ifdef USEOGRELIB
   extern void install_uisystem(vengine_kernel::Base* kernel);
@@ -137,15 +140,17 @@ void Base::init_staticmember() {
   soundsystem_ = dynamic_cast<vengine_sound::System*>(
       g_root_kernel.newnode("sound::System", "bin", "sound"));
   //4.渲染器节点
+  rendersystem_ = dynamic_cast<vengine_render::System*>(
+      g_root_kernel.newnode("engine::Interface", "bin", "gfx"));
 
   //5.调试器节点
-  debuger_ = dynamic_cast<vengine_capability::Debuger*>(
-      g_root_kernel.newnode("vengine_capability::Debuger", "bin", "debuger"));
+  //debuger_ = dynamic_cast<vengine_capability::Debuger*>(
+      //g_root_kernel.newnode("vengine_capability::Debuger", "bin", "debuger"));
   //6.物体管理器
   
   //7.UI管理器
   uisystem_ = dynamic_cast<vengine_ui::System*>(
-      g_root_kernel.newnode("vengine_ui::System", "bin", "ui"));
+      g_root_kernel.newnode("vgui_base::System", "bin", "ui"));
 
   //8.数据库管理器
   dbsystem_ = dynamic_cast<vengine_db::System*>(
@@ -162,7 +167,7 @@ void Base::init_staticmember() {
   
   //13.鼠标管理器
   cursorsystem_ = dynamic_cast<vengine_cursor::System*>(
-      g_root_kernel.newnode("cursor::System", "bin", "cursor"));
+      g_root_kernel.newnode("cursor::Manager", "bin", "cursor"));
 
   //14.脚本系统
   scriptsystem_ = dynamic_cast<vengine_script::System*>(
@@ -179,9 +184,11 @@ void Base::init_staticmember() {
   //19.资源
   resourceprovider_ = dynamic_cast<vengine_resource::Provider*>(
       g_root_kernel.newnode("resource::Provider", "bin", "resource_provider"));
-  //20.时间管理器
-  timesystem_ = dynamic_cast<vengine_time::System*>(
-      g_root_kernel.newnode("TimeSystem", "bin", "time"));
+  //20.定时器
+  timer::Manager* timer_manager = dynamic_cast<timer::Manager*>(
+      g_root_kernel.newnode("timer::Manager", "bin", "timer"));
+  timer_manager->init(NULL);
+
   //21.物品传输系统
 
   //创建主窗口前初始化变量系统
@@ -190,7 +197,7 @@ void Base::init_staticmember() {
 
   //初始化工作节点
   eventsystem_->init(NULL);
-  //rendersystem_
+  rendersystem_->init(&g_mainwindow_handle);
   scriptsystem_->init(NULL);
   dbsystem_->init(NULL);
   timesystem_->init(NULL);
@@ -203,7 +210,7 @@ void Base::init_staticmember() {
   soundsystem_->init(&g_mainwindow_handle);
   //ui_datapool_
   //datapool_
-  cursorsystem_->init(NULL);
+  cursorsystem_->init(&g_instance_handle);
   //actionsystem_
   //interface_
   //fake_objectsystem_
@@ -336,7 +343,7 @@ void Base::tickactive() {
   //如果要转入新的游戏循环
   if (previous_ != active_) {
     //调用旧循环的释放函数
-    previous_->release();
+    if (previous_) previous_->release();
     //调用新循环的初始化函数
     active_->init();
     //开始新的循环
@@ -355,8 +362,7 @@ void Base::renderactive() {
     //激活中，直接渲染
     if (isactive_) {
       active_->render();
-    }
-    else {
+    } else {
       //使用窗口非法方式重绘
       ::InvalidateRect(g_mainwindow_handle, 0, false);
       ::PostMessage(g_mainwindow_handle, WM_NCPAINT, true, 0);
@@ -515,6 +521,7 @@ LRESULT Base::mainwindow_process(HWND hwnd,
                                  UINT message, 
                                  WPARAM wparam, 
                                  LPARAM lparam) {
+
   switch (message) {
     case WM_SIZE: { //window size changed
       if (SIZE_MINIMIZED == wparam) {
@@ -740,6 +747,7 @@ LRESULT Base::mainwindow_process(HWND hwnd,
 void Base::keep_windowproportion(RECT* rect, 
                                  uint32_t changing, 
                                  uint32_t anchor) {
+  if (true) return; //该函数有问题，以后再查原因，不保持窗口了
   RECT temprect;
   ::CopyRect(&temprect, rect);
   temprect.left -= frameclient_rectoffset_.left;

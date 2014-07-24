@@ -32,7 +32,7 @@ const uint8_t kExtraParamMax = 3;
 
 class VENGINE_API Base : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(Base);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_game_object_Base);
 
  public:
    //根据初始化物体，并同步到渲染层

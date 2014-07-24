@@ -66,7 +66,7 @@ bool File::open_fromtxt(const char* filename,
     result = filedb->open_from_txt(_filename.c_str());
     return result;
   }
-  _filename = "../data/config/";
+  _filename = "../resource/config/";
   _filename += filename;
   if (::PathFileExists(_filename.c_str())) {
     result = filedb->open_from_txt(_filename.c_str());

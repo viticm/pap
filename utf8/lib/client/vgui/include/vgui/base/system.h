@@ -61,7 +61,7 @@ namespace vgui_base {
 
 class System : public vengine_ui::System {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(System);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vgui_base_System);
 
  public:
    System();

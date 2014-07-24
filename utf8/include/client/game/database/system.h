@@ -18,7 +18,7 @@ namespace database {
 
 class System : public vengine_db::System {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(System);
+VENGINE_KERNEL_DECLARE_DYNAMIC(database_System);
 
  public:
    System();

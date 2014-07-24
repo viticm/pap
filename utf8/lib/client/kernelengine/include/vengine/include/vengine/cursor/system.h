@@ -37,7 +37,7 @@ typedef enum {
 
 class VENGINE_API System : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(System);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_cursor_System);
 
  public:
    virtual void set(type_enum type) = 0;

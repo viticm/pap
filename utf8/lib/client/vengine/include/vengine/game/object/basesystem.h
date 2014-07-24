@@ -23,7 +23,7 @@ namespace object {
 
 class VENGINE_API BaseSystem : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(BaseSystem);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_game_object_BaseSystem);
 
  public:
    typedef enum {

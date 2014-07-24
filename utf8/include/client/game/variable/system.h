@@ -22,7 +22,7 @@ namespace variable {
 
 class System : public vengine_variable::System {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(System);
+VENGINE_KERNEL_DECLARE_DYNAMIC(variable_System);
 
  public:
    System();

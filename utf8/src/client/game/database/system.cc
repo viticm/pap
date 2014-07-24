@@ -4,8 +4,9 @@
 namespace database {
 
 VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
-  System,
-  VENGINE_KERNEL_GETCLASS(vengine_db::System));
+  database::System,
+  VENGINE_KERNEL_GETCLASS(vengine_db::System, vengine_db_System),
+  database_System);
 
 System* System::self_ = NULL;
 
@@ -37,9 +38,14 @@ void System::open() {
   
   dbdefine_t filedb_toload[] = {
     //UI 布局定义
-    {vengine_db::structs::ui::kLayoutDefineId, "ui_layoutdefine.txt"},
+    {vengine_db::structs::ui::kLayoutDefineId, "ui.tab"}, //"ui_layoutdefine.txt"},
     //声音
-    {vengine_db::structs::sound::kInfoId, "soundinfo.txt"},
+    {vengine_db::structs::sound::kInfoId, "snd_info.tab"}, //"soundinfo.txt"},
+    //词汇表
+    {vengine_db::structs::other::kStringDictId, "str_dic.tab"},
+    {vengine_db::structs::other::kCodeConvertId, "code_conv.tab"},
+    {vengine_db::structs::other::kTalkFilterId, "str_filter.tab"},
+    {vengine_db::structs::other::kFullMatchFilterId, "cmp_filter.tab"},
   };
 
   int32_t count = sizeof(filedb_toload) / sizeof(dbdefine_t);

@@ -25,8 +25,9 @@ const char System::skillvolume_var_[] = "VOLUME_SK";
 const char System::uivolume_var_[] = "VOLUME_UI";
 
 VENGINE_KERNEL_IMPLEMENT_DYNAMIC(
-  System,
-  VENGINE_KERNEL_GETCLASS(vengine_sound::System));
+  sound::System,
+  VENGINE_KERNEL_GETCLASS(vengine_sound::System, vengine_sound_System),
+  sound_System);
 
 System* System::self_ = NULL;
 

@@ -18,7 +18,7 @@ namespace vengine_capability {
 
 class Debuger : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(Debuger);
+VENGINE_KERNEL_DECLARE_DYNAMIC(vengine_capability_Debuger);
 
  public:
    virtual void infotrack_reset(int32_t width, int32_t height) = 0;

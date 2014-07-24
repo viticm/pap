@@ -20,7 +20,7 @@ namespace event {
 
 class System : public vengine_game::EventSystem {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(System);
+VENGINE_KERNEL_DECLARE_DYNAMIC(event_System);
 
  public:
    System();

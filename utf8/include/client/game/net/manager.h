@@ -27,7 +27,7 @@ namespace net {
 
 class Manager : public vengine_kernel::Node {
 
-VENGINE_KERNEL_DECLARE_DYNAMIC(Manager);
+VENGINE_KERNEL_DECLARE_DYNAMIC(net_Manager);
 
  public:
    Manager();
